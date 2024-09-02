@@ -1,0 +1,430 @@
+{% extends "auction/base.html" %}
+{% load static auction_templatetag humanize %}
+{% comment %} {% load humanize i18n %} {% endcomment %}
+{% block extra_head %}
+	<meta name="description" content="시간상품 리스트">
+	<script type="application/ld+json">
+		{
+			"@context":"https://schema.org",
+			"@type":"BreadcrumbList",
+			"itemListElement":[
+			{
+				"@type":"ListItem",
+				"position":1,
+				"name":"홈",
+				"item":"https://onenonly.io/"
+			},
+			{
+				"@type":"ListItem",
+				"position":2,
+				"name":"시간상품",
+				"item":"https://onenonly.io/auction/list/"
+			}
+			]
+		}
+	</script>	
+{% endblock extra_head %}
+{% block head_title %} | 단독기획 {% endblock %}
+{% block body %}
+	<div id="wrap" class="sub-wrap">
+		<!-- container -->
+		<div id="container">
+			<!-- middleArea -->
+			<div id="middleArea">
+				<!-- content -->
+				<section id="content" class="wide">
+					
+					<!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+					<div class="sub-page unboxing-page">
+						<div class="unboxing-con01">
+							<div class="unboxing-con01-list">
+								<aside class="cm-tab-wrapper-style">
+									<div class="cm-tab-list-style top-fixed-object">
+										<div class="area-box">
+											<ul class="clearfix">
+												<li id="tab-all" class=""><a href="{% url 'auction:plv' %}"><em>일반상품</em></a></li>
+												<!-- <li id="" class=""><a href="{% url 'core:article_list' %}?category=5"><em>특별기획</em></a></li> -->
+												<li id="tab-None" class=""><a href="{% url 'auction:plv' %}?search=None"><em>경쟁상품</em></a></li>
+												<!-- <li id="tab-c1" class=""><a href="{% url 'auction:plv' %}?type=c1"><em>일반구매(단독)</em></a></li> -->
+												<!-- <li id="tab-s" class=""><a href="{% url 'auction:plv' %}?type=s"><em>경쟁티켓</em></a></li> -->
+											</ul>
+										</div>
+									</div>
+								</aside>
+								{% if placements %}
+									{% for p in placements %}
+									{% yet_start_done request p.pk as STATUS %}
+									<div class="unboxing-con01-item {% if STATUS == 'done' %}close{% endif %}"><!-- 종료된 구매은 이곳에 close 클래스 붙혀주세요. -->
+										<div class="area-box">
+											<div class="unboxing-con01-txt {% if p.placement_type == "crowdfunding" %}crowd{% endif %}"><!-- 크로우드구매만 이곳에 crowd 클래스 붙혀주세요. -->
+												<div class="tit-group">
+													<div class="top-info">
+														<div class="category">
+															{% if p.placement_type == "crowdfunding" %}
+															<span class="img">{% include "svg/icon_crowd_funding.html" %}</span>
+															{% elif p.placement_type == "openfunding" %}
+															<span class="img">{% include "svg/icon_open_funding.html" %}</span>
+															{% elif p.placement_type == "secretfunding" %}
+															<span class="img">{% include "svg/icon_secret_funding.html" %}</span>
+															{% endif %}
+															<span class="cate-txt">{{ p.get_placement_type_display }}</span>
+														</div>
+														{% if p.is_encore %}
+														<span class="add-info cm-font-color-y">앵콜</span>
+														{% endif %}
+													</div>
+													<p class="deadline" id="c{{p.pk}}_countdown" ></p>
+													<a href="{{ p.get_absolute_url }}"><h5 class="tit">{{ p.title | safe | linebreaksbr }}</h5></a>
+													<p class="name"><span><!--{{ p.rep }}]-->{{p.category}}</span>{{ p.placement_artist.name}}</p>
+													<div class="name small">
+														{% if p.placement_type == 'crowdfunding' %}
+														<div>
+															<span class="inline">가격</span> {{p.unit_price | intcomma }}원
+														</div>
+														<!-- <div>
+															<span class="inline">잔여 티켓</span> {{ p.get_crowdfunding_available_cnt }} <b>/ {{p.get_ready_cnt}}</b>
+														</div>-->
+														{% else %}
+														<div>
+														<span class="inline">시작가</span> {{p.placement_start_price | intcomma }}원
+														<!-- <span class="inline">구매권 가격</span> {{p.deposit | intcomma }}원														 -->
+														</div>
+														<!-- <div>
+															<span class="inline">바로구매가</span> {{p.placement_buynow_price | intcomma }}원
+														</div>														 -->
+														{% endif %}
+													</div>
+													<!-- <p class="txt">{{ p.placement_artist.description_oneoff }}</p> -->
+												</div>
+												<div class="video-box">
+													<div class="video-inner">
+														<a href="{{ p.get_absolute_url }}">
+														<video muted loop autoplay playsinline id="cmVideo" data-keepplaying>
+															<source src="{{ p.unboxing_video_mp4.url }}" type="video/mp4">
+															Your browser does not support HTML5 video.
+														</video>
+														</a>														
+													</div>
+												</div>
+												<div class="btn">
+													<a href="{{ p.get_absolute_url }}" class="cm-custom-button">구매하기</a>
+													{% if request.user.is_staff %}
+													<div style="margin-top:10px;">
+														<a href="{{ p.get_admin_absolute_url }}" class="alarm cm-custom-button half">관리 <i class="xi-wrench"></i></a><!-- Superuser 계정만 -->
+														<a href="{% url 'core:admin-qna' p.id %}" class="alarm cm-custom-button half">설문지 <i class="xi-paper"></i></a><!-- Staff 계정만 -->
+													</div>													
+													{% endif %}
+												</div>
+											</div>
+										</div>
+									</div>
+	                {% endfor %}
+								{% else %}
+									<div class="mypage-funding-no-list">
+										<p>판매중인 상품이 없습니다.</p>
+									</div>
+								{% endif %}
+
+								<!-- <div class="unboxing-con01-item">
+									<div class="area-box">
+										<div class="unboxing-con01-txt">
+											<div class="tit-group">
+												<div class="top-info">
+													<div class="category">
+														<span class="img"><? include("../../static_root/svg/icon_secret_funding.html"); ?></span>
+														<span class="cate-txt">Secret Funding</span>
+													</div>
+												</div>
+												<p class="deadline">종료까지 2일 14:39:24 남았습니다.</p>
+												<h5 class="tit">BTS도 찜한 작가, <br>우국원이 그려주는 초상화</h5>
+												<p class="name"><span>Painting</span>우국원</p>
+												<p class="txt">해당 텍스트 박스에는 셀러브리티의 소개 또는 콘텐츠의 맥락을 파악할 수 있는 간략한 글이 들어가면 좋을 것 같습니다. 해당 텍스트 박스에 들어갈 내용은 최소 2줄에서 최대 4줄까지 가능합니다. One&Only with 0100 Creative_Web Design Project</p>
+											</div>
+											<div class="video-box">
+												<div class="video-inner">
+													<video muted loop autoplay playsinline id="cmVideo" data-keepplaying>
+														<source src="/static_root/video/UNBOXING_우국원.mp4" type="video/mp4">
+														Your browser does not support HTML5 video.
+													</video>
+												</div>
+											</div>
+											<div class="btn">
+												<a href="./product_view_secret.html" class="cm-custom-button">UNBOXING</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="unboxing-con01-item">
+									<div class="area-box">
+										<div class="unboxing-con01-txt crowd">
+											<div class="tit-group">
+												<div class="top-info">
+													<div class="category">
+														<span class="img"><? include("../../static_root/svg/icon_crowd_funding.html"); ?></span>
+														<span class="cate-txt">Crowd Funding</span>
+													</div>
+												</div>
+												<p class="deadline">종료까지 2일 14:39:24 남았습니다.</p>
+												<h5 class="tit">당구의 신, 신동엽과 스릴 넘치는 당구 대결</h5>
+												<p class="name"><span>Game</span>신동엽</p>
+												<p class="txt">해당 텍스트 박스에는 셀러브리티의 소개 또는 콘텐츠의 맥락을 파악할 수 있는 간략한 글이 들어가면 좋을 것 같습니다. 해당 텍스트 박스에 들어갈 내용은 최소 2줄에서 최대 4줄까지 가능합니다. One&Only with 0100 Creative_Web Design Project</p>
+											</div>
+											<div class="video-box">
+												<div class="video-inner">
+													<video muted loop autoplay playsinline id="cmVideo" data-keepplaying>
+														<source src="/static_root/video/UNBOXING_신동엽.mp4" type="video/mp4">
+														Your browser does not support HTML5 video.
+													</video>
+												</div>
+											</div>
+											<div class="btn">
+												<a href="./product_view_crowd.html" class="cm-custom-button">UNBOXING</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="unboxing-con01-item close">
+									<div class="area-box">
+										<div class="unboxing-con01-txt crowd">
+											<div class="tit-group">
+												<div class="top-info">
+													<div class="category">
+														<span class="img"><? include("../../static_root/svg/icon_crowd_funding.html"); ?></span>
+														<span class="cate-txt">Crowd Funding</span>
+													</div>
+												</div>
+												<p class="deadline">종료되었습니다.</p>
+												<h5 class="tit">뇌섹남 하석진과 위스키 한 잔, 두뇌 게임 한 판</h5>
+												<p class="name"><span>Game</span>하석진</p>
+												<p class="txt">해당 텍스트 박스에는 셀러브리티의 소개 또는 콘텐츠의 맥락을 파악할 수 있는 간략한 글이 들어가면 좋을 것 같습니다. 해당 텍스트 박스에 들어갈 내용은 최소 2줄에서 최대 4줄까지 가능합니다. One&Only with 0100 Creative_Web Design Project</p>
+											</div>
+											<div class="video-box">
+												<div class="video-inner">
+													<video muted loop autoplay playsinline id="cmVideo" data-keepplaying>
+														<source src="/static_root/video/UNBOXING_하석진.mp4" type="video/mp4">
+														Your browser does not support HTML5 video.
+													</video>
+												</div>
+											</div>
+											<div class="btn">
+												<a href="./product_view_last.html" class="cm-custom-button">UNBOXING</a>
+											</div>
+										</div>
+									</div>
+								</div> -->
+							</div>
+						</div>
+						<div class="unboxing-con02">
+							<div class="area-box">
+								<!-- <h5 class="cm-title-style">UPCOMING <span>NEXT?</span></h5> -->
+								<h5 class="cm-title-style">UPCOMING</h5>								
+								<div class="unboxing-con02-wrapper">
+									{% if cs_placements %}
+										<ul class="unboxing-con02-list clearfix">
+										{% for csp in cs_placements %}
+											<li class="unboxing-con02-item">
+												<div class="unboxing-con02-box">
+													<div class="unboxing-con02-img">
+														<!-- 이미지 권장사이즈 240x240 -->
+														<img src="{{csp.thumbnail.url}}" alt="썸네일 이미지">
+													</div>
+													<div class="unboxing-con02-txt">
+														<p class="date"><span>티켓 오픈예정</span>{{ csp.placement_start | date:'Y. m. d' }}</p>
+														<h5 class="tit">{{ csp.title | safe | linebreaksbr }}</h5>
+													</div>
+												</div>
+												<div class="unboxing-con02-btn">
+													{% if request.user.is_authenticated %}
+													<button class="alarm cm-custom-button {% if csp in request.user.alarm.all %}deactivate{% endif %}" onclick="AlarmAjax(event, '{{csp.id}}', '/auction/toggle/alarm/', getCookie('csrftoken'));">ALARM <i class="xi-bell"></i></button><!-- 팝업열기 modalPopupOpen / 팝업닫기 modalPopupClose -->
+														{% if request.user.is_staff %}
+														<!-- SuperUser & Staff only-->
+														<div style="margin-top:10px;">
+															<a class="alarm cm-custom-button half" href="{{ csp.get_admin_absolute_url }}">관리 <i class="xi-wrench"></i></a>
+															<a class="alarm cm-custom-button half" href="{% url 'core:admin-qna' csp.id %}">설문지 <i class="xi-paper"></i></a>
+														</div>
+														{% endif %}
+													{% else %}
+													<button class="alarm cm-custom-button" onclick="modalPopupOpen(event,'#popupAlarmLogin');">ALARM <i class="xi-bell"></i></button><!-- 팝업열기 modalPopupOpen / 팝업닫기 modalPopupClose -->													
+													{% endif %}
+												</div>
+											</li>
+										{% endfor %}
+										</ul>
+									{% else %}
+										<div class="mypage-funding-no-list">
+											<p>예정된 구매 없습니다.</p>
+										</div>
+									{% endif %}
+									<div class="unboxing-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+										<span class="progress-bar">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="unboxing-con03">
+							<div class="area-box">
+								<h5 class="cm-title-style">PREVIOUS</h5>
+								<div class="unboxing-con03-wrapper">
+									{% if finish_placements %}
+										<ul class="unboxing-con03-list history center clearfix">
+											{% for fp in finish_placements %}
+												<li class="unboxing-con03-item">
+													<a href="{{ fp.get_absolute_url }}">
+														<div class="unboxing-con03-img">
+															<!-- 이미지 권장사이즈 210x244 -->
+															{% if fp.placementmemory %}
+															<img src="{{ fp.placementmemory.history_thumbnail.url }}" alt="히스토리 썸네일 이미지">
+															{% else %}
+															<img src="{% static 'rev/img/content/unboxing_con03_img02.png' %}" alt="히스토리 썸네일 이미지">														
+															{% endif %}
+														</div>
+														<p class="unboxing-con03-txt">{{fp.title | safe | linebreaksbr | truncatechars:20}}</p>
+													</a>
+													<div style="margin-top:20px; text-align: center;">
+														{% if request.user.is_authenticated %}
+															<button class="alarm cm-custom-button {% if fp in request.user.encore.all %}disabled{% endif %}" onclick="EncoreAjax(event,'{{fp.id}}', '{% url 'auction:encore' %}', getCookie('csrftoken'));">앵콜 요청{% if fp.encores.all.count >= 10 %} | {{fp.encores.all | length }}회 요청 중{% endif %}</button>
+															{% if request.user.is_staff %}
+															<div style="margin-top:10px;">
+																<a href="{{ fp.get_admin_absolute_url }}" class="alarm cm-custom-button half">관리 <i class="xi-wrench"></i></a><!-- Superuser 계정만 -->
+																<a href="{% url 'core:admin-qna' fp.id %}" class="alarm cm-custom-button half">설문지 <i class="xi-paper"></i></a><!-- Staff 계정만 -->
+															</div>
+															{% endif %}
+														{% else %}
+															<button class="alarm cm-custom-button" onclick="modalPopupOpen(event,'#popupAlarmLogin');">앵콜 요청{% if fp.encores.all.count >= 10 %} | {{fp.encores.all | length }}회 요청 중{% endif %}</button>														
+														{% endif %}
+													</div>
+												</li>												
+											{% endfor %}
+										</ul>
+										<div class="unboxing-con03-date">
+											<button class="btn prev-btn"><i class="xi-angle-left-thin"></i></button>
+											<button class="btn next-btn"><i class="xi-angle-right-thin"></i></button>
+										</div>										
+									{% else %}
+										<div class="mypage-funding-no-list">
+											<p>종료된 구매 없습니다.</p>
+										</div>									
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+					<!-- 팝업 리스트 -->	
+					{% include "auction/unboxing/popup/login.html" %}<!-- 알림 신청 로그인 이동 -->
+          {% include "auction/unboxing/popup/AlarmActivate.html" %}<!-- 알림 설정 완료 -->
+          {% include "auction/unboxing/popup/AlarmDeactivate.html" %}<!-- 알림 해제 완료 -->
+					<!-- //팝업 리스트 -->
+
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //middleArea -->
+		</div>
+		<!-- // container -->
+	</div>
+  <!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+<!-- TAB SELECT -->
+<script>
+  var type = searchParam('type')
+  var search = searchParam('search')	
+	if(type == 'c') $('#tab-c').addClass('selected');
+	else if(type == 'c1') $('#tab-c1').addClass('selected');
+	else if(type == 's') $('#tab-s').addClass('selected');		
+	else if(search == 'None') $('#tab-None').addClass('selected');
+	else $('#tab-all').addClass('selected');
+	
+</script>
+
+	<!--카운트 다운 js-->
+  <script>
+    (function () {
+    const second = 1000,
+        minute = second * 60,
+        hour = minute * 60,
+        day = hour * 24;
+
+    {% for p in placements %}
+      const c{{p.pk}}_start = new Date('{{ p.placement_start | date:"Y/m/d H:i:s" }}').getTime();
+      const c{{p.pk}}_end = new Date('{{ p.placement_end | date:"Y/m/d H:i:s" }}').getTime();
+    {% endfor %}
+
+    {% for p in placements %}
+    c{{p.pk}}_x = setInterval(function() {    
+      const now = new Date().getTime();
+      const c{{p.pk}}_tostart = c{{p.pk}}_start - now;
+      const c{{p.pk}}_toend = c{{p.pk}}_end - now;
+
+      //c1 시작전
+      if(c{{p.pk}}_tostart > 0){
+				var days = Math.floor(c{{p.pk}}_tostart / (day));
+				var hours = Math.floor((c{{p.pk}}_tostart % (day)) / (hour));
+				var mins = Math.floor((c{{p.pk}}_tostart % (hour)) / (minute));
+				var secs = Math.floor((c{{p.pk}}_tostart % (minute)) / second);				
+        document.getElementById("c{{p.pk}}_countdown").innerText = `시작까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;
+        // document.getElementById("c{{p.pk}}_countdown").style.color = "#177D4E";
+      }
+      //진행중
+      else if(c{{p.pk}}_tostart <= 0 && c{{p.pk}}_toend > 0)
+      {
+				var days = Math.floor(c{{p.pk}}_toend / (day));
+				var hours = Math.floor((c{{p.pk}}_toend % (day)) / (hour));
+				var mins = Math.floor((c{{p.pk}}_toend % (hour)) / (minute));
+				var secs = Math.floor((c{{p.pk}}_toend % (minute)) / second);
+				// if('{{ STATUS }}' == 'pending'){
+		    // 	document.getElementById("c{{p.pk}}_countdown").innerText = `<낙찰 진행중> 종료까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;
+				// }
+				// else{
+				// 	document.getElementById("c{{p.pk}}_countdown").innerText = `종료까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;
+				// }				
+				document.getElementById("c{{p.pk}}_countdown").innerText = `종료까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;				
+        // document.getElementById("c{{p.pk}}_countdown").style.color = "#FF8343";
+      }
+      //끝
+      else{
+        document.getElementById("c{{p.pk}}_countdown").innerText = `판매종료`;
+        document.getElementById("c{{p.pk}}_countdown").style.display = "block";
+        clearInterval(c{{p.pk}}_x);
+      }
+
+    }, 0)			
+    {% endfor %}
+    }());
+  </script>
+
+	<!-- 채널톡 USERGUIDE 오픈 -->
+	{% comment %} <script>
+		{% if request.user.is_authenticated %}
+			var last_login = new Date('{{request.user.last_login | date:"Y/m/d H:i:s"}}').getTime();
+			var now = new Date().getTime();
+			var distance,days,hours,minutes,seconds;
+			distance = now-last_login;
+			days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+			if(days>=28){
+				if(!isMobile()){
+					ChannelIO('openChat', undefined, '');
+				}
+				else{
+					ChannelIO('openChat', 123);
+				}
+			}
+		{% else %}
+			if(!isMobile()){
+				ChannelIO('openChat', undefined, '');
+			}
+			else{
+				ChannelIO('openChat', 123);
+			}		
+		{% endif %}
+
+
+	</script> {% endcomment %}
+{% endblock extra_scripts %}

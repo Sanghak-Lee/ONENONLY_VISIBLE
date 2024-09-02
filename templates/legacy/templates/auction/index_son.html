@@ -1,0 +1,176 @@
+{% extends "auction/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}  
+{% get_top_3 placement as placementbid %}
+
+{% block head_title %} SonYeolEum's Auction {% endblock %}
+
+<!-- additioinal css, favicon, metadata -->
+{% block extra_head %}{% endblock %}
+
+<!-- Bidding modal -->
+{% block extra_body %}
+{% endblock extra_body%}
+
+{% block body %}
+  <!-- ======= About Section ======= -->    
+  <section id="about" class="about-show section-show">  
+    <!-- ======= About Me ======= -->
+    <div class="about-me container">
+      <div class="section-title">
+        <h2>옥션 경매품</h2>
+      </div>
+      <div class="auction-style1">
+        <div class="left">
+          <div class="swiper style1-container counts">
+            <div class="swiper-wrapper style1-wrapper">
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-emoji-smile"></i>
+                <img src="{% static 'img/auction/son_3.jpg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="1986" data-purecounter-duration="1" class="purecounter"></span>
+                <p>SonYeolEum</p><p style="font-style:italic;">Itself(1)</p>
+              </div>
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-journal-richtext"></i>
+                <img src="{% static 'img/auction/son_4.jpg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="1986" data-purecounter-duration="1" class="purecounter"></span>
+                <p>SonYeolEum</p><p style="font-style:italic;">Itself(2)</p>
+              </div>
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-headset"></i>
+                <img src="{% static 'img/auction/son_5.jpg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="1986" data-purecounter-duration="1" class="purecounter"></span>
+                <p>SonYeolEum</p><p style="font-style:italic;">Itself(3)</p>
+              </div>
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-award"></i>
+                <img src="{% static 'img/auction/son_6.jpg' %}" class="img-fluid" alt="">              
+                <span data-purecounter-start="0" data-purecounter-end="1986" data-purecounter-duration="1" class="purecounter"></span>
+                <p>SonYeolEum</p><p style="font-style:italic;">Itself(4)</p>
+              </div>                            
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="style1-pagination"></div>
+          </div>          
+        </div>
+        <div class="right">
+            {% include "auction/component/right.html" with placement=placement now_price=placementbid.0.offer pk=pk %}
+        </div>
+        {% comment %} <div class="right">
+            <div class="item">
+              <div class="l1">
+                BeCollector Auction #1
+              </div>            
+              <div class="l2">
+                손열음과 함께하는 작곡
+              </div>
+              <div class="l3">
+                Composition with Son
+              </div>              
+            </div>
+
+            <div class="author">
+
+              <div class="l4">
+                <div>손열음</div>
+                <div>Yeol Eum son</div>
+              </div>              
+              <div class="l5">
+                <p>"건반 위의 젊은 거장"<br>
+                  2011년 제14회 차이콥스키 국제 피아노 콩쿠르에서 준우승과 함께 모차르트 협주곡 최고연주상, 콩쿠르 위촉작품 최고연주상까지 휩쓴 피아니스트 손열음은 뛰어난 통찰력과 한계 없는 테크닉, 광범위한 레퍼토리를 바탕으로 국제적인 명성을 쌓아가고 있다.<br>
+                </p>
+              </div>
+            </div>
+
+            <div class="price">
+              <div class="l6">
+                <dl>
+                  <dt>추정가</dt>
+                  <dd class="KRW">KRW 18,000,000 ~ 30,000,000</dd>
+                  <dd class="USD">USD 15,200 ~ 33,700</dd>
+                  <dt>시작가</dd>
+                  <dd class="KRW">KRW 18,000,000</dd>
+                  <dd class="USD">USD 15,200</dd>
+                  <dt class="red">현재가 KRW {{placementbid.0.offer | intcomma }}</dt>
+                </dl>
+              </div>
+            </div>
+
+            <div class="info">
+              <p>세계적인 피아니스트 "손열음"과 만나, 오로지 나만을 위한 곡을 만들어 <br>
+                오로지 나만을 위해서 연주 선물을 받을 수 있습니다 <br>
+                한국에 있는 짧은 시간, 비콜렉터의 콜렉터들에게만 주어지는 기회<br>
+              </p>
+            </div>
+
+            <div class="tel">
+              <p>작품문의: 02-395-0330<br>
+              낙찰가는 로그인 후 확인할 수 있습니다.</p>
+            </div>                         
+
+            <div class="button">
+              <span onclick="location.href='https://www.youtube.com/watch?v=5VkE9fEj7sM'"class="">영상보기</span>
+              <button type="button" class="btn btn-primary modal-toggle" data-toggle="modal" data-target="#bid-modal">
+                응찰하기
+              </button>              
+            </div>                         
+        </div> {% endcomment %}
+      </div>
+
+    </div><!-- End About Me --></div></div></div></div></div></div>
+
+  </section><!-- End About Section -->
+
+  <!-- ======= resume(마이옥션) Section ======= -->
+  {% include 'auction/component/section_resume.html' with placement=placement %}
+
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>옥션 아티스트</h2>
+        <p>SonYeolEum</p>
+      </div>
+
+      <div class="row mt-2">
+
+        <div class="col-md-6 d-flex align-items-stretch">
+          <div class="info-box">
+
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch">
+          <div class="info-box">
+
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 d-flex align-items-stretch">
+          <div class="info-box">
+
+          </div>
+        </div>
+        <div class="col-md-6 mt-4 d-flex align-items-stretch">
+          <div class="info-box">
+
+          </div>
+        </div>
+      </div>
+
+      <div class="php-email-form mt-4">
+       
+      <strong><i>SonYeolEum</i></strong><br>&amp;<br><strong><i>ONE &amp; ONLY</i></strong>
+
+      </div>
+
+    </div>
+  </section><!-- End Contact Section -->
+{% endblock body %}
+
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}

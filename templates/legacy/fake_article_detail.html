@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+{% load core_template_tags %}
+
+{% load account socialaccount %}
+
+
+{% block head_title %} 게시글 보기 {% endblock %}
+
+{% block extra_head %} {% endblock %}
+
+<!--BODY -->
+
+{% block content %}
+{{ article.update_counter }}
+<article id="content">
+	
+	<div class="bbs_view">
+		<div class="step_box">
+			<div class="wrap">
+				<h2>{{ article.get_category_display }}</h2>				
+			</div>
+		</div>
+		<div class="wrap">
+			<div class="bbs_view_ctt">
+				<!-- 제목 -->
+				<div class="subj">
+					<div class="top">
+						<span class="cate">{{ article.get_category_display }}</span>
+						<h3>{{article.title}}</h3>
+					</div>
+					<div class="date">{{article.user}} · {{article.update_date}} · {{article.n_hit}}회</div>
+				</div>
+				<!-- 본문 -->
+				<div class="bbs_view_text">
+					{{article.text}}
+				</div>
+				<!-- 댓글 -->
+				<div class="bbs_comment">
+					<ul class="abox clear">
+						<li class="le">댓글 <span>3</span></li>
+						<li class="ri like_btn">
+							<span class="ic"></span><span class="txt">20</span>
+						</li>
+					</ul>
+					<script>
+						$(".like_btn").click(function () {
+							$(this).toggleClass('on'); 
+						});
+					</script>
+					<!-- -->
+                    {% for comment in article_commentlist %}
+					<div class="list">
+						<div class="in">
+							<div class="name">{{ comment.user }} · {{ comment.update_date }}</div>
+							<div class="cmt_p">
+                                {{ comment.text }}
+							</div>
+							<div class="mod">
+								<div class="mod_ic"></div>
+								<div class="mod_wr">
+									<span id="" class="md">수정</span>
+									<span id="" class="del">삭제</span>
+								</div>
+							</div>
+						</div>
+					</div>
+                    {% endfor %}
+					<!-- -->
+
+					<script>
+						$(".mod_ic").click(function () {
+							$(this).parent('.mod').toggleClass('on'); 
+						});
+					</script>
+				</div>
+				<!-- 댓글 달기 -->
+				<div class="bbs_comment_w">
+					<p class="m1">댓글 달기</p>
+                    <form method="post">
+                    {% csrf_token %}
+					<div class="texta">
+						<textarea name="text" id="" class="comm_text" placeholder="작성할 내용을 입력하세요."></textarea>
+						<button type="submit" class="btn">댓글<br />작성</button>
+					</div>
+                    </form>
+				</div>
+				<div class="bbs_list_lk"><a href="javascript:history.back()"><span class="sBtn ani">목록으로</span></a></div>
+			</div>
+			
+
+		</div>
+	</div>
+
+</article>
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}

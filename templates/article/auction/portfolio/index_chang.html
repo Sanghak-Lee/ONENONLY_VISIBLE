@@ -1,0 +1,99 @@
+{% load static %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<div>회원가입</div>
+<input id="csrf" type="hidden" value={{csrf_token}} />
+<input type="text" id="email" placeholder="email" />
+<input type="text" id="password1" placeholder="password1"/>
+<input type="text" id="password2" placeholder="password2"/>
+<input type="text" id="username" placeholder="username"/>
+<div id="info1">1</div><br>
+<button id="submit1">click</button>
+<script>
+$("#submit1").on('click', function(e){
+  var data = {
+    "csrfmiddlewaretoken" : $('#csrf')[0].value,
+    "username": $('#username').val(),
+    "email": $('#email').val(),
+    "password1": $('#password1').val(),
+    "password2": $('#password2').val(),
+  }
+  var hd = {"X-CSRFToken":$('#csrf')[0].value}
+
+  $.ajax({
+    url:"{% url 'account_signup' %}",
+    headers:hd,
+    type:"POST",
+    data:data,
+    contentType: "application/x-www-form-urlencoded",
+    dataType:"text",
+    success: function(data, status){
+      data=JSON.parse(data);
+      console.log(data);
+      if(data.location === '/'){
+        $('#info1').text('이미 로그인 되었습니다');
+      }else if(data.location === '/accounts/confirm-email/'){
+      $('#info1').text(`${data.form.fields.email.value}이메일로 전송되었습니다 ${data.form.fields.username.value}님`);
+      }else{
+        console.log("what");
+      }
+    },
+    error : function(data, status){
+      data=JSON.parse(data.responseText);
+      if(data.form_errors.email){
+        $('#info1').text(data.form_errors.email+data.form_errors.username);
+      }
+      console.log(data.form_errors);
+    },
+
+  });
+});
+</script>
+
+<br>
+<div>로그인</div>
+<input id="csrf" type="hidden" value={{csrf_token}} />
+<input type="text" id="login" placeholder="email" />
+<input type="text" id="p" placeholder="password"/>
+<div id="info2">2</div><br>
+<button id="submit2">click</button>
+<script>
+$("#submit2").on('click', function(e){
+  var data = {
+    "csrfmiddlewaretoken" : $('#csrf')[0].value,
+    "login": $('#login').val(),
+    "password": $('#p').val(),
+  }
+  var hd = {"X-CSRFToken":$('#csrf')[0].value}
+
+  $.ajax({
+    url:"{% url 'account_login' %}",
+    headers:hd,
+    type:"POST",
+    data:data,
+    contentType: "application/x-www-form-urlencoded",
+    dataType:"text",
+    success: function(data, status){
+      data=JSON.parse(data);
+      console.log(data);
+      if(data.location === '/'){
+        $('#info2').text('이미 로그인 되었습니다');
+      }else if(data.location === '/accounts/confirm-email/'){
+      $('#info2').text(`${data.form.fields.login.value}님 이메일인증을 완료해주세요`);
+      }else{
+        console.log(data.form.fields);
+      }
+    },
+    error : function(data, status){
+      data=JSON.parse(data.responseText);
+      if(data.form_errors !== null ){
+        value=Object.values(data.form_errors);
+        console.log(value);
+        $('#info2').text(value);
+      }
+      console.log(data);
+    },
+
+  });
+});
+</script>

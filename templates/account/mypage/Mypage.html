@@ -1,0 +1,850 @@
+{% extends "account/base.html" %}
+{% load static humanize %}
+{% load core_template_tags auction_templatetag %}
+
+{% block head_title %} | 마이페이지 {% endblock %}
+
+{% block body %}
+	<div id="wrap" class="sub-wrap">
+		<!-- container -->
+		<div id="container">
+			<!-- middleArea -->
+			<div id="middleArea">
+        
+
+				<!-- content -->
+				<section id="content" class="area-box">
+          <ul class="tabs">
+            <li id='tab1' class="active"><p>구매 리스트</p></li>
+            <li id='tab2'><p>관심 시간상품</p></li>
+            <li id='tab3'><p>개인정보</p></li>
+          </ul>
+          <ul class="tab__content">
+            <li id="tab1_content" class="active">
+              <!-- TAB1 -->
+              <div class="content__wrapper">
+                <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+                <div class="sub-page mypage-page">
+                  <div class="cm-fixed-page-container-JS">
+                    <div class="mypage-top-select">
+                      <div class="cm-selectbox">
+                        <form method="GET" id="deliver_filter">
+                          <select id="filter" name="deliver_detail" onchange="this.form.submit();">
+                            <option value='all'>전체 내역</option>
+                            <option value='1'>구매 중</option>
+                            <option value='2'>예약금 완납</option>
+                            <option value='3'>잔금 완납</option>
+                            <option value='4'>진행 확정</option>
+                            <option value='expired'>구매 취소</option>
+                          </select>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="mypage-con01">
+                      <article class="mypage-funding-list mypage-funding-toggle-JS">
+                        <!--  
+                          * 구매 진행 상황에 따라 funding-item에 클래스 붙혀주세요.(기본상태(추가 클래스X) 구매 중)
+                          * 구매 성공 success
+                          * 예약금 완납 deposit
+                          * 잔금 완납 balance
+                          * 구매 취소 cancel
+                        -->
+                        {% if c_orderitems or o_orderitems or s_orderitems or o_placementbids or s_placementbids %}
+                          {% if c_orderitems %}
+                          <dl class="orderitem">
+                            <dt>일반티켓 주문서</dt>
+                            <dd>
+                              {% for oi in c_orderitems %}
+                                {% if oi.expired == False %}
+                                  <dl class="crowd slice-item funding-item {% if oi.deliver_detail == 3 %}success{% elif oi.deliver_detail == 4 %}balance{% endif %}">
+                                    <dt>
+                                      <div class="funding-subject-box">
+                                        <div class="img">
+                                          <!-- 구매내역 썸네일 권장사이즈 110x110 -->
+                                          <a href="{{ oi.placement.get_absolute_url }}">
+                                            <span style="background: url('{{oi.placement.thumbnail.url}}') center/cover no-repeat;"></span>
+                                          </a>                                          
+                                        </div>
+                                        <div class="inner">
+                                          <div class="title">{{ oi.placement.title | safe }}</div>
+                                          <div class="progress-status">
+                                            {% if oi.deliver_detail == 1 %}
+                                            <span class="icon">{% include "svg/icon_funding_ongoing.html" %}</span>
+                                            <span class="txt">구매 중</span>
+                                            {% elif oi.deliver_detail == 3 %}
+                                            <span class="icon">{% include "svg/icon_funding_success.html" %}</span>
+                                            <span class="txt">잔금 완납</span>                                  
+                                            {% elif oi.deliver_detail == 4 %}
+                                            <span class="icon">{% include "svg/icon_funding_balance.html" %}</span>
+                                            <span class="txt">진행 확정</span>
+                                            {% endif %}
+                                          </div>
+                                        </div>
+                                        <span class="arrow"></span>
+                                      </div>
+                                    </dt>
+                                    <dd style="display: none;">
+                                      {% if oi.deliver_detail == 1 %}
+                                      <div class="mypage-funding-content">
+                                        <p class="txt"><b>총 {{oi.get_final_price | intcomma }}</b>원에 티켓 {{oi.quantity}}장 구매가 진행중입니다.<br><b class="cm-font-color-y">{{oi.get_final_price | intcomma }}</b>원 결제를 완료해주세요.</p>
+                                        <p class="date" id="co{{oi.pk}}_countdown" style="color:var(--main-color) !important"></p>
+                                        <!-- <p class="info"><span>*</span> 기한내에 입금하지 못하시면, 다음 고객에게 구매 넘어갑니다.<br><strong style="color:white;">국민 872901-04-093235 (주)레브너</strong></p> -->
+                                        <div class="btn">
+                                          <button onclick="location.href='{% url 'core:checkout' oi.placement.placement_type oi.id %}'" class="cm-custom-button grid">결제하기</button>                                          
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:qna' oi.placement.placement_type oi.id %}'">사전질문지{% if oi.questionanswer %}<span style="color:blue;">[수정]</span>{% endif %}</button>
+                                          <!-- <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingDetails');">주문 내역</button> -->
+                                          <button class="cm-custom-button grid no-bg" onclick="modalPopupOpen(event, '#popupFundingCancel{{oi.id}}{{oi.placement.id}}');">구매 취소{% if oi.refund_requested %}<span style="color:blue;">[요청중]</span>{% endif %}</button>
+                                        </div>
+                                      </div>
+                                      {% elif oi.deliver_detail == 3 %}
+                                      <div class="mypage-funding-content">
+                                        <p class="txt"><b class="cm-font-color-y">{{oi.get_final_price | intcomma }}</b>원을 <br>모두 입금하셨습니다.</p>
+                                        <p class="info">빠른 시일 내에 등록된 연락처를 통해 셀럽과의 시간에 대해 상세히 안내 드릴 예정입니다.<br>연락을 받지 못하신 경우, 고객센터로 문의해 주시기 바랍니다.</p>
+                                        <div class="btn">
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:ticket' oi.placement.placement_type oi.id %}'">티켓보기/선물하기</button>
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:qna' oi.placement.placement_type oi.id %}'">사전질문지{% if oi.questionanswer %}<span style="color:blue;">[수정]</span>{% endif %}</button>
+                                          <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingPayDetails{{oi.id}}{{oi.placement.id}}');">결제 내역</button>
+                                          <button class="cm-custom-button grid no-bg" onclick="modalPopupOpen(event, '#popupFundingCancel{{oi.id}}{{oi.placement.id}}');">구매 취소{% if oi.refund_requested %}<span style="color:blue;">[요청중]</span>{% endif %}</button>
+                                        </div>
+                                      </div>
+                                      {% elif oi.deliver_detail == 4 %}
+                                      <div class="mypage-funding-content">
+                                        <p class="txt"><b class="cm-font-color-y">셀럽과의 미팅이 확정되었습니다</b></p>
+                                        <p class="date">일시: {{oi.placement.d_day | date:'Y. m. d. H시 i분'}}</p>
+                                        <p class="info">장소: {{oi.placement.d_place}}</p>
+                                        <p class="info">진행 시간 : {{oi.placement.duration }}</p>
+                                        <p class="info">카테고리 : {{oi.placement.category}}</p>
+                                        <div class="btn">
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:ticket' oi.placement.placement_type oi.id %}'">티켓보기/선물하기</button>                                          
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:qna' oi.placement.placement_type oi.id %}'">사전질문지{% if oi.questionanswer %}<span style="color:blue;">[수정]</span>{% endif %}</button>
+                                          <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingPayDetails{{oi.id}}{{oi.placement.id}}');">결제 내역</button>
+                                        </div>
+                                      </div>
+                                      {% endif %}
+                                    </dd>
+                                  </dl>                                  
+                                  <!-- 팝업 리스트 -->	
+                                  {% url 'core:togglerefund' oi.placement.placement_type oi.id as url %} <!-- url 저장 -->
+                                  {% include "account/mypage/popup/funding_cancel.html" with orderitem=oi url=url %}<!-- 구매 취소 팝업 -->
+                                  {% include "account/mypage/popup/funding_pay_details.html" with orderitem=oi %}<!-- 잔금 완납_결제 내역 모달 -->
+                                  <!-- //팝업 리스트 -->
+                                {% else %}
+                                  <dl class="crowd slice-item funding-item cancel">
+                                    <dt>
+                                      <div class="funding-subject-box">
+                                        <div class="img">
+                                          <a href="{{ oi.placement.get_absolute_url }}">
+                                            <span style="background: url('{{oi.placement.thumbnail.url}}') center/cover no-repeat;"></span>
+                                          </a>
+                                        </div>
+                                        <div class="inner">
+                                          <div class="title">{{ oi.placement.title | safe }}</div>
+                                          <div class="progress-status">
+                                            <span class="icon">{% include "svg/icon_funding_cancel.html" %}</span>
+                                            <span class="txt">구매 취소</span>
+                                          </div>
+                                        </div>
+                                        <span class="arrow"></span>
+                                      </div>
+                                    </dt>
+                                    <dd style="display: none;">
+                                      <div class="mypage-funding-content">
+                                        <p class="txt">구매 취소되었습니다.</p>                                        
+                                        {% if oi.refund_granted %}
+                                        <p class="info">환불요청이 승인되었습니다.<br>환불계좌:{{oi.refund_account}}</p>
+                                        {% endif %}
+                                        {% if oi.deliver_detail > 1 %}
+                                        <p class="info">예약금을 결제하신 경우, 환불계좌를 입력해주세요<br>오류가 있는 경우, 고객센터로 문의해 주시기 바랍니다.</p>
+                                        <div class="btn">
+                                          <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingCancel{{oi.id}}{{oi.placement.id}}');">환불계좌 입력하기</button>
+                                        </div>
+                                        {% endif %}
+                                      </div>
+                                    </dd>
+                                  </dl>
+                                  <!-- 팝업 리스트 -->	
+                                  {% url 'core:togglerefund' oi.placement.placement_type oi.id as url %} <!-- url 저장 -->
+                                  {% include "account/mypage/popup/funding_cancel.html" with orderitem=oi url=url %}<!-- 구매 취소 팝업 -->                                  
+                                {% endif %}
+                              {% endfor %}
+                            </dd>                            
+                          </dl>
+                          <div class="mypage-funding-more">
+                            <button class="tab1 mypage-funding-more-btn crowd slice-more-btn">READ MORE <i class="xi-angle-down-min"></i></button>
+                            <!-- <button class="tab1 mypage-funding-pagination-btn" style="display:none">Pagination (5/5) <i class="xi-angle-down-min"></i></button> -->
+                          </div>                          
+                          {% endif %}                        
+                          {% if o_orderitems %}
+                          <dl class="orderitem">
+                            <dt>오픈펀딩 주문서</dt>
+                            <dd>
+                              {% for oi in o_orderitems %}
+                                {% if oi.expired == False %}
+                                  <dl class="open slice-item funding-item {% if oi.deliver_detail == 1 %}success{% elif oi.deliver_detail == 2 %}deposit{% elif oi.deliver_detail == 3 %}balance{% endif %}">
+                                    <dt>
+                                      <div class="funding-subject-box">
+                                        <div class="img">
+                                          <a href="{{ oi.placement.get_absolute_url }}">                                          
+                                            <!-- 구매내역 썸네일 권장사이즈 110x110 -->
+                                            <span style="background: url('{{oi.placement.thumbnail.url}}') center/cover no-repeat;"></span>
+                                          </a>
+                                        </div>
+                                        <div class="inner">
+                                          <div class="title">{{ oi.placement.title | safe }}</div>
+                                          <div class="progress-status">
+                                            {% if oi.deliver_detail == 1 %}
+                                            <span class="icon">{% include "svg/icon_funding_success.html" %}</span>
+                                            <span class="txt">구매 성공</span>
+                                            {% elif oi.deliver_detail == 2 %}
+                                            <span class="icon">{% include "svg/icon_funding_deposit.html" %}</span>
+                                            <span class="txt">예약금 완납</span>
+                                            {% elif oi.deliver_detail == 3 %}
+                                            <span class="icon">{% include "svg/icon_funding_balance.html" %}</span>                                      
+                                            <span class="txt">잔금 완납</span>
+                                            {% elif oi.deliver_detail == 4 %}
+                                            <span class="icon">{% include "svg/icon_funding_balance.html" %}</span>                                      
+                                            <span class="txt">진행 확정</span>                                      
+                                            {% endif %}
+                                          </div>
+                                        </div>
+                                        <span class="arrow"></span>
+                                      </div>
+                                    </dt>
+                                    <dd style="display: none;">
+                                      {% if oi.deliver_detail == 1 %}
+                                      <div class="mypage-funding-content">
+                                        <p class="txt"><b>{{oi.get_final_price | intcomma }}</b>원에 구매를 성공하였습니다.<br>예약금 <b class="cm-font-color-y">{{ oi.get_final_price | multiply:0.3 | intcomma }}</b>원을 입금해 주세요.</p>
+                                        <p class="date" id="oo{{oi.pk}}_countdown"></p>
+                                        <!-- <p class="info"><span>*</span> 기한내에 입금하지 못하시면, 다음 고객에게 구매 넘어갑니다.<br><strong style="color:white;">국민 872901-04-093235 (주)레브너</strong></p> -->
+                                        <div class="btn">
+                                          <button onclick="location.href='{% url 'core:checkout' oi.placement.placement_type oi.id %}'" class="cm-custom-button grid">결제하기</button>                                                                                    
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:qna' oi.placement.placement_type oi.id %}'">사전질문지{% if oi.questionanswer %}<span style="color:blue;">[수정]</span>{% endif %}</button>
+                                          <!-- <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingDetails');">주문 내역</button> -->
+                                          <button class="cm-custom-button grid no-bg" onclick="modalPopupOpen(event, '#popupFundingCancel{{oi.id}}{{oi.placement.id}}');">구매 취소{% if oi.refund_requested %}<span style="color:blue;">[요청중]</span>{% endif %}</button>                                          
+                                        </div>
+                                      </div>
+                                      {% elif oi.deliver_detail == 2 %}
+                                      <div class="mypage-funding-content">
+                                        <p class="txt">예약금 입금이 확인되었습니다.<br>
+                                        잔금 <b class="cm-font-color-y">{{ oi.get_final_price | multiply:0.7 | intcomma }}</b>원을 입금해 주세요.</p>
+                                        <p class="date" id="oo{{oi.pk}}_countdown"></p>
+                                        <!-- <p class="info"><span>*</span> 기한내에 입금하지 못하시면, 예약금 환불 없이 구매 취소됩니다.<br><strong style="color:white;">국민 872901-04-093235 (주)레브너</strong></p> -->
+                                        <div class="btn">
+                                          <button onclick="location.href='{% url 'core:checkout' oi.placement.placement_type oi.id %}'" class="cm-custom-button grid">결제하기</button>                                                                                    
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:qna' oi.placement.placement_type oi.id %}'">사전질문지{% if oi.questionanswer %}<span style="color:blue;">[수정]</span>{% endif %}</button>
+                                          <!-- <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingPayDetails');">결제 내역</button> -->
+                                          <button class="cm-custom-button grid no-bg" onclick="modalPopupOpen(event, '#popupFundingCancel{{oi.id}}{{oi.placement.id}}');">구매 취소{% if oi.refund_requested %}<span style="color:blue;">[요청중]</span>{% endif %}</button>
+                                        </div>
+                                      </div>
+                                      {% elif oi.deliver_detail == 3 %}
+                                      <div class="mypage-funding-content">
+                                        <p class="txt"><b class="cm-font-color-y">{{ oi.get_final_price | intcomma }}</b>원을 <br>모두 입금하셨습니다.</p>
+                                        <p class="info">빠른 시일 내에 등록된 연락처를 통해 셀럽과의 시간에 대해 상세히 안내 드릴 예정입니다.<br>연락을 받지 못하신 경우, 고객센터로 문의해 주시기 바랍니다.</p>
+                                        <div class="btn">
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:qna' oi.placement.placement_type oi.id %}'">사전질문지{% if oi.questionanswer %}<span style="color:blue;">[수정]</span>{% endif %}</button>
+                                          <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingPayDetails{{oi.id}}{{oi.placement.id}}');">결제 내역</button>
+                                          <button class="cm-custom-button grid no-bg" onclick="modalPopupOpen(event, '#popupFundingCancel{{oi.id}}{{oi.placement.id}}');">구매 취소{% if oi.refund_requested %}<span style="color:blue;">[요청중]</span>{% endif %}</button>
+                                        </div>
+                                      </div>
+                                      {% elif oi.deliver_detail == 4 %}
+                                      <div class="mypage-funding-content">
+                                        <p class="txt"><b class="cm-font-color-y">셀럽과의 미팅이 확정되었습니다</p>
+                                        <p class="date">{{oi.placement.category}}  <b>{{ oi.placement.d_day }}</b>  {{oi.placement.duration }}</p>
+                                        <p class="info">{{oi.placement.d_place}}</p>
+                                        <div class="btn">
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:qna' oi.placement.placement_type oi.id %}'">사전질문지{% if oi.questionanswer %}<span style="color:blue;">[수정]</span>{% endif %}</button>
+                                          <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingPayDetails{{oi.id}}{{oi.placement.id}}');">결제 내역</button>
+                                        </div>
+                                      </div>
+                                      {% endif %}
+                                    </dd>
+                                  </dl>
+                                  {% url 'core:togglerefund' oi.placement.placement_type oi.id as url %} <!-- url 저장 -->
+                                  {% include "account/mypage/popup/funding_cancel.html" with orderitem=oi url=url %}<!-- 구매 취소 팝업 -->
+                                  {% include "account/mypage/popup/funding_pay_details.html" with orderitem=oi %}<!-- 잔금 완납_결제 내역 모달 -->                                  
+                                  <!-- //팝업 리스트 -->
+                                {% else %}
+                                  <dl class="open slice-item funding-item cancel">
+                                    <dt>
+                                      <div class="funding-subject-box">
+                                        <div class="img">
+                                          <a href="{{ oi.placement.get_absolute_url }}">
+                                            <span style="background: url('{{oi.placement.thumbnail.url}}') center/cover no-repeat;"></span>
+                                          </a>
+                                        </div>
+                                        <div class="inner">
+                                          <div class="title">{{ oi.placement.title | safe}}</div>
+                                          <div class="progress-status">
+                                            <span class="icon">{% include "svg/icon_funding_cancel.html" %}</span>
+                                            <span class="txt">구매 취소</span>
+                                          </div>
+                                        </div>
+                                        <span class="arrow"></span>
+                                      </div>
+                                    </dt>
+                                    <dd style="display: none;">
+                                      <div class="mypage-funding-content">
+                                        <p class="txt">구매 취소되었습니다.</p>
+                                        {% if oi.refund_granted %}
+                                        <p class="info">환불요청이 승인되었습니다.<br>환불계좌:{{oi.refund_account}}</p>                                        
+                                        {% endif %}                                        
+                                        {% if oi.deliver_detail > 1 %}
+                                        <p class="info">예약금을 결제하신 경우, 환불계좌를 입력해주세요<br>오류가 있는 경우, 고객센터로 문의해 주시기 바랍니다.</p>
+                                        <div class="btn">
+                                          <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingCancel{{oi.id}}{{oi.placement.id}}');">환불계좌 입력하기</button>
+                                        </div>
+                                        {% endif %}
+                                      </div>
+                                    </dd>
+                                  </dl>
+                                  {% url 'core:togglerefund' oi.placement.placement_type oi.id as url %} <!-- url 저장 -->
+                                  {% include "account/mypage/popup/funding_cancel.html" with orderitem=oi url=url %}<!-- 구매 취소 팝업 -->                                  
+                                {% endif %}
+                              {% endfor %}
+                            </dd>
+                          </dl>
+                          <div class="mypage-funding-more">
+                            <button class="tab1 mypage-funding-more-btn open slice-more-btn">READ MORE <i class="xi-angle-down-min"></i></button>
+                            <!-- <button class="tab1 mypage-funding-pagination-btn" style="display:none">Pagination (5/5) <i class="xi-angle-down-min"></i></button> -->
+                          </div>
+                          {% endif %}
+                          {% if o_placementbids %}
+                          <dl class="orderitem">
+                            <dt>오픈펀딩 구매 내역</dt>
+                            <dd>
+                              {% for pbd in o_placementbids %}
+                                {% yet_start_done request pbd.placement.id as STATUS %}
+                                  <dl class="openpbd slice-item funding-item {% if STATUS == 'done' %}cancel{% endif %}">
+                                    <dt>
+                                      <div class="funding-subject-box">
+                                        <div class="img">
+                                          <a href="{{ oi.placement.get_absolute_url }}">                                          
+                                            <span style="background: url('{{pbd.placement.thumbnail.url}}') center/cover no-repeat;"></span>
+                                          </a>
+                                        </div>
+                                        <div class="inner">
+                                          <div class="title">{{ pbd.placement.title | safe }}</div>
+                                          <div class="progress-status">
+                                            {% if STATUS == 'done' %}
+                                            <span class="icon">{% include "svg/icon_funding_cancel.html" %}</span>
+                                            <span class="txt">구매 종료</span>
+                                            {% else %}
+                                            <span class="icon">{% include "svg/icon_funding_ongoing.html" %}</span>
+                                            <span class="txt">구매 중</span>
+                                            {% endif %}
+                                          </div>
+                                        </div>
+                                        <span class="arrow"></span>
+                                      </div>
+                                    </dt>
+                                    <dd style="display: none;">
+                                      <div class="mypage-funding-content">
+                                        {% if STATUS == 'done' %}
+                                          {% if pbd.placement.placement_win %}
+                                            {% if request.user == pbd.placement.placement_win.user %}
+                                              <p class="txt" style="color:var(--main-color-y)">구매에 성공하였습니다.</p>
+                                              <p class="info">상단 경쟁티켓 주문서에서 자세한 결제정보를 확인해 주세요.</p>
+                                              <p class="info">구매금 : <span style="color:var(--main-color-y)">{{ pbd.offer | intcomma }}</span> 원</p>
+                                            {% else %}
+                                            <p class="txt">구매에 실패하였습니다.</p>
+                                            <p class="info">죄송합니다. 다음 구매에 참여해주십시오.</p>
+                                            <p class="info">구매금 : <span style="color:var(--main-color-y)">{{ pbd.offer | intcomma }}</span> 원</p>
+                                            {% endif %}
+                                          {% else %}
+                                            <p class="txt">구매금 : <span style="color:var(--main-color-y)">{{ pbd.offer | intcomma }}</span> 원</p>
+                                            <p class="info">결과가 발표되지 않았습니다. 빠른 시일안에 카카오톡 메시지를 발송해드리겠습니다. </p>
+                                          {% endif %}
+                                        {% else %}
+                                          <p class="txt">구매금 : <span style="color:var(--main-color-y)">{{ pbd.offer | intcomma }}</span> 원</p>
+                                          <p class="info">구매 진행중입니다.<br>종료일시 : {{pbd.placement.placement_end | date:'Y. m. d. H시 i분' }}</p>
+                                        {% endif %}
+                                      </div>
+                                    </dd>
+                                  </dl>
+                              {% endfor %}
+                            </dd>
+                          </dl>
+                          <div class="mypage-funding-more">
+                            <button class="tab1 mypage-funding-more-btn openpbd slice-more-btn">READ MORE <i class="xi-angle-down-min"></i></button>
+                            <!-- <button class="tab1 mypage-funding-pagination-btn" style="display:none">Pagination (5/5) <i class="xi-angle-down-min"></i></button> -->
+                          </div>
+                          {% endif %}
+
+                          {% if s_orderitems %}
+                          <dl class="orderitem">
+                            <dt>경쟁티켓 주문서</dt>
+                            <dd>
+                              {% for oi in s_orderitems %}
+                                {% if oi.expired == False %}
+                                  <dl class="secret slice-item funding-item {% if oi.deliver_detail == 1 %}success{% elif oi.deliver_detail == 2 %}deposit{% elif oi.deliver_detail == 3 %}balance{% endif %}">
+                                    <dt>
+                                      <div class="funding-subject-box">
+                                        <div class="img">
+                                          <a href="{{ oi.placement.get_absolute_url }}">
+                                            <!-- 구매내역 썸네일 권장사이즈 110x110 -->
+                                            <span style="background: url('{{oi.placement.thumbnail.url}}') center/cover no-repeat;"></span>
+                                          </a>
+                                        </div>
+                                        <div class="inner">
+                                          <div class="title">{{ oi.placement.title | safe }}</div>
+                                          <div class="progress-status">
+                                            {% if oi.deliver_detail == 1 %}
+                                            <span class="icon">{% include "svg/icon_funding_success.html" %}</span>
+                                            <span class="txt">구매 성공</span>
+                                            {% elif oi.deliver_detail == 2 %}
+                                            <span class="icon">{% include "svg/icon_funding_deposit.html" %}</span>
+                                            <span class="txt">예약금 완납</span>
+                                            {% elif oi.deliver_detail == 3 %}
+                                            <span class="icon">{% include "svg/icon_funding_balance.html" %}</span>                                      
+                                            <span class="txt">잔금 완납</span>
+                                            {% elif oi.deliver_detail == 4 %}
+                                            <span class="icon">{% include "svg/icon_funding_balance.html" %}</span>                                      
+                                            <span class="txt">진행 확정</span>                                      
+                                            {% endif %}
+                                          </div>
+                                        </div>
+                                        <span class="arrow"></span>
+                                      </div>
+                                    </dt>
+                                    <dd style="display: none;">
+                                      {% if oi.deliver_detail == 1 %}
+                                      <div class="mypage-funding-content">
+                                        <p class="txt"><b>{{oi.get_final_price | intcomma }}</b>원에 구매를 성공하였습니다.<br>예약금 <b class="cm-font-color-y">{{ oi.get_final_price | multiply:0.3 | intcomma }}</b>원을 입금해 주세요.</p>
+                                        <p class="date" id="so{{oi.pk}}_countdown"></p>
+                                        <!-- <p class="info"><span>*</span> 기한내에 입금하지 못하시면, 다음 고객에게 구매 넘어갑니다.<br><strong style="color:white;">국민 872901-04-093235 (주)레브너</strong></p> -->
+                                        <div class="btn">
+                                          <button onclick="location.href='{% url 'core:checkout' oi.placement.placement_type oi.id %}'" class="cm-custom-button grid">결제하기</button>                                          
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:qna' oi.placement.placement_type oi.id %}'">사전질문지{% if oi.questionanswer %}<span style="color:blue;">[수정]</span>{% endif %}</button>                                  
+                                          <!-- <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingDetails');">주문 내역</button> -->
+                                          <button class="cm-custom-button grid no-bg" onclick="modalPopupOpen(event, '#popupFundingCancel{{oi.id}}{{oi.placement.id}}');">구매 취소{% if oi.refund_requested %}<span style="color:blue;">[요청중]</span>{% endif %}</button>
+                                        </div>
+                                      </div>
+                                      {% elif oi.deliver_detail == 2 %}
+                                      <div class="mypage-funding-content">
+                                        <p class="txt">예약금 입금이 확인되었습니다.<br>
+                                       잔금 <b class="cm-font-color-y">{{ oi.get_final_price | multiply:0.7 | intcomma }}</b>원을 입금해 주세요.</p>
+                                        <p class="date" id="so{{oi.pk}}_countdown"></p>
+                                        <!-- <p class="info"><span>*</span> 기한내에 입금하지 못하시면, 예약금 환불 없이 구매 취소됩니다.<br><strong style="color:white;">국민 872901-04-093235 (주)레브너</strong></p> -->
+                                        <div class="btn">
+                                          <button onclick="location.href='{% url 'core:checkout' oi.placement.placement_type oi.id %}'" class="cm-custom-button grid">결제하기</button>                                                                                    
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:qna' oi.placement.placement_type oi.id %}'">사전질문지{% if oi.questionanswer %}<span style="color:blue;">[수정]</span>{% endif %}</button>
+                                          <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingPayDetails');">결제 내역</button>
+                                          <!-- <button class="cm-custom-button grid no-bg" onclick="modalPopupOpen(event, '#popupFundingCancel{{oi.id}}{{oi.placement.id}}');">구매 취소{% if oi.refund_requested %}<span style="color:blue;">[요청중]</span>{% endif %}</button> -->
+                                        </div>
+                                      </div>
+                                      {% elif oi.deliver_detail == 3 %}
+                                      <div class="mypage-funding-content">
+                                        <p class="txt"><b class="cm-font-color-y">{{oi.get_final_price | intcomma }}</b>원을 <br>모두 입금하셨습니다.</p>
+                                        <p class="info">빠른 시일 내에 등록된 연락처를 통해 셀럽과의 시간에 대해 상세히 안내 드릴 예정입니다.<br>연락을 받지 못하신 경우, 고객센터로 문의해 주시기 바랍니다.</p>
+                                        <div class="btn">
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:qna' oi.placement.placement_type oi.id %}'">사전질문지{% if oi.questionanswer %}<span style="color:blue;">[수정]</span>{% endif %}</button>                                  
+                                          <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingPayDetails{{oi.id}}{{oi.placement.id}}');">결제 내역</button>
+                                          <!-- <button class="cm-custom-button grid no-bg" onclick="modalPopupOpen(event, '#popupFundingCancel{{oi.id}}{{oi.placement.id}}');">구매 취소{% if oi.refund_requested %}<span style="color:blue;">[요청중]</span>{% endif %}</button> -->
+                                        </div>
+                                      </div>                                
+                                      {% elif oi.deliver_detail == 4 %}
+                                      <div class="mypage-funding-content">
+                                        <p class="txt"><b class="cm-font-color-y">셀럽과의 미팅이 확정되었습니다</p>
+                                        <p class="date">{{oi.placement.category}}  <b>{{ oi.placement.d_day }}</b>  {{oi.placement.duration }}</p>
+                                        <p class="info">{{oi.placement.d_place}}</p>
+                                        <div class="btn">
+                                          <button class="cm-custom-button grid" onclick="location.href='{% url 'core:qna' oi.placement.placement_type oi.id %}'">사전질문지{% if oi.questionanswer %}<span style="color:blue;">[수정]</span>{% endif %}</button>                                  
+                                          <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingPayDetails{{oi.id}}{{oi.placement.id}}');">결제 내역</button>
+                                        </div>
+                                      </div>
+                                      {% endif %}
+                                    </dd>
+                                  </dl>
+                                  <!-- 팝업 리스트 -->	
+                                  {% url 'core:togglerefund' oi.placement.placement_type oi.id as url %} <!-- url 저장 -->
+                                  {% include "account/mypage/popup/funding_cancel.html" with orderitem=oi url=url %}<!-- 구매 취소 팝업 -->
+                                  {% include "account/mypage/popup/funding_pay_details.html" with orderitem=oi %}<!-- 잔금 완납_결제 내역 모달 -->                                  
+                                  <!-- //팝업 리스트 -->
+                                {% else %}
+                                  <dl class="secret slice-item funding-item cancel">
+                                    <dt>
+                                      <div class="funding-subject-box">
+                                        <div class="img">
+                                          <a href="{{ oi.placement.get_absolute_url }}">                                          
+                                            <span style="background: url('{{oi.placement.thumbnail.url}}') center/cover no-repeat;"></span>
+                                          </a>
+                                        </div>
+                                        <div class="inner">
+                                          <div class="title">{{ oi.placement.title | safe }}</div>
+                                          <div class="progress-status">
+                                            <span class="icon">{% include "svg/icon_funding_cancel.html" %}</span>
+                                            <span class="txt">구매 취소</span>
+                                          </div>
+                                        </div>
+                                        <span class="arrow"></span>
+                                      </div>
+                                    </dt>
+                                    <dd style="display: none;">
+                                      <div class="mypage-funding-content">
+                                        <p class="txt">구매 취소되었습니다.</p>
+                                        {% if oi.refund_granted %}
+                                        <p class="info">환불요청이 승인되었습니다.<br>환불계좌:{{oi.refund_account}}</p>                                        
+                                        {% endif %}                                        
+                                        {% if oi.deliver_detail > 1 %}
+                                        <p class="info">예약금을 결제하신 경우, 환불계좌를 입력해주세요<br>오류가 있는 경우, 고객센터로 문의해 주시기 바랍니다.</p>
+                                        <div class="btn">
+                                          <button class="cm-custom-button grid" onclick="modalPopupOpen(event, '#popupFundingCancel{{oi.id}}{{oi.placement.id}}');">환불계좌 입력하기</button>
+                                        </div>
+                                        {% endif %}
+                                      </div>
+                                    </dd>
+                                  </dl>
+                                  <!-- 팝업 리스트 -->	
+                                  {% url 'core:togglerefund' oi.placement.placement_type oi.id as url %} <!-- url 저장 -->
+                                  {% include "account/mypage/popup/funding_cancel.html" with orderitem=oi url=url %}<!-- 구매 취소 팝업 -->                                  
+                                {% endif %}
+                              {% endfor %}
+                            </dd>
+                          </dl>
+                          <div class="mypage-funding-more">
+                            <button class="tab1 mypage-funding-more-btn secret slice-more-btn">READ MORE <i class="xi-angle-down-min"></i></button>
+                            <!-- <button class="tab1 mypage-funding-pagination-btn" style="display:none">Pagination (5/5) <i class="xi-angle-down-min"></i></button> -->
+                          </div>                          
+                          {% endif %}
+                          {% if s_placementbids %}
+                          <dl class="orderitem">
+                            <dt>경쟁티켓 구매내역</dt>
+                            <dd>
+                              {% for pbd in s_placementbids %}
+                                {% yet_start_done request pbd.placement.id as STATUS %}
+                                  <dl class="secretpbd slice-item funding-item {% if STATUS == 'done' %}cancel{% endif %}">
+                                    <dt>
+                                      <div class="funding-subject-box">
+                                        <div class="img">
+                                          <a href="{{ pbd.placement.get_absolute_url }}">                                          
+                                            <span style="background: url('{{pbd.placement.thumbnail.url}}') center/cover no-repeat;"></span>
+                                          </a>
+                                        </div>
+                                        <div class="inner">
+                                          <div class="title">{{ pbd.placement.title | safe }}</div>
+                                          <div class="progress-status">
+                                            {% if STATUS == 'done' %}
+                                            <span class="icon">{% include "svg/icon_funding_cancel.html" %}</span>
+                                            <span class="txt">판매 종료</span>
+                                            {% else %}
+                                            <span class="icon">{% include "svg/icon_funding_ongoing.html" %}</span>
+                                            <span class="txt">판매 중</span>
+                                            {% endif %}
+                                          </div>
+                                        </div>
+                                        <span class="arrow"></span>
+                                      </div>
+                                    </dt>
+                                    <dd style="display: none;">
+                                      <div class="mypage-funding-content">
+                                        {% if STATUS == 'done' %}
+                                          {% if pbd.placement.placement_win %}
+                                            {% if request.user == pbd.placement.placement_win.user %}
+                                              <p class="txt" style="color:var(--main-color-y)">구매에 성공하였습니다.</p>
+                                              <p class="info">상단 경쟁티켓 주문서에서 자세한 결제정보를 확인해 주세요.</p>
+                                              <p class="info">응찰액 : <span style="color:var(--main-color-y)">{{ pbd.offer | intcomma }}</span> 원</p>
+                                            {% else %}
+                                            <p class="txt">구매에 실패하였습니다.</p>
+                                            <p class="info">죄송합니다. 다음 구매에 참여해주십시오.</p>
+                                            <p class="info">응찰액 : <span style="color:var(--main-color-y)">{{ pbd.offer | intcomma }}</span> 원</p>
+                                            {% endif %}
+                                          {% else %}
+                                            <p class="txt">응찰액 : <span style="color:var(--main-color-y)">{{ pbd.offer | intcomma }}</span> 원</p>
+                                            <p class="info">결과가 발표되지 않았습니다. 빠른 시일안에 카카오톡 메시지를 발송해드리겠습니다. </p>
+                                          {% endif %}
+                                        {% else %}
+                                          <p class="txt">응찰금 : <span style="color:var(--main-color-y)">{{ pbd.offer | intcomma }}</span> 원</p>
+                                          <p class="info">응찰 진행중입니다.<br>종료일시 : {{pbd.placement.placement_end | date:'Y. m. d. H시 i분' }}</p>
+                                        {% endif %}
+                                      </div>
+                                    </dd>
+                                  </dl>
+                              {% endfor %}
+                            </dd>
+                          </dl>
+                          <div class="mypage-funding-more">
+                            <button class="tab1 mypage-funding-more-btn secretpbd slice-more-btn">READ MORE <i class="xi-angle-down-min"></i></button>
+                            <!-- <button class="tab1 mypage-funding-pagination-btn" style="display:none">Pagination (5/5) <i class="xi-angle-down-min"></i></button> -->
+                          </div>
+                          {% endif %}
+
+
+
+                        {% else %}
+                          <div class="mypage-funding-no-list">
+                            <p>구매내역이 없습니다.</p>
+                          </div>                        
+                        {% endif %}
+                      </article>
+                    </div>
+                  </div>
+                </div>
+                <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+                <!-- 팝업 리스트 -->	
+                {% include "popup_funding_details.html" %}<!-- 주문 내역 모달 -->
+
+                <!-- //팝업 리스트 -->
+
+              </div>
+            </li>
+            <li id="tab2_content">
+              <!-- TAB2 -->
+              <div class="content__wrapper">
+                <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+                <div class="sub-page mypage-page">
+                  <div class="cm-fixed-page-container-JS">
+                    <div class="interest-funding-con01">
+                      {% if plikes %}
+                        <article class="mypage-funding-list">
+                          {% for p in plikes %}
+                          <div class="funding-item like slice-item">
+                            <a href="{{ p.get_absolute_url }}">
+                              <div class="funding-subject-box">
+                                <div class="img">
+                                  <!-- 구매내역 썸네일 권장사이즈 110x110 -->
+                                  <span style="background: url('{{ p.thumbnail.url }}') center/cover no-repeat;"></span>
+                                </div>
+                                <div class="inner">
+                                  <div class="title">{{p.title | safe}}</div>
+                                  <div class="progress-status">
+                                    <span class="status">{{p.placement_artist.name | safe | linebreaksbr }}</span>
+                                  </div>
+                                </div>
+                                <button class="plike zzim-btn activate" onclick="PlikeAjax(event, '{{p.id}}', '{% url 'auction:plike' %}', getCookie('csrftoken'));"><i class="xi-heart"></i></button>
+                              </div>
+                            </a>
+                          </div>
+                          {% endfor %}
+                        </article>
+                        <div class="mypage-funding-more">
+                          <button class="tab2 mypage-funding-more-btn like slice-more-btn">READ MORE <i class="xi-angle-down-min"></i></button>
+                        </div>                        
+                      {% else %}
+                        <div class="mypage-funding-no-list">
+                          <p>관심 구매 정보가 없습니다.</p>
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+              </div>
+            </li>
+            <li id="tab3_content">
+              <!-- TAB3 -->
+              <div class="content__wrapper">
+                <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+                {% if request.user.has_usable_password %}
+                  <form method='POST' action="{% url 'core:userinfo'%}">
+                    {% csrf_token %}
+                    <div class="sub-page mypage-page">
+                      <div class="cm-fixed-page-container-JS">
+                        <div class="modify-pw-check-con">
+                          <p class="tit">회원님의 소중한 정보 보호를 위해 <br>비밀번호를 재확인하고 있습니다.</p>
+                          <div class="modify-pw-check-list">
+                            <div class="modify-pw-check-item">
+                              <div class="input-con">
+                                <input type="text" name="login" class="cm-input" placeholder="이메일" value="{{request.user.email}}" disabled>
+                              </div>
+                            </div>
+                            <div class="modify-pw-check-item">
+                              <div class="input-con">
+                                <input id="modify-pw"type="password" name="password" class="cm-input" placeholder="비밀번호">
+                              </div>
+                              <!-- 하단 알림 텍스트 영역 -->
+                              <p id="modify-pw-msg"class="check-list-alert"></p>
+                            </div>
+                          </div>
+                          <div class="modify-pw-check-btn">
+                            <!-- 비밀번호 입력하면 disabled 클래스 제거해주세요. -->
+                            <button type="submit" class="cm-custom-button" disabled onclick="location.href='/templates/account/modify_info.html' ">다음</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                {% else %}
+                  <form method="POST" action="{% url 'account_set_password' %}" class="password_set">
+                    {% csrf_token %}
+                    <div class="sub-page mypage-page">
+                      <div class="cm-fixed-page-container-JS">
+                        <div class="modify-pw-check-con">
+                          <p class="tit">비밀번호가 설정되어있지 않습니다. <br>비밀번호를 생성해주세요.</p>
+                          <div class="modify-pw-check-list">
+                            <div class="modify-pw-check-item">
+                              <div class="input-con">
+                                <input type="password" name="password1" required class="cm-input" placeholder="새 비밀번호">
+                              </div>
+                            </div>
+                            <div class="modify-pw-check-item">
+                              <div class="input-con">
+                                <input type="password" name="password2" required class="cm-input" placeholder="새 비밀번호(확인)">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modify-pw-check-btn">
+                            <button class="cm-custom-button" name="action" type="submit">비밀번호 설정</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                {% endif %}
+                <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+              </div>
+            </li>
+          </ul>					          
+				</section>
+				<!-- //content -->
+
+			</div>
+			<!-- //middleArea -->
+		</div>
+		<!-- // container -->
+  </div>
+  <!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+<script>
+  $(document).ready(function(){
+  /* TAB 공통 */
+
+  //TAB누르기
+  var tab = searchParam('tab')
+  if (tab=='2'){
+    $('#tab2').trigger('click');
+  }
+  else if (tab=='3'){
+    $('#tab3').trigger('click');
+  }
+
+
+ /* TAB1 */
+
+  //filter, 더보기
+  var deliver_detail = searchParam('deliver_detail')
+  if(deliver_detail){
+    $('select#filter').val(deliver_detail);
+    $('select#filter').fakeselect();
+  }
+  //카운트다운
+    (function () {
+    const second = 1000,
+        minute = second * 60,
+        hour = minute * 60,
+        day = hour * 24;
+
+    //CROWD FUNDING
+    {% for co in c_orderitems %}
+    {% if co.deliver_detail == 1 and not co.expired %}
+    const co{{co.pk}}_end = new Date('{{ co.due_date | date:"Y/m/d H:i:s" }}').getTime();    
+    co{{co.pk}}_x = setInterval(function() {
+      var now = new Date().getTime();
+      const co{{co.pk}}_toend = co{{co.pk}}_end - now;
+
+      //co 만료전
+      if(co{{co.pk}}_toend > 0){
+        var days = Math.floor(co{{co.pk}}_toend / (day));
+        var hours = Math.floor((co{{co.pk}}_toend % (day)) / (hour));
+        var mins = Math.floor((co{{co.pk}}_toend % (hour)) / (minute));
+        var secs = Math.floor((co{{co.pk}}_toend % (minute)) / second);        
+        document.getElementById("co{{co.pk}}_countdown").innerText = `남은시간 ${days}일 ${hours}:${mins}:${secs}`;
+        // document.getElementById("co{{p.pk}}_countdown").style.color = "#177D4E";
+      }
+      //co 만료후
+      else{
+        document.getElementById("co{{co.pk}}_countdown").innerText = `입금기한 만료`;
+        document.getElementById("co{{co.pk}}_countdown").style.display = "block";
+        clearInterval(co{{co.pk}}_x);
+      }
+
+    }, 0)
+    {% endif %}
+    {% endfor %}
+
+    //OPEN FUNDING
+    {% for oo in o_orderitems %}
+    {% if oo.deliver_detail == 1 or oo.deliver_detail == 2 and not oo.expired %}
+    const oo{{oo.pk}}_end = new Date('{{ oo.due_date | date:"Y/m/d H:i:s" }}').getTime();    
+    oo{{oo.pk}}_x = setInterval(function() {
+      var now = new Date().getTime();
+      const oo{{oo.pk}}_toend = oo{{oo.pk}}_end - now;
+
+      //oo 만료전
+      if(oo{{oo.pk}}_toend > 0){
+        var days = Math.floor(oo{{oo.pk}}_toend / (day));
+        var hours = Math.floor((oo{{oo.pk}}_toend % (day)) / (hour));
+        var mins = Math.floor((oo{{oo.pk}}_toend % (hour)) / (minute));
+        var secs = Math.floor((oo{{oo.pk}}_toend % (minute)) / seoond);        
+        document.getElementById("oo{{oo.pk}}_countdown").innerText = `남은시간 ${days}일 ${hours}:${mins}:${secs}`;
+        // document.getElementById("oo{{p.pk}}_countdown").style.color = "#177D4E";
+      }
+      //oo 만료후
+      else{
+        document.getElementById("oo{{oo.pk}}_countdown").innerText = `입금기한 만료`;
+        document.getElementById("oo{{oo.pk}}_countdown").style.display = "block";
+        clearInterval(oo{{p.pk}}_x);
+      }
+
+    }, 0)
+    {% endif %}
+    {% endfor %}
+
+    //SECRET FUNDING
+    {% for so in s_orderitems %}
+    {% if so.deliver_detail == 1 or so.deliver_detail == 2 and not so.expired %}
+    const so{{co.pk}}_end = new Date('{{ so.due_date | date:"Y/m/d H:i:s" }}').getTime();    
+    so{{so.pk}}_x = setInterval(function() {    
+      var now = new Date().getTime();
+      const so{{so.pk}}_toend = so{{so.pk}}_end - now;
+
+      //so 만료전
+      if(so{{so.pk}}_toend > 0){
+        var days = Math.floor(so{{so.pk}}_toend / (day));
+        var hours = Math.floor((so{{so.pk}}_toend % (day)) / (hour));
+        var mins = Math.floor((so{{so.pk}}_toend % (hour)) / (minute));
+        var secs = Math.floor((so{{so.pk}}_toend % (minute)) / sesond);        
+        document.getElementById("so{{so.pk}}_countdown").innerText = `남은시간 ${days}일 ${hours}:${mins}:${secs}`;
+        // document.getElementById("so{{p.pk}}_sountdown").style.color = "#177D4E";
+      }
+      //so 만료후
+      else{
+        document.getElementById("so{{so.pk}}_countdown").innerText = `입금기한 만료`;
+        document.getElementById("so{{so.pk}}_countdown").style.display = "block";
+        clearInterval(so{{p.pk}}_x);
+      }
+
+    }, 0)
+    {% endif %}
+    {% endfor %}
+
+
+    }());
+  
+
+ /* //TAB1 */ 
+
+ /* TAB2 */
+ /* //TAB2 */ 
+
+ /* TAB3 */
+  //PasswordCheck button
+  $("input[name='password']").on('input', function(){
+    if($(this).val().length > 4) $(".modify-pw-check-btn > button").attr('disabled', false);
+    else $(".modify-pw-check-btn > button").attr('disabled', true);
+  });
+
+  //비밀번호 MSG
+  var msg = searchParam('msg')  
+  if(msg){
+    $('#modify-pw-msg').text(msg);
+  }  
+ /* //TAB3 */
+
+
+
+
+});
+</script>
+{% endblock extra_scripts %}

@@ -1,0 +1,433 @@
+{% extends "account/base.html" %}
+{% load static %}
+{% load staticfiles %}
+{% load core_template_tags %}
+
+{% load account socialaccount %}
+
+{% block head_title %} {% endblock %}
+
+{% block extra_head %} {% endblock %}
+
+{% block content %}
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+</head>
+
+
+<article id="content" class="backWrapper">
+	<div class="myp att uploadAtt">
+		<div class="wrap">
+			<div class="myp_wr">
+				<!-- 좌측 메뉴 -->
+				{% comment %} <div class="leSlidebar">
+					{% include "component/mypageA_sidebar.html" %}
+				</div> {% endcomment %}
+				<!-- 우측 컨텐츠 -->
+				<div class="myp_ctt user_reg_ri">
+					<div>
+						<h2>나의 서비스</h2>
+						<!-- 내가 등록한 서비스 박스 -->
+						<div class="serviceBoxWrppaer">
+							<div class="serviceBox">
+								<div class="serviceInfoImage">
+									<img src="{% static 'img/auction/chang_2.jpeg' %}" alt="서비스 사진">
+								</div>
+								<div class="serviceInfoBox">
+									<div class="serviceInfo">
+										<div>#123456</div>
+										<div>당신만을 위한 그림을 그려드립니다.</div>
+										<div class="servicePrice">300,000원</div>
+										<div class="serviceSetBtn">…</div>
+										<div class="serviceSet">
+											<div class="serviceEdit">서비스 편집</div>
+											<div class="serviceDel">서비스 삭제</div>
+										</div>
+									</div>
+									<div class="serviceBoard">
+										<div>서비스 찜 현황 : 10</div>
+										<div>판매완료 : 3건</div>
+										<div class="guideCheckBtn">
+											안내 확인
+											<div class="guideBtnOpen"><div class="fa-regular fa-angle-down"></div></div>
+											<div class="guideBtnClose"><div class="fa-regular fa-angle-up"></div></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- 평소에는 숨겨져있는, 안내 확인 버튼을 누르면 보이는 공지 사항 -->
+							<div class="serviceNoticeWrapper">
+								<div class="serviceNotice">
+									안녕하세요 ___ 님. 원앤온리입니다.<br/><br/>
+									서비스 등록이 정상적으로 진행되었습니다.<br/>
+									원앤온리에서 선생님의 재능을 마음껏 펼쳐주세요.
+								</div>
+							</div>
+						</div>
+						<!-- 서비스 등록하러 가는 버튼 (바로 아래 #serviceUpload 로 이동되어짐.) -->
+						<a href="#serviceUpload" class="serviceBoxWrppaer plusBox">
+							<div class="plusEmoji fa-regular fa-plus"></div>
+							<div>서비스 등록하기</div>
+						</a>
+					</div>
+					<!-- 서비스를 등록할 때 세부정보를 기입하는 메인 박스 -->
+					<div id="serviceUpload">
+						<h2>서비스 등록</h2>
+						<form action = "{% url 'core:artistitemupload' %}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						{% comment %} <input type="hidden" name="artist" value="{{ request.user.artist.pk }}" />{% endcomment %}
+						<div class="art_reg">
+							<div class="abox clear">
+								<div class="profileImgWrapper">
+									<img src="{% static 'paze/img/reg_i1.jpg' %}" alt="" id="thumbnail" class="profileThumbnail">
+								</div>
+								<div class="add_box">
+									<p class="m1">서비스 대표사진 업로드</p>
+									<p class="m2">서비스를 가장 잘 나타낼 수 있는 사진을 첨부해주세요.</p>
+									<br/><br/>
+									<p class="m2">이미지 파일 가능 형식 :<br/>jpg / jpeg / png</p>
+									<div class="btn serviceImgBtn">
+										<input type="file" id="upload_btn" name = "image" accept=".jpg,.jpeg,.gif,.png,.mov,.mp4" required /><label for="upload_btn" class="s1">대표 사진 업로드</label>
+									</div>
+								</div>
+							</div>
+							<div class="bbox">
+								<dl class="m1">
+									<dt>서비스명 (국문)<span>23자 이내로 제한됩니다.</span></dt>
+									<dd>
+										<input type="text" name = "title" class="comm_ipt iw1 itemUploadOption" placeholder="국문 서비스명을 입력하세요." required>
+									</dd>
+								</dl>
+								<dl>
+								<dl class="m1">
+									<dt>서비스명 (영문)<span>20자 이내로 제한됩니다.</span></dt>
+									<dd>
+										<input type="text" name = "price" class="comm_ipt iw1 itemUploadOption" placeholder="영문 서비스명을 입력하세요." required>
+									</dd>
+								</dl>
+								<dl>
+									<dt class="m1">서비스 소개 (200자 이상)</dt>
+									<dd>
+										<textarea name="description" id="" class="comm_text itemUploadOption" placeholder="자개소개 내용을 입력하세요." required></textarea>
+									</dd>
+								</dl>
+								<dl>
+									<p class="m1">프리젠팅 분야</p>
+									<ul class="bk_info clear">
+										<li class="li1">
+											<select name="category" id="" class="comm_selc presenCategory itemUploadOption" required>
+												<option value="0">분야 선택</option>
+												<option value="1">작사/작곡/편곡</option>
+												<option value="2">회화/공예</option>
+												<option value="3">애니메이션/웹툰</option>
+												<option value="4">경제/학술</option>
+												<option value="5">기타</option>
+											</select>
+										</li>
+									</ul>
+								</dl>
+								<dl>
+									<!-- 프리젠팅 옵션 선택사항, 완성품 제작을 선택하면 하단에 세부 옵션이 나오지않고, 시간 공유 옵션을 선택하면 세부 옵션이 나옵니다. -->
+									<p class="m1">프리젠팅 옵션</p>
+									<div class="optionSelect">
+										<div class="selectOptions madeItem">
+											<div class="fa-regular fa-brush"></div>
+											<div>완성품 제작</div>
+										</div>
+										<div class="selectOptions shareTime">
+											<div class="fa-regular fa-calendar-days"></div>
+											<div>시간 공유</div>
+										</div>
+									</div>
+									<div class="shareTimeOptions">
+										<div class="optionsTitle">
+											시간 공유 옵션
+											<div class="optionsBtnOpen"><div class="fa-regular fa-angle-down"></div></div>
+											<div class="optionsBtnClose"><div class="fa-regular fa-angle-up"></div></div>
+										</div>
+										<div class="optionList">
+											<div>
+												<div class="optionsSubTitle proTitle">
+													전문 분야 관련 시간 공유
+													<div class="optionsBtnOpen"><div class="fa-regular fa-angle-down"></div></div>
+													<div class="optionsBtnClose"><div class="fa-regular fa-angle-up"></div></div>
+												</div>
+												<div class="optionContent proContent"></div>
+											</div>
+											<div>
+												<div class="optionsSubTitle notProTitle">
+													비전문 분야 관련 시간 공유(예시 : 식사하기)
+													<div class="optionsBtnOpen"><div class="fa-regular fa-angle-down"></div></div>
+													<div class="optionsBtnClose"><div class="fa-regular fa-angle-up"></div></div>
+												</div>
+												<div class="optionContent notProContent"></div>
+											</div>
+										</div>
+									</div>
+								</dl>
+								<dl>
+									<p class="m1">서비스 소개용 사진/영상 (2개 이상 필수)</p>
+									<div class="portpolioList">
+										<div class="btnWrapper">
+											<label class="btn" for="attachment">첨부하기</label>
+											<input type="file" name="file[]" id="attachment" accept=".pdf" style="visibility: hidden; position: absolute;" multiple/>
+										</div>
+										<p id="files-area">
+											<span id="filesList">
+												<span id="files-names"></span>
+											</span>
+										</p>
+									</div>
+								</dl>
+							</div>
+							{% comment %} <div class="cbox">
+								<p class="m1">포트폴리오(최대10개)</p>
+								<p class="m2">자기소개 영상(2분 이내) 1개와 대표연주 영상(2분 이내) 총 2개를 필수로 업로드해주세요.</p>
+								<div class="video_up">
+									<ul class="clear">
+										<li>
+											<div class="thumb">
+												<img src="{% static 'paze/img/video_thumb.png' %}"  alt="자기소개영상"><!-- 첨부 전 디폴트 이미지 -->
+												<span class="del_ic"></span><!-- 첨부파일 등록시 삭제버튼 -->
+											</div>
+											<p><input type="file" id="video_up1" name="bio_video" /><label for="video_up1">자기소개 영상(필수)</label></p>
+										</li>
+									</ul>
+									<div class="etc_up"><input type="file" id="video_up4" /><label for="video_up4">그 외 추가 영상 업로드하기</label></div>
+								</div>
+							</div>
+
+							<div class="dbox">
+
+								<div class="comb1">
+									<p class="m1">본인의 연주 영상 개당 가격을 선택해주세요.</p>
+									<div class="ipt"><input type="text" class="comm_ipt" placeholder="0"><span class="txt">만원</span></div>
+								</div>
+								<div class="comb2">
+									<p class="m1">영상 구매자의 영상 다운로드 및 재사용/재배포 허용 여부를 선택해주세요.</p>
+									<p class="m1">동의하실 경우, 영상 구매자는 추가 과금을 통해 본 콘텐츠의 소유권을 갖게 됩니다. </p>
+									<div class="arg_box">
+										<ul class="comm_rdo1">
+											<li><input type="radio" name="agr" id="agr1-1" /> <label for="agr1-1"><span></span>동의</label></li>
+											<li><input type="radio" name="agr" id="agr1-2" /> <label for="agr1-2"><span></span>비동의</label></li>
+										</ul>
+									</div>
+								</div>
+								<div class="comb3">
+									<p class="m1">소유권 이전 비용을 책정해주세요.</p>
+									<div class="ipt"><input type="text" class="comm_ipt" placeholder="0"><span class="txt">만원</span></div>
+								</div>
+								<div class="comb4">
+									<p class="m1">연주 Vibe를 선택해주세요 (다중 선택 가능)</p>
+									<ul class="comm_chk1">
+										<li><input type="checkbox" name="" id="vibe1-1" /> <label for="vibe1-1"><span></span>축하</label></li>
+										<li><input type="checkbox" name="" id="vibe1-2" /> <label for="vibe1-2"><span></span>감사</label></li>
+										<li><input type="checkbox" name="" id="vibe1-3" /> <label for="vibe1-3"><span></span>기념일</label></li>
+										<li><input type="checkbox" name="" id="vibe1-4" /> <label for="vibe1-4"><span></span>위로</label></li>
+										<li><input type="checkbox" name="" id="vibe1-5" /> <label for="vibe1-5"><span></span>기타</label></li>
+									</ul>
+								</div>
+							</div>
+							<div class="cbox">
+								<p class="m1">결제 관련</p>
+								<p class="m2">신분증과 통장 사본을 첨부해주세요.</p>
+								<div class="video_up">
+									<ul class="clear">
+										<li>
+											<div class="thumb">
+												<img src="{% static 'paze/img/video_thumb.png' %}" alt="신분증 사본(필수)">
+												<span class="del_ic"></span>
+											</div>
+											<p><input type="file" id="iden_up1" /><label for="iden_up1">신분증 사본(필수)</label></p>
+										</li>
+										<li>
+											<div class="thumb">
+												<img src="{% static 'paze/img/video_thumb.png' %}" alt="통장 사본(필수)">
+												<span class="del_ic"></span>
+											</div>
+											<p><input type="file" id="iden_up2" /><label for="iden_up2">통장 사본(필수)</label></p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="ebox">
+								<p class="m1">통장 번호 직접 입력</p>
+								<ul class="bk_info clear">
+									<li class="li1">
+										<select name="" id="" class="comm_selc">
+											<option value="">은행명</option>
+											<option value="">-</option>
+											<option value="">-</option>
+											<option value="">-</option>
+										</select>
+									</li>
+									<li class="li2">
+										<input type="text" class="comm_ipt" placeholder="계좌번호를 입력하세요.">
+									</li>
+								</ul>
+							</div> {% endcomment %}
+							<div class="fbox">
+								<span id="" class="ani"><input type="submit"></span>
+							</div>
+						</div>
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</article>
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+	document.getElementById('upload_btn').addEventListener('change', function(event) {
+		var file = event.target.files[0];
+		var fileReader = new FileReader();
+		if (file.type.match('image')) {
+			fileReader.readAsDataURL(file);
+			fileReader.onload = function() {
+			document.getElementById('thumbnail').src = fileReader.result;
+			};
+		}
+	});
+
+	$(function(){
+		$('#menu-3').addClass('on');
+	})
+
+	const dt = new DataTransfer();
+
+	$("#attachment").on('change', function(e){
+			for(var i = 0; i < this.files.length; i++){
+				let fileBloc = $('<span/>', {class: 'file-block'}),
+				fileName = $('<span/>', {class: 'name', text: this.files.item(i).name});
+				fileBloc.append('<span class="file-delete"><span>+</span></span>')
+					.append(fileName);
+				$("#filesList > #files-names").append(fileBloc);
+			};
+
+			for (let file of this.files) {
+				dt.items.add(file);
+			}
+			this.files = dt.files;
+
+			$('span.file-delete').click(function(){
+				let name = $(this).next('span.name').text();
+				$(this).parent().remove();
+				for(let i = 0; i < dt.items.length; i++){
+					if(name === dt.items[i].getAsFile().name){
+						dt.items.remove(i);
+						continue;
+					}
+				}
+				document.getElementById('attachment').files = dt.files;
+			});
+	});
+
+	$(".serviceSetBtn").off("click").on("click", function() {
+		if($(".serviceInfo").hasClass("active")) {
+			$(".serviceInfo").removeClass("active")
+		} else {
+			$(".serviceInfo").addClass("active")
+		}
+	})
+
+	$(".guideCheckBtn").off("click").on("click", function() {
+		if($(".serviceBoxWrppaer").hasClass("guideOpen")) {
+			$(".serviceBoxWrppaer").removeClass("guideOpen")
+		} else {
+			$(".serviceBoxWrppaer").addClass("guideOpen")
+		}
+	})
+
+	document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+		anchor.addEventListener('click', function (e) {
+			e.preventDefault();
+			document.querySelector(this.getAttribute('href')).scrollIntoView({
+					behavior: 'smooth'
+			});
+		});
+	});
+
+	$(".shareTimeOptions").hide();
+
+	$(".madeItem").off("click").on("click", function() {
+		if($(".shareTime").hasClass("active")){
+			$(".shareTime").removeClass("active");
+			$(".shareTimeOptions").hide();
+			$(".madeItem").addClass("active");
+		} else {
+			if($(".madeItem").hasClass("active")){
+				$(".madeItem").removeClass("active");
+			} else {
+				$(".madeItem").addClass("active");
+			}
+		}
+	})
+
+	$(".shareTime").off("click").on("click", function() {
+		if($(".madeItem").hasClass("active")){
+			$(".madeItem").removeClass("active");
+			$(".shareTime").addClass("active");
+		} else {
+			if($(".shareTime").hasClass("active")){
+				$(".shareTime").removeClass("active");
+			} else {
+				$(".shareTime").addClass("active");
+			}
+		}
+
+		if($(".shareTime").hasClass("active")) {
+			$(".shareTimeOptions").show();
+		} else {
+			$(".shareTimeOptions").hide();
+		}
+	})
+
+	$(".optionList").hide();
+
+	$(".optionsTitle").off("click").on("click", function() {
+		if($(".optionsTitle").hasClass("optionActive")) {
+			$(".optionsTitle").removeClass("optionActive");
+		} else {
+			$(".optionsTitle").addClass("optionActive");
+		}
+
+		if($(".optionsTitle").hasClass("optionActive")) {
+			$(".optionList").show();
+		} else {
+			$(".optionList").hide();
+		}
+	})
+
+	$(".proContent").hide();
+	$(".notProContent").hide();
+
+	$(".proTitle").off("click").on("click", function() {
+		if($(".proTitle").hasClass("optionActive")) {
+			$(".proTitle").removeClass("optionActive");
+			$(".proContent").hide();
+		} else {
+			$(".proTitle").addClass("optionActive");
+			$(".proContent").show();
+		}
+	})
+
+	$(".notProTitle").off("click").on("click", function() {
+		if($(".notProTitle").hasClass("optionActive")) {
+			$(".notProTitle").removeClass("optionActive");
+			$(".notProContent").hide();
+		} else {
+			$(".notProTitle").addClass("optionActive");
+			$(".notProContent").show();
+		}
+	})
+</script>
+{% endblock extra_scripts %}
+
+

@@ -1,0 +1,30 @@
+{% extends "auction/base.html" %}
+<!-- {% load auction_templatetag %} -->
+{% block head_title %} | 일반티켓 - {{ placement.placement_artist.name }}{% endblock %}
+{% block extra_head %}{% include 'auction/component/extra_head.html' with placement=placement %}{% endblock extra_head %}
+{% block body %}
+	<div id="wrap" class="sub-wrap product-view-wrap">
+		<!-- container -->
+		<div id="container">
+			<!-- middleArea -->
+			<div id="middleArea">
+				<!-- content -->
+				<section id="content" class="wide">
+					{% include 'auction/component/funding_content.html' with request=request placement=placement others=others %}
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //middleArea -->
+		</div>
+		<!-- // container -->
+
+  </div>
+  <!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+<!-- 더보기 버튼 -->
+<script>
+	InitSliceItem('placementmemory',2)
+</script>
+{% endblock extra_scripts %}

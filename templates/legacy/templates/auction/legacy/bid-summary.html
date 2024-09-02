@@ -1,0 +1,108 @@
+{% extends 'auction/base.html' %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+<script language="Javascript" type="text/javascript">
+ function setCookie( name, value, expirehours ) {
+  var todayDate = new Date();
+  todayDate.setHours( todayDate.getHours() + expirehours );
+  document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+ }
+ function closeWin() {
+  if(document.getElementById("pop_today").checked){
+   setCookie( "ncookie", "done" , 24 );
+  }
+  document.getElementById('layer_pop').style.display = "none";
+ }
+</script>
+
+<section class="section">
+    <section class="container">
+
+<div class="layer_popup" style="position:absolute; width:550px;left:50%; margin-left:-480px; top:90px; z-index:1; border:1.5px solid black; background-color:white;" id="layer_pop">
+<table width="500" cellpadding="0" cellspacing="0">
+<tr>
+ <td style="align:center;"><img src="{% static 'paze/img/pp_ex1.jpg' %}" width="500" height="500" border="0" align="center"/></td>
+ <h1>플레이플리즈 옥션 낙찰 후 구매자 가이드</h1>
+<p class="custom-font-1">
+♬ 경매에서 이벤트를 낙찰 받으신 후 결제는 마이페이지에서 카드결제 또는 계좌이체 등으로 가능합니다.<br>
+♬ 경매 종료 후 72시간 내에 결제하셔야 합니다. 결제 기한이 경과할 경우 결제 버튼이 작동하지 않습니다.<br>
+♬ 구매자의 결제완료 후 3일 이내에 본 이벤트에 대한 세부 내용을 유선상으로 안내 드립니다. 안내받으실 연락처를 정확히 기재해주세요.<br>
+♬ 구매자는 라이브 이벤트 당일 포함 7일 이내에 마이페이지에서 구매확정을 하셔야 합니다. 7일이 지나도록 구매확정이나 환불요청을 하지 않는 경우 자동으로 구매확정이 됩니다. 구매확정 이후 구매자는 거래명세서와 영수증을 출력하실 수 있습니다.<br>
+♬ 당사에서 진행하는 프리미엄 이벤트는, 아티스트의 전문성에 대한 신뢰성 있는 검토를 거쳐 진행되는 것으로, 구매자가 본 이벤트를 통해 제공받을 결과물에 대한 이해를 바탕으로 진행됩니다. 구매자가 실물 확인 결과 기대와 다르다는 이유 등으로 환불 요청을 할 수 없습니다. 단, 이벤트의 내용이 사전에 고지된 설명과 다를 경우 구매자는 환불을 요청할 수 있습니다.<br>
+</p>
+</tr>
+<tr>
+ <td align="center" height="30" bgcolor="#ffffff">
+ <table width="95%" cellpadding="0" cellspacing="0">
+ <tr>
+  <td align="left" class="pop"><input style="display:inline; opacity:1; position:relative;" type="checkbox" name="pop_today" id="pop_today" /> 오늘 하루 이 창 열지 않음</td>
+  <td align="right" class="pop"><a href="javascript:closeWin();">닫기</a></td>
+ </tr>
+ </table></td>
+</tr>
+</table>
+<script language="Javascript" type="text/javascript">
+ cookiedata = document.cookie;
+ if (cookiedata.indexOf("ncookie=done") < 0){
+  document.getElementById('layer_pop').style.display = "inline";
+ } else {
+  document.getElementById('layer_pop').style.display = "none";
+ }
+</script>
+</div>
+
+
+        <div class="card">
+            <div class="card-content">
+                <h4> 내 경매 요약 </h4>
+                <table class="table responsive-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>경매 상태</th>
+                            <th>이름</th>
+                            <th>시간</th>
+                            <th>응찰금액</th>
+                            <th>구매확정 </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for b in bids %}
+                            <tr>
+                                <td>{{ b.id }}</td>
+                                <td>{% if b.placement.placement_win %}
+                                        {% if b.placement.placement_win.pk == b.pk %}
+                                        <span class="chip light-green accent-3 white-text">WIN!</span>
+                                        {% else %}
+                                        <span class="chip">Finished</span> 
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="chip indigo darken-2 white-text">On bidding</span>
+                                    {% endif %}</td>
+                                <td>{{ b.placement.placement_artist }}</td>
+                                <td>{{ b.placementbid_created }}</td>
+                                <td>{{ b.offer | intcomma }}&#8361;</td>
+                                <td>{% if b.placement.placement_win.pk == b.pk %}
+                                        {% if b.confirmed %}
+                                        <span class="chip">결제완료됨</span>  
+                                        {% else %}
+                                        <span class="chip indigo darken-2"><a style="color:white;" href="{% url 'core:AddAuctionToOrderItem' b.pk %}">결제하기</a></span>                                                                              
+                                        {% endif %}
+                                    {% else %} 
+                                        <span class="chip">Unconfirmed</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+{% include 'auction/footer.html' %}
+{% endblock content %}

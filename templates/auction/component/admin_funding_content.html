@@ -1,0 +1,710 @@
+{% load auction_templatetag static humanize %}
+{% yet_start_done request placement.id as STATUS %}
+
+<!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="sub-page unboxing-page {% if STATUS == 'done' %}unboxing-last{% endif %}">
+  <!-- fixed 구매 버튼 박스 -->
+  <div class="unboxing-fixed-btn-con last">
+    <div class="area-box">
+      <ul class="clearfix">
+        <!-- 
+          * 앵콜요청 버튼 누른 후에는 disabled 클래스 붙혀주세요. 
+          * 로그인 전에는 팝업 #popupAlarmLogin로 사용
+          * 로그인 후에는 팝업 #popupEncoreComplete로 사용
+        -->
+        <li>
+            <!-- 제출버튼 -->
+            <div class="unboxing-view-item" style="display:flex;justify-content:center;">
+              <button type="submit" class="cm-custom-button">수정하기</button>
+            </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+    <!-- // -->
+    <div class="unboxing-view-con01">
+      <div class="unboxing-view-con01-visual">
+        <!-- 비주얼 영상 권장사이즈 PC : 1920x1080 / M : 375x667 -->
+        <video muted loop autoplay playsinline id="cmVideo" class="pc-ver video1" data-keepplaying>
+          <source src="{{ placement.pc_banner_video_mp4.url }}" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+        <video muted loop autoplay playsinline id="cmVideo" class="m-ver video2" data-keepplaying>
+          <source src="{{ placement.m_banner_video_mp4.url }}" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+      </div>
+      <div class="unboxing-view-con01-txt {% if placement.placement_type == 'crowdfunding' %}crowd{% endif %}">
+        <div class="area-box">
+          <div class="unboxing-view-con01-info">
+            <div class="top-info">
+              <div class="category">
+                <span class="img">{% include "svg/icon_crowd_funding.html" %}</span>
+                <span class="cate-txt">{{ placement.get_placement_type_display }}</span>
+              </div>
+            </div>
+            <p id="bid-countdown" class="deadline"></p>
+            <textarea id="textarea_title" style="color:black;" name="title" class="tit" cols="15" rows="3">{{ placement.title }}</textarea>
+          </div>
+          <div class="unboxing-view-con01-cotrol">
+            <button class="plike zzim-btn {% if placement in request.user.plike.all %}activate{% endif %}" onclick="PlikeAjax(event, '{{placement.id}}', '{% url 'auction:plike' %}', getCookie('csrftoken'));" ></button>
+            <div class="share-btn cm-drop-menu-box-JS" data-drop-event="click">
+              <button class="unboxing-share-btn cm-drop-open-btn-JS"></button>
+              <div class="unboxing-share-wrapper cm-drop-list-JS">
+                <ul class="unboxing-share-list">
+                  <li><a href="javascript:;" onclick="KakaoCopy(event);">URL 복사</a></li>
+                  <li><a href="javascript:;" onclick="KakaoShare(event,'placement',{{placement.to_json}});">카카오톡 공유</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="unboxing-view-con02">
+      <div class="area-m">
+        <div class="unboxing-view-con02-inner">
+          <div class="name"><span>{{ placement.category }}</span>{{ placement.placement_artist.name }}</div>
+          <div class="unboxing-view-con02-box">
+            <div class="unboxing-view-con02-left">
+              <ul class="info">
+                <li>
+                  <label for="video1">PC영상</label><input id="video1" class="pc-ver" value="{{ placement.pc_banner_video_mp4 }}" name="pc_banner_video_mp4" type="file" onChange="readFile(event,'video1');" />
+                  <label for="video2">Mobile영상</label><input class="m-ver" id="video2" value="{{ placement.m_banner_video_mp4 }}" name="m_banner_video_mp4" type="file" onChange="readFile(event,'video2');" />
+                </li>
+                <li>
+                  <label for="ctg">카테고리</label><input id="ctg" type="text" name="category" value="{{placement.category}}"></input>
+                </li>
+                <li>
+                  <label for="reps">회차정보</label><input id="reps" type="text" name="rep" value="{{placement.rep}}"></input>
+                </li>                
+                <li>
+                  <label for="unit_price">응찰단위가격</label><input id="unit_price" type="number" name="unit_price" value={{ placement.unit_price }}>
+                </li>
+                <li>
+                  <label for="placement_price">상품가격</label><input id="placement_price" type="number" name="placement_price" value={{ placement.placement_price }}>
+                </li>													
+                <li>
+                  <label>티켓종류</label>
+                  <select name="placement_type">
+                    <option value="{{placement.placement_type}}" selected>{{placement.get_placement_type_display}}</option>
+                    <option value="crowdfunding">일반티켓</option>
+                    <!-- <option value="openfunding">단독구매</option> -->
+                    <option value="secretfunding">경쟁티켓</option>
+                  </select>
+                  <p style="font-size:small;color:gray;">*상품가격, 응찰단위가격이 같으면 단독구매, 다르면 공동구매</p>                  
+                </li>
+                {% if placement.placement_type == 'crowdfunding' %}
+                <li>
+                  <label for="placement_buy_limit">구매제한개수</label><input id="placement_buy_limit" type="number" name="buy_limit" value="{{ placement.buy_limit }}">
+                </li>
+                {% endif %}
+                {% if placement.placement_type != 'crowdfunding' %}
+                <li>
+                  <label for="placement_start_price">시작가</label><input id="placement_start_price" type="number" name="placement_start_price" value="{{ placement.placement_start_price }}">
+                </li>                
+                <li>
+                  <label for="placement_estimated_price">추정가</label><input id="placement_estimated_price" type="text" name="placement_estimated_price" value="{{ placement.placement_estimated_price }}">
+                </li>
+                <li>
+                  <label for="placement_deposit">예약금</label><input id="placement_deposit" type="number" name="deposit" value="{{ placement.deposit }}">
+                </li>
+                <li>
+                  <label for="placement_buynow_price">즉시 구매가격</label><input id="placement_buynow_price" type="number" name="placement_buynow_price" value="{{ placement.placement_buynow_price }}">
+                </li>                
+                {% endif %}
+                <li><span>구매 시작시간 : </span><input type="datetime-local" name="placement_start" value="{{ placement.placement_start | date:'c' }}" /></li>
+                <li><span>구매 종료시간 : </span><input type="datetime-local" name="placement_end" value="{{ placement.placement_end | date:'c'}}" /></li>
+                <li><span>앵콜여부: </span><input type="checkbox" name="is_encore" {% if placement.is_encore %}checked{% endif %} /></li>
+                <li><span>Running time : </span><input type="text" name="duration" value="{{ placement.duration }}" /></li>
+                <li><span>날짜 : </span><input type="datetime-local" name="d_day" value="{{ placement.d_day | date:'c' }}" /></li>
+                <li><span>장소 : </span><input type="text" name="d_place" value="{{ placement.d_place | default:'미정'}}" /></li>
+                <li>
+                  <div class="unboxing-view-img">
+                    <label for="thumbnail">썸네일 업로드</label>
+                    <image src="{{ placement.thumbnail.url }}" alt="이미지 1" class="thumbnail"/>
+                    <input type="file" value="{{ placement.thumbnail }}" id="thumbnail" name = "thumbnail" accept="image/*" onChange="readFile(event,'thumbnail');" />
+                  </div>
+                </li>
+              </ul>
+              <div class="txt"><textarea id="textarea_des" cols="35" rows="4" name="description">{{ placement.description }}</textarea></div>
+            </div>
+
+            <div class="unboxing-view-con02-right">
+              {{form.errors}}
+              {% if placement.placement_type == 'crowdfunding' %}
+                {% if STATUS == 'done' %}
+                <table class="unboxing-view-tbl">
+                  <colgroup>
+                    <col style="width: 10rem;">
+                    <col style="width: *;">
+                  </colgroup>
+                  <tbody>
+                    <!-- <tr>
+                      <th>달성도</th>
+                      <td class="cm-font-color-y">{% widthratio placement.get_crowdfunding_total_really placement.placement_price 100 %}% 달성</td>
+                    </tr> -->
+                    <tr>
+                      <th>참가자</th>
+                      <td>{{placement.get_crowdfunding_total_cnt}}명</td>
+                    </tr>
+                  </tbody>
+                </table>
+                {% else %}
+                <table class="unboxing-view-tbl">
+                  <colgroup>
+                    <col style="width: 14.5rem;">
+                    <col style="width: *;">
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>{{ placement.get_placement_type_display }}</b>\n<hr>모두가 같은 금액으로 구매하며,<br> 모집 인원이 결제 선착순으로<br>100% 모이면 구매은 종료됩니다.<br>구매에 성공한 인원이 함께 시간상품을 공유합니다.', event);">구매종류</th>
+                      <td class="cm-font-color-y">{{ placement.get_placement_type_display }}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-hover-y" onclick="CommonmodalPopupOpen('현재 구매 가능한 남은 자리 수 입니다.', event);">남아있는 자리 수</th>
+                      <td class="cm-font-color-y">{{ placement.get_crowdfunding_available_cnt }}개</td>
+                    </tr>
+                  </tbody>
+                </table>
+                {% endif %}          
+              {% elif placement.placement_type == 'secretfunding' %}
+                {% if STATUS == 'done' %}
+                  <table class="unboxing-view-tbl">
+                    <colgroup>
+                      <col style="width: 10rem;">
+                      <col style="width: *;">
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <th>구매 횟수</th>
+                        <td class="cm-font-color-y">{{placement.placementbid_set.all | length }} 회</td>
+                      </tr>
+                      <tr>
+                        <th>낙찰자</th>
+                        <td>{{ placement.placement_win.user.username | default:'SECRET'}} 님</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                {% else %}
+                  <table class="unboxing-view-tbl">
+                    <colgroup>
+                      <col style="width: 10rem;">
+                      <col style="width: *;">
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>{{ placement.get_placement_type_display }}</b>\n<hr>구매 종료 시간에 맞춰<br>가장 높은 금액을 제시한<br>단 한 분 만을 위해 기획됩니다.<br>마지막으로 입력하신 구매 금액이<br>최종 응찰 금액이며,<br>다른 참여자의 구매 가격은<br>공개되지 않습니다.', event);">구매종류</th>
+                        <td class="cm-font-color-y">{{ placement.get_placement_type_display }}</td>
+                      </tr>
+                      <tr>
+                        <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>추정가</b>\n<hr>해당 상품의 가치를 추정한 상품의 가격으로, 구매 완료될 것으로 예상되는 금액', event);">추정가 <span class="unit">KRW</span></th>
+                        <td class="cm-font-color-y">{{ placement.placement_estimated_price | intcomma }}</td>
+                      </tr>
+                      <tr>
+                        <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>시작가</b>\n<hr>구매 시작되는 가격으로, 해당 상품에 구매 참여 가능한 최소 가격', event);">시작가 <span class="unit">KRW</span></th>
+                        <td class="cm-font-color-y">{{ placement.placement_start_price | intcomma }}</td>
+                      </tr>
+                      <!-- <tr>
+                        <th>현재가</th>
+                        <td class="cm-font-color-y"><span class="unit">KRW</span>{{ placement.placement_price | intcomma }}</td>
+                      </tr> -->
+                      <!-- <tr>
+                        <th>바로 구매가</th>
+                        <td class="cm-font-color-y"><span class="unit">KRW</span>{{ placement.placement_buynow_price | intcomma }}</td>
+                      </tr> -->
+                    </tbody>
+                  </table>
+                {% endif %}
+              {% elif placement.placement_type == 'openfunding' %}
+                {% if STATUS == 'done' %}
+                  <table class="unboxing-view-tbl">
+                    <colgroup>
+                      <col style="width: 10rem;">
+                      <col style="width: *;">
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>{{ placement.get_placement_type_display }}</b>\n<hr>구매 종료 시간에 맞춰<br>가장 높은 금액을 제시한<br>단 한 분 만을 위해 기획됩니다.<br>마지막으로 입력하신 구매 금액이<br>최종 응찰 금액이며,<br>다른 참여자의 구매 가격은<br>공개되지 않습니다.', event);">구매종류</th>
+                        <td class="cm-font-color-y">{{ placement.get_placement_type_display }}</td>
+                      </tr>                  
+                      <tr>
+                        <th>구매 횟수</th>
+                        <td class="cm-font-color-y">{{placement.placementbid_set.all | length }} 회</td>
+                      </tr>
+                      <tr>
+                        <th>낙찰자</th>
+                        <td>{{ placement.placement_win.user.username | default:'SECRET'}} 님</td>
+                      </tr>                    
+                    </tbody>
+                  </table>
+                {% else %}
+                  <table class="unboxing-view-tbl">
+                    <colgroup>
+                      <col style="width: 10rem;">
+                      <col style="width: *;">
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <th>추정가 <span class="unit">KRW</span></th>
+                        <td class="cm-font-color-y">{{ placement.placement_estimated_price | intcomma }}</td>
+                      </tr>
+                      <tr>
+                        <th>시작가 <span class="unit">KRW</span></th>
+                        <td class="cm-font-color-y">{{ placement.placement_start_price | intcomma }}</td>
+                      </tr>
+                      <!-- <tr>
+                        <th>현재가</th>
+                        <td class="cm-font-color-y"><span class="unit">KRW</span>{{ placement.placement_price | intcomma }}</td>
+                      </tr> -->
+                      <!-- <tr>
+                        <th>바로 구매가</th>
+                        <td class="cm-font-color-y"><span class="unit">KRW</span>{{ placement.placement_buynow_price | intcomma }}</td>
+                      </tr> -->
+                    </tbody>
+                  </table>
+                {% endif %}          
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if STATUS == 'done' and placement.placementmemory %}
+    <div class="unboxing-view-con-last">
+      <div class="area-m">
+        <h5 class="title">CELEB<br class="m-br">&ONEY’S <br>VOICE</h5>
+        <ul class="unboxing-view-last-list">
+          <li class="unboxing-view-last-item">
+            <dl>
+              <dt class="celeb"><b>CELEB</b> {{ placement.placementmemory.celeb_name }}</dt>
+              <dd class="txt">{{ placement.placementmemory.celeb_comment }}</dd>
+            </dl>
+          </li>
+          {% if placement.placementmemory.oneys.all.count > 1  %}        
+            {% for oney in placement.placementmemory.oneys.all %}
+            <li class="unboxing-view-last-item placementmemory slice-item">          
+              <dl>
+                <dt class="oney"><b>ONEY</b>{{oney.name}}</dt>
+                <dd class="txt">{{oney.comment}}</dd>
+              </dl>          
+            </li>
+            {% endfor %}
+          {% else %}
+            <li class="unboxing-view-last-item placementmemory slice-item">                  
+              <dl>
+                <dt class="oney"><b>ONEY</b>{{ placement.placementmemory.oneys.all.0.name }}</dt>
+                <dd class="txt">{{ placement.placementmemory.oneys.all.0.comment  }}</dd>
+              </dl>          
+            </li>
+          {% endif %}          
+            {% comment %} <dl>
+              <dt class="oney"><b>ONEY</b>{{ placement.placementmemory.oneys.all | length }}명</dt>
+              <dd class="txt">{% with placement.placementmemory.oneys.all|random as oney %}{{oney.comment}}{% endwith %}</dd>
+            </dl> {% endcomment %}
+        </ul>
+        <div class="mypage-funding-more">
+          <button class="mypage-funding-more-btn placementmemory slice-more-btn">READ MORE <i class="xi-angle-down-min"></i></button>
+        </div>
+        <div class="unboxing-view-last-date">
+          <p class="date">셀럽과 함께한 날 <em>-</em> <span>{{ placement.d_day | date:'Y. m. d' | default:'SECRET'}}</span></p>
+          <!-- 사인 이미지 권장사이즈 최대 502x80 -->
+          <span class="sign-img"><img src="{{ placement.placementmemory.history_sign.url }}" alt="사인 이미지"></span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    <div class="unboxing-view-con03">
+      <div class="area-m">
+        <article class="cm-fixed-tab-container-JS">
+          <aside class="unboxing-tab-wrapper-style">
+            <div class="unboxing-tab-list-style cm-fixed-tab-list-JS top-fixed-object">
+              <div class="area-m">
+                <ul class="clearfix">
+                  <li class="selected"><a href="#unboxingTabCon01"><em>셀럽 소개</em></a></li>
+                  <li><a href="#unboxingTabCon02"><em>구매 상세</em></a></li>
+                  <li><a href="#unboxingTabCon03"><em>안내 사항</em></a></li>
+                </ul>
+              </div>
+            </div>
+          </aside>
+          <div class="unboxing-tab-content-style">
+            <div class="unboxing-tab-con" id="unboxingTabCon01">
+              <!-- 셀럽 소개 -->
+              <div class="unboxing-view-info">
+                <span class="line"></span>
+                <span class="tit">셀럽소개</span>            
+              </div>              
+              <div class="unboxing-view-item">
+                <div class="unboxing-view-celeb">
+                  <div class="txt-box">
+                    <h5 class="tit">{{ placement.placement_artist.description_oneoff | safe | linebreaksbr }}</h5>
+                    <div class="img-box">
+                      <!-- 이미지 권장사이즈 379x461 -->
+                      <span><img src="{{ placement.placement_artist.avatar.url }}" alt="셀럽 이미지"></span>
+                    </div>
+                    <ul class="info-list">
+                      <li> {{ placement.placement_artist.description_info | safe | linebreaksbr }} </li>
+                    </ul>
+                  </div>
+                </div>
+                <p class="txt">{{ placement.placement_artist.description | safe | linebreaksbr }}</p>
+              </div>
+
+              <div class="unboxing-tip">
+                <h3>
+                  <span><textarea id="textarea1_title" name="detail_1_title" cols='50' rows='5'>{{ placement.detail_1_title | safe | linebreaksbr  }}</textarea></span>
+                </h3>
+                <div class="unboxing-view-item">
+                  <div class="unboxing-view-txt">
+                    <div class="txt"><textarea id="textarea1" name="detail_1" cols='50' rows='5'>{{ placement.detail_1 | safe | linebreaksbr  }}</textarea></div>
+                  </div>
+                </div>
+              </div> 
+
+            </div>
+            <div class="unboxing-tab-con" id="unboxingTabCon02">
+              <!-- 구매상세 -->
+              <div class="unboxing-view-info">
+                <span class="line"></span>            
+                <span class="tit">구매상세</span>            
+              </div>      
+                    
+                <div class="unboxing-view-item">
+                  <!-- 이미지 -->
+                  <div class="unboxing-view-txt">
+                    <p class="txt01"><textarea id="textarea2_title" name="detail_2_title" cols='50' rows='5'>{{ placement.detail_2_title | safe | linebreaksbr }}</textarea></p>
+                    <p class="txt02"><textarea id="textarea2" name="detail_2" cols='50' rows='5'>{{ placement.detail_2 | safe | linebreaksbr  }}</textarea></p>
+                  </div>												
+                  <div class="unboxing-view-img">
+                    {% if placement.image_1 %}                     
+                    <img src="{{ placement.image_1.url }}" alt="이미지 1" class="image_1"/>
+                    {% endif %}
+                    <input type="file" value="{{ placement.image_1 }}" id="image_1" name = "image_1" accept="image/*" onChange="readFile(event,'image_1');" />
+                    <label for="image_1">사진1 업로드</label>
+                  </div>
+
+                </div>
+                <div class="unboxing-view-item">
+                  <!-- 이미지 -->
+                  <div class="unboxing-view-txt">
+                    <p class="txt01"><textarea id="textarea3_title" name="detail_3_title" cols='50' rows='5'>{{ placement.detail_3_title | safe | linebreaksbr  }}</textarea></p>
+                    <p class="txt02"><textarea id="textarea3" name="detail_3" cols='50' rows='5'>{{ placement.detail_3 | safe | linebreaksbr  }}</textarea></p>
+                  </div>
+                  <div class="unboxing-view-img">
+                    {% if placement.image_2 %}                     
+                    <img src="{{ placement.image_2.url }}" alt="이미지 2" class="image_2"/>
+                    {% endif %}
+                    <input type="file" value="{{ placement.image_2 }}" id="image_2" name = "image_2" accept="image/*" onChange="readFile(event,'image_2');" />
+                    <label for="image_2">사진2 업로드</label>
+                  </div>
+                </div>
+                <div class="unboxing-view-item">
+                  <!-- 이미지 -->
+                  <div class="unboxing-view-txt">
+                    <p class="txt01"><textarea id="textarea4_title" name="detail_4_title" cols='50' rows='5'>{{ placement.detail_4_title | safe | linebreaksbr }}</textarea></p>
+                    <p class="txt02"><textarea id="textarea4" name="detail_4" cols='50' rows='5'>{{ placement.detail_4 | safe | linebreaksbr }}</textarea></p>
+                  </div>												
+                  <div class="unboxing-view-img">
+                    {% if placement.image_3 %}                     
+                    <img src="{{ placement.image_3.url }}" alt="이미지 3" class="image_3"/>
+                    {% endif %}
+                    <input type="file" value="{{ placement.image_3 }}" id="image_3" name = "image_3" accept="image/*" onChange="readFile(event,'image_3');" />
+                    <label for="image_3">사진3 업로드</label>
+                  </div>
+
+                </div>																																	
+                <div class="unboxing-view-item">
+                  <!-- 이미지 -->
+                  <div class="unboxing-view-txt">
+                    <p class="txt01"><textarea id="textarea5_title" name="detail_5_title" cols='50' rows='5'>{{ placement.detail_5_title | safe | linebreaksbr  }}</textarea></p>
+                    <p class="txt02"><textarea id="textarea5" name="detail_5" cols='50' rows='5'>{{ placement.detail_5 | safe | linebreaksbr  }}</textarea></p>
+                  </div>												
+                  <div class="unboxing-view-img">
+                    {% if placement.image_4 %}                     
+                    <img src="{{ placement.image_4.url  }}" alt="이미지 4" class="image_4"/>
+                    {% endif %}
+                    <input type="file" value="{{ placement.image_4 }}" id="image_4" name = "image_4" accept="image/*" onChange="readFile(event,'image_4');" />
+                    <label for="image_4">사진4 업로드</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="unboxing-view-item">
+                <div class="unboxing-view-txt">
+                  <p class="txt01"><textarea id="textarea6_title" name="detail_6_title" cols='50' rows='5'>{{ placement.detail_6_title | safe | linebreaksbr  }}</textarea></p>
+                  <p class="txt02"><textarea id="textarea6" name="detail_6" cols='50' rows='5'>{{ placement.detail_6 | safe | linebreaksbr  }}</textarea></p>
+                </div>
+                <div class="unboxing-view-img">
+                  {% if placement.image_5 %}                   
+                  <img src="{{ placement.image_5.url  }}" alt="이미지 5" class="image_5"/>
+                  {% endif %}
+                  <input type="file" value="{{ placement.image_5 }}" id="image_5" name = "image_5" accept="image/*" onChange="readFile(event,'image_5');" />
+                  <label for="image_5">사진5 업로드</label>
+                </div>
+                <!-- 비디오 -->												
+                <div class="unboxing-view-video">
+                  <label for id="youtube_id">유투브ID</label><input id="youtube_id" type="text" name="youtube_id" value="{{placement.youtube_id}}" >
+                  <div class="video-iframe-wrapper">
+                    <div class="video-iframe-box"><div id="player" data-code="{{ placement.youtube_id }}"></div><!-- 유투브ID --></div>
+                    <div class="video-cover-box">
+                      <span class="thumb" style="background: url({{ placement.thumbnail.url }}) 45% 50% no-repeat; background-size: cover;"></span>
+                      <div class="icon"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="unboxing-view-item">
+                <!-- 배너+텍스트 관리 -->
+                <div class="unboxing-view-banner">
+                  <!-- 배너이미지 권장사이즈 786x400 -->
+                  <div class="bg" style="background: url({% static 'rev/img/content/unboxing_view_banner_img01.jpg' %}) center/cover no-repeat;"></div>
+                  <div class="txt no-margin-top">
+                    <label for="etc_1_on">etc_1 활성화</label><input {% if placement.etc_1_on %}checked{% endif %} id="etc_1_on" name="etc_1_on" type="checkbox"></input>
+                    <textarea id="textarea_etc" name="etc_1" cols='50' rows='5'>{{ placement.etc_1 | default:'수익금은 음악에 꿈이 있는 서울 특수학교 장애 청소년들을 지원할 수 있도록 전달됩니다.' | safe | linebreaksbr }}</textarea>
+                  </div>
+                </div>
+              </div>              
+            </div>
+            <div class="unboxing-tab-con" id="unboxingTabCon03">
+              <div class="unboxing-view-item">
+                <div class="unboxing-view-info">
+                  <div>
+                    <span class="line"></span>
+                    <span class="tit">구매 관련 주의 및 안내 사항</span>
+                  </div>
+                  {% if placement.placement_type == 'crowdfunding' %}
+                  <dl class="info-item">
+                    <dt>구매 방식</dt>
+                    <dd>
+                      최소 1매부터 최대 5매까지 구매 가능한 티켓입니다. 현장에서 티켓을 제시하셔야 입장이 가능합니다.)                      
+                    </dd>
+                  </dl>
+                  <dl class="info-item">
+                    <dt>환불 규정</dt>
+                    <dd>
+                      구매하기 버튼을 누르신 이후, 20분 이내에 결제가 완료되지 않으면 구매가 자동으로 취소됩니다.
+                      <br>
+                      - 티켓 결제 이전 | 마이페이지(해당 티켓) > 구매취소버튼
+                      <br>
+                      - 티켓 결제 이후 | 마이페이지(해당 티켓) > 구매취소버튼 > 구매 취소 신청서 작성
+                      <br>
+                      * 환불규정에 따라 티켓 판매가 종료된 이후 구매를 취소하실 경우, 환불 수수료(결제 금액의 30%)를 차감한 금액이 환불됩니다.                       
+                  </dl>
+                  {% else %}
+                    <dl class="info-item">
+                      <dt>진행 방식</dt>
+                      <dd>
+                        회원가입시 기재해주신 연락처로 낙찰 안내를 받고, 3시간 내에 예약금을 결제하시면, 낙찰이 확정됩니다.
+                        경쟁티켓의 낙찰 예약금은 낙찰 금액과 관계 없이 일괄 {{ placement.deposit | intcomma}}원이 적용됩니다.
+                        <br><br>                    
+                        예약금 결제일로부터 7일 이내 낙찰가에서 예약금을 제외한 잔여금을 결제합니다.                      
+                      </dd>
+                    </dl>
+                    <dl class="info-item">
+                      <dt>환불 규정</dt>
+                      <dd>
+                        낙찰 안내를 받으신 이후, 3시간 이내에 예약금 결제가 완료되지 않으면 낙찰이 자동 취소됩니다.
+                        <br><br>
+                        예약금 결제가 완료된 이후 낙찰 계약이 완료된 것으로 간주하며, 7일 이내에 잔여금 결제가 완료되지 않아 낙찰이 자동 취소될 경우, 예약금은 반환되지 않습니다.                      
+                      </dd>
+                    </dl>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+<!-- 섬네일이미지 -->
+<script>
+	function readFile(event, classname) {
+		let file = event.target.files[0];
+		let href = window.URL.createObjectURL(file);
+		$(`.${classname}`).attr('src', href);
+
+		//5분뒤에 메모리 해제
+		setTimeout(function() {
+			window.URL.revokeObjectURL(href)
+		}, 1000 * 60 * 5);
+	}
+</script>
+
+<!-- Placement 카운드 다운 js-->
+<script>
+  var starttime = new Date('{{ placement.placement_start | date:"Y/m/d H:i:s" }}').getTime();
+  var endtime = new Date('{{ placement.placement_end | date:"Y/m/d H:i:s" }}').getTime();	
+
+  var x = setInterval(function() {
+  var now = new Date().getTime();
+	var distance, days,hours,minutes,seconds;
+
+	if(now < starttime){
+		distance = starttime - now;
+		days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		document.getElementById("bid-countdown").innerHTML = `시작까지 ${days}일 ${hours}:${minutes}:${seconds} 남았습니다.`;
+	}else if(starttime<now && now <endtime){
+		distance = endtime - now;
+		days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		document.getElementById("bid-countdown").innerHTML = `종료까지 ${days}일 ${hours}:${minutes}:${seconds} 남았습니다.`;
+	}else{
+		clearInterval(x);
+		document.getElementById("bid-countdown").innerHTML = '종료되었습니다.'
+	}
+  }, 1000);
+</script>
+
+<!-- KAKAO SDK -->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="{% static 'rev/vendor/js/ckeditor.js' %}"></script>  
+<!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.3.2/super-build/ckeditor.js"></script> -->
+<script>
+  const watchdog = new CKSource.EditorWatchdog();
+  window.watchdog = watchdog;			
+  watchdog.setCreator( ( element, config ) => {
+    return CKSource.Editor
+      .create( element, config )
+      .then( editor => {
+        editor.config.enterMode='br'		//엔터키 입력시 br 태그 변경
+        editor.config.shiftEnterMode='p'
+        editor.config.autoParagraph=false        
+        editor.config.forcePasteAsPlainText = true;        
+        return editor;
+      } )
+  } );			
+  watchdog.setDestructor( editor => {
+    return editor.destroy();
+  } );			
+  watchdog.on( 'error', handleError );
+  // watchdog
+  // 	.create( document.querySelector( '#textarea1' ), {
+  // 		licenseKey: '',
+  //     enterMode:'br',		//엔터키 입력시 br 태그 변경
+  //     shiftEnterMode: 'p',
+  //     fontFamily: {
+  //           options: [
+  //               'default',
+  //               'Nanum Gothic',
+  //               'Nanum Gothic ExtraBold',
+  //               'Nanum Gothic Bold',
+  //               'Pretendard',
+  //               'Nephilm',
+  //               'Noto Sans KR',
+  //               'Times New Roman, Times, serif',
+  //               'Trebuchet MS, Helvetica, sans-serif',
+  //               'Verdana, Geneva, sans-serif'
+  //           ],
+  //           supportAllValues: true
+  //       },          
+  //       fontSize: {
+  //           options: [ 8, 10, 12, 14, 'default', 18, 20, 22 ],
+  //           supportAllValues: true
+  //       },
+  //       htmlSupport: {
+  //           allow: [
+  //               {
+  //                   name: /.*/,
+  //                   attributes: true,
+  //                   classes: true,
+  //                   styles: true
+  //               }
+  //           ]
+  //       },
+  //       // Be careful with enabling previews
+  //       // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
+  //       htmlEmbed: {
+  //           showPreviews: true
+  //       },            
+  // 	} )
+  // 	.catch( handleError );
+  // watchdog
+  // 	.create( document.querySelector( '#textarea1_title' ), {
+  // 		licenseKey: '',					
+  // 	} )
+  // 	.catch( handleError );
+function handleError( error ) {
+  console.error( 'Oops, something went wrong!' );
+  console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+  console.warn( 'Build id: 5yk5alu7zq7l-qyn424im7vzf' );
+  console.error( error );
+}
+function createEditor_V2(elementId){
+  return watchdog
+      .create(document.querySelector('#' + elementId),
+      {
+          licenseKey: '',
+          enterMode:'br',		//엔터키 입력시 br 태그 변경
+          shiftEnterMode: 'p',
+          autoParagraph: false,
+          fontFamily: {
+                options: [
+                    'default',
+                    'Nanum Gothic',
+                    'Nanum Gothic ExtraBold',
+                    'Nanum Gothic Bold',
+                    'Pretendard',
+                    'Nephilm',
+                    'Noto Sans KR',
+                    'Times New Roman, Times, serif',
+                    'Trebuchet MS, Helvetica, sans-serif',
+                    'Verdana, Geneva, sans-serif'
+                ],
+                supportAllValues: true
+            },          
+            fontSize: {
+                // options: [ 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,40,50,60,70,80,90,100 ],
+                options:[8,10,12,14,16,18,20,26,32,38],
+                supportAllValues: true
+            },
+            htmlSupport: {
+                allow: [
+                    {
+                        name: /.*/,
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    }
+                ]
+            },
+            // Be careful with enabling previews
+            // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
+            htmlEmbed: {
+                showPreviews: true
+            },
+      })
+      .catch( handleError )
+}
+
+  $(document).ready( function() {
+      // createEditor_V2( 'textarea_title');
+      // createEditor_V2( 'textarea_des');      
+      createEditor_V2( 'textarea1');
+      createEditor_V2( 'textarea1_title');      
+      createEditor_V2( 'textarea2');
+      createEditor_V2( 'textarea2_title');      
+      createEditor_V2( 'textarea3');
+      createEditor_V2( 'textarea3_title');      
+      createEditor_V2( 'textarea4');
+      createEditor_V2( 'textarea4_title');      
+      createEditor_V2( 'textarea5');
+      createEditor_V2( 'textarea5_title');      
+      createEditor_V2( 'textarea6');
+      createEditor_V2( 'textarea6_title');
+      createEditor_V2( 'textarea_etc');      
+    }); 
+
+
+</script>

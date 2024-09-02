@@ -1,0 +1,280 @@
+{% extends 'article/auction/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}
+{% load auction_templatetag %}
+  {% block head_title %} | {{article.title}} {% endblock head_title %}
+
+	{% block extra_head %}
+	<meta name="title" content="{{ article.title | safe }}">
+	<meta property="og:title" content="{{ article.title | safe }}">
+	<meta name="twitter:title" content="{{ article.title| safe }}">
+	{% endblock extra_head %}
+
+	{% block content %}
+		<!-- *************************************
+		*********** Begin page content *********** 
+		************************************** -->
+		<div id="page-content">
+			<!-- =======================
+			///// Begin tt-section /////
+			============================ 
+			* You can use padding classes if needed. For example "padding-top-xlg-150", "padding-bottom-xlg-150", "no-padding-top", "no-padding-bottom", etc. Note that each situation may be different and each section may need different classes according to your needs. More info about helper classes can be found in the file "helper.css".
+			-->
+			<div class="tt-section">
+				<div class="tt-section-inner tt-wrap max-width-900">
+
+					<!-- Begin blog post 
+					===================== --> 
+					<article class="tt-blog-post lightgallery">
+
+						<!-- Begin blog post content -->
+						<div class="tt-blog-post-content rev">
+							<h3>{{ article.title }}
+							<p><small style="font-size:50%!important">{{article.user}} | {{article.created}} | {{ article.get_category_display }} | <i class="xi-eye"></i> {{ article.update_counter }}회</small></p>
+							</h3>
+							{% if request.user.is_authenticated %}
+							{% if request.user == article.user or request.user.is_staff %}
+							<div style="text-align:right;">
+								<a href="javascript:;" onclick="modalPopupOpen(event, '#articleDelete')"><i class="xi-trash"></i> 삭제</a>
+								<a href="{% url 'core:article_update' article.id %}"><i class="xi-wrench"></i> 수정</a>
+							</div>
+							{% endif %}
+							{% endif %}
+							<!-- 본문 -->
+							<hr>
+							<figure class="article bli-image" style="margin:0 auto;">
+								{% if article.thumbnail %}
+								<img src="{% static 'rev/img/common/video_thumbnail.png' %}" data-src="{{ article.thumbnail.url }}" style="max-height:450px;object-fit:cover;" class="tt-lazy anim-zoomin" alt="Image">
+								{% else %}
+								<img src="{% static 'rev/img/common/video_thumbnail.png' %}" data-src="{% static 'rev/img/common/video_thumbnail.png' %}" style="max-height:450px;object-fit:cover;" class="tt-lazy anim-zoomin" alt="Image">
+								{% endif %}
+							</figure>
+							<p>{{article.text | safe | linebreaks }}</p>
+							
+							<!-- FINISH -->
+							<p style="margin-bottom: 20rem;"></p>
+
+							{% comment %} <!-- Begin post image -->
+							<figure class="tt-blog-post-image">
+								<a href="{% static 'rev/img/common/logo_image.png' %}" class="tt-bpi-link lg-trigger" data-exthumbnail="{% static 'rev/img/common/logo_image.png' %}" data-cursor="원앤온리">
+									<img class="tt-lazy" src="{% static 'rev/img/common/logo_image.png' %}" data-src="{% static 'rev/img/common/logo_image_long.png' %}" alt="원앤온리">
+								</a>
+								<figcaption class="tt-bpi-caption">
+									Inc. <a href="https://onenonly.io" target="_blank" rel="noopener">One&amp;Only</a>
+								</figcaption>
+							</figure>
+							<!-- End post image -->
+							<blockquote class="open-quote">
+								LIFE-CHANGING MOMENTS WILL BE DELIVERED
+								<footer>ONE &amp; ONLY</footer>
+							</blockquote> {% endcomment %}
+						</div>
+						<!-- End blog post content -->
+
+						<!-- Begin blog post tags -->
+						{% comment %} <div class="tt-blog-post-tags">
+							<ul>
+								<li><span>Tags:</span></li>
+								<li><a href="https://www.youtube.com/channel/UCwWckww4Bi7jRYUjYlTsNOA">#YOUTUBE</a></li> 
+								<li><a href="https://www.instagram.com/onenonly.io/">#INSTAGRAM</a></li>
+								<li><a href="https://store.kakao.com/onenonly">#KAKAOSTORE</a></li>
+							</ul>
+						</div> {% endcomment %}
+						<!-- End blog post tags -->
+
+						<!-- Begin blog post share (Note: for design purposes only!) 
+						=========================== 
+						* Use class "bss-fixed-bottom" to enable post share fixed bottom position (effect only on small screens!!!).
+						-->
+						{% comment %} <div class="tt-blog-post-share">
+							<div class="tt-bps-text">공유하기:</div>
+							<div class="social-buttons">
+								<ul>
+									<li><a href="#0" class="magnetic-item" rel="noopener" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a></li>
+									<li><a href="#0" class="magnetic-item" rel="noopener" title="Share on Twitter"><i class="fab fa-twitter"></i></a></li>
+									<li><a href="#0" class="magnetic-item" rel="noopener" title="Share on Instagram"><i class="fab fa-instagram"></i></a></li>
+								</ul>
+							</div> <!-- /.social-buttons -->
+						</div> {% endcomment %}
+						<!-- End blog post share -->
+
+					</article>
+					<!-- End blog post -->
+
+					{% if article.get_previous_by_created or article.get_next_by_created %}
+					<!-- Begin blog post nav 
+					======================== -->
+					<div class="tt-blog-post-nav">
+						<div class="tt-bp-nav-col tt-bp-nav-left">
+							{% if article.get_previous_by_created %}
+							<div class="tt-bp-nav-text"><a href="{{ article.get_previous_by_created.get_absolute_url }}"><span><i class="fas fa-angle-left"></i></span>이전</a></div>
+							<h4 class="tt-bp-nav-title"><a href="{{ article.get_previous_by_created.get_absolute_url }}">{{ article.get_previous_by_created.title | truncatechars:8 }}</a></h4>
+							{% endif %}
+						</div>
+						<div class="tt-bp-nav-col tt-bp-nav-right">
+							{% if article.get_next_by_created %}							
+							<div class="tt-bp-nav-text"><a href="{{ article.get_next_by_created.get_absolute_url }}">이후<span><i class="fas fa-angle-right"></i></span></a></div>
+							<h4 class="tt-bp-nav-title"><a href="{{ article.get_next_by_created.get_absolute_url }}">{{ article.get_next_by_created.title | truncatechars:8 }}</a></h4>
+							{% endif %}
+						</div>
+					</div>
+					<!-- End blog post nav -->
+					{% endif %}
+
+					<!-- Begin post comments 
+					========================= -->
+					<div id="tt-blog-post-comments">
+
+						<h4 class="tt-bpc-heading">댓글({{ comments | length }})</h4>
+						
+						<!-- Begin tt-Comments list 
+						============================ -->
+						<ul class="tt-comments-list">
+
+							{% for comment in comments %}
+							<!-- Begin tt-comment -->
+							<li class="tt-comment">
+								<a href="#" class="tt-comment-avatar">
+									<img src="{% static 'rev/img/common/logo_image.png' %}" data-src="{{ comment.user.avatar.url | default:'/static/tank/assets/img/low-qlt-thumb.jpg' }}" class="tt-lazy" alt="image">
+								</a>
+								<div class="tt-comment-body">
+									<div class="tt-comment-meta">
+										<h4 class="tt-comment-heading"><a href="#">{{ comment.user.username }}</a></h4>
+										<span class="tt-comment-time">{{ comment.created }}</span>
+									</div>
+									{% comment %} <span class="tt-comment-reply"><a href="#">Reply</a></span> {% endcomment %}
+									<div class="tt-comment-text">
+										<p>{{ comment.text }}</p>
+									</div> <!-- /.tt-comment-text -->
+								</div> <!-- /.tt-comment-body -->
+							</li>
+							<!-- End tt-comment -->
+							{% endfor %}
+						</ul>
+						<!-- Begin post comment form (Note: post comment form is for design purposes only!) 
+						============================= 
+						* Use class "tt-form-filled" or "tt-form-minimal" to change form style.
+						* Use class "tt-form-sm" or "tt-form-lg" to change form size (no class = default size).
+						* Use class "tt-hide-labels" to to hide labels.
+						-->
+						{% if request.user.is_authenticated %}
+						<form id="tt-post-comment-form" class="tt-form-lg tt-form-minimal" method="post">
+							{% csrf_token %}
+							<h4 class="tt-post-comment-form-heading">댓글쓰기:</h4>
+							<div class="tt-form-group">
+								<textarea class="tt-form-control" name="text" id="30945381" rows="1" placeholder="작성할 내용을 입력하세요."></textarea>
+							</div>
+						
+							<!-- Begin post comment submit button -->
+							<div class="tt-btn tt-btn-light-outline">
+								<button type="submit" data-hover="제출">작성</button>
+							</div>
+							<!-- End post comment submit button -->
+
+							{% comment %} <!-- Begin post comment reminder -->
+							<div class="tt-post-comment-reminder">
+								<div class="tt-form-check tt-form-check-inline">
+									<input type="checkbox" id="notify-me-new-comment">
+									<label for="notify-me-new-comment">Email me when this comment receives a reply.</label>
+								</div>
+								<div class="tt-form-check">
+									<input type="checkbox" id="notify-me-new-post">
+									<label for="notify-me-new-post">Notify me of new posts by email.</label>
+								</div>
+							</div>
+							<!-- End post comment reminder --> {% endcomment %}
+
+						</form>
+						{% endif %}
+						<!-- End post comment form -->
+
+						<div class="tt-pagination tt-pagin-center anim-fadeinup">
+							<div class="tt-pagin-prev">
+								<a{% if comments.has_previous %}href="?comment_page={{ comments.previous_page_number }}"{% endif %}	class="tt-pagin-item magnetic-item"><i class="fas fa-chevron-left"></i></a>
+							</div>
+							<div class="tt-pagin-numbers">
+								{% if comments.has_previous %}
+								<a href="?comment_page={{ comments.previous_page_number }}" class="tt-pagin-item magnetic-item">{{ comments.previous_page_number }}</a>
+								{% endif %}
+								<a href="?comment_page={{ comments.number }}" class="tt-pagin-item magnetic-item active">{{ comments.number }} </a>										
+								{% if comments.has_next %}
+								<a href="?comment_page={{ comments.next_page_number }}" class="tt-pagin-item magnetic-item">{{ comments.next_page_number }}</a>
+								{% endif %}
+							</div>
+							<div class="tt-pagin-next">
+								<a {% if comments.has_next %}href="?comment_page={{ comments.next_page_number }}"{% endif %} class="tt-pagin-item tt-pagin-next magnetic-item"><i class="fas fa-chevron-right"></i></a>
+							</div>							
+						</div>
+						<!-- End tt-Comments list -->
+
+					</div>
+					<!-- End post comments -->
+
+
+				</div> <!-- /.tt-section-inner -->
+			</div>
+			<!-- End tt-section -->
+
+			{% comment %} <!-- =======================
+			///// Begin tt-section /////
+			============================ 
+			* You can use padding classes if needed. For example "padding-top-xlg-150", "padding-bottom-xlg-150", "no-padding-top", "no-padding-bottom", etc. Note that each situation may be different and each section may need different classes according to your needs. More info about helper classes can be found in the file "helper.css".
+			-->
+			<div class="tt-section padding-bottom-xlg-150">
+				<div class="tt-section-inner tt-wrap">
+
+					<!-- Begin page nav 
+					==================== 
+					* Use class "tt-pn-stroke" to enable title stroke style.
+					* Use class "tt-pn-scroll" to enable hover title scroll. Note: If "tt-pn-hover-title" text is wider than "tt-pn-link" then it scrolls by default. The longer the text, the faster it scrolls.
+					-->
+					<div class="tt-page-nav tt-pn-scroll">
+						<a href="#" class="tt-pn-link anim-fadeinup">
+							<div class="tt-pn-title">ONE&amp;ONLY</div>
+							<div class="tt-pn-hover-title">원앤온리</div>
+						</a> <!-- /.tt-pn-link -->
+
+						<div class="tt-pn-subtitle anim-fadeinup">YOUR <strong class="font-nephilm">LIFE-CHANGING MOMENTS</strong> WILL BE DELIVERED</div>
+
+						<!-- Use if destination page contains page header image -->
+						<div class="tt-pn-image">
+							<img src="/static/tank/assets/img/page-header/ph-1.jpg" alt="image">
+						</div>
+					</div>
+					<!-- End page nav -->
+
+				</div> <!-- /.tt-section-inner -->
+			</div>
+			<!-- End tt-section --> {% endcomment %}
+
+
+		</div>
+		<!-- End page content -->
+
+	{% include 'article/popup/articleDelete.html' with article=article %}		
+
+	{% endblock content%}
+
+	{% block sidebar %}
+		<!-- 사이드바-->
+		<div class="tt-sliding-sidebar-wrap">
+			<div class="tt-sliding-sidebar">
+				<div class="tt-sliding-sidebar-inner">					
+					{% include 'article/auction/component/sidebar.html' with category=category %}
+				</div> <!-- /.tt-sliding-sidebar-inner -->
+			</div> <!-- /.tt-sliding-sidebar -->
+
+			<!-- Begin sliding sidebar trigger -->
+			<div class="tt-sliding-sidebar-trigger hide-cursor">
+				<span class="tt-ss-icon"><i class="fas fa-align-justify"></i></span>
+				<span class="tt-ss-icon-close"><i class="fas fa-times"></i></span>
+			</div>
+			<!-- End sliding sidebar trigger -->
+
+			<!-- Close overlay -->
+			<div class="tt-sliding-sidebar-close cursor-close"></div>
+		</div> 
+		<!-- End sliding sidebar -->
+		<!-- /.사이드바-->	
+	{% endblock sidebar %}

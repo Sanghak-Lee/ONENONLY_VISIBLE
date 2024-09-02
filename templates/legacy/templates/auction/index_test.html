@@ -1,0 +1,152 @@
+{% extends "auction/base_crowdfunding.html" %}
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}
+{% get_top_3 placement as placementbid %}
+
+
+{% block head_title %} Cho Aran's Auction {% endblock %}
+
+<!-- additioinal css, favicon, metadata -->
+{% block extra_head %}{% endblock %}
+
+{% block extra_body %}
+{% endblock extra_body%}
+
+{% block body %}
+  <!-- ======= About Section ======= -->    
+  <section id="about" class="about-show section-show">  
+    <!-- ======= About Me ======= -->
+    <div class="about-me container">
+      <div class="section-title">
+        <h2>옥션 경매품</h2>
+      </div>
+      <div class="auction-style1">
+        <div class="left">
+          <div class="swiper style1-container counts">
+            <div class="swiper-wrapper style1-wrapper">
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-emoji-smile"></i>
+                <img src="{% static 'img/logo/001.jpeg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="2021" data-purecounter-duration="1" class="purecounter"></span>
+                <p>The Lion</p><p style="font-style:italic;">Oil on canvas</p>
+              </div>            
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-emoji-smile"></i>
+                <img src="{% static 'img/logo/001.jpeg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="2021" data-purecounter-duration="1" class="purecounter"></span>
+                <p>마음</p><p style="font-style:italic;">Oil on canvas</p>
+              </div>            
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-emoji-smile"></i>
+                <img src="{% static 'img/logo/001.jpeg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="2022" data-purecounter-duration="1" class="purecounter"></span>
+                <p>And your sister</p><p style="font-style:italic;">Oil on canvas</p>
+              </div>
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-journal-richtext"></i>
+                <img src="{% static 'img/logo/001.jpeg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="2022" data-purecounter-duration="1" class="purecounter"></span>
+                <p>ABCDEFU</p><p style="font-style:italic;">Oil on canvas</p>
+              </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="style1-pagination"></div>
+          </div>          
+        </div>
+
+        <div class="right">
+            {% include "auction/component/right_crowdfunding.html" with placement=placement now_price=placementbid.0.offer pk=pk %}
+        </div>
+        {% comment %} <div class="right">
+            <div class="item">
+              <div class="l1">
+                BeCollector Auction #4
+              </div>            
+              <div class="l2">
+                대니와 함께 만드는 특별한 화이트데이
+              </div>
+              <div class="l3">
+                Special White Day gift with rapper Danny
+              </div>              
+            </div>
+
+            <div class="author">
+
+              <div class="l4">
+                <div>대니</div>
+                <div>Danny</div>
+              </div>              
+              <div class="l5">
+                <p>“음악을 사랑하는 래퍼<br>
+                그외의 설명을 직접 주시면 작성이 가능합니다<br>
+                그외의 설명을 직접 주시면 작성이 가능합니다”</p>
+              </div>
+            </div>
+
+            <div class="price">
+              <div class="l6">
+                <dl>
+                  <dt>추정가</dt>
+                  <dd class="KRW">KRW 500,000 ~ 700,000</dd>
+                  <dd class="USD">USD 500 ~ 700</dd>
+                  <dt>시작가</dd>
+                  <dd class="KRW">KRW 100,000</dd>
+                  <dd class="USD">USD 80</dd>
+                  <dt class="red">현재가 KRW {{placementbid.0.offer | intcomma }}</dt>
+                </dl>
+              </div>
+            </div>
+
+            <div class="info">
+              <p>2022 화이트데이, 연인을 위한 특별한 선물은 어떤가요<br>
+              사랑하는 사람을 위해, 혹은 사랑하는 사람과 함께, 직접 노래를 제작하고<br>
+              음원도 배포하세요<br>
+              깜짝 이벤트를 위해 같이 협의도 가능합니다 :)
+            </p>
+            </div>
+
+            <div class="tel">
+              <p>이벤트 옥션 문의: 010-2954-3621<br>
+              낙찰가는 로그인 후 확인할 수 있습니다.</p>
+            </div>                         
+
+            <div class="button">
+              <span class="">문의하기</span>
+              <button type="button" class="btn btn-primary modal-toggle" data-toggle="modal" data-target="#bid-modal">
+                응찰하기
+              </button>              
+            </div>                         
+        </div> {% endcomment %}
+      </div>
+
+    </div><!-- End About Me -->
+  </section><!-- End About Section -->
+
+  <!-- ======= resume(마이옥션) Section ======= -->
+  {% include 'auction/component/section_resume.html'%}  
+  <!-- End resume(마이옥션) Section -->
+
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>옥션 아티스트</h2>
+        <p class="tangerine">One&amp;Only Auction</p>
+      </div>
+
+      <div class="php-email-form mt-4">
+       
+      <strong><i>ARTIST_NAME</i></strong><br>&amp;<br><strong><i>ONE &amp; ONLY</i></strong>
+
+      </div>
+
+    </div>
+  </section><!-- End Contact Section -->
+{% endblock body %}
+
+{% block extra_scripts %}
+
+{% endblock extra_scripts %}

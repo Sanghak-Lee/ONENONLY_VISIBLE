@@ -1,0 +1,101 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %} | {% trans "Account" %}{% endblock %}
+
+{% block body %}
+<div id="wrap" class="sub-wrap">
+  <!-- container -->
+  <div id="container">
+    <!-- middleArea -->
+    <div id="middleArea">
+      <!-- content -->
+      <section id="content" class="area-box">
+        <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+        <div class="sub-page mypage-page">
+            <div class="join-con step03">
+              <h5 class="join-tit">{% trans "E-mail Addresses" %}</h5>
+              <div class="join-inner-box">
+                <div style="margin-top:3.5rem; text-align:center;">
+                  {% if user.emailaddress_set.all %}
+                  <form action="{% url 'account_email' %}" class="email_list" method="post">
+                  {% csrf_token %}
+                  <fieldset class="blockLabels">
+                  
+                    {% for emailaddress in user.emailaddress_set.all %}
+                  <div class="ctrlHolder">
+                        <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
+                  
+                        <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
+                  
+                  {{ emailaddress.email }}
+                      {% if emailaddress.verified %}
+                      <span class="verified" style="color:var(--main-color-y)">{% trans "Verified" %}</span>
+                      {% else %}
+                      <span class="unverified" style="color:var(--main-color-y)">{% trans "Unverified" %}</span>
+                      {% endif %}
+                        {% if emailaddress.primary %}<span class="primary" style="color:var(--main-color-y)">{% trans "Primary" %}</span>{% endif %}
+                  </label>
+                  </div>
+                    {% endfor %}
+                
+                  <div class="buttonHolder" style="display:flex;flex-direction: column;align-items: center;">
+                        <button class="cm-custom-button" type="submit" name="action_primary" >{% trans 'Make Primary' %}</button>
+                        <button class="cm-custom-button" type="submit" name="action_send" >{% trans 'Re-send Verification' %}</button>
+                        <button class="cm-custom-button" type="submit" name="action_remove" >{% trans 'Remove' %}</button>
+                  </div> 
+                  
+                  </fieldset>
+                  </form>
+                  
+                  {% else %}
+                  <p><strong>{% trans 'Warning:'%}</strong> {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}</p>
+                  
+                  {% endif %}
+                  <div style="margin-top:3.5rem; text-align:center;">                  
+                    <p class="join-txt" style="text-align:center;">계정에 연결된 이메일 주소 추가</p>
+                    <form method="post" action="{% url 'account_email' %}" class="add_email">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button name="action_add" class="cm-custom-button" type="submit">{% trans "Add E-mail" %}</button>
+                    </form>
+                  </div>
+                </div>                
+                <div class="join-mail-info">
+                  <p>지속적인 에러가 있나요?</p>
+                  <ul class="dot-txt">
+                    <li><p>지속적으로 에러가 발생하는 경우, 아이디(이메일)을 기재하여 <span class="cm-font-color-y">support@onenonly.io</span>으로 문의하시거나 <span class="cm-font-color-y">챗봇 상담</span>을 이용해 주세요.</p></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+      </section>
+      <!-- //content -->
+    </div>
+    <!-- //middleArea -->
+  </div>
+  <!-- // container -->
+</div>
+<!-- // wrap -->
+{% endblock body %}
+
+
+
+{% block extra_scripts %}
+<script type="text/javascript">
+  (function() {
+    var message = "{% trans 'Do you really want to remove the selected e-mail address?' %}";
+    var actions = document.getElementsByName('action_remove');
+    if (actions.length) {
+      actions[0].addEventListener("click", function(e) {
+        if (! confirm(message)) {
+          e.preventDefault();
+        }
+      });
+    }
+  })();
+</script>
+{% endblock extra_scripts %}

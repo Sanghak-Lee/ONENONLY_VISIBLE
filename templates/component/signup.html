@@ -1,0 +1,55 @@
+{% load i18n %}
+{% load static %}
+{% load account socialaccount %}
+
+
+<div class="outb">
+	<div class="inb">
+		<div class="ctt">
+			<div class="login_be">
+				<div class="mb_Reg_frm_close login_be_close"></div>
+				{% comment %} <h2>회원가입</h2> {% endcomment %}
+				<div class="signLogoBox"><img src="{% static 'paze/img/hd_logo.png' %}"></div>
+				<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+					{% csrf_token %}
+					{% if redirect_field_value %}
+					<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+					{% endif %}
+					<div class="login_abox">
+						<div class="ipt">
+							{% if signal != '1' %}
+								<ul class="errorlist">
+								{% for key, value in form.errors.items %}
+									{% comment %} {% if key != '__all__' %}[{{ key | escape }}]{% endif %} {% endcomment %}
+									{{ value | escape }}
+								{% endfor %}
+								</ul>
+							{% endif %}
+
+							<input type="text" name="username" class="comm_ipt" required placeholder="이름" />
+							<input type="email" name="email" class="comm_ipt" required placeholder="이메일" />
+							<input type="password" name = "password1" class="comm_ipt" required placeholder="비밀번호" />
+							<input type="password" name = "password2" class="comm_ipt" required placeholder="비밀번호 확인" />
+						</div>
+						<div class="comm_chk1">
+							{% if signal == '1' %}
+							<input type="checkbox" id="reg_agr_1" checked required oninvalid="this.setCustomValidity('개인정보 보호 약관에 동의해주십시오')"
+ oninput="setCustomValidity('')"/>
+							<label for="reg_agr_1"><span></span><b>개인정보보호정책</b>과 <b>이용약관</b>에 동의</label>
+							{% else %}
+							<input type="checkbox" id="reg_agr" required  oninvalid="this.setCustomValidity('개인정보 보호 약관에 동의해주십시오')"
+ oninput="setCustomValidity('')"/>
+							<label for="reg_agr"><span></span><b>개인정보보호정책</b>과 <b>이용약관</b>에 동의</label>							
+							{% endif %}
+						</div>
+						<div class="btn"><button type="submit" class= "lk">회원가입하기</button></div>
+						<div class="login_cbox clear">
+							<div class="nonblue">이미 원앤온리 회원이신가요?</div>
+							<div class="ri mb_Reg_frm_close"><a href="{{ login_url }}">로그인하기</a></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

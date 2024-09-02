@@ -1,0 +1,37 @@
+{% extends "openid/base.html" %}
+{% load account i18n static %}
+
+{% block head_title %} | OpenID Sign In{% endblock %}
+
+{% block body %}
+<div id="wrap" class="sub-wrap">
+  
+
+  <!-- container -->
+  <div id="container">
+    <!-- middleArea -->
+    <div id="middleArea">
+      <!-- content -->
+      <section id="content" class="area-box">
+        <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+        <div class="onenonly">        
+          <h1>{% trans 'OpenID Sign In' %}</h1>
+          <form id="openid_login_form" class="openid_login" method="post" action="{% url 'openid_login' %}">
+          {% csrf_token %}
+          {{form.as_p}}
+          <button type="submit">Sign In</button>
+          </form>
+        </div>            
+        <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+      </section>
+      <!-- //content -->
+    </div>
+    <!-- //middleArea -->
+  </div>
+  <!-- // container -->
+</div>
+<!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}

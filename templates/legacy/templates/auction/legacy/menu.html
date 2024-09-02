@@ -1,0 +1,295 @@
+{% load account socialaccount %}
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'paze/css/style.css' %}" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap&subset=korean" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+</head>
+<style>
+.sub_hd_nav {
+    top: 30% !important;
+	margin-top: -6.5rem!important;
+}
+.wrap {
+    max-width: 200rem !important;
+}
+</style>
+
+<body>	
+
+<!-- 상단공통 -->
+	
+	<div class="wrap">
+		<div class="sub_hd_nav">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<div class="sub_hd_dim"></div>
+		<div id="slide_nav">
+			<div class="slide_wr">
+				<div class="sub_hd_nav_close"></div>
+				<div class="abox">
+					
+					<!-- 로그인O 유저 -->
+					{% if request.user.is_authenticated %}
+						<!-- 아티스트 -->
+						{% if request.user.is_artist %}
+						<a href="{% url 'core:userplay' %}" class="">
+							<p class="nor"><span class="ov">Get My Masterpiece</span></p>
+							<h2 class="in"><span class="ov">나의 작품 선물 보관함</span></h2>
+							<span class="cnt">1</span>
+						</a>
+						<a href="{% url 'core:artistpage' %}" class="">
+							<p class="nor"><span class="ov">My Page</span></p>
+							<h2 class="in"><span class="ov">마이페이지</span></h2>
+						</a>
+						<a href="{% static 'paze/Mypage_wish.html' %}" class="">
+							<p class="nor"><span class="ov">My Wishlist</span></p>
+							<h2 class="in"><span class="ov">위시리스트</span></h2>
+						</a>
+						<a href="{% url 'core:article_list' %}" class="">
+							<p class="nor"><span class="ov">Community</span></p>
+							<h2 class="in"><span class="ov">커뮤니티</span></h2>
+						</a>
+						<a href="{% url 'account_logout' %}" class="">
+							<p class="nor"><span class="ov">Logout</span></p>
+							<h2 class="in"><span class="ov">로그아웃</span></h2>
+						</a>
+						<!-- 유저 -->
+						{% else %}
+
+						<a href="{% url 'core:userplay' %}" class="">
+							<p class="nor"><span class="ov">Get My Masterpiece</span></p>
+							<h2 class="in"><span class="ov">나의 작품 선물 보관함</span></h2>
+							<span class="cnt">1</span>
+						</a>
+						<a href="{% url 'core:userpage' %}" class="">
+							<p class="nor"><span class="ov">My Page</span></p>
+							<h2 class="in"><span class="ov">마이페이지</span></h2>
+						</a>
+						<a href="{% static 'paze/Mypage_wish.html' %}" class="">
+							<p class="nor"><span class="ov">My Wishlist</span></p>
+							<h2 class="in"><span class="ov">위시리스트</span></h2>
+						</a>
+						<a href="{% url 'core:article_list' %}" class="">
+							<p class="nor"><span class="ov">Community</span></p>
+							<h2 class="in"><span class="ov">커뮤니티</span></h2>
+						</a>
+						<a href="{% url 'account_logout' %}" class="">
+							<p class="nor"><span class="ov">Logout</span></p>
+							<h2 class="in"><span class="ov">로그아웃</span></h2>
+						</a>
+						{% endif %}
+
+
+
+
+					<!-- 로그인x 유저 -->
+					{% else %}
+					<a class="Login_btn">
+						<p class="nor"><span class="ov">Sign In / Sign Up</span></p>
+						<h2 class="in"><span class="ov">로그인/회원가입</span></h2>
+					</a>
+					<a href="{% static 'paze/Find_Your_Artist.html' %}" class="">
+						<p class="nor"><span class="ov">Find Your Artist</span></p>
+						<h2 class="in"><span class="ov">나의 아티스트 찾기</span></h2>
+					</a>
+
+
+
+					{% endif %}
+					<!-- 해당 페이지와 일치시 a태그 on 동작필요 -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 메시지 레이어 -->
+	{% if messages %}
+	{% for message in messages %}
+	<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+		{{ message }}
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	{% endfor %}
+	{% endif %}
+
+
+	<!-- 로그인 레이어 -->
+	<div id="comm_ly" class="login-pop-wrap">
+		<!-- 로그인 레이어 -->
+		<form class="login" method="POST" action="{% url 'account_login' %}">
+			{% csrf_token %}
+			{% if redirect_field_value %}
+			<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+			{% endif %}
+		
+				<div class="outb">
+					<div class="inb">
+						<div class="ctt">
+							<div class="login_be">
+								<div class="Login_btn_close login_be_close"></div>
+								<h2>{% trans "Sign In" %}</h2>
+								<div class="login_abox">
+									<div class="ipt">
+										<input type="text" name = "login" class="comm_ipt" placeholder="이메일" />
+										<input type="password" name = "password" class="comm_ipt" placeholder="비밀번호" />
+									</div>
+									<div class="comm_chk1"><input type="checkbox" id="auto_lg" /><label for="auto_lg"><span></span>자동 로그인</label></div>
+									<div class="btn"><button class="lk">{% trans "Sign In" %}</button></div>
+					  <a href="{% url 'account_reset_password' %}" class="le">{% trans "Forgot Password?" %}</a>  
+								</div>
+								<div class="login_bbox">
+									<p class="m1"><span>다른 방법으로 로그인하기</span></p>
+									<div class="sns_login">
+						{% include "socialaccount/snippets/provider_list.html" with process="login" %}
+						{% include "socialaccount/snippets/login_extra.html" %}
+										<div class="sns"><a href="" class="kko"><img src="{% static 'paze/img/sns_kko.png' %}" alt="카카오톡 로그인">카카오톡으로 시작하기</a></div>
+										<div class="sns"><a href="" class="nav"><img src="{% static 'paze/img/sns_nav.png' %}" alt="네이버 로그인">네이버로 시작하기</a></div>
+									</div>
+								</div>
+								<div class="login_cbox clear">
+									<div class="le">아직 플리즈플레이 회원이 아니신가요?</div>
+									<div class="ri mb_Reg"><a href="{{ signup_url }}">{% trans "Sign Up" %}</a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		
+			</form>
+	</div>
+
+	<!-- 회원가입 레이어 -->
+	<div id="comm_ly" class="reg-pop-wrap">
+		<div class="outb">
+			<div class="inb">
+				<div class="ctt">
+					<div class="login_be">
+						<div class="mb_Reg_close login_be_close"></div>
+						<h2>회원가입</h2>
+						<div class="sns_login">
+							<div class="sns"><a href="" class="kko"><img src="{% static 'paze/img/sns_kko.png' %}" alt="카카오톡 로그인">카카오톡으로 시작하기</a></div>
+							<div class="sns"><a href="" class="nav"><img src="{% static 'paze/img/sns_nav.png' %}" alt="네이버 로그인">네이버로 시작하기</a></div>
+							<div class="sns"><a class="mb_Reg_frm email"><img src="{% static 'paze/img/sns_email.png' %}" alt="이메일로 회원가입">이메일로 회원가입</a></a></div>
+						</div>
+						<div class="login_cbox clear">
+							<div class="le">이미 플리즈플레이 회원이신가요?</div>
+							<div class="ri Login_btn">로그인하기</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 회원가입양식 레이어 -->
+	<div id="comm_ly" class="reg-frm-pop-wrap">
+		<div class="outb">
+			<div class="inb">
+				<div class="ctt">
+					<div class="login_be">
+						<div class="mb_Reg_frm_close login_be_close"></div>
+						<h2>회원가입</h2>
+						<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+						<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+							{% csrf_token %}
+							{% if redirect_field_value %}
+							<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+							{% endif %}
+							<div class="login_abox">
+								<div class="ipt">
+									<input type="text" name="username" class="comm_ipt" placeholder="이름" />
+									<input type="email" name="email" class="comm_ipt" placeholder="이메일" />
+									<input type="password" name = "password1" class="comm_ipt" placeholder="비밀번호" />
+									<input type="password" name = "password2" class="comm_ipt" placeholder="비밀번호 확인" />
+								</div>
+								<div class="comm_chk1">
+									<input type="checkbox" id="reg_agr" />
+										<label for="reg_agr"><span></span><b>개인정보보호정책</b>과 <b>이용약관</b>에 동의</label>
+									</div>
+								<div class="btn"><button type="submit" class= "lk">회원가입하기</button></div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$('.Login_btn').on('click',function(){
+			$('.login-pop-wrap').stop(true).fadeIn(300);
+			$('html').addClass('ly_fix');
+		return false;
+		});
+
+		$('.Login_btn_close').on('click',function(){
+			$('.login-pop-wrap').stop(true).fadeOut(300);
+			$('html').removeClass('ly_fix');
+		return false;
+		});	
+	</script>	
+
+	<script type="text/javascript">
+		$('.mb_Reg').on('click',function(){
+			$('.reg-pop-wrap').stop(true).fadeIn(300);
+			$('html').addClass('mb_fix');
+		return false;
+		});
+
+		$('.mb_Reg_close').on('click',function(){
+			$('.reg-pop-wrap').stop(true).fadeOut(300);
+			$('html').removeClass('mb_fix');
+		return false;
+		});	
+	</script>	
+
+	<script type="text/javascript">
+		$('.mb_Reg_frm').on('click',function(){
+			$('.reg-frm-pop-wrap').stop(true).fadeIn(300);
+			$('html').addClass('frm_fix');
+		return false;
+		});
+
+		$('.mb_Reg_frm_close').on('click',function(){
+			$('.reg-frm-pop-wrap').stop(true).fadeOut(300);
+			$('html').removeClass('frm_fix');
+		return false;
+		});	
+	</script>	
+
+	<script type="text/javascript">
+		$(".sub_hd_nav").click(function () {
+			$(this).parents('body').addClass('slide_open'); 
+		});
+		$(".sub_hd_nav_close").click(function () {
+			$(this).parents('body').removeClass('slide_open'); 
+		});
+	</script>
+
+	<script>
+		$(window).scroll(function() {
+			var scroll = $(window).scrollTop();
+			if (scroll >= 100) {
+				$("#hd").addClass("fixed");
+			} else {
+				$("#hd").removeClass("fixed");
+			}
+		});
+	</script>
+	
+
+<!-- 상단공통 -->
+
+</body>
+</html>

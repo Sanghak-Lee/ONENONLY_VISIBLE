@@ -1,0 +1,142 @@
+{% extends "account/base.html" %}
+{% load static %}
+{% load core_template_tags %}
+
+
+{% block head_title %} {{artist}}님 페이지 {% endblock %}
+
+{% comment %} {% block extra_head %} 주문 영상 업로드 {% endblock %} {% endcomment %}
+
+{% block content %}
+
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+</head>
+
+<article id="content" class="backWrapper">
+	<div class="myp att uploadAtt">
+		<div class="wrap">
+			<div class="myp_wr">
+				<!-- 좌측 메뉴 -->
+				<div class="leSlidebar">
+					{% include "component/mypageA_sidebar.html" %}
+				</div>
+				<!-- 우측 컨텐츠 -->
+				<div class="myp_ctt user_reg_ri">
+					<h2>활동 지수</h2>
+					<div class="od_video">
+						<!-- 상단 입금받을 계좌 정보 박스 -->
+						<div class="bankInfoBox">
+							<div class="bankInfo">
+								<div>예금주 : 홍길동</div>
+								<div>계좌번호 : 은행명 123-12-123456</div>
+								<div class="bankInfoAlert">익월 15일에 수령 예정 수익금이 입금됩니다.</div>
+								<div class="bankInfoChange">변경 요청</div>
+							</div>
+							<div class="heartUser">
+								<div>나를 찜한 유저 수</div>
+								<div class="count">23<div class="fa-solid fa-heart"></div></div>
+							</div>
+						</div>
+
+						<!-- 총 수익 금액 표기 -->
+						<div class="odr_box">
+							<div class="in">
+								<dl>
+									<dt>총 수입금</dt>
+									<dd>5,000,000원</dd>
+								</dl>
+								<dl>
+									<dt>수령 완료 수익금</dt>
+									<dd>3,000,000원</dd>
+								</dl>
+								<dl>
+									<dt>익월 수령 예정 수익금</dt>
+									<dd id="orderCount">2,000,000원</dd>
+								</dl>
+							</div>
+						</div>
+
+						<!-- 각 금액 세부 사항 -->
+						<div class="calcBox">
+							<div class="boxTitle">
+								<div class="calcCountNumber">No.</div>
+								<div class="calcStatus">상태</div>
+								<div class="calcTime">날짜</div>
+								<div class="calcItemName">서비스명</div>
+								<div class="calcItemNumber">거래번호</div>
+								<div class="calcItemPrice">서비스 수익금</div>
+							</div>
+							<div>
+								<div class="calcDetail">
+									<div class="calcCountNumber">4</div>
+									<div class="calcStatus"><div class="ing">정산 예정</div></div>
+									<div class="calcTime">2022.01.27<br/>14:46</div>
+									<div class="calcItemName">당신의 초상화를<br/>그려드립니다</div>
+									<div class="calcItemNumber">123456</div>
+									<div class="calcItemPrice">250,000원</div>
+								</div>
+								<div class="calcDetail">
+									<div class="calcCountNumber">3</div>
+									<div class="calcStatus"><div class="done">정산 완료</div></div>
+									<div class="calcTime">2022.01.27<br/>14:46</div>
+									<div class="calcItemName">당신의 초상화를<br/>그려드립니다</div>
+									<div class="calcItemNumber">123456</div>
+									<div class="calcItemPrice">250,000원</div>
+								</div>
+								<div class="calcDetail">
+									<div class="calcCountNumber">2</div>
+									<div class="calcStatus"><div  class="done">정산 완료</div></div>
+									<div class="calcTime">2022.01.27<br/>14:46</div>
+									<div class="calcItemName">당신의 초상화를<br/>그려드립니다</div>
+									<div class="calcItemNumber">123456</div>
+									<div class="calcItemPrice">250,000원</div>
+								</div>
+								<div class="calcDetail">
+									<div class="calcCountNumber">1</div>
+									<div class="calcStatus"><div  class="done">정산 완료</div></div>
+									<div class="calcTime">2022.01.27<br/>14:46</div>
+									<div class="calcItemName">당신의 초상화를<br/>그려드립니다</div>
+									<div class="calcItemNumber">123456</div>
+									<div class="calcItemPrice">250,000원</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</article>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+	<script>
+		$(function(){
+			$('#menu-4').addClass('on');
+		})
+
+		$(".od_det_view").click(function () {
+			$(this).parents('.od_view').toggleClass('on');
+		});
+
+		$('.od_up_open').on('click',function(){
+			$('.od-pop-wrap').stop(true).fadeIn(300);
+			$('html').addClass('play_fix');
+		return false;
+		});
+
+		$('.od_up_close').on('click',function(){
+			$('.od-pop-wrap').stop(true).fadeOut(300);
+			$('html').removeClass('play_fix');
+		return false;
+		});
+
+		$("#od_file").on('change',function(){
+			var fileName = $("#od_file").val().replace(/c:\\fakepath\\/i,'');
+			$(".upload-name").val(fileName);
+		});
+	</script>
+{% endblock extra_scripts %}

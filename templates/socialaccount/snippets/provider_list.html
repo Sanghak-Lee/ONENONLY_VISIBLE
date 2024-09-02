@@ -1,0 +1,43 @@
+{% load socialaccount %}
+{% load static %}
+{% get_providers as socialaccount_providers %}
+
+{% for provider in socialaccount_providers %}
+   {% if provider.id == "openid" %}
+      {% for brand in provider.get_brands %}
+         <a title="{{brand.name}}"
+         class="socialaccount_provider {{provider.id}} {{brand.id}}" 
+         href="{% provider_login_url provider.id openid=brand.openid_url process=process next=request.path %}"
+         >{{ brand.name }}}</a>
+      {% endfor %}
+   {% endif %}
+
+
+   {% if provider.name == "Kakao" %}
+      {% if request.GET.next != null%}
+         <a title="{{brand.name}}"
+         class="kako-login-btn cm-custom-button socialaccount_provider {{provider.id}} {{brand.id}} kko sns_kakao"
+         href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params next=request.GET.next %}" 
+         >카카오 {% if process == 'connect' %}연결{% else %}로그인/회원가입{% endif %}<i class="xi-speech"></i></a>
+      {% else %}
+         <a title="{{brand.name}}"
+         class="kako-login-btn cm-custom-button socialaccount_provider {{provider.id}} {{brand.id}} kko sns_kakao"
+         href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params next=request.path %}" 
+         >카카오 {% if process == 'connect' %}연결{% else %}로그인/회원가입{% endif %}<i class="xi-speech"></i></a>
+      {% endif %}
+
+   {% elif provider.name == "Naver" %}
+      {% if request.GET.next != null%}   
+         <a title="{{brand.name}}"
+         class="naver-login-btn cm-custom-button socialaccount_provider {{provider.id}} {{brand.id}} nav" 
+         href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params next=request.GET.next %}"
+         >네이버 {% if process == 'connect' %}연결{% else %}로그인/회원가입{% endif %}<i class="xi-naver"></i></a> 
+      {% else %}
+         <a title="{{brand.name}}"
+         class="naver-login-btn cm-custom-button socialaccount_provider {{provider.id}} {{brand.id}} nav" 
+         href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params next=request.path %}"
+         >네이버 {% if process == 'connect' %}연결{% else %}로그인/회원가입{% endif %}<i class="xi-naver"></i></a>
+      {% endif %}
+   {% endif %}
+
+{% endfor %}

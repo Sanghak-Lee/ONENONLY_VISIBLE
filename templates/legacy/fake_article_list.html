@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load static %}
+{% load core_template_tags %}
+
+{% load account socialaccount %}
+
+
+{% block head_title %} 커뮤니티 {% endblock %}
+
+{% block extra_head %} {% endblock %}
+
+<!--BODY -->
+
+{% block content %}
+<article id="content">
+	
+	<div class="bbs">
+		<div class="step_box">
+			<div class="wrap">
+				<h2>커뮤니티</h2>				
+			</div>
+		</div>
+		<div class="wrap">
+			<div class="bbs_cate">
+				<ul class="clear">
+                    {% if category == '0' %}
+					<li id=category0 class="on"><a href ="?category=0">전체</a></li>
+                    {% else %}
+					<li id=category0><a href ="?category=0">전체</a></li>
+                    {% endif %}
+                    {% if category == '1' %}
+                    <li id=category1 class="on"><a href="?category=1">공지사항</a></li>
+                    {% else %}
+                    <li id=category1 ><a href="?category=1">공지사항</a></li>
+                    {% endif %}
+                    {% if category == '2' %}
+                    <li id=category2 class="on"><a href="?category=2">이벤트</a></li>
+                    {% else %}
+                    <li id=category2 ><a href="?category=2">이벤트</a></li>
+                    {% endif %}
+                    {% if category == '3' %}
+					<li id=category3 class="on" ><a href="?category=3">베스트</a></li>
+                    {% else %}
+                    <li id=category3><a href="?category=3">베스트</a></li>
+                    {% endif %}
+                    {% if category == '4' %}
+					<li id=category4 class="on" ><a href="?category=4">파트너찾기</a></li>
+                    {% else %}
+                    <li id=category4 ><a href="?category=4">파트너찾기</a></li>
+                    {% endif %}
+                    {% if category == '5' %}
+					<li id=category5 class="on"><a href="?category=5">토크</a></li>
+                    {% else %}
+                    <li id=category5><a href="?category=5">토크</a></li>
+                    {% endif %}
+					<!-- 해당 탭 on 동작 -->
+				</ul>
+			</div>
+
+			<div class="bbs_tbl">
+				<table>
+					<caption>커뮤니티</caption>
+					<thead>
+						<tr>
+							<th class="w1"></th>
+							<th class="w2">제목</th>
+							<th class="w3">작성자</th>
+							<th class="w4">날짜</th>
+							<th class="w5">댓글수</th>
+							<th class="w6">좋아요</th>
+							<th class="w7">조회수</th>
+						</tr>
+					</thead>
+					<tbody>
+                        {% for a in articles %}
+                        {% if a.category == '1' %}
+						<tr>
+							<td class="w1"><span class="up_subj">공지사항</span></td>
+							<td class="w2"><a href="{{ a.get_absolute_url }}">{{ a.title }}</a></td>
+							<td class="w3">{{a.user}}</td>
+							<td class="w4">{{ a.update_date }}</td>
+							<td class="w5"><img src="{% static 'paze/img/bbs_ic1.png' %}" alt="댓글수">5</td>
+							<td class="w6"><img src="{% static 'paze/img/bbs_ic2.png' %}" alt="좋아요">10</td>
+							<td class="w7">{{a.n_hit}}</td>
+						</tr>
+                        {% elif a.category == '2' %}
+						<tr>
+							<td class="w1"><span class="up_subj">이벤트</span></td>
+							<td class="w2"><a href="{{ a.get_absolute_url }}">{{ a.title }}</a></td>
+							<td class="w3">{{a.user}}</td>
+							<td class="w4">{{a.update_date}}}}</td>
+							<td class="w5"><img src="{% static 'paze/img/bbs_ic1.png' %}" alt="댓글수">5</td>
+							<td class="w6"><img src="{% static 'paze/img/bbs_ic2.png' %}" alt="좋아요">10</td>
+							<td class="w7">{{a.n_hit}}</td>
+						</tr>
+                        {% else %}
+						<tr>
+							<td class="w1">{{ a.get_category_display }}</td>
+							<td class="w2"><a href="{{ a.get_absolute_url }}">{{ a.title }}</a></td>
+							<td class="w3">{{a.user}}</td>
+							<td class="w4">{{a.update_date}}</td>
+							<td class="w5"><img src="{% static 'paze/img/bbs_ic1.png' %}" alt="댓글수">5</td>
+							<td class="w6"><img src="{% static 'paze/img/bbs_ic2.png' %}" alt="좋아요">10</td>
+							<td class="w7">{{a.n_hit}}</td>
+						</tr>
+                        {% endif %}
+                        {% endfor %}
+					</tbody>
+				</table>
+				<div class="bbs_bt clear">
+                    <form>
+					<div class="le">
+						<input type="text" class="comm_ipt" name="tcu" placeholder="작성자, 제목, 글 내용..." />
+						<input type="hidden" name="category" value='{{category}}' />
+						<button class="btn" />
+					</div>
+                    </form>
+					<div class="ri">
+						<a href="{% url 'core:article_write' %}"><span class="sBtn ani">글쓰기</span></a>
+					</div>
+				</div>
+
+                
+				<!-- 페이징 -->
+                <div style="text-align: center;">
+                {% if is_paginated %}
+                        {% if page_obj.has_previous %}
+                        
+                            <a href="?page={{ page_obj.previous_page_number }}"
+                               aria-label="Previous">
+                                <span>Previous</span>
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        {% endif %}
+                            <a href="?page={{ page_obj.number }}">{{ page_obj.number }}
+                                <span>(current)</span>
+                            </a>
+
+                        {% if page_obj.has_next %}
+        
+                            <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span>Next</span>
+                            </a>
+                        {% endif %}
+                {% endif %}
+                </div>
+                 
+
+			</div>
+		</div>
+	</div>
+
+</article>
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}

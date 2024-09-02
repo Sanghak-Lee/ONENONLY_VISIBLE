@@ -1,0 +1,493 @@
+{% extends "base.html" %}
+{% load static %}
+{% load core_template_tags %}
+
+{% load account socialaccount %}
+{% load humanize %}
+
+{% block head_title %} 결제하기 {% endblock %}
+
+{% block extra_head %} {% endblock %}
+
+
+{% block content %}
+<!--BODY -->
+
+<style>
+</style>
+
+<article id="content">
+	<div class="payment">
+		<div class="step_box">
+			<div class="wrap processWrap">
+				<div><h2>결제하기</h2></div>
+				<div class="paymentProcess">
+					<ul class="list clear">
+						<li class="li1"><span class="num">1</span><span class="txt">작품 요청하기</span></li>
+						<li class="li2"><span class="num">2</span><span class="txt">결제</span></li>
+						<li class="li3"><span class="num">3</span><span class="txt">완료</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="wrap checkoutWrap">
+			<div class="stk_wr">
+				<!-- 주문 고객 정보 -->
+				<div class="price_frm">
+					<h2>주문 고객 정보</h2>
+					<div class="in customerInfo">
+						<div class="infoBox">
+							<div class="infoIndex">주문자 성함</div>
+							<div>{{ request.user }}</div>
+						</div>
+						<div class="infoBox">
+							<div class="infoIndex">이메일</div>
+							<div>{{ request.user.email }}</div>
+						</div>
+						<div class="infoBox">
+							<div class="infoIndex">전화번호</div>
+							<div>
+								<div class="infoBox phoneBox">
+									<div class="phoneNum">{{ request.user.verification.phone.as_national }}</div>
+									<div><button type="button">변경하기</button></div>
+								</div>
+								<div class="explainTxt">
+									<span>*</span> 주문시 등록된 번호로 SMS(카카오톡 알림톡)를 전송해 드립니다.
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 주문내역 -->
+				<div class="price_frm">
+					<h2>주문내역</h2>
+					<div class="in">
+						<div class="tbl">
+							{% comment %} <table>
+								<caption>주문 아티스트</caption>
+								<thead>
+									<tr>
+										<th class="th1">아티스트</th>
+										<th class="th2">수량</th>
+										<th class="th3">금액</th>
+									</tr>
+								</thead>
+								<tbody>
+                {% for a in order.orderartists_set.all %}
+									<tr>
+										<td class="td1"><h3>{{ a.artist }}</h3></td>
+										<td class="td2">{{ a.quantity }}</td>
+										<td class="td3">{{ a.price | intcomma }}&#8361;</td>
+									</tr>
+                {% endfor %}
+								</tbody>
+							</table>
+							<br>
+							<hr style= "border:solid 1px #c2bdb5 !important; display:block;">
+							<br> {% endcomment %}
+							<table>
+								<caption>주문상품</caption>
+								<thead>
+									<div class="theadWrapper">
+										<div class="theadIndex th1"><span>상품</span></div>
+										<div class="theadIndex th2"><span>수량</span></div>
+										<div class="theadIndex th3"><span>금액</span></div>
+									</div>
+								</thead>
+								<hr style="border:solid 1px #c2bdb5 !important; display:block;">
+								<tbody>
+                {% for i in order.orderitems_set.all %}
+									<tr class="tdWrapper">
+										<td class="td1"><a href="{{ i.donation.placement.get_absolute_url }}"><span>{{ i.artist }}님 작품 ITEM ▶</span></a></td>
+										<td class="td2">{{ i.quantity }}<a href="{% url 'core:remove_from_cart_orderitem' i.pk %}" style="color:white;"> - </a></td>
+										<td class="td3">{{ i.get_total_item_price | intcomma }}&#8361;</td>
+									</tr>
+                {% endfor %}
+								</tbody>
+							</table>
+						</div>
+						<div class="total_n">
+							<dl>
+								<dt class="le">소계</dt>
+								<dd class="ri">{{ order.get_total | intcomma }}&#8361;</dd>
+							</dl>
+							<dl>
+								{% comment %} <dt class="le"><span class="red">쿠폰 적용 EVENT</span></dt>
+								<dd class="ri red">-100,000원</dd> {% endcomment %}
+							</dl>
+						</div>
+						<div class="total_prc">
+							<div class="le">총합</div>
+							<div class="ri">{{ order.get_final_price | intcomma }}&#8361;</div>
+						</div>
+					</div>
+					<div class="coupon_box">
+						<div class="ipt"><input type="text" class="comm_ipt" placeholder="쿠폰 번호 입력" /></div>
+						<span id="" class="sBtn ani"><span class="rtxt">쿠폰 적용</span></span>
+					</div>
+				</div>
+				<div class="price_frm">
+					<h2>주문 고객 정보</h2>
+					<div class="in customerInfo">
+						<div class="infoBox">
+							<div class="infoIndex">배송안내</div>
+								<p>
+								결제 후 콘텐츠를 진행할 날짜에 대하여 원앤온리가 연락드릴 예정입니다.
+							 </p>
+						</div>
+					</div>
+				</div>				
+				<!-- 주문서폼 -->
+				<div class="item_frm">
+					<!-- 주문서 내역 -->
+					{% comment %} {% for a in order.orderartists_set.all %}
+          <div class="order_box">
+						<p class="m1"><img src="{% static 'paze/img/rv_ic1.png' %}" alt="요청사항"><span>{{ order.user.username }}</span>님 만을 위한 작품 요청사항</p>
+						<dl>
+							<dt>작품 용도</dt>
+							<dd>{{ a.music_purpose }}</dd>
+						</dl>
+						<dl>
+							<dt>원하는 곡</dt>
+							<dd>{{ a.music_name }}</dd>
+						</dl>
+						<dl>
+							<dt>요청 레퍼런스</dt>
+							<dd>{{ a.music_ref}}</dd>
+						</dl>
+						<dl>
+							<dt>원하는 분위기</dt>
+							<dd>{{ a.music_vibe }}</dd>
+						</dl>
+						<dl>
+							<dt>작품 받는 사람</dt>
+							<dd>{{ a.music_receiver }}</dd>
+						</dl>
+						<dl>
+							<dt>작품 선물하는 사람</dt>
+							<dd>{{ a.user.username }}</dd>
+						</dl>
+						<dl>
+							<dt>아티스트에게 하고 싶은 말</dt>
+							<dd>(없음)</dd>
+						</dl>
+						<dl>
+							<dt>영상에 들어갈 멘트 입력</dt>
+							<dd>영상에 넣을 멘트 없음</dd>
+						</dl>
+					</div>
+          {% endfor %} {% endcomment %}
+					<div class="bbox">
+					<input type="radio" style="display:none;" id="kakao" />
+					<input type="radio" style="display:none;" id="vbank" />
+						<h2>결제 수단</h2>
+						<div class="selectPayWrapper"> <!-- 결제 수단 선택 -->
+							<div class="selectPayLine">
+								<div class="selectPay cardForPay"><span class="payCheckBox"></span>일반(신용카드)</div>
+								<label for="vbank" class="selectPay noDeposit"><span class="payCheckBox"></span>무통장입금</label>
+							</div>
+							<div class="selectPayLine">
+								<label for="kakao" class="selectPay kakaoPay" id="kakao_payment"><span class="payCheckBox"></span>카카오페이<img src="{% static 'paze/img/pay_1.png' %}" alt="카카오페이"></label>
+								<div class="selectPay toss"><span class="payCheckBox"></span>토스<img src="{% static 'paze/img/pay_3.png' %}" alt="토스"></div>
+							</div>
+						</div>
+					<div class="paymentWrapper"> <!-- 신용카드 결제사 리스트 -->
+						<div class="paymentMethod">
+							<button class="payIndex kb"><img class="kbImg" src="{% static 'paze/img/bank_kb.png' %}"/><span>국민카드</span></button>
+							<button class="payIndex sh"><img class="shImg" src="{% static 'paze/img/bank_sh.png' %}"/><span>신한카드</span></button>
+							<button class="payIndex ss"><img class="ssImg" src="{% static 'paze/img/pay_ss.png' %}"/><span>삼성카드</span></button>
+							<button class="payIndex hn"><img class="hnImg" src="{% static 'paze/img/bank_hn.png' %}"/><span>하나카드</span></button>
+						</div>
+						<div class="paymentMethod underMethod">
+							<button class="payIndex hd"><img class="hdImg" src="{% static 'paze/img/pay_hd.png' %}"/><span>현대카드</span></button>
+							<button class="payIndex ur"><img class="urImg" src="{% static 'paze/img/bank_ur.png' %}"/><span>우리카드</span></button>
+							<button class="payIndex kk"><img class="kakaoImg" src="{% static 'paze/img/pay_kakao.png' %}"/><span>카카오뱅크</span></button>
+							<button class="payIndex otherPay"><img class="otherPayImg" src="{% static 'paze/img/pay_other.png' %}"/><span>기타</span></button>
+						</div>
+					</div>
+					<div class="pay_selc"> <!-- 카드 선택 결제 -->
+						<div class="list otherPaySelect">
+							<div class="tit">카드사 선택</div>
+							<div class="info">
+								<select name="" id="" class="comm_selc">
+									<option value="">씨티카드</option>
+									<option value="">수협카드</option>
+									<option value="">제주카드</option>
+								</select>
+							</div>
+						</div>
+						<div class="list">
+							<div class="tit">결제방식</div>
+							<div class="info">
+								<select name="" id="" class="comm_selc">
+									<option value="">앱으로 결제</option>
+									<option value="">-</option>
+									<option value="">-</option>
+								</select>
+							</div>
+						</div>
+						<div class="list">
+							<div class="tit">할부기간</div>
+							<div class="info">
+								<select name="" id="" class="comm_selc">
+									<option value="">일시불</option>
+									<option value="">02개월</option>
+									<option value="">03개월</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<script>
+						$('.paymentWrapper').hide();
+						$('.pay_selc').hide();
+						$('.otherPaySelect').hide();
+
+						$('.selectPay').click(function(){ // 결제수단 선택
+							$(this).parents('body').addClass('paySelected');
+
+							if($(this).hasClass('activeSelect')){
+								$('.selectPay').removeClass('activeSelect');
+								if($('.selectPay').hasClass('cardForPay')){
+									$('.paymentWrapper').hide();
+									$('.pay_selc').hide();
+								}
+
+								$(this).parents('body').removeClass('paySelected');
+								if($(this).hasClass('cardForPay')){
+									$('.paymentWrapper').hide();
+									$('.pay_selc').hide();
+								}
+							} else {
+								$('.selectPay').removeClass('activeSelect');
+								if($('.selectPay').hasClass('cardForPay')){
+									$('.paymentWrapper').hide();
+									$('.pay_selc').hide();
+								}
+
+								$(this).addClass('activeSelect');
+								if($(this).hasClass('cardForPay')){
+									$('.paymentWrapper').show();
+								}
+							}
+						});
+
+						$('.payIndex').click(function(){ // 결제사 선택
+							$('.payIndex').addClass("notActive")
+
+							if($(this).hasClass('payActive')){
+								$('.payIndex').removeClass('payActive');
+								$('.payIndex').removeClass('notActive');
+								$('.pay_selc').hide();
+							} else {
+								$('.payIndex').removeClass('payActive');
+								$(this).addClass('payActive');
+								$('.pay_selc').show();
+								if($(this).hasClass('otherPay')) {
+									$('.otherPaySelect').show();
+								} else {
+									$('.otherPaySelect').hide();
+								}
+							}
+						});
+					</script>
+				</div> <!-- 카드 선택 결제 end -->
+					<div class="cbox">
+						<div class="m1 cboxTxt">결제 예정금액</div>
+						<div class="rst cboxTxt">{{ order.get_final_price | intcomma }}&#8361;</div>
+					</div>
+					<div class="dbox">
+						<div class="comm_chk1">
+							<input type="checkbox" name="" id="last_chk" required />
+							<label for="last_chk"><span></span>내용을 확인하였으며, 결제 및 전자금융거래 이용약관에 동의합니다.</label>
+						</div>
+					</div>
+					<div class="cfm_btn clear">
+						<ul class="clear">
+							<li class="c1"><a href=""><span>취소</span></a></li>
+							<li class="c1" id="cef"><a href=""><span>본인인증</span></a></li>
+							<li id="checkout" class="c2 ani">결제하기</li>
+							{% comment %} <li id="naver_payment" class="c2 ani">네이버페이</li>
+							<li id="toss_payment" class="c2 ani">토스</li>{% endcomment %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</article>
+
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+<script>
+$(function() {
+	var PATH=window.location.host
+	var csrftoken = getCookie('csrftoken');
+	var pk = "{{ order.pk }}"
+	$(document).on("click", "#checkout", function(e){
+		e.preventDefault();
+		if($("input:radio[id='kakao']").is(":checked")){
+			var IMP = window.IMP; // 생략가능
+			IMP.init('imp48253104');  // 가맹점 식별 코드
+			IMP.request_pay
+			({
+				pg : 'kakao', // 결제방식
+				pay_method : 'card',	// 결제 수단
+				merchant_uid : 'merchant_' + new Date().getTime(),
+				name : '{{ order }}',	// order 테이블에 들어갈 주문명 혹은 주문 번호
+				amount : '{{ order.get_final_price }}',	// 결제 금액
+				buyer_email : '{{order.user.email}}',	// 구매자 email
+				buyer_name :  '{{order.user.username}}',	// 구매자 이름
+				buyer_tel :  '{{order.user.verification.phone}}',	// 구매자 전화번호
+				buyer_addr :  '{{order.address.request}}',	// 구매자 주소
+				buyer_postcode :  '{{order.address.zip}}',	// 구매자 우편번호
+				m_redirect_url : `http://${PATH}/checkout/complete/${pk}`,	// 결제 완료 후 보낼 컨트롤러의 메소드명
+
+			}, function(rsp) {
+				if ( rsp.success ) { // 성공시
+					jQuery.ajax({
+					url: `http://${PATH}/checkout/`, // 가맹점 서버
+					method: "POST",
+					headers: { "Content-type": "application/json; charset=utf-8", "X-CSRFToken": csrftoken},
+					data: JSON.stringify({
+						'pk' : pk,
+						'success' : rsp.success,
+						'imp_uid' : rsp.imp_uid,
+						'merchant_uid' : rsp.merchant_uid
+					})
+					}).done(function (data) {
+						var msg = "결제가 완료되었습니다." + data['success'];
+						msg += "\n고유ID : " + rsp.imp_uid;
+						msg += "\n상점 거래ID : " + rsp.merchant_uid;
+						msg += "\n결제 금액 : " + rsp.paid_amount;
+						msg += "\n카드 승인번호 : " + rsp.apply_num;
+						location.href=`http://${PATH}/checkout/complete/${pk}`;
+						alert(msg);
+											}
+							)
+									}
+				else { // 실패시
+					console.log(rsp)
+					var msg = '결제에 실패하였습니다.';
+					msg += '에러내용 : ' + rsp.error_msg;
+					location.href = `http://${PATH}/checkout/`;
+					}
+							}		
+				);
+
+
+
+
+			}
+
+		else if($("input:radio[id='vbank']").is(":checked")){
+			var IMP = window.IMP; // 생략가능
+			IMP.init('imp48253104');  // 가맹점 식별 코드
+			IMP.request_pay
+			({
+				pg : 'inicis', // 결제방식
+				pay_method : 'vbank',	// 결제 수단
+				merchant_uid : 'merchant_' + new Date().getTime(),
+				name : '{{ order }}',	// order 테이블에 들어갈 주문명 혹은 주문 번호
+				amount : 100, //'{{ order.get_final_price }}',	// 결제 금액
+				buyer_email : '{{order.user.email}}',	// 구매자 email
+				buyer_name :  '{{order.user.username}}',	// 구매자 이름
+				buyer_tel :  '{{order.user.verification.phone}}',	// 구매자 전화번호
+				buyer_addr :  '{{order.address.request}}',	// 구매자 주소
+				buyer_postcode :  '{{order.address.zip}}',	// 구매자 우편번호
+				m_redirect_url : `http://${PATH}/checkout/complete/${pk}`,	// 결제 완료 후 보낼 컨트롤러의 메소드명
+
+			}, function(rsp) {
+				if ( rsp.success ) { // 성공시
+					jQuery.ajax({
+					url: `http://${PATH}/checkout/`, // 가맹점 서버
+					method: "POST",
+					headers: { "Content-type": "application/json; charset=utf-8", "X-CSRFToken": csrftoken},
+					data: JSON.stringify({
+						'pk' : pk,
+						'success' : rsp.success,
+						'imp_uid' : rsp.imp_uid,
+						'merchant_uid' : rsp.merchant_uid
+					})
+					}).done(function (data) {
+						var msg = "결제가 완료되었습니다." + data['success'];
+						msg += "\n고유ID : " + rsp.imp_uid;
+						msg += "\n상점 거래ID : " + rsp.merchant_uid;
+						msg += "\n결제 금액 : " + rsp.paid_amount;
+						msg += "\n카드 승인번호 : " + rsp.apply_num;
+						location.href=`http://${PATH}/checkout/complete/${pk}`;
+						alert(msg);
+											}
+							)
+									}
+				else { // 실패시
+					console.log(rsp)
+					var msg = '결제에 실패하였습니다.';
+					msg += '에러내용 : ' + rsp.error_msg;
+					location.href = `http://${PATH}/checkout/`;
+					}
+							}		
+				);
+
+
+
+		}
+	});
+		
+	$(document).on("click", "#cef", function(e){
+		e.preventDefault();
+		var IMP = window.IMP; // 생략가능
+		IMP.init('imp92988775');  // 가맹점 식별 코드
+		IMP.certification
+		({
+			merchant_uid : 'merchant_' + new Date().getTime(),
+			name : '{{ order }}',	// order 테이블에 들어갈 주문명 혹은 주문 번호
+			popup : false,
+			m_redirect_url : `http://${PATH}/checkout/complete/${pk}`,	// 결제 완료 후 보낼 컨트롤러의 메소드명
+			request_id:'1231',
+		}, function(rsp) {
+			if ( rsp.success ) { // 성공시
+				jQuery.ajax({
+				url: `http://${PATH}/auth/`, // 가맹점 서버
+				method: "POST",
+				headers: { "Content-type": "application/json; charset=utf-8", "X-CSRFToken": csrftoken},
+				data: JSON.stringify({
+					'pk' : pk,
+					'success' : rsp.success,
+					'imp_uid' : rsp.imp_uid,
+					'merchant_uid' : rsp.merchant_uid
+				})
+				}).done(function (data) {
+					var msg = "결제가 완료되었습니다." + data;
+					msg += "\n고유ID : " + rsp.imp_uid;
+					msg += "\n상점 거래ID : " + rsp.merchant_uid;
+					msg += "\n결제 금액 : " + rsp.paid_amount;
+					msg += "\n카드 승인번호 : " + rsp.apply_num;
+					location.href=`http://${PATH}/checkout/complete/${pk}`;
+					alert(msg);
+										}
+						)
+								}
+			else { // 실패시
+				console.log(rsp)
+				var msg = '결제에 실패하였습니다.';
+				msg += '에러내용 : ' + rsp.error_msg;
+				location.href = `http://${PATH}/checkout/`;
+				}
+						}		
+			);
+			
+			})	
+
+			
+});
+</script>
+
+{% endblock extra_scripts %}
+

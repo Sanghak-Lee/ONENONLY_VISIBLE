@@ -1,0 +1,517 @@
+{% extends 'article/auction/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}
+{% load auction_templatetag %}
+  {% block head_title %} | 가이드 {% endblock head_title %}
+	{% block extra_head %}
+	<!--Swiper css-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>	
+	{% endblock extra_head %}
+
+
+
+	{% block content %}
+		<!-- *************************************
+		*********** Begin page content *********** 
+		************************************** -->
+		<div id="page-content">
+
+
+			<!-- =======================
+			///// Begin tt-section /////
+			============================ 
+			* You can use padding classes if needed. For example "padding-top-xlg-150", "padding-bottom-xlg-150", "no-padding-top", "no-padding-bottom", etc. Note that each situation may be different and each section may need different classes according to your needs. More info about helper classes can be found in the file "helper.css".
+			-->
+			<div class="guide-section">
+				<div class="tt-section-inner tt-wrap max-width-900">
+
+					<!-- Begin blog post 
+					===================== --> 
+					<article class="tt-blog-post lightgallery">
+
+						<!-- Begin blog post content -->
+						<div class="tt-blog-post-content">
+							<h5 class="cm-title-style">원앤온리 가이드</h5>
+							<p>
+								원앤온리는 셀럽과 함께 하는 특별한 시간을 구매할 수 있는 서비스입니다.
+							</p>
+							<div class="guide-con01">
+								<h5 class="cm-title-style small area-box">시간상품 티켓</h5>
+								<!-- <p>
+									원앤온리는 셀럽과 함께 하는 특별한 시간을 구매할 수 있는 서비스입니다.
+								</p>																 -->
+								<ul class="about-con04-list" style="padding:0!important;">
+									<li class="about-con04-item">
+										<div class="about-con04-bg pc-ver" style="background: url('/static/rev/img/content/about_con04_bg01.png') 100% 50% no-repeat; background-size: cover;"></div>
+										<div class="about-con04-bg m-ver" style="background: url('/static/rev/img/content/about_con04_bg01_m.png') 100% 50% no-repeat; background-size: cover;"></div>
+										<a href="{% url 'auction:plv' %}?type=c">										
+											<div class="about-con04-txt guide">
+												<div class="area-box">
+													<h5>일반티켓<span class="guide">{% include "svg/icon_crowd_funding.html" %}</span></h5>
+													<p>
+														티켓은 <b>최소 1장부터 최대 5장까지</b> 구매 가능합니다.
+														<br class="pc-br">
+														셀럽과 보내는 시간 상품 특성에 따라 티켓 <b>판매 매수가 한정됩니다.</b>
+													</p>
+												</div>
+											</div>
+										</a>
+									</li>
+
+									<!-- <li class="about-con04-item">
+										<div class="about-con04-bg pc-ver" style="background: url(/static/rev/img/content/about_con04_bg02.png) 100% 50% no-repeat; background-size: cover;"></div>
+										<div class="about-con04-bg m-ver" style="background: url(/static/rev/img/content/about_con04_bg02_m.png) 100% 50% no-repeat; background-size: cover;"></div>
+										<a href="{% url 'auction:plv' %}?type=s">
+											<div class="about-con04-txt guide">
+												<div class="area-box">
+													<h5>경쟁티켓<span class="guide">{% include "svg/icon_secret_funding.html" %}</span></h5>
+													<p>
+														일반티켓과는 달리 <b>이벤트성</b>으로 진행되는 경쟁티켓은
+														<br>
+														가격이 정해져 있지 않고, <b>가장 높은 구매가를 제시한 1인</b>이 해당 상품을 낙찰 받습니다.
+														<br class="pc-br">														
+														낙찰과 동시에 낙찰가와 관계 없이 <b>예약금 300,000원이 3시간내에 결제 완료되어야</b> 낙찰 확정됩니다.														
+													</p>
+												</div>
+											</div>
+										</a>
+									</li> -->
+
+									<!-- <li class="about-con04-item">
+										<div class="about-con04-bg pc-ver" style="background: url(/static/rev/img/content/about_con04_bg03.png) 100% 50% no-repeat; background-size: cover;"></div>
+										<div class="about-con04-bg m-ver" style="background: url(/static/rev/img/content/about_con04_bg03_m.png) 100% 50% no-repeat; background-size: cover;"></div>
+										<a href="{% url 'auction:plv' %}?type=o">
+											<div class="about-con04-txt guide">
+												<div class="area-box">
+													<h5>Open Funding<span class="guide">{% include "svg/icon_open_funding.html" %}</span></h5>
+													<p>구매 종료 시간에 맞춰 가장 높은 금액을 제시한 <b>단 한 분 만을 위해</b> 기획됩니다.
+													<br>최초 입력하신 구매 금액보다 더 높은 금액으로 <b>추가 구매 가능하고,</b>
+													<br class="pc-br"><b>다른 참여자의 구매 가격도 실시간으로 확인할 수 있습니다.</b>
+													</p>
+												</div>
+											</div>
+										</a>											
+									</li> -->
+								</ul>
+							</div>
+
+							<div class="guide-con02">
+								<h5 class="cm-title-style small">티켓 구매방법</h5>
+								<p>
+									구매하는 방법을 요약해놓은 설명서 입니다.<br>
+									좌,우로 넘겨보며 간편하게 읽을 수 있습니다.
+								</p>
+								<div class="guide-con02-inner">
+	
+									<div class="guide-con02-wrapper swiper">
+										<ul class="guide-con02-list swiper-wrapper">
+											<li class="guide-con02-item swiper-slide n1">
+												<div class="guide-con02-img">
+													<!-- 이미지 권장사이즈 210x244 -->
+													<img src="{% static 'rev/img/content/guide_step1.png' %}" alt="히스토리 썸네일 이미지">
+												</div>
+											</li>
+											<li class="guide-con02-item swiper-slide n2">
+												<div class="guide-con02-img">
+													<!-- 이미지 권장사이즈 210x244 -->
+													<img src="{% static 'rev/img/content/guide_step2.png' %}" alt="히스토리 썸네일 이미지">
+												</div>
+											</li>
+											<li class="guide-con02-item swiper-slide n3">
+												<div class="guide-con02-img">
+													<!-- 이미지 권장사이즈 210x244 -->
+													<img src="{% static 'rev/img/content/guide_step3.png' %}" alt="히스토리 썸네일 이미지">
+												</div>
+											</li>
+											<li class="guide-con02-item swiper-slide n4">
+												<div class="guide-con02-img">
+													<!-- 이미지 권장사이즈 210x244 -->
+													<img src="{% static 'rev/img/content/guide_step4.png' %}" alt="히스토리 썸네일 이미지">
+												</div>
+											</li>
+											<li class="guide-con02-item swiper-slide n5">
+												<div class="guide-con02-img">
+													<!-- 이미지 권장사이즈 210x244 -->
+													<img src="{% static 'rev/img/content/guide_step5.png' %}" alt="히스토리 썸네일 이미지">
+												</div>
+											</li>
+										</ul>
+										<div class="swiper-pagination"></div>										
+										<div class="guide-con02-navigation">
+											<button class="btn prev-btn"><i class="xi-angle-left-thin"></i></button>
+											<button class="btn next-btn"><i class="xi-angle-right-thin"></i></button>
+										</div>
+
+									</div>
+									<div class="guide-con02-txt">
+										<p>
+											<b>STEP1. 단독기획 클릭</b>
+												<br>
+												<br>모바일 우측 상단 메뉴 바 클릭 
+												<br>또는 PC상단 단독기획 클릭
+										</p>
+										<p>											
+											<b>STEP2. 원하는 티켓 선택 </b>
+												<br>											
+												<br>마음에 드는 시간상품의 티켓 구매
+										</p>
+										<p>
+											<b>STEP3. 로그인/회원가입 진행</b>
+												<br>											
+												<br>로그인 후 티켓 상품 구경 및 구매 가능
+										</p>
+										<p>
+											<b>STEP4. 티켓 정보 확인</b>
+											<br>											
+											<br>셀럽, 시간상품 진행 과정 및 상세 안내,
+											<br>티켓 구매 관련 안내사항 확인 후 구매 진행
+										</p>
+										<p>
+											<b>STEP5. 결제 후 사전 설문지 작성</b>
+											<br>											
+											<br>마이페이지 접속 > 구매 티켓 클릭 > 사전 질문지 작성
+											<br>셀럽이 워니에게 직접 질문한 내용들을 시간상품 진행일 이전까지 작성
+											<br><span style="color:gray;">*사전질문지 내용은 셀럽이 워니와 소통하기 위해 활용합니다.</span> 
+										</p>																														
+									</div>
+
+								</div>
+							</div>
+							<div class="guide-con03">
+								<!-- <video muted loop autoplay playsinline id="cmVideo" class="pc-ver" data-keepplaying>
+									<source src="{{ placement.pc_banner_video_mp4.url }}" type="video/mp4">
+									Your browser does not support HTML5 video.
+								</video>
+								<video muted loop autoplay playsinline id="cmVideo" class="m-ver" data-keepplaying>
+									<source src="{{ placement.m_banner_video_mp4.url }}" type="video/mp4">
+									Your browser does not support HTML5 video.
+								</video>								 -->
+								<div class="unboxing-view-video">
+									<div class='rev pc-ver embed-container'><iframe src='https://www.youtube.com/embed/{{ p_info.info }}' frameborder='0' allowfullscreen></iframe></div>
+									<div class='rev m-ver embed-container'><iframe src='https://www.youtube.com/embed/{{ m_info.info }}' frameborder='0' allowfullscreen></iframe></div>
+								</div>
+
+							</div>
+
+							{% comment %} <!-- Begin tt-Embed (YouTube video) -->
+							<div class="tt-embed hide-cursor">
+								<iframe class="tt-embed-item" data-src="https://www.youtube.com/embed/4gokfMNr0NE?start=60" allowfullscreen=""></iframe>
+							</div> {% endcomment %}
+
+							{% comment %} <!-- Begin post image -->
+							<figure class="tt-blog-post-image">
+								<a href="{% static 'rev/img/common/logo_image.png' %}" class="tt-bpi-link lg-trigger" data-exthumbnail="{% static 'rev/img/common/logo_image.png' %}" data-cursor="원앤온리">
+									<img class="tt-lazy" src="{% static 'rev/img/common/logo_image.png' %}" data-src="{% static 'rev/img/common/logo_image_long.png' %}" alt="원앤온리">
+								</a>
+								<figcaption class="tt-bpi-caption">
+									Inc. <a href="https://onenonly.io" target="_blank" rel="noopener">One&amp;Only</a>
+								</figcaption>
+							</figure>
+							<!-- End post image -->
+							<blockquote class="open-quote">
+								LIFE-CHANGING MOMENTS WILL BE DELIVERED
+								<footer>ONE &amp; ONLY</footer>
+							</blockquote>
+							<!-- End tt-Embed --> {% endcomment %}
+						</div>
+						<!-- End blog post content -->
+
+						<!-- Begin blog post tags -->
+						<!-- <div class="tt-blog-post-tags">
+							<ul>
+								<li><span>Tags:</span></li>
+								<li><a href="https://www.youtube.com/channel/UCwWckww4Bi7jRYUjYlTsNOA">#YOUTUBE</a></li> 
+								<li><a href="https://www.instagram.com/onenonly.io/">#INSTAGRAM</a></li>
+								<li><a href="https://store.kakao.com/onenonly">#KAKAOSTORE</a></li>
+							</ul>
+						</div> -->
+						<!-- End blog post tags -->
+
+						<!-- Begin blog post share (Note: for design purposes only!) 
+						=========================== 
+						* Use class "bss-fixed-bottom" to enable post share fixed bottom position (effect only on small screens!!!).
+						-->
+						{% comment %} <div class="tt-blog-post-share">
+							<div class="tt-bps-text">공유하기:</div>
+							<div class="social-buttons">
+								<ul>
+									<li><a href="#0" class="magnetic-item" rel="noopener" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a></li>
+									<li><a href="#0" class="magnetic-item" rel="noopener" title="Share on Twitter"><i class="fab fa-twitter"></i></a></li>
+									<li><a href="#0" class="magnetic-item" rel="noopener" title="Share on Instagram"><i class="fab fa-instagram"></i></a></li>
+								</ul>
+							</div> <!-- /.social-buttons -->
+						</div> {% endcomment %}
+						<!-- End blog post share -->
+
+					</article>
+					<!-- End blog post -->
+
+				<!-- ****************** 메인컨텐츠 5 (Q&A) ********************** -->
+				<article id="mainQnaCon">
+					<div class="area-box">
+						<h5 class="main-qna-tit cm-title-style">FAQ
+						{% comment %} <a id="faq-more" class="cm-font-color-y" style="cursor:pointer; display:block; font-size:2rem; padding-left:0.4rem; text-align:right; position:relative; top:2rem;">전체보기</a> {% endcomment %}
+						</h5>
+						<div class="faq-list-con">
+							<dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">원앤온리는 어떤 서비스인가요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt">
+											원앤온리는 셀럽과 함께하는 특별한 시간을 구매할 수 있는 서비스입니다.<br>
+											메타버스 팬미팅부터 오프라인에서의 이색데이트까지, 취미를 함께하는 시간부터 콜라보레이션 작품 제작까지 다양한 시간이 기획됩니다. 											
+											<!-- 원앤온리는 상상으로만 가능했던, <br>
+											꿈 같은 경험을 구매할 수 있는<br>
+											‘타임굿즈 구매 서비스’ 입니다.<br>					
+											동경하던 우상이나, 팔로우하는 <br>
+											셀럽과 함께 소중한 추억을 만들어보세요.<br>
+											<br>
+											멀리서만 응원하고 지켜봤던 유명인이<br>
+											나의 꿈을 응원하는 멘토가 되어주고,<br>
+											때로는 친구처럼 볼링을 치거나 <br>
+											RPG 게임 속에서 만나기도 하고,<br>
+											함께 작품을 기획하고 같이 만들 수 있습니다.<br>
+											<br>											
+											내 시간을 소중하고 값진 경험에<br>
+											투자하는 Intellectual Luxury,<br>
+											원앤온리와 함께 인생에 단 한 번뿐인 특별한 시간을 경험하세요.<br>-->
+											<br><br>
+											<a class="cm-font-color-y" href="{% url 'core:about' %}">원앤온리 회사 소개</a>
+										</div>
+									</div>
+								</dd>
+							</dl>
+							<dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">원앤온리 시간상품은 어떻게 구매할 수 있나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt">
+										셀럽과 함께하는 시간은 티켓으로 구매 가능합니다.<br>모든 시간상품은 티켓 수량이 한정되어 있고, 판매 기한도 한시적입니다.<br>자세한 구매 방법은 상단 구매가이드를 확인해주세요.
+										<!-- 원앤온리의 구매 종류 세가지와 참여 방법을 자세히 알아보실 수 있는 페이지로 안내해드릴게요.<br> -->
+										<!-- <br><br>
+										<a class="cm-font-color-y" href="{% url 'core:guide' %}">구매 가이드</a> -->
+										</div>
+									</div>
+								</dd>
+							</dl>							
+							<!-- <dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">카드 결제가 가능한가요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt">원앤온리는 현재 계좌이체만 가능한 서비스입니다.</div>
+									</div>
+								</dd>
+							</dl> -->
+							<dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">구매를 취소하려면 어떻게 해야 하나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt break-all">
+											<h5 class="answer-q">{% include "svg/icon_crowd_funding.html" %}일반티켓</h5>
+												<div class="cm-font-color-y"><i class="xi-check"></i> 결제 이전</div>
+													마이페이지(해당 티켓) > 구매취소버튼
+												<br><br>
+												<div class="cm-font-color-y"><i class="xi-check"></i> 결제 이후</div>
+												 마이페이지(해당 티켓) > 구매취소버튼 > 구매 취소 신청서 작성
+												<br><br>
+												<!-- <strong>구매 종료 이전 |</strong> <br>마이페이지(해당 티켓) > 구매취소버튼 > 구매 취소 신청서 작성
+												<br>
+												<strong>구매 종료 이후 |</strong> 고객센터(1533-7193)로 전화 주시거나, 이메일(support@onenonly.io)을 보내주세요.<br>
+												<br> -->
+												<!-- <strong>구매 취소되었을 경우</strong><i class="xi-angle-right"></i>  마이페이지(해당 주문서 탭) -> 주문서 -> 환불계좌입력 버튼 -> 환불계좌 입력
+												<br> -->
+												<p style="font-weight:200">
+													* 환불규정에 따라 티켓 판매가 종료된 이후 구매를 취소하실 경우,
+													&nbsp;환불 수수료(결제 금액의 30%)를 차감한 금액이 환불됩니다.</p>
+											<!-- <hr>
+											<h5 class="answer-q">{% include "svg/icon_secret_funding.html" %}경쟁티켓</h5>
+												낙찰 안내를 받은 이후 구매 취소를 원하실 경우,
+												&nbsp;고객센터(1533-7193)로 전화 주시거나,
+												&nbsp;웹사이트 우측 하단의 상담봇을 이용해주세요. -->
+										</div>
+									</div>
+								</dd>
+							</dl>
+							<dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">소셜로그인(카카오, 네이버)으로 가입했는데 비밀번호를 별도로 설정해야 하나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt break-all">
+											<a href="{% url 'core:user' %}?tab=3" class="cm-font-color-y">마이페이지</a>에서 개인정보 수정 시 비밀번호 설정이 필요합니다.
+											<br>
+											그 외 모든 웹사이트 이용에는 비밀번호 설정이 별도로 필요하지 않습니다.
+										</div>
+									</div>
+								</dd>
+							</dl>
+							<dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">본인인증은 로그인 할 때마다 해야 하나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt break-all">
+											웹사이트 사용시 안정성 유지를 위해 마지막 인증 이후 8주에 한 번씩 본인인증이 요구됩니다.
+										</div>
+									</div>
+								</dd>
+							</dl>							
+							<i class="faq-more xi-angle-down"></i>
+							<dl class="faq-item hidden">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">비밀번호는 어떻게 변경할 수 있나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt">로그인 후 [마이페이지(My Page) → 회원 정보 수정]에서 변경할 수 있습니다.</div>
+									</div>
+								</dd>
+							</dl>
+							<dl class="faq-item hidden">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">다른 궁금한 사항은 어디로 문의하면 되나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt">아래 세 가지 방법으로 1<em style="position: relative; top: -0.1rem;">:</em>1 문의가 가능합니다.<br>
+										▸ 상담봇 문의<br>
+										▸ 이메일 문의 <em style="position: relative; top: -0.1rem;">:</em> support@onenonly.io<br>
+										▸ 전화 문의 <em style="position: relative; top: -0.1rem;">:</em> 1533-7193
+										</div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</article>
+
+				</div> <!-- /.tt-section-inner -->
+			</div>
+			<!-- End tt-section -->
+
+
+		</div>
+		<!-- End page content -->
+	{% endblock content%}
+
+	{% block sidebar %}
+		<!-- 사이드바-->
+		{% comment %} <div class="tt-sliding-sidebar-wrap">
+			<div class="tt-sliding-sidebar">
+				<div class="tt-sliding-sidebar-inner">					
+					{% include 'article/auction/component/sidebar.html' %}
+				</div> <!-- /.tt-sliding-sidebar-inner -->
+			</div> <!-- /.tt-sliding-sidebar -->
+
+			<!-- Begin sliding sidebar trigger -->
+			<div class="tt-sliding-sidebar-trigger hide-cursor">
+				<span class="tt-ss-icon"><i class="fas fa-align-justify"></i></span>
+				<span class="tt-ss-icon-close"><i class="fas fa-times"></i></span>
+			</div>
+			<!-- End sliding sidebar trigger -->
+
+			<!-- Close overlay -->
+			<div class="tt-sliding-sidebar-close cursor-close"></div>
+		</div>  {% endcomment %}
+		<!-- End sliding sidebar -->
+
+		<!-- /.사이드바 -->
+	{% endblock sidebar %}
+
+	{% block extra_scripts %}
+
+	<!--FAQ MORE-->
+	
+		<script>
+		</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script> <!-- swiper -->	
+	<script>
+		/* ************************
+		* GUIDE : 가이드 페이지 SLICK
+		************************ */
+		{% comment %} $(".guide-con02-list").slick({
+				centerMode: true,
+				centerPadding: '100px',
+				slidesToScroll: 1,			
+				slidesToShow: 1,
+				arrows: true,
+				prevArrow: $('.guide-con02-navigation .btn.prev-btn'),
+				nextArrow: $('.guide-con02-navigation .btn.next-btn'),
+				fade: false,
+				dots: true,
+				// autoplay: true,
+				// speed:1000,
+				infinite: true,
+				// autoplaySpeed: 3000,
+				easing: 'easeInOutQuint',
+				// pauseOnHover:false,
+				// responsive: [
+				// 				{
+				// 					breakpoint: 480,
+				// 					settings: {
+				// 						centerMode: true,
+				// 						slidesToShow: 1
+				// 					}
+				// 				}
+				// 		  ]
+			}); {% endcomment %}
+	</script>
+  <script>
+    var swiper_guide = new Swiper(".guide-con02-wrapper", {
+			observer: true,
+			observeParents: true,
+			loop: true,
+			effect: 'cards',
+      navigation: {
+        nextEl: ".btn.next-btn",
+        prevEl: ".btn.prev-btn",
+      },
+      pagination: {
+        el: ".swiper-pagination",
+      },
+			on: {
+				slideChange: function () {
+					$('.guide-con02-txt p').removeClass('active');
+					$('.guide-con02-txt p').eq(this.realIndex).addClass('active');
+				}	
+			}		
+    });  
+
+  </script>
+{% endblock extra_scripts %}

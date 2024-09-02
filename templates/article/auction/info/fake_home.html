@@ -1,0 +1,261 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+
+    <meta charset="utf-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">  
+    <link rel="shortcut icon" href="{% static 'rev/favicon/favicon.ico' %}"><!-- 파비콘 -->
+    <link rel="apple-touch-icon-precomposed" href="{% static 'rev/favicon/favicon.png' %}"><!-- 파비콘 -->
+    <meta name="title" content="원앤온리">
+    <meta name="subject" content="오직 당신만을 위한">
+    <meta name="author" content="주식회사 레브너">
+    <meta name="keywords" content="원앤온리, ONE&amp;ONLY, 시간상품, 일반티켓, 경쟁티켓, 셀럽, 워니, onenonly, onenonly.io, 조아란, 1nonly">
+    <meta name="description" content="셀럽과 함께하는 특별한 시간! 원앤온리에서 원앤온리한 시간을 구매하세요.">
+    <meta name="reply-to" content="1nonly.biz@gmail.com">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="원앤온리">
+    <meta property="og:description" content="셀럽과 함께하는 특별한 시간! 원앤온리에서 원앤온리한 시간을 구매하세요.">
+    <meta property="og:image" content="{% static 'rev/img/common/logo_image_long.png' %}">
+    <meta property="og:url" content="https://onenonly.io">
+    <meta property="og:site_name" content="원앤온리">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="원앤온리">
+    <meta name="twitter:description" content="셀럽과 함께하는 특별한 시간! 원앤온리에서 원앤온리한 시간을 구매하세요.">
+    <meta name="twitter:image" content="{% static 'rev/img/common/logo_image_long.png' %}">
+    <meta name="twitter:domain" content="원앤온리">  
+    <meta name="google-site-verification" content="">
+    <meta name="naver-site-verification" content="9498c625102d771717eadc482478a630a0cb88b1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- 모바일사이트, 반응형사이트 제작시 사용 -->
+    <meta name="format-detection" content="telephone=no" /><!-- ios 자동전화걸기 방지 -->
+  
+    <title>원앤온리 | 리뉴얼 중</title>
+  
+    <script type="application/ld+json">
+      {
+        "@context":"http://schema.org",
+        "@type":"Organization",
+        "name":"원앤온리",
+        "url":"https://onenonly.io",
+        "alternateName":"onenonly",
+        "description":"셀럽과 함께하는 특별한 시간! 원앤온리에서 원앤온리한 시간을 구매하세요.",
+        "logo":"https://onenonly.io/static/rev/img/common/logo_image.png",
+        "sameAs":[
+          "https://onenonly.io/",
+          "https://www.instagram.com/onenonly.io/",
+          "https://www.youtube.com/channel/UCwWckww4Bi7jRYUjYlTsNOA/",
+          "https://pf.kakao.com/_kmkDb/",
+          "https://store.kakao.com/onenonly/"
+          ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context":"http://schema.org",
+        "@type":"Person",
+        "name":"원앤온리",
+        "url":"https://onenonly.io",
+        "alternateName":"onenonly",
+        "description":"셀럽과 함께하는 특별한 시간! 원앤온리에서 원앤온리한 시간을 구매하세요.",
+        "sameAs":[
+          "https://onenonly.io/",
+          "https://www.instagram.com/onenonly.io/",
+          "https://www.youtube.com/channel/UCwWckww4Bi7jRYUjYlTsNOA/",
+          "https://pf.kakao.com/_kmkDb/",
+          "https://store.kakao.com/onenonly/"
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context":"http://schema.org",
+        "@type":"WebSite",
+        "name":"원앤온리",
+        "url":"https://onenonly.io",
+        "alternateName":"onenonly",
+        "potentialAction":{
+          "@type":"SearchAction",
+          "target":"https://onenonly.io/auction/list/?search=gigs&keyword={search_term_string}",
+          "query-input":"required name=search_term_string"
+        }
+      }
+    </script>
+  
+  
+
+    {% block extra_head %}
+    {% endblock %}
+
+    <!-- Favicon -->
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'rev/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'rev/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'rev/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'rev/favicon/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'rev/favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+
+		<!-- Google Analytics - Global site tag (gtag.js) -->
+		<!-- Paste your Google Anaytics code here. -->
+
+		<!-- Google fonts (https://www.google.com/fonts) -->
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> <!-- Body font -->
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet"> <!-- Secondary/Alter font -->
+
+		<!-- Libs and Plugins CSS -->
+		<link rel="stylesheet" href={% static 'tank/assets/vendor/normalize/normalize.min.css' %} >
+		<link rel="stylesheet" href={% static 'tank/assets/vendor/fontawesome/css/fontawesome-all.min.css' %}> 
+		<link rel="stylesheet" href={% static 'tank/assets/vendor/swiper/css/swiper-bundle.min.css' %} >
+		<link rel="stylesheet" href={% static 'tank/assets/vendor/lightgallery/css/lightgallery.min.css' %}>
+
+		<!-- Template master CSS -->
+		<link rel="stylesheet" href={% static 'tank/assets/css/helper.css' %}>
+		<link rel="stylesheet" href={% static 'tank/assets/css/theme.css' %}>
+
+	  <!-- Core JS -->
+  	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+	</head>
+
+
+	<!-- ===========
+	///// Body /////
+	================
+	* Use class "tt-boxed" to enable page boxed layout globally (affects all elements containing class "tt-wrap").
+	* Use class "tt-smooth-scroll" to enable page smooth scrolling.
+	* Use class "tt-transition" to enable page transitions.
+	* Use class "tt-magic-cursor" to enable magic cursor.
+	-->
+	<body id="body" class="tt-transition tt-boxed tt-smooth-scroll tt-magic-cursor">
+		<!-- *************************************
+		*********** Begin body inner ************* 
+		************************************** -->
+		<main id="body-inner">
+
+			<!-- Begin page transition (do not remove!!!) 
+			=========================== -->
+			<div id="page-transition">
+				<div class="ptr-overlay"></div>
+				<div class="ptr-preloader">
+					<div class="ptr-prel-content">
+
+					</div> <!-- /.ptr-prel-content -->
+				</div> <!-- /.ptr-preloader -->
+			</div>
+			<!-- End page transition -->
+
+			<!-- Begin magic cursor 
+			======================== -->
+			<div id="magic-cursor">
+				<div id="ball"></div>
+			</div>
+			<!-- End magic cursor -->
+
+			<!-- Begin noise background -->
+			<div class="bg-noise"></div>
+			<!-- End noise background -->
+
+
+			<!-- *****************************************
+			*********** Begin scroll container *********** 
+			****************************************** -->
+			<div id="scroll-container"> 
+				<!-- *************************************
+				*********** Begin content wrap *********** 
+				************************************** -->
+				<div id="content-wrap">
+
+        <!-- ========================
+        ///// Begin page header /////
+        ============================= 
+        * ATENTION: This page header is slightly different from the default page header! 
+        It contains some extra elements and classec specifically for a blog post.
+        ============================= 
+        * Use class "ph-full" to enable fullscreen size.
+        * Use class "ph-cap-sm", "ph-cap-lg", "ph-cap-xlg" or "ph-cap-xxlg" to set caption size (no class = default size).
+        * Use class "ph-center" to enable content center position.
+        * Use class "ph-bg-image" to enable page header background image (required for a portfolio single project!).
+        * Use class "ph-bg-image-is-light" if needed, it makes the elements dark and more visible if you use a very light image (effect only with class "ph-bg-image").
+        * Use class "ph-image-shadow" to enable page header background image (effect only with class "ph-bg-image").
+        * Use class "ph-image-cropped" to crop image. It fixes image dimensions (no effect for "ph-bg-image"!).
+        * Use class "ph-image-cover-*" to set image overlay opacity. For example "ph-image-cover-2" or "ph-image-cover-2-5" (up to "ph-image-cover-9-5").
+        * Use class "ph-content-parallax" to enable content parallax.
+        * Use class "ph-stroke" to enable caption title stroke style.
+        -->
+        <div id="page-header" class="ph-full ph-cap-sm ph-center ph-image-shadow ph-image-cover-6 ph-content-parallax">
+          <div class="page-header-inner tt-wrap max-width-1400">
+
+            <!-- Begin page header caption
+            =============================== 
+            Use class "max-width-*" to set caption max width if needed. For example "max-width-1000". More info about helper classes can be found in the file "helper.css".
+            -->
+            <div class="ph-caption">
+              <div class="ph-categories ph-appear">
+                <a class="ph-category">원앤온리</a>
+                <!-- <a href="blog-archive.html" class="ph-category">Uncategorized</a> -->
+              </div> <!-- /.ph-categories -->
+
+              <h2 class="ph-caption-title ph-appear"><strong>One&amp;Only</strong><br>Coming soon</h2> <!-- You can use <br class="hide-from-lg"> to break a text line if needed -->
+
+              <div class="ph-appear">
+                <p class="ph-meta-published">현재 웹사이트 리뉴얼 중입니다.<br>빠른 시일 이내 새로운 웹사이트로 다시 오픈됩니다.</p>
+                <p class="ph-meta-posted-by">문의 사항이 있으시면 하단 이메일을 통해 남겨주시기 바랍니다.<br><a href="mailto:support@onenonly.io" title="Mail to Onenonly">support@onenonly.io</a></p>
+              </div> <!-- /.ph-meta -->
+            </div> 
+            <!-- End page header caption -->
+
+          </div> <!-- /.page-header-inner -->
+
+        </div>
+        <!-- End page header -->
+
+				<!-- footer -->
+
+
+				</div>
+				<!-- End content wrap -->
+
+			</div>
+			<!-- End scroll container -->
+
+
+		</main>
+		<!-- End body inner -->
+
+
+        
+  {% block extra_body %}{% endblock %}
+
+
+  <!-- ====================
+  ///// Scripts below /////
+  ===================== -->
+ 
+  <!-- Libs and Plugins JS -->
+  <script src={% static 'tank/assets/vendor/gsap/gsap.min.js' %}></script> <!-- GSAP JS (https://greensock.com/gsap/) -->
+  <script src={% static 'tank/assets/vendor/gsap/ScrollToPlugin.min.js' %}></script> <!-- GSAP ScrollToPlugin JS (https://greensock.com/scrolltoplugin/) -->
+  <script src={% static 'tank/assets/vendor/gsap/ScrollTrigger.min.js' %}></script> <!-- GSAP ScrollTrigger JS (https://greensock.com/scrolltrigger/) -->
+
+  <script src={% static 'tank/assets/vendor/smooth-scrollbar.js' %}></script> <!-- Smooth Scrollbar JS (https://github.com/idiotWu/smooth-scrollbar/) -->
+  <script src={% static 'tank/assets/vendor/swiper/js/swiper-bundle.min.js' %}></script> <!-- Swiper JS (https://swiperjs.com/) -->
+  <script src={% static 'tank/assets/vendor/isotope/imagesloaded.pkgd.min.js' %}></script> <!-- imagesloaded JS (more info: https://imagesloaded.desandro.com/) -->
+  <script src={% static 'tank/assets/vendor/isotope/isotope.pkgd.min.js' %}></script> <!-- Isotope JS (http://isotope.metafizzy.co) -->
+  <script src={% static 'tank/assets/vendor/isotope/packery-mode.pkgd.min.js' %}></script> <!-- Isotope Packery Mode JS (https://isotope.metafizzy.co/layout-modes/packery.html) -->
+  <script src={% static 'tank/assets/vendor/lightgallery/js/lightgallery-all.min.js' %}></script> <!-- lightGallery Plugins JS (http://sachinchoolur.github.io/lightGallery) -->
+  <script src={% static 'tank/assets/vendor/jquery.mousewheel.min.js' %}></script> <!-- A jQuery plugin that adds cross browser mouse wheel support (https://github.com/jquery/jquery-mousewheel) -->
+
+  <!-- Theme master JS -->
+  <script src={% static 'tank/assets/js/theme.js' %}></script>
+
+  {% block extra_scripts %} {% endblock extra_scripts %}
+
+
+</body>
+</html>	

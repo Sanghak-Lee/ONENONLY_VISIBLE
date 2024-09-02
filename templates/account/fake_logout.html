@@ -1,0 +1,38 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% load static %}
+{% block head_title %} {% trans "Sign In" %} {% endblock %}
+
+{% block content %}
+	<article id="content">
+	<div class="mb_leave">
+		<div class="sol_hd">
+			<div class="wrap">
+				<h2>로그아웃</h2>
+			</div>
+		</div>
+		<div class="wrap">
+			<div class="abox"><img src="{% static 'paze/img/leave.png' %}" alt="회원탈퇴"></div>
+			<div class="bbox">
+				<p class="m2">로그아웃을 하시겠습니까?</p>
+			</div>
+			<div class="cbox">
+              <form method="post" action="{% url 'account_logout' %}">
+              {% csrf_token %}
+              {% if redirect_field_value %}
+              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+              {% endif %}
+              <button class="sBtn" type="submit">{% trans 'Sign Out' %}</button>
+            </form>
+			</div>
+		</div>
+	</div>
+
+</article>
+
+
+  
+
+{% endblock %}

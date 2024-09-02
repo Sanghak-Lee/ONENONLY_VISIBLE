@@ -1,0 +1,122 @@
+{% extends "auction/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}  
+{% get_top_3 placement as placementbid %}
+
+{% block head_title %} WooKukWon's Auction {% endblock %}
+
+<!-- additioinal css, favicon, metadata -->
+{% block extra_head %}{% endblock %}
+
+<!-- Bidding modal -->
+{% block extra_body %}
+{% endblock extra_body%}
+
+{% block body %}
+  <!-- ======= About Section ======= -->    
+  <section id="about" class="about-show section-show">  
+    <!-- ======= About Me ======= -->
+    <div class="about-me container">
+      <div class="section-title">
+        <h2>옥션 경매품</h2>
+      </div>
+      <div class="auction-style1">
+        <div class="left">
+          <div class="swiper style1-container counts">
+            <div class="swiper-wrapper style1-wrapper">
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-emoji-smile"></i>
+                <img src="{% static 'img/auction/woo_3.jpg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="2018" data-purecounter-duration="1" class="purecounter"></span>
+                <p>She</p><p style="font-style:italic;">oil on canvas</p>
+              </div>
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-journal-richtext"></i>
+                <img src="{% static 'img/auction/woo_4.jpg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="2019" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Dinner</p><p style="font-style:italic;">oil on canvas</p>
+              </div>
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-headset"></i>
+                <img src="{% static 'img/auction/woo_5.jpg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="2019" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Starting Over</p><p style="font-style:italic;">oil on canvas</p>
+              </div>
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-award"></i>
+                <img src="{% static 'img/auction/woo_6.jpg' %}" class="img-fluid" alt="">              
+                <span data-purecounter-start="0" data-purecounter-end="2018" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Dragon</p><p style="font-style:italic;">oil on canvas</p>
+              </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="style1-pagination"></div>
+          </div>          
+        </div>
+        <div class="right">
+            {% include "auction/component/right.html" with placement=placement now_price=placementbid.0.offer pk=pk %}
+        </div>
+
+
+      </div>
+
+    </div><!-- End About Me --></div></div></div></div></div></div>
+
+  </section><!-- End About Section -->
+
+  <!-- ======= resume(마이옥션) Section ======= -->
+  {% include 'auction/component/section_resume.html' with placement=placement %}  
+  <!-- End resume(마이옥션) Section -->
+
+
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>옥션 아티스트</h2>
+        <p>WooKukWon</p>
+      </div>
+
+      <div class="row mt-2">
+
+        <div class="col-md-6 d-flex align-items-stretch">
+          <div class="info-box">
+
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch">
+          <div class="info-box">
+
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 d-flex align-items-stretch">
+          <div class="info-box">
+
+          </div>
+        </div>
+        <div class="col-md-6 mt-4 d-flex align-items-stretch">
+          <div class="info-box">
+
+          </div>
+        </div>
+      </div>
+
+      <div class="php-email-form mt-4">
+       
+      <strong><i>WooKukWon</i></strong><br>&amp;<br><strong><i>ONE &amp; ONLY</i></strong>
+
+      </div>
+
+    </div>
+  </section><!-- End Contact Section -->
+{% endblock body %}
+
+
+{% block extra_scripts %}
+
+{% endblock extra_scripts %}

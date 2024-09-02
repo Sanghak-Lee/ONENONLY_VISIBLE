@@ -1,0 +1,35 @@
+{% load humanize %}
+<!-- 팝업 :: 티켓 선물하기 모달  -->
+<article class="layer-fixed-pop-wrapper layer-popup" id="popupTicketDetail">
+	<div class="modal-fixed-pop-inner">
+		<div class="modal-inner-box">
+			<div class="modal-inner-content">
+				<!-- 컨텐츠 영역 -->
+				<section class="cm-modal-content cm-alret-modal-content">
+					<div class="popup-inner-con long-ver">
+						<div class="cm-modal-tit">
+							<p class="unboxing-buy-tit"><b>{{ orderitem.placement.title | safe }}[{{orderitem.quantity}}인권]</b><br>티켓을 선물하시겠습니까?<br><span></span></p>
+							<ul class="popup-dot-txt">
+								<li>여러명이 입장 가능한 QR코드(입장권)의 경우, (예: 2인권, 3인권 등), 동반 입장이 가능한 분에게 전송해주셔야 합니다.</li>
+								<li>추가 티켓 관련 문의가 있으신 경우, 홈페이지 우측 하단 상담봇을 이용해주세요.</li>
+							</ul>							
+						</div>
+					</div>
+					<div class="cm-modal-btn clearfix">
+						<ul class="col-02">
+							<li><a href="javascript:;" class="cm-basic-btn" onclick="modalPopupClose('#popupTicketDetail')">취소</a></li>
+							<li><a href="javascript:;" onclick="KakaoShare(event,'ticket',{{orderitem.to_json}});" class="cm-positive-btn">선물하기</a></li>
+						</ul>
+					</div>
+				</section>
+				<!-- // -->
+			</div>
+		</div>
+	</div>
+</article>
+
+<script>
+	function FormSubmit(){
+		$("form[id='funding']").submit();
+	}
+</script>

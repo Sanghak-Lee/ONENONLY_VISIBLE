@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static auction_templatetag humanize %}
+{% block extra_head %}{% endblock extra_head %}
+{% block head_title %} | 결제완료 {% endblock %}
+
+{% block body %}
+<div id="wrap" class="sub-wrap paying-wrap">
+  <!-- container -->
+  <div id="container">
+    <!-- middleArea -->
+    <div id="middleArea">
+      <!-- content -->
+      <section id="content" class="area-box">        
+        <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+        <div class="sub-page mypage-page">
+          <div id="vbank" class="paying-complete-con" style="display:none;">
+            <h5 class="tit">가상계좌 발급완료</h5>
+            <p class="txt">가상계좌가 발급되었습니다. <br>입금을 하셔야 결제가 완료됩니다.</p>
+            <table class="popup-funding-tbl">
+              <colgroup>
+                <col style="width: 33%;">
+                <col style="width: *">
+              </colgroup>
+              <tbody>
+                <tr>
+                  <th>결제 금액</th>
+                  <td>{{orderitem.get_final_price | intcomma }}원</td>
+                </tr>
+                <tr>
+                  <th>결제 수단</th>
+                  <td>무통장 입금</td>
+                </tr>
+                <tr>
+                  <th>입금자명</th>
+                  <td>{{ orderitem.user.verification.name | default:orderitem.user.username }}</td>
+                </tr>
+                <tr>
+                  <th>입금 은행</th>
+                  <td>{{orderitem.vbank_name}} {{orderitem.vbank_num}}</td>
+                </tr>
+                <tr>
+                  <th>입금 기한</th>
+                  <td>{{ orderitem.vbank_date }} 까지</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="non-vbank" class="paying-complete-con" style="display:none;">
+            <h5 class="tit">결제완료</h5>
+            <p class="txt">결제가 성공적으로 완료되었습니다.<br>결제내역은 <a href="{% url 'core:user' %}" style="color:var(--main-color-y);">마이페이지(클릭)</a>에서 확인할 수 있습니다.</p>
+            <table class="popup-funding-tbl">
+              <colgroup>
+                <col style="width: 33%;">
+                <col style="width: *">
+              </colgroup>
+              <tbody>
+                <tr>
+                  <th>결제 금액</th>
+                  <td id="amountToBePaid"></td>
+                </tr>
+                <tr>
+                  <th>결제 수단</th>
+                  <td id="card_name">카드결제</td>
+                </tr>
+                <!-- <tr>
+                  <td><a style="color:var(--main-color-y);" id="receipt_url" href="">카드전표</a></th>
+                </tr>                 -->
+                <!-- <tr>
+                  <th>입금자명</th>
+                  <td>{{ orderitem.user.verification.name | default:'orderitem.user.username' }}</td>
+                </tr>
+                <tr>
+                  <th>입금 은행</th>
+                  <td>{{orderitem.vbank_name}} {{orderitem.vbank_num}}</td>
+                </tr> -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+      </section>
+      <!-- //content -->
+    </div>
+    <!-- //middleArea -->
+  </div>
+  <!-- // container -->
+</div>
+{% endblock body %}
+
+{% block extra_scripts %}
+<script>
+var vbank = searchParam('vbank');
+var amountToBePaid = searchParam('amountToBePaid');
+var card_name = searchParam('card_name');
+var receipt_url = searchParam('receipt_url');
+if(vbank == 'true'){
+  $('#vbank').fadeIn()
+//가상계좌일때 화면
+}else{ 
+  $('#non-vbank').fadeIn();
+  $('#amountToBePaid').text(`${amountToBePaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원`);
+  $('#card_name').text(`${card_name}`);
+  // $('#receipt_url').attr('href',`${receipt_url}`);
+}
+</script>
+
+{% endblock extra_scripts %}

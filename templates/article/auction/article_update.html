@@ -1,0 +1,234 @@
+{% extends 'article/auction/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}
+{% load auction_templatetag %}
+  {% block head_title %} | 게시글 {% endblock head_title %}
+
+	{% block header %}
+	{% endblock header %}
+
+	{% block content %}
+		<!-- *************************************
+		*********** Begin page content *********** 
+		************************************** -->
+		<div id="page-content">
+			<!-- =======================
+			///// Begin tt-section /////
+			============================ 
+			* You can use padding classes if needed. For example "padding-top-xlg-150", "padding-bottom-xlg-150", "no-padding-top", "no-padding-bottom", etc. Note that each situation may be different and each section may need different classes according to your needs. More info about helper classes can be found in the file "helper.css".
+			-->
+			<div class="tt-section">
+				<div class="tt-section-inner tt-wrap max-width-900">
+					<!-- Begin blog post 
+					===================== --> 
+					<article class="tt-blog-post lightgallery">
+
+						<!-- Begin blog post content -->
+						<div class="tt-blog-post-content rev">
+              <form id="tt-post-comment-form" class="tt-form-lg tt-form-minimal" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+								<div class="tt-form-group">
+									<label>카테고리 <span class="text-gray">*</span></label>
+									<div>
+										<div class="tt-form-check tt-form-check-inline">
+											<input type="radio" name="category" value="1" id="bbs_chk1" {% if article.category == '1' %}checked{% endif %} /> <label for="bbs_chk1"><span>공지사항</span></label>
+										</div>
+										<div class="tt-form-check tt-form-check-inline">											
+											<input type="radio" name="category" value="2" id="bbs_chk2" {% if article.category == '2' %}checked{% endif %} /> <label for="bbs_chk2"><span>이벤트</span></label>
+										</div>
+										<div class="tt-form-check tt-form-check-inline">											
+											<input type="radio" name="category" value="3" id="bbs_chk3" {% if article.category == '3' %}checked{% endif %} /> <label for="bbs_chk3"><span>보도자료</span></label>
+										</div>
+										<div class="tt-form-check tt-form-check-inline">											
+											<input type="radio" name="category" value="4" id="bbs_chk4" {% if article.category == '4' %}checked{% endif %} /> <label for="bbs_chk4"><span>참고자료</span></label>
+										</div>
+										<div class="tt-form-check tt-form-check-inline">																								
+											<input type="radio" name="category" value="5" id="bbs_chk5" {% if article.category == '5' %}checked{% endif %} /> <label for="bbs_chk5"><span>특별기획</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="tt-form-group">
+									<label for="aplace">DISPLAY 장소 <span class="text-gray">*</span></label>
+									<input type="text" id='aplace' name="display_place" class="tt-form-control" placeholder="장소를 입력하세요" value="{{article.display_place}}" required/>
+								</div>
+								<div class="tt-form-group">
+									<label for="atime">DISPLAY 시간 <span class="text-gray">*</span></label>
+									<input type="datetime-local" id='atime' name="display_day" value="{{ article.display_day | date:'c'}}" class="" required/>
+								</div>
+								<div class="tt-form-group">
+									<label for="atext">DISPLAY 설명 <span class="text-gray">*</span></label>
+									<input type="text" id='atext' name="display_text" class="tt-form-control" placeholder="설명을 입력하세요" value="{{article.display_text}}" required/>
+								</div>
+
+								<div class="tt-form-group">
+									<label for="atitle">제목 <span class="text-gray">*</span></label>
+									<input type="text" value="{{article.title}}" id='atitle' name="title" class="tt-form-control" placeholder="제목을 입력하세요" required/>
+								</div>
+                 <p>{{article.user}} | {{article.created}} | {{ article.get_category_display }} | <i class="xi-eye"></i> {{ article.update_counter }}회</p>
+								 <div class="tt-form-group">
+									<label>배지 <span class="text-gray">*</span></label>
+									<div class="thumbnail-bg badge" style="background-color:gray; background:url('{{article.badge.url}}') center/cover no-repeat;">
+										<label for="badge">
+											<img src="{% static 'rev/img/common/plus.png' %}">
+										</label>											
+									</div>
+									<input class="btn-file tt-file-info" value='{{ article.badge }}' type="file" id="badge" name="badge" onChange="readFile(event,'badge');"/>
+								</div>								 
+								 <div class="tt-form-group">
+									<label>썸네일 <span class="text-gray">*</span></label>
+									<div class="thumbnail-bg thumbnail" style="background-color:gray; background-image:url('{{article.thumbnail.url}}')">
+										<label for="thumbnail">
+											<img src="{% static 'rev/img/common/plus.png' %}">
+										</label>											
+									</div>
+									<input class="btn-file tt-file-info" value='{{ article.thumbnail }}' type="file" id="thumbnail" name="thumbnail" onChange="readFile(event,'thumbnail');"/>
+								</div>								
+                <!-- 본문 -->
+								<div class="tt-form-group">
+									<label>내용 <span class="text-gray">*</span></label>
+									<textarea id="article_text" rows="8" cols="32" name="text" placeholder="내용을 입력하세요.">{{ article.text | safe }}</textarea>
+									<small class="tt-form-text">(*)는 필수로 입력하셔야합니다.</small>										
+								</div>
+								<!-- Begin post comment submit button -->
+								<div class="tt-btn tt-btn-light-outline">
+									<button type="submit" data-hover="Update" class="">수정하기</button>
+								</div>
+								<!-- End post comment submit button -->
+              </form>
+            </div>
+					</article>
+					<!-- End blog post -->
+				</div> <!-- /.tt-section-inner -->
+			</div>
+			<!-- End tt-section -->
+
+		</div>
+		<!-- End page content -->
+	{% endblock content%}
+
+	{% block sidebar %}
+		<!-- 사이드바-->
+		<div class="tt-sliding-sidebar-wrap">
+			<div class="tt-sliding-sidebar">
+				<div class="tt-sliding-sidebar-inner">					
+					{% include 'article/auction/component/sidebar.html' with category=category %}
+				</div> <!-- /.tt-sliding-sidebar-inner -->
+			</div> <!-- /.tt-sliding-sidebar -->
+
+			<!-- Begin sliding sidebar trigger -->
+			<div class="tt-sliding-sidebar-trigger hide-cursor">
+				<span class="tt-ss-icon"><i class="fas fa-align-justify"></i></span>
+				<span class="tt-ss-icon-close"><i class="fas fa-times"></i></span>
+			</div>
+			<!-- End sliding sidebar trigger -->
+
+			<!-- Close overlay -->
+			<div class="tt-sliding-sidebar-close cursor-close"></div>
+		</div> 
+		<!-- End sliding sidebar -->
+		<!-- /.사이드바-->	
+	{% endblock sidebar %}
+  {% block extra_scripts %}
+  <!-- 섬네일이미지 -->
+  <script>
+    function readFile(event, classname) {
+      let file = event.target.files[0];
+      console.log($(event.target).val())
+      let href = window.URL.createObjectURL(file);
+			$(`.${classname}`).css('background', `url('${href}') center/cover no-repeat;`);
+
+      //5분뒤에 메모리 해제
+      setTimeout(function() {
+        window.URL.revokeObjectURL(href)
+      }, 1000 * 60 * 5);
+    }
+  </script>  
+	<script src="{% static 'rev/vendor/js/ckeditor.js' %}"></script>  
+	<!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.3.2/super-build/ckeditor.js"></script> -->
+	<script>
+		const watchdog = new CKSource.EditorWatchdog();
+		window.watchdog = watchdog;			
+		watchdog.setCreator( ( element, config ) => {
+			return CKSource.Editor
+				.create( element, config )
+				.then( editor => {
+					editor.config.enterMode='br';		//엔터키 입력시 br 태그 변경
+					editor.config.shiftEnterMode='br';
+					editor.config.autoParagraph=false;
+					editor.config.forcePasteAsPlainText = true;					
+					editor.editing.view.document.on('enter',( evt, data ) => {
+						console.log('yes');
+            editor.execute('shiftEnter');
+            //Cancel existing event
+            data.preventDefault();
+            evt.stop();
+     				}, {priority: 'high' });					
+					return editor;
+				} )
+		} );			
+		watchdog.setDestructor( editor => {
+			return editor.destroy();
+		} );			
+		watchdog.on( 'error', handleError );
+	function handleError( error ) {
+		console.error( 'Oops, something went wrong!' );
+		console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+		console.warn( 'Build id: 5yk5alu7zq7l-qyn424im7vzf' );
+		console.error( error );
+	}
+	function createEditor_V2(elementId){
+		return watchdog
+				.create(document.querySelector('#' + elementId),
+				{
+						licenseKey: '',
+						enterMode:'br',		//엔터키 입력시 br 태그 변경
+						shiftEnterMode: 'br',
+						autoParagraph: false,
+						fontFamily: {
+									options: [
+											'default',
+											'Nanum Gothic',
+											'Nanum Gothic ExtraBold',
+											'Nanum Gothic Bold',
+											'Pretendard',
+											'Nephilm',
+											'Noto Sans KR',
+											'Times New Roman, Times, serif',
+											'Trebuchet MS, Helvetica, sans-serif',
+											'Verdana, Geneva, sans-serif'
+									],
+									supportAllValues: true
+							},          
+							fontSize: {
+									// options: [ 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,40,50,60,70,80,90,100 ],
+									options:[8,10,12,14,16,18,20,26,32,38],
+									supportAllValues: true
+							},
+							htmlSupport: {
+									allow: [
+											{
+													name: /.*/,
+													attributes: true,
+													classes: true,
+													styles: true
+											}
+									]
+							},
+							// Be careful with enabling previews
+							// https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
+							htmlEmbed: {
+									showPreviews: true
+							},
+				})
+				.catch( handleError )
+	}
+
+		$(document).ready( function() {
+			createEditor_V2('article_text');
+			}); 
+
+
+	</script>	
+	{% endblock extra_scripts %}

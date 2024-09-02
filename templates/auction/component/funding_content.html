@@ -1,0 +1,774 @@
+{% load auction_templatetag static humanize %}
+{% yet_start_done request placement.id as STATUS %}
+
+<!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+<div class="sub-page unboxing-page {% if STATUS == 'done' %}unboxing-last{% endif %}">
+  <!-- fixed 구매 버튼 박스 -->
+  {% if STATUS == 'yet' %}
+  <div class="unboxing-fixed-btn-con last">
+    <div class="area-box">
+      <ul class="clearfix">
+        <!-- 
+          * 앵콜요청 버튼 누른 후에는 disabled 클래스 붙혀주세요. 
+          * 로그인 전에는 팝업 #popupAlarmLogin로 사용
+          * 로그인 후에는 팝업 #popupEncoreComplete로 사용
+        -->
+        {% if request.user.is_authenticated %}
+      	<li><button class="alarm cm-custom-button detail {% if placement in request.user.alarm.all %}deactivate{% endif %}" onclick="AlarmAjax(event, '{{placement.id}}', '{% url 'auction:alarm' %}', getCookie('csrftoken'));">ALARM <i class="xi-bell"></i></button></li>
+        {% else %}
+      	<li><button class="alarm cm-custom-button detail" onclick="modalPopupOpen(event,'#popupAlarmLogin');">ALARM <i class="xi-bell"></i></button></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  {% elif STATUS == 'soon' %}
+  <div class="unboxing-fixed-btn-con">
+    <div class="area-box">
+      <ul class="clearfix">
+      	<li><button disabled class="cm-custom-button detail soon disabled"><i class="xi-clock"></i><span class="button-countdown"></span></button></li>
+      </ul>
+    </div>
+  </div>  
+  {% elif STATUS == 'done' %}
+  <div class="unboxing-fixed-btn-con last">
+    <div class="area-box">
+      <ul class="clearfix">
+        <!-- 
+          * 앵콜요청 버튼 누른 후에는 disabled 클래스 붙혀주세요. 
+          * 로그인 전에는 팝업 #popupAlarmLogin로 사용
+          * 로그인 후에는 팝업 #popupEncoreComplete로 사용
+        -->
+        {% if request.user.is_authenticated %}
+        <li><button class="encore cm-custom-button detail {% if placement in request.user.encore.all %}disabled{% endif %}" onclick="EncoreAjax(event,'{{placement.id}}', '{% url 'auction:encore' %}', getCookie('csrftoken'));">앵콜 요청{% if fp.encores.all.count >= 10 %} | {{fp.encores.all | length }}회 요청 중{% endif %}</button></li>
+        {% else %}
+        <li><button class="encore cm-custom-button detail" onclick="modalPopupOpen(event,'#popupAlarmLogin');">앵콜 요청{% if fp.encores.all.count >= 10 %} | {{fp.encores.all | length }}회 요청 중{% endif %}</button></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  {% elif STATUS == 'start' %}
+    {% if placement.placement_type == 'crowdfunding' %}
+      <form id="funding" method="post" action="{% url 'auction:crowdfundingstart' placement.id %}">
+        {% csrf_token %}						
+        <div class="unboxing-fixed-btn-con crowd">
+          <div class="area-box">
+            <!-- <div class="crowd-funding-personnel-left">
+              <div class="crowd-funding-graph-box">
+                <span class="crowd-funding-percent">{% widthratio placement.get_crowdfunding_total placement.placement_price 100 %}%</span>
+                <div class="crowd-funding-graph"><span class="graph-bar" style="width:{% widthratio placement.get_crowdfunding_total placement.placement_price 100 %}%;"></span></div>
+              </div>
+            </div> -->
+            <div class="crowd-funding-personnel-right">
+              <div class="crowd-funding-personnel-box">
+                <span class="tit">티켓 개수</span>
+                <div class="crowd-funding-personnel">
+                  <button class="crowd-funding-minus-btn"><i class="xi-minus"></i></button>
+                  <span class="result">
+                    <input id="" name="cwd_n" type="number" value="0" min="0" max="{% if placement.get_crowdfunding_available_cnt < placement.buy_limit %}{{placement.get_crowdfunding_available_cnt}}{% else %}{{placement.buy_limit}}{% endif %}" style="background-color: transparent; border: none;">
+                  </span>
+                  <button class="crowd-funding-plus-btn"><i class="xi-plus"></i></button>
+                </div>
+              </div>
+              <ul class="clearfix">
+                <!-- 
+                  * 로그인 전에는 팝업 #popupAlarmLogin로 사용
+                  * 로그인 후에는 팝업 #popupFundingDetail로 사용
+                -->
+                <li><button rev="Fbutton" disabled class="cm-custom-button detail" onclick="modalPopupOpen(event, '#popupFundingDetail');">구매하기</button></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </form>  
+    {% elif placement.placement_type == 'secretfunding' %}
+      <div class="unboxing-fixed-btn-con">
+        <div class="area-box">
+          <ul class="clearfix">
+            <li><a href="{% url 'auction:pdv-bidding' placement.id %}" class="cm-custom-button detail">구매하기</a></li>
+            <!-- <li><button class="cm-custom-button" onclick="modalPopupOpen(event, '#popupUnboxingBuy');">바로구매</button></li> -->
+          </ul>
+        </div>
+      </div>    
+    {% elif placement.placement_type == 'openfunding' %}
+      <div class="unboxing-fixed-btn-con">
+        <div class="area-box">
+          <ul class="clearfix">
+            <li><a href="/" class="cm-custom-button detail">구매하기</a></li>
+            <!-- <li><button class="cm-custom-button" onclick="modalPopupOpen(event, '#popupUnboxingBuy');">바로구매</button></li> -->
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+
+  {% endif %}
+  <!-- // -->
+  <div class="unboxing-view-con01 {% if placement.placement_type == 'crowdfunding' %}crowd{% endif %}">
+    <div class="unboxing-view-con01-visual">
+      <!-- 비주얼 영상 권장사이즈 PC : 1920x1080 / M : 375x667 -->
+      <video muted loop autoplay playsinline id="cmVideo" class="pc-ver" data-keepplaying>
+        <source src="{{ placement.pc_banner_video_mp4.url }}" type="video/mp4">
+        Your browser does not support HTML5 video.
+      </video>
+      <video muted loop autoplay playsinline id="cmVideo" class="m-ver" data-keepplaying>
+        <source src="{{ placement.m_banner_video_mp4.url }}" type="video/mp4">
+        Your browser does not support HTML5 video.
+      </video>
+    </div>
+    <div class="unboxing-view-con01-txt {% if placement.placement_type == 'crowdfunding' %}crowd{% endif %}">
+      <div class="area-box">
+        <div class="unboxing-view-con01-info">
+          <div class="top-info">
+            <div class="category">
+            {% if placement.placement_type == 'crowdfunding' %}
+              <span class="img">{% include "svg/icon_crowd_funding.html" %}</span>            
+            {% elif placement.placement_type == 'secretfunding' %}
+              <span class="img">{% include "svg/icon_secret_funding.html" %}</span>            
+            {% elif placement.placement_type == 'openfunding' %}            
+              <span class="img">{% include "svg/icon_open_funding.html" %}</span>            
+            {% endif %}
+              <span class="cate-txt">{{ placement.get_placement_type_display }}</span>
+            </div>
+          </div>
+          <p id="bid-countdown" class="deadline"></p>
+          <h5 class="tit">{{ placement.title | safe | linebreaksbr}}</h5>
+        </div>
+        <div class="unboxing-view-con01-cotrol">
+          {% if request.user.is_authenticated %}
+          <button class="plike zzim-btn {% if placement in request.user.plike.all %}activate{% endif %}" onclick="PlikeAjax(event, '{{placement.id}}', '{% url 'auction:plike' %}', getCookie('csrftoken'));" ></button>
+          {% else %}
+          <button class="plike zzim-btn" onclick="modalPopupOpen(event,'#popupAlarmLogin');" ></button>          
+          {% endif %}
+          <div class="share-btn cm-drop-menu-box-JS" data-drop-event="click">
+            <button class="unboxing-share-btn cm-drop-open-btn-JS"></button>
+            <div class="unboxing-share-wrapper cm-drop-list-JS">
+              <ul class="unboxing-share-list">
+                <li><a href="javascript:;" onclick="KakaoCopy(event);">URL 복사</a></li>
+                <li><a href="javascript:;" onclick="KakaoShare(event,'placement',{{placement.to_json}});">카카오톡 공유</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="unboxing-view-con02">
+    <div class="area-m">
+      <div class="unboxing-view-con02-inner">
+        <div class="name"><span>{{ placement.category }}</span>{{ placement.placement_artist.name }}</div>
+        <div class="unboxing-view-con02-box">
+          <div class="unboxing-view-con02-left">
+            <ul class="info">
+              <li><span>일시 : </span>{{ placement.d_day | date:"Y. m. d. H시 i분" | default:'미정'}}</li>
+              <li><span>장소 : </span>{{ placement.d_place | default:'미정'}}</li>
+              <li><span>진행 시간 : </span>{{ placement.duration }}</li>
+              <li><span>카테고리 : </span>{{ placement.category }}</li>              
+            </ul>
+            <div class="txt">{{ placement.description | safe | linebreaksbr }}</div>
+          </div>
+          <div class="unboxing-view-con02-right">
+            {% if placement.placement_type == 'crowdfunding' %}
+              {% if STATUS == 'done' %}
+              <table class="unboxing-view-tbl">
+                <colgroup>
+                  <col style="width: 10rem;">
+                  <col style="width: *;">
+                </colgroup>
+                <tbody>
+                  <!-- <tr>
+                    <th>달성도</th>
+                    <td class="cm-font-color-y">{% widthratio placement.get_crowdfunding_total_really placement.placement_price 100 %}% 달성</td>
+                  </tr> -->
+                  <tr>
+                    <th>총 티켓 수</th>
+                    <!-- <td>{{placement.get_crowdfunding_total_cnt}}명</td> -->
+                    <td>{{placement.get_ready_cnt}}개</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              {% else %}
+              <table class="unboxing-view-tbl">
+                <colgroup>
+                  <col style="width: 14.5rem;">
+                  <col style="width: *;">
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>{{ placement.get_placement_type_display }}</b>\n<hr>최소 1매부터 최대 5매까지 구매 가능한 티켓입니다. 현장에서 티켓을 제시하셔야 입장이 가능합니다. 셀럽과 보내는 시간 특성에 따라 티켓 판매 매수가 한정됩니다.', event);">티켓 종류</th>
+                    <td class="cm-font-color-y">{{ placement.get_placement_type_display }}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-hover-y" onclick="CommonmodalPopupOpen('현재 구매 가능한 잔여 티켓 수 입니다.', event);">잔여 티켓</th>
+                    <td class="cm-font-color-y">{{ placement.get_crowdfunding_available_cnt }}개</td>
+                  </tr>
+                </tbody>
+              </table>
+              {% endif %}          
+            {% elif placement.placement_type == 'secretfunding' %}
+              {% if STATUS == 'done' %}
+                <table class="unboxing-view-tbl">
+                  <colgroup>
+                    <col style="width: 10rem;">
+                    <col style="width: *;">
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <th>구매 횟수</th>
+                      <td class="cm-font-color-y">{{placement.placementbid_set.all | length }} 회</td>
+                    </tr>
+                    <tr>
+                      <th>낙찰자</th>
+                      <td>{{ placement.placement_win.user.username | default:'SECRET'}} 님</td>
+                    </tr>
+                  </tbody>
+                </table>
+              {% else %}
+                <table class="unboxing-view-tbl">
+                  <colgroup>
+                    <col style="width: 10rem;">
+                    <col style="width: *;">
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>{{ placement.get_placement_type_display }}</b>\n<hr>티켓 가격은 셀럽의 인지도, 상품의 희소성, 독점성, 앵콜 및 상품 진행 요청 횟수 등을 고려하여 산정된 추정가로만 제시됩니다. 가장 높은 구매가를 제시한 1인에게 해당 상품이 낙찰됩니다.', event);">티켓 종류</th>
+                      <td class="cm-font-color-y">{{ placement.get_placement_type_display }}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>추정가</b>\n<hr>셀럽의 인지도, 상품의 희소성, 독점성, 앵콜 및 상품 진행 요청 횟수 등을 고려하여 추정된 상품의 가격으로, 낙찰가로 예상되는 금액', event);">추정가 <span class="unit">KRW</span></th>
+                      <td class="cm-font-color-y">{{ placement.placement_estimated_price | intcomma }}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>시작가</b>\n<hr>해당 상품의 진행이 가능한 최소 가격으로, 응찰시 구매 제시가 가능한 최소 금액', event);">시작가 <span class="unit">KRW</span></th>
+                      <td class="cm-font-color-y">{{ placement.placement_start_price | intcomma }}</td>
+                    </tr>
+                    <!-- <tr>
+                      <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>바로구매가</b>\n<hr>바로구매 할수있는 금액', event);">바로구매가 <span class="unit">KRW</span></th>
+                      <td class="cm-font-color-y">{{ placement.placement_buynow_price | intcomma }}</td>
+                    </tr>-->
+                    
+                    <!-- <tr>
+                      <th>현재가</th>
+                      <td class="cm-font-color-y"><span class="unit">KRW</span>{{ placement.placement_price | intcomma }}</td>
+                    </tr> -->
+                    <!-- <tr>
+                      <th>바로 구매가</th>
+                      <td class="cm-font-color-y"><span class="unit">KRW</span>{{ placement.placement_buynow_price | intcomma }}</td>
+                    </tr> -->
+                  </tbody>
+                </table>
+              {% endif %}
+            {% elif placement.placement_type == 'openfunding' %}
+              {% if STATUS == 'done' %}
+                <table class="unboxing-view-tbl">
+                  <colgroup>
+                    <col style="width: 10rem;">
+                    <col style="width: *;">
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>{{ placement.get_placement_type_display }}</b>\n<hr>구매 종료 시간에 맞춰<br>가장 높은 금액을 제시한<br>단 한 분 만을 위해 기획됩니다.<br>마지막으로 입력하신 구매 금액이<br>최종 응찰 금액이며,<br>다른 참여자의 구매 가격은<br>공개되지 않습니다.', event);">구매종류</th>
+                      <td class="cm-font-color-y">{{ placement.get_placement_type_display }}</td>
+                    </tr>                  
+                    <tr>
+                      <th>구매 횟수</th>
+                      <td class="cm-font-color-y">{{placement.placementbid_set.all | length }} 회</td>
+                    </tr>
+                    <tr>
+                      <th>낙찰자</th>
+                      <td>{{ placement.placement_win.user.username | default:'SECRET'}} 님</td>
+                    </tr>                    
+                  </tbody>
+                </table>
+              {% else %}
+                <table class="unboxing-view-tbl">
+                  <colgroup>
+                    <col style="width: 10rem;">
+                    <col style="width: *;">
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <th>추정가 <span class="unit">KRW</span></th>
+                      <td class="cm-font-color-y">{{ placement.placement_estimated_price | intcomma }}</td>
+                    </tr>
+                    <tr>
+                      <th>시작가 <span class="unit">KRW</span></th>
+                      <td class="cm-font-color-y">{{ placement.placement_start_price | intcomma }}</td>
+                    </tr>
+                    <!-- <tr>
+                      <th class="text-hover-y" onclick="CommonmodalPopupOpen('<b>바로구매가</b>\n<hr>바로구매 할수있는 금액', event);">바로구매가 <span class="unit">KRW</span></th>
+                      <td class="cm-font-color-y">{{ placement.placement_buynow_price | intcomma }}</td>
+                    </tr> -->
+                    <!-- <tr>
+                      <th>현재가</th>
+                      <td class="cm-font-color-y"><span class="unit">KRW</span>{{ placement.placement_price | intcomma }}</td>
+                    </tr> -->
+                    <!-- <tr>
+                      <th>바로 구매가</th>
+                      <td class="cm-font-color-y"><span class="unit">KRW</span>{{ placement.placement_buynow_price | intcomma }}</td>
+                    </tr> -->
+                  </tbody>
+                </table>
+              {% endif %}          
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if STATUS == 'done' and placement.placementmemory %}
+  <div class="unboxing-view-con-last">
+    <div class="area-m">
+      <h5 class="title">REVIEWS</h5>
+      <ul class="unboxing-view-last-list">
+        <li class="unboxing-view-last-item">
+          <dl>
+            <dt class="celeb"><b>CELEB</b> {{ placement.placementmemory.celeb_name }}</dt>
+            <dd class="txt">{{ placement.placementmemory.celeb_comment }}</dd>
+          </dl>
+        </li>
+        {% if placement.placementmemory.oneys.all.count > 1  %}        
+          {% for oney in placement.placementmemory.oneys.all %}
+          <li class="unboxing-view-last-item placementmemory slice-item">          
+            <dl>
+              <dt class="oney"><b>ONEY</b>{{oney.name}}</dt>
+              <dd class="txt">{{oney.comment}}</dd>
+            </dl>          
+          </li>
+          {% endfor %}
+        {% else %}
+          <li class="unboxing-view-last-item placementmemory slice-item">                  
+            <dl>
+              <dt class="oney"><b>ONEY</b>{{ placement.placementmemory.oneys.all.0.name }}</dt>
+              <dd class="txt">{{ placement.placementmemory.oneys.all.0.comment  }}</dd>
+            </dl>          
+          </li>
+        {% endif %}          
+          {% comment %} <dl>
+            <dt class="oney"><b>ONEY</b>{{ placement.placementmemory.oneys.all | length }}명</dt>
+            <dd class="txt">{% with placement.placementmemory.oneys.all|random as oney %}{{oney.comment}}{% endwith %}</dd>
+          </dl> {% endcomment %}
+      </ul>
+      <div class="mypage-funding-more">
+        <button class="mypage-funding-more-btn placementmemory slice-more-btn">READ MORE <i class="xi-angle-down-min"></i></button>
+      </div>
+      <div class="unboxing-view-last-date">
+        <p class="date">셀럽과 함께한 날 <em>-</em> <span>{{ placement.d_day | date:'Y. m. d' | default:'SECRET'}}</span></p>
+        <!-- 사인 이미지 권장사이즈 최대 502x80 -->
+        <span class="sign-img"><img src="{{ placement.placementmemory.history_sign.url }}" alt="사인 이미지"></span>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <div class="unboxing-view-con03">
+    <div class="area-m">
+      <article class="cm-fixed-tab-container-JS">
+        <aside class="unboxing-tab-wrapper-style">
+          <div class="unboxing-tab-list-style cm-fixed-tab-list-JS top-fixed-object">
+            <div class="area-m">
+              <ul class="clearfix">
+                <li class="selected"><a href="#unboxingTabCon01"><em>셀럽 소개</em></a></li>
+                <li><a href="#unboxingTabCon02"><em>구매 상세</em></a></li>
+                <li><a href="#unboxingTabCon03"><em>안내 사항</em></a></li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+        <div class="unboxing-tab-content-style">
+          <div class="unboxing-tab-con" id="unboxingTabCon01">
+            <!-- 셀럽 소개 -->
+            <div class="unboxing-view-info">
+              <span class="line"></span>
+              <span class="tit">셀럽소개</span>            
+            </div>
+            <div class="unboxing-view-item">
+              <div class="unboxing-view-celeb">
+                <div class="txt-box">
+                  <h5 class="tit">{{ placement.placement_artist.description_oneoff | safe | linebreaksbr}}</h5>
+                  <div class="img-box">
+                    <!-- 이미지 권장사이즈 379x461 -->
+                    <span><img src="{{ placement.placement_artist.avatar.url }}" alt="셀럽 이미지"></span>
+                  </div>
+                  <ul class="info-list">
+                    <div> {{ placement.placement_artist.description_info | safe | linebreaksbr  }} </div>
+                  </ul>
+                </div>
+              </div>
+              <p class="txt">{{ placement.placement_artist.description | safe | linebreaksbr }}</p>
+            </div>
+            <div class="unboxing-tip">
+              <h3>
+                <span>{{ placement.detail_1_title | safe | linebreaksbr }}</span>
+              </h3>
+              <div class="unboxing-view-item">
+                <div class="unboxing-view-txt">
+                  <div class="txt">{{ placement.detail_1 | safe | linebreaksbr }}</div>
+                </div>
+              </div>
+            </div>            
+          </div>
+          <div class="unboxing-tab-con" id="unboxingTabCon02">
+            <!-- 구매상세 -->
+            <div class="unboxing-view-info">
+              <span class="line"></span>            
+              <span class="tit">구매상세</span>            
+            </div>
+
+            <div class="unboxing-view-item">
+              <!-- 이미지 -->
+              <div class="unboxing-view-txt">
+                <div class="txt01">{{ placement.detail_2_title | safe | linebreaksbr }}</div>
+                <div class="txt02">{{ placement.detail_2 | safe | linebreaksbr }}</div>
+              </div>
+              {% if placement.image_1 %}              
+              <div class="unboxing-view-img"><img src="{{ placement.image_1.url }}" alt="설명 이미지 1"></div>
+              {% endif %}
+            </div>
+            <div class="unboxing-view-item">
+              <!-- 이미지 -->
+              <div class="unboxing-view-txt">
+                <div class="txt01">{{ placement.detail_3_title | safe | linebreaksbr }}</div>
+                <div class="txt02">{{ placement.detail_3 | safe | linebreaksbr }}</div>
+              </div>	
+              {% if placement.image_2 %}              											
+              <div class="unboxing-view-img"><img src="{{ placement.image_2.url }}" alt="설명 이미지 2"></div>
+              {% endif %}
+            </div>
+            <div class="unboxing-view-item">
+              <!-- 이미지 -->
+              <div class="unboxing-view-txt">
+                <div class="txt01">{{ placement.detail_4_title | safe | linebreaksbr }}</div>
+                <div class="txt02">{{ placement.detail_4 | safe | linebreaksbr }}</div>
+              </div>
+              {% if placement.image_3 %}
+              <div class="unboxing-view-img"><img src="{{ placement.image_3.url }}" alt="설명 이미지 3"></div>
+              {% endif %}
+
+            </div>																																	
+            <div class="unboxing-view-item">
+              <!-- 이미지 -->
+              <div class="unboxing-view-txt">
+                <div class="txt01">{{ placement.detail_5_title | safe | linebreaksbr }}</div>
+                <div class="txt02">{{ placement.detail_5 | safe | linebreaksbr }}</div>
+              </div>
+              {% if placement.image_4 %}
+              <div class="unboxing-view-img"><img src="{{ placement.image_4.url }}" alt="설명 이미지 4"></div>
+              {% endif %}
+            </div>
+
+            <!-- 기대영상 -->
+            <div class="unboxing-view-item">
+              <div class="unboxing-view-txt">
+                <div class="txt01">{{ placement.detail_6_title | safe | linebreaksbr }}</div>
+                <div class="txt02">{{ placement.detail_6 | safe | linebreaksbr }}</div>
+              </div>
+              {% if placement.image_5 %}              
+              <div class="unboxing-view-img"><img src="{{ placement.image_5.url }}" alt="설명 이미지 5"></div>              
+              {% endif %}
+              <!-- 비디오 -->												
+              <div class="unboxing-view-video">
+                {% comment %} <div class="video-iframe-wrapper">
+                  <div class="video-iframe-box"><div id="player" data-code="{{ placement.youtube_id }}"></div><!-- 유투브ID --></div>
+                  <div class="video-cover-box">
+                    <span class="thumb" style="background: url({{ placement.thumbnail.url }}) 45% 50% no-repeat; background-size: cover;"></span>
+                    <div class="icon"></div>
+                  </div>
+                </div> {% endcomment %}
+                <div class='embed-container'><iframe src='https://www.youtube.com/embed/{{ placement.youtube_id }}' frameborder='0' allowfullscreen></iframe></div>													
+              </div>
+            </div>
+            {% if placement.etc_1_on %}
+            <div class="unboxing-view-item">
+              <!-- 배너+텍스트 관리 -->
+              <div class="unboxing-view-banner">
+                <!-- 배너이미지 권장사이즈 786x400 -->
+                <div class="bg" style="background: url({% static 'rev/img/content/unboxing_view_banner_img01.jpg' %}) center/cover no-repeat;"></div>
+                <div class="txt no-margin-top"><div>{{ placement.etc_1 | default:'수익금은 음악에 꿈이 있는 서울 특수학교 장애 청소년들을 지원할 수 있도록 전달됩니다.' | safe | linebreaksbr }}</div></div>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          <div class="unboxing-tab-con" id="unboxingTabCon03">
+
+            <div class="unboxing-view-item">
+              <div class="unboxing-view-info">
+                <div>
+                  <span class="line"></span>
+                  <span class="tit">구매 관련 주의 및 안내 사항</span>
+                </div>
+                {% if placement.placement_type == 'crowdfunding' %}
+                  <dl class="info-item">
+                    <dt>구매 방식</dt>
+                    <dd>
+                      최소 1매부터 최대 5매까지 구매 가능한 티켓입니다. (현장에서 티켓을 제시하셔야 입장이 가능합니다.)
+                    </dd>
+                  </dl>
+                  <dl class="info-item">
+                    <dt>환불 규정</dt>
+                    <dd>
+                      구매하기 버튼을 누르신 이후, 20분 이내에 결제가 완료되지 않으면 구매가 자동으로 취소됩니다.
+                      <br>
+                      - 티켓 결제 이전 | 마이페이지(해당 티켓) > 구매취소버튼
+                      <br>
+                      - 티켓 결제 이후 | 마이페이지(해당 티켓) > 구매취소버튼 > 구매 취소 신청서 작성
+                      <br>
+                      * 환불규정에 따라 티켓 판매가 종료된 이후 구매를 취소하실 경우, 환불 수수료(결제 금액의 30%)를 차감한 금액이 환불됩니다.                       
+                  </dl>
+                {% else %}
+                  <dl class="info-item">
+                    <dt>진행 방식</dt>
+                    <dd>
+                      회원가입시 기재해주신 연락처로 낙찰 안내를 받고, 3시간 내에 예약금을 결제하시면, 낙찰이 확정됩니다.
+                      경쟁티켓의 낙찰 예약금은 낙찰 금액과 관계 없이 일괄 {{ placement.deposit | intcomma}}원이 적용됩니다.
+                      <br><br>                    
+                      예약금 결제일로부터 7일 이내 낙찰가에서 예약금을 제외한 잔여금을 결제합니다.                      
+                    </dd>
+                  </dl>
+                  <dl class="info-item">
+                    <dt>환불 규정</dt>
+                    <dd>
+                      낙찰 안내를 받으신 이후, 3시간 이내에 예약금 결제가 완료되지 않으면 낙찰이 자동 취소됩니다.
+                      <br><br>
+                      예약금 결제가 완료된 이후 낙찰 계약이 완료된 것으로 간주하며, 7일 이내에 잔여금 결제가 완료되지 않아 낙찰이 자동 취소될 경우, 예약금은 반환되지 않습니다.                      
+                    </dd>
+                  </dl>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+      <div class="unboxing-other-con">
+        <h5 class="cm-title-style">
+          <div class="unboxing-con03-date">
+          <button class="btn prev-btn"><i class="xi-angle-left-thin"></i></button>    
+          OTHERS
+          <button class="btn next-btn"><i class="xi-angle-right-thin"></i></button>    
+          </div>    
+        </h5>
+        <div class="unboxing-other-wrapper">
+          <ul class="unboxing-other-list clearfix">
+          {% for op in others %}
+            <li class="unboxing-other-item" id="other{{op.pk}}_countdown">
+              <a href="{{op.get_absolute_url}}">
+                <div class="unboxing-other-img"><span style="background: url('{{ op.thumbnail.url }}') center/cover no-repeat;"></span></div>													
+                <div class="unboxing-other-txt {% if op.placement_type == "crowdfunding" %}crowd{% endif %}">
+                  <div class="top-info">
+                    <div class="category">
+                      {% if op.placement_type == "crowdfunding" %}
+                      <span class="img">{% include "svg/icon_crowd_funding.html" %}</span>
+                      {% elif op.placement_type == "openfunding" %}
+                      <span class="img">{% include "svg/icon_open_funding.html" %}</span>																
+                      {% elif op.placement_type == "secretfunding" %}
+                      <span class="img">{% include "svg/icon_secret_funding.html" %}</span>																
+                      {% endif %}
+                      <span class="cate-txt">{{ op.get_placement_type_display }}</span>
+                    </div>
+                    {% if op.is_encore %}
+                    <span class="add-info">앵콜</span>
+                    {% endif %}
+                  </div>
+                  <p class="deadline" id="c{{op.pk}}_countdown"></p>
+                  <h5 class="tit">{{ op.title | safe | linebreaksbr }}</h5>
+                </div>
+              </a>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+<!-- 팝업 리스트 -->
+<!-- 로그인 모달 -->
+{% include "auction/unboxing/popup/login.html" %}
+
+{% if placement.placement_type == 'crowdfunding' %}
+  <!-- 구매하시겠습니까 모달 -->
+  {% include "auction/unboxing/popup/funding_detail.html" with unit_price=placement.unit_price type=placement.placement_type %}
+{% elif placement.placement_type == 'secretfunding' %}
+  <!-- 바로구매 모달 -->
+  {% url 'auction:bidding' placement.id as url %} <!-- url 저장 -->
+  {% include "auction/unboxing/popup/DirectBuy.html" with price=placement.placement_buynow_price url=url %}<!-- 바로구매 -->
+{% elif placement.placement_type == 'openfunding' %}
+  <!-- 바로구매 모달 -->
+  {% url 'auction:bidding' placement.id as url %} <!-- url 저장 -->
+  {% include "auction/unboxing/popup/DirectBuy.html" with price=placement.placement_buynow_price url=url %}<!-- 바로구매 -->
+{% endif %}
+
+
+<!-- //팝업 리스트 -->
+
+<!-- Placement 카운드 다운 js-->
+<script>
+  var starttime = new Date('{{ placement.placement_start | date:"Y/m/d H:i:s" }}').getTime();
+  var endtime = new Date('{{ placement.placement_end | date:"Y/m/d H:i:s" }}').getTime();	
+
+  var x = setInterval(function() {
+  var now = new Date().getTime();
+	var distance, days,hours,minutes,seconds;
+
+	if(now < starttime){
+		distance = starttime - now;
+		days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		document.getElementById("bid-countdown").innerHTML = `시작까지 ${days}일 ${hours}:${minutes}:${seconds} 남았습니다.`;
+    $('.button-countdown').text(` 시작까지 ${days}일 ${hours}:${minutes}:${seconds}`);
+	}else if(starttime<now && now <endtime){
+		distance = endtime - now;
+		days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    // if('{{ STATUS }}' == 'pending'){
+    //   document.getElementById("bid-countdown").innerHTML = `<낙찰 진행중> 종료까지 ${days}일 ${hours}:${minutes}:${seconds} 남았습니다.`;
+    // }
+    // else{
+    //   document.getElementById("bid-countdown").innerHTML = `종료까지 ${days}일 ${hours}:${minutes}:${seconds} 남았습니다.`;
+    // }
+    document.getElementById("bid-countdown").innerHTML = `종료까지 ${days}일 ${hours}:${minutes}:${seconds} 남았습니다.`;    
+
+	}else{
+		clearInterval(x);
+		document.getElementById("bid-countdown").innerHTML = '종료되었습니다.'
+	}
+  }, 1000);
+</script>
+
+<!--others 카운트 다운 js-->
+<script>
+	(function () {
+	const second = 1000,
+			minute = second * 60,
+			hour = minute * 60,
+			day = hour * 24;
+
+	{% for p in others %}
+		const c{{p.pk}}_start = new Date('{{ p.placement_start | date:"Y/m/d H:i:s" }}').getTime();
+		const c{{p.pk}}_end = new Date('{{ p.placement_end | date:"Y/m/d H:i:s" }}').getTime();
+	{% endfor %}
+
+	{% for p in others %}
+	c{{p.pk}}_x = setInterval(function() {    
+		const now = new Date().getTime();
+		const c{{p.pk}}_tostart = c{{p.pk}}_start - now;
+		const c{{p.pk}}_toend = c{{p.pk}}_end - now;
+
+		//c1 시작전
+		if(c{{p.pk}}_tostart > 0){
+			var days = Math.floor(c{{p.pk}}_tostart / (day));
+			var hours = Math.floor((c{{p.pk}}_tostart % (day)) / (hour));
+			var mins = Math.floor((c{{p.pk}}_tostart % (hour)) / (minute));
+			var secs = Math.floor((c{{p.pk}}_tostart % (minute)) / second);				
+			document.getElementById("c{{p.pk}}_countdown").innerText = `시작까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;
+			//document.getElementById("c{{p.pk}}_countdown").style.color = "#177D4E";
+		}
+		//진행중
+		else if(c{{p.pk}}_tostart <= 0 && c{{p.pk}}_toend > 0)
+		{
+			var days = Math.floor(c{{p.pk}}_toend / (day));
+			var hours = Math.floor((c{{p.pk}}_toend % (day)) / (hour));
+			var mins = Math.floor((c{{p.pk}}_toend % (hour)) / (minute));
+			var secs = Math.floor((c{{p.pk}}_toend % (minute)) / second);				
+			document.getElementById("c{{p.pk}}_countdown").innerText = `종료까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;
+      // {% if p.placement_type != 'crowdfunding' %}
+      //   {% if p.placement_win != None %}
+      //     document.getElementById("c{{p.pk}}_countdown").innerText = `<낙찰 진행중> 종료까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;       
+      //   {% endif %}
+      // {% endif %}
+			//document.getElementById("c{{p.pk}}_countdown").style.color = "#FF8343";
+		}
+		//끝
+		else{
+			document.getElementById("c{{p.pk}}_countdown").innerText = `종료되었습니다`;
+			document.getElementById("c{{p.pk}}_countdown").style.display = "block";
+			$('#other{{p.pk}}_countdown').addClass('close');
+			clearInterval(c{{p.pk}}_x);
+		}
+
+	}, 0)			
+	{% endfor %}
+	}());
+</script>
+
+<!-- PLUS, MINUS 구매버튼 -->
+<script>
+	$('.crowd-funding-plus-btn').on('click', function(e){
+		e.preventDefault();
+		var input = $("input[name='cwd_n']")
+		var new_val = parseInt(input.val())+1;
+		var price = parseInt('{{ placement.unit_price }}');
+    if(new_val >=0)input.val(new_val);
+    else input.val(0);
+		if(input.attr('max') >= new_val && input.attr('min') <= new_val){
+			$('button[rev=Fbutton]').attr('disabled',false);
+
+			final_price = (price*new_val).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      unit_price = (price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");      
+      $('.unboxing-buy-tit span').text(`${new_val}명 x ${unit_price}`)
+			$('.unboxing-buy-tit b').text(`${final_price}원`);
+		}
+    else{
+      input.val(input.attr('max'));
+      new_val=input.attr('max');
+      if(new_val>0){
+        $('button[rev=Fbutton]').attr('disabled',false);
+      }
+    }
+
+    //공통
+    final_price = (price*new_val).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    unit_price = (price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");      
+    $('.unboxing-buy-tit span').text(`${new_val}명 x ${unit_price}`)
+    $('.unboxing-buy-tit b').text(`${final_price}원`);
+
+
+	});
+	$('.crowd-funding-minus-btn').on('click', function(e){
+		e.preventDefault();		
+		var input = $("input[name='cwd_n']");
+		var new_val = parseInt(input.val())-1;
+		var price = parseInt('{{ placement.unit_price }}');
+    if(new_val >=0)input.val(new_val);
+    else input.val(0);
+		if(input.attr('max') >= new_val && input.attr('min') <= new_val){
+			$('button[rev=Fbutton]').attr('disabled',false);
+
+			final_price = (price*new_val).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      unit_price = (price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");      
+      $('.unboxing-buy-tit span').text(`${new_val}명 x ${unit_price}`)
+			$('.unboxing-buy-tit b').text(`${final_price}원`);
+		}
+    else{
+      $('button[rev=Fbutton]').attr('disabled',true);
+    }    
+		if(new_val==0) $('button[rev=Fbutton]').attr('disabled',true);
+	});
+//입력
+$('input[name=cwd_n]').on('input', function(){
+	var input = $('input[name=cwd_n]');
+	var new_val = parseInt(input.val());
+	var price = parseInt('{{ placement.unit_price }}');
+	if(input.attr('min') < new_val && new_val <= input.attr('max')){
+			input.val(new_val);
+			$('button[rev=Fbutton]').attr('disabled',false);
+
+			final_price = (price*new_val).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      unit_price = (price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");      
+      $('.unboxing-buy-tit span').text(`${new_val}장 x ${unit_price}원`)
+			$('.unboxing-buy-tit b').text(`${final_price}원`);
+		}
+	else{
+		$('button[rev=Fbutton]').attr('disabled',true);
+	}
+
+});	
+</script>
+
+<!-- KAKAO SDK -->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>

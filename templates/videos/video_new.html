@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+
+<form action="" method="POST" enctype = "multipart/form-data">{% csrf_token %}{{form|crispy}}
+
+   <!--<input type="text" name="title" placeholder="Enter Video Title here"><br>
+    <input type="file" name="video" accept="video/*"><br>-->
+    <button type="submit"> Upload New Video </button>
+</form>
+
+{% endblock content %}

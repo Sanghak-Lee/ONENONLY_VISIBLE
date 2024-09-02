@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_head %}{% endblock extra_head %}
+{% block head_title %} | 회사소개 {% endblock %}
+{% block body %}
+	<div id="wrap" class="sub-wrap">
+		<!-- container -->
+		<div id="container">
+			<!-- middleArea -->
+			<div id="middleArea">
+				<!-- content -->
+				<section id="content" class="wide">
+					
+					<!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+					<div class="sub-page about-page">
+						<div class="about-con01">
+							<div class="area-box">
+								<p class="about-con01-txt">셀럽과 <br class="m-br">함께하는<br>특별한 시간,</p>
+								<p class="about-con01-txt cm-font-color-y">원앤온리</p>
+							</div>
+						</div>
+						<div class="about-con02">
+							<div class="area-box">
+								<div class="about-con02-txt">
+									{% comment %} <h5 class="cm-title-style"><span class="font-nephilm">TIME-UNBOXING</span>ONE&ONLY</h5> {% endcomment %}
+									<p class="txt02"><!--<span>원앤온리는</span>-->
+									원앤온리는 셀럽과 함께하는 특별한 시간상품을 구매할 수 있는 서비스입니다.
+									<br><br>
+									멀리서만 응원하고 지켜봤던 셀럽이 나의 꿈을 응원하는 멘토가 되어주고, 때로는 친구처럼 볼링을 치거나 RPG 게임 속에서 만나기도 하고, 함께 작품을 기획하고 제작할 수 있습니다.
+									<br><br>
+									내 시간을 소중하고 값진 경험에 투자하는 <strong>Intelligent luxury</strong>,
+									원앤온리가 만들어드립니다.
+									{% comment %} <p class="txt03">* 워니(Oney)는 원앤온리의 소중한 팬이자 <br class="m-br">고객을 의미하는 용어입니다.</p> {% endcomment %}
+								</div>
+							</div>
+						</div>
+						<div class="about-con03">
+							<div class="area-box">
+								<h5 class="cm-title-style">OUR VALUE</h5>
+								<div class="about-con03-wrapper">
+									<div class="about-con03-video">
+										<div class="video-box">
+											<video muted loop autoplay playsinline id="cmVideo" data-keepplaying>
+												<source src="{% static 'rev/video/ABOUT_Our Value 큐브.mp4' %}" type="video/mp4">
+												Your browser does not support HTML5 video.
+											</video>
+										</div>
+									</div>
+									<div class="about-con03-txt">
+										<dl>
+											<dt>UNIQUE</dt>
+											<dd>어디에서도 볼 수 없었던 <br>특별한 시간을 제공합니다.</dd>
+										</dl>
+										<dl>
+											<dt>EXCLUSIVE /<br class="middle-m-br">BESPOKE</dt>
+											<dd>단 한 사람 혹은 제한된 소수의 <br>니즈에 맞춘 시간을 기획합니다.</dd>
+										</dl>
+										<dl>
+											<dt>UNFORGETTABLE <!--<br class="m-br">TIME--></dt>
+											<dd>상상으로만 가능했던, 꿈 같은 시간을 통해 <br>평생 잊을 수 없는 MAGICAL MOMENT를 선사합니다.</dd>
+										</dl>
+										<dl>
+											<dt>ACCESSIBLE</dt>
+											<dd>간편한 구매 시스템과 다양한 금액대의 <br>시간 상품을 제공하여, 누구나 쉽게 참여할 수 있습니다.</dd>
+										</dl>
+										<dl>
+											<dt>TANGIBLE</dt>
+											<dd>시간이라는 무형의 가치에 <br>희소성과 활용성을 지닌 유형의 가치가 더해져, <br>시간의 절대적인 경제적 가치를 높입니다.</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% comment %} <div class="about-con04">
+							<h5 class="cm-title-style area-box">SERVICE</h5>
+							<ul class="about-con04-list">
+								<li class="about-con04-item">
+									<div class="about-con04-bg pc-ver" style="background: url('{% static 'rev/img/content/about_con04_bg01.png' %}') 100% 50% no-repeat; background-size: cover;"></div>
+									<div class="about-con04-bg m-ver" style="background: url('{% static 'rev/img/content/about_con04_bg01_m.png' %}') 100% 50% no-repeat; background-size: cover;"></div>
+									<div class="about-con04-txt">
+										<div class="area-box">
+											<h5>CLOSE TO CELEBRITY</h5>
+											<p>원앤온리는 본업 외에도 다양한 재능을 겸비한 셀럽 분들을 모시고 있<br class="pc-br">습니다. 진솔하고 인간적인 만남을 통해 셀럽의 새로운 매력을 발견하<br class="pc-br">고, 친밀한 관계를 맺을 수 있습니다.</p>
+										</div>
+									</div>
+								</li>
+								<li class="about-con04-item">
+									<div class="about-con04-bg pc-ver" style="background: url({% static 'rev/img/content/about_con04_bg02.png' %}) 100% 50% no-repeat; background-size: cover;"></div>
+									<div class="about-con04-bg m-ver" style="background: url({% static 'rev/img/content/about_con04_bg02_m.png' %}) 100% 50% no-repeat; background-size: cover;"></div>
+									<div class="about-con04-txt">
+										<div class="area-box">
+											<h5>CURATED PRIVATE CONTENTS</h5>
+											<p>모든 프로그램은 단 한 명의 워니(ONEY)를 위해 섬세하게 준비됩니<br class="pc-br">다. 원앤온리는, 유니크한 시간을 설계하는 타임 플래너로서 워니<br class="pc-br">(ONEY)의 성향과 니즈에 꼭 맞는 프로그램을 기획합니다.</p>
+										</div>
+									</div>
+								</li>
+								<li class="about-con04-item">
+									<div class="about-con04-bg pc-ver" style="background: url({% static 'rev/img/content/about_con04_bg03.png' %}) 100% 50% no-repeat; background-size: cover;"></div>
+									<div class="about-con04-bg m-ver" style="background: url({% static 'rev/img/content/about_con04_bg03_m.png' %}) 100% 50% no-repeat; background-size: cover;"></div>
+									<div class="about-con04-txt">
+										<div class="area-box">
+											<h5>KEEP MOMENT FOREVER</h5>
+											<p>셀럽과의 특별한 만남을 평생 간직할 수 있도록, 하이라이트 영상을 <br class="pc-br">NFT로 제작합니다. 추억을 리플레이하고, 그날의 감동을 생생하게 느<br class="pc-br">낄 수 있습니다.</p>
+										</div>
+									</div>
+								</li>
+								<li class="about-con04-item">
+									<div class="about-con04-bg pc-ver" style="background: url({% static 'rev/img/content/about_con04_bg04.png' %}) 100% 50% no-repeat; background-size: cover;"></div>
+									<div class="about-con04-bg m-ver" style="background: url({% static 'rev/img/content/about_con04_bg04_m.png' %}) 100% 50% no-repeat; background-size: cover;"></div>
+									<div class="about-con04-txt">
+										<div class="area-box">
+											<h5>MAKE A POSITIVE IMPACT</h5>
+											<p>모금된 구매 금액은 셀럽이 원하는 곳에 기부됩니다. 나를 위한 가치 <br class="pc-br">있는 선물이 더 나은 세상을 위한 선물로 쓰일 수 있습니다.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div> {% endcomment %}
+						<div class="about-con05">
+							<div class="area-box">
+								<div class="about-con05-txt">
+									<h5 class="txt">경험하세요, <br class="m-br"><span class="font-nephilm cm-font-color-y">Life-Changing Moments</span></h5>
+									<div class="btn">
+										<a href="{% url 'auction:dlv' %}" class="cm-custom-button">시간상품 둘러보기</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //middleArea -->
+		</div>
+		<!-- // container -->
+  </div>
+  <!-- //wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
+

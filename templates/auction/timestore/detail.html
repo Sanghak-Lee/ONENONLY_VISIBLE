@@ -1,0 +1,108 @@
+{% extends "auction/base.html" %}
+{% load auction_templatetag static %}
+{% block extra_head %}{% endblock extra_head %}
+{% block head_title %} | {{ item.title | truncatechars:10 }} {% endblock %}
+
+{% block body %}
+	<div id="wrap" class="sub-wrap">
+		<!-- container -->
+		<div id="container">
+			<!-- middleArea -->
+			<div id="middleArea">
+				<!-- content -->
+				<section id="content" class="wide">
+					
+					<!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+					<div class="sub-page auction-page">
+						<div class="auction-view-con01">
+							<!-- 상단 상세 이미지 pc 권장사이즈 1920x1019 -->
+							<div class="auction-view-con01-bg pc-ver" style="background: url({{ item.background.url }}) center/cover no-repeat;"></div>
+							<!-- 상단 상세 이미지 테블릿 권장사이즈 768x1024 -->
+							<div class="auction-view-con01-bg tb-ver" style="background: url({{ item.background.url }}) center/cover no-repeat;"></div>
+							<!-- 상단 상세 이미지 모바일 권장사이즈 375x667 -->
+							<div class="auction-view-con01-bg m-ver" style="background: url({{ item.background.url }}) center/cover no-repeat;"></div>
+						</div>
+						<div class="auction-view-con02">
+							<div class="unboxing-view-con-last">
+                <div class="area-m">
+                  <div class="title">{{ item.title | safe | linebreaksbr }}</div>
+                  {% if item.placement %}
+                  <ul class="unboxing-view-last-list">
+                    <li class="unboxing-view-last-item">
+                      <dl>
+                        <dt class="celeb"><b>CELEB</b> {{ placement.placementmemory.celeb_name }}</dt>
+                        <dd class="txt">{{ placement.placementmemory.celeb_comment }}</dd>
+                      </dl>
+                    </li>
+                    {% if placement.placementmemory.oneys.all.count > 1  %}        
+                      {% for oney in placement.placementmemory.oneys.all %}
+                      <li class="unboxing-view-last-item timestore slice-item">          
+                        <dl>
+                          <dt class="oney"><b>ONEY</b>{{oney.name}}</dt>
+                          <dd class="txt">{{oney.comment}}</dd>
+                        </dl>          
+                      </li>
+                      {% endfor %}
+                    {% else %}
+                      <li class="unboxing-view-last-item timestore slice-item">                  
+                        <dl>
+                          <dt class="oney"><b>ONEY</b>{{ placement.placementmemory.oneys.all.0.name }}</dt>
+                          <dd class="txt">{{ placement.placementmemory.oneys.all.0.comment  }}</dd>
+                        </dl>          
+                      </li>
+                    {% endif %}          
+                      {% comment %} <dl>
+                        <dt class="oney"><b>ONEY</b>{{ placement.placementmemory.oneys.all | length }}명</dt>
+                        <dd class="txt">{% with placement.placementmemory.oneys.all|random as oney %}{{oney.comment}}{% endwith %}</dd>
+                      </dl> {% endcomment %}
+                  </ul>
+                  <div class="mypage-funding-more">
+                    <button class="mypage-funding-more-btn timestore slice-more-btn">READ MORE <i class="xi-angle-down-min"></i></button>
+                  </div>
+                  <div class="unboxing-view-last-date">
+                    <p class="date">셀럽과 함께한 날 <em>-</em> <span>{{ placement.d_day | date:'Y. m. d' | default:'SECRET'}}</span></p>
+                    <!-- 사인 이미지 권장사이즈 최대 502x80 -->
+                    <span class="sign-img"><img src="{{ placement.placementmemory.history_sign.url }}" alt="사인 이미지"></span>
+                  </div>
+                  {% endif %}
+
+                  <div class="unboxing-view-item">
+                    <!-- 이미지 -->
+                    <div class="unboxing-view-txt">
+                      <p class="txt01">굿즈설명</p>
+                      <p class="txt02">{{ item.description | safe | linebreaksbr }}</p>
+                    </div>
+                    <div class="unboxing-view-img"><img src="{{item.image.url}}" alt="굿즈 이미지"></div>
+                  </div>
+
+
+									<ul class="auction-view-btn">
+                    {% if item.placement %}
+										<li><a href="{{item.placement.get_absolute_url}}" class="cm-custom-button border">상품 자세히 보기</a></li>
+                    {% endif %}
+										<li><a href="{{item.url}}" class="cm-custom-button">굿즈 구경하기</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+					<!-- 팝업 리스트 -->	
+					<!-- //팝업 리스트 -->
+
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //middleArea -->
+		</div>
+		<!-- // container -->
+  </div>
+  <!-- //wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+<script>
+	InitSliceItem('timestore',2)
+</script>
+{% endblock extra_scripts %}

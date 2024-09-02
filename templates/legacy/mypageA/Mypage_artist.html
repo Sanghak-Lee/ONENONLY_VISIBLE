@@ -1,0 +1,168 @@
+﻿{% extends "account/base.html" %}
+{% load static %}
+{% load core_template_tags %}
+
+{% load i18n %}
+
+
+{% block head_title %} 마이페이지 {% endblock %}
+{% block content %}
+
+<article id="content" class="idx_ctt">
+	<div class="myp user">
+		<div class="wrap myPageWrap">
+			<div class="myp_wr">
+				<!-- 좌측 메뉴 -->
+				{% comment %} <div class="leSlidebar">
+					{% include "component/mypageA_sidebar.html" %}
+				</div> {% endcomment %}
+				<!-- 우측 컨텐츠 -->
+				<div class="ri_menu">
+					<form class="myp_ctt" method="post">
+						{% csrf_token %}
+						<div class="myp_ipt_wr">
+							<h2>내 정보</h2>
+							<div class="subjectwrapwrap">
+								<div class="subjectWrapper">
+									<div class="profileSubject">이름</div>
+									<div><input type="text" class="comm_ipt existItem" value={{user.username}} name= "username"/></div>
+								</div>
+								<div class="subjectWrapper">
+									<div class="profileSubject">아이디</div>
+									<div><input type="text" class="comm_ipt existItem" value={{user.username}} /></div>
+								</div>
+								<div class="subjectWrapper">
+									<div class="profileSubject">이메일</div>
+									<div><input type="email" class="comm_ipt existItem" value={{user.email}} name="email" readonly /></div>
+								</div>
+							<div class="cfm2_box myPageBtn">
+								<div class="clear">
+									{% comment %} <div class="leAuto"><a href="{% url 'account_change_password' %}"  class="c1 ani">비밀번호 변경</a></div> {% endcomment %}
+									<div class="leAuto"><a href="{% url 'socialaccount_connections' %}" class="c2 ani socialBtn">소셜계정 연결하기</a></div>
+									<div><a href="{% url 'account_reset_password' %}" class="c2 ani">비밀번호 변경하기</a></div>
+								</div>
+								<div><button type="submit" class="c1 ani fixProfile">회원정보 수정</button></div>
+							</div>
+					</form>
+
+					<div class="myp_ctt">
+						<h2>휴대 전화 인증</h2>
+						<div class="myp_ipt_wr phoneBox">
+							<!--핸드폰 본인인증-->
+							{% if request.user.verification.phone_verified %}
+							<div class="phoneWrapper">
+								<div class="subject">휴대 전화</div>
+								<div class="telWrapper">
+									<input type="tel" class="comm_ipt" id="phone_num" name="phone" value="{{ request.user.verification.phone }}" oninput="autoHyphen(this)" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}" maxlength="13" />
+									<strong>[인증 완료]</strong>
+								</div>
+							</div>
+							<div class="phoneBtnWrapper">
+									<button class="c1 ani"name="phone_verify" id="phone_verify_num">휴대 전화 번호변경</button>
+							</div>
+							{% else %}
+							<div class="phoneWrapper">
+								<div class="subject">휴대 전화</div>
+								<div class="telWrapper">
+									<input type="tel" class="comm_ipt" id="phone_num" name="phone" placeholder="ex) 010-1234-5678" oninput="autoHyphen(this)" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}" maxlength="13" />
+									<strong>*인증이 필요합니다</strong>
+								</div>
+							</div>
+							<div class="phoneBtnWrapper">
+								<button name="phone_verify" id="phone_verify_num">휴대 전화 인증</button>
+							</div>
+							{% endif %}
+							<div id="p_cef" style="display:none;">
+								<div class="phoneWrapper">
+									<div class="subject">인증번호</div>
+									<div class="telWrapper">
+										<input type="text" class="comm_ipt" id="phone_cef" placeholder="인증번호를 적어주십시오" pattern="[0-9]{6}" />
+									</div>
+								</div>
+								<div class="phoneBtnWrapper">
+									<button id="phone_verify_cef">인증번호 확인</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<!--본인인증 js with axios-->
+					<script>
+						//번호형식init
+						let tmp = $('#phone_num').val().replace(/[^0-9]/, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+						$('#phone_num').val(tmp);
+
+						//하이픈자동입력
+						const autoHyphen = (target) => {
+							target.value = target.value
+							.replace(/[^0-9]/, '')
+							.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+						}
+						$("#phone_verify_num").on("click", function(e){
+							e.preventDefault();
+							let phone_num = $("#phone_num").val();
+							let regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+							if (regPhone.test(phone_num) === true) {
+								//공백, 하이폰제거
+								phone_num = phone_num.trim().replace(/[^0-9]/g, '');
+
+								let param ={
+									'phone_num' : phone_num
+								}
+								$.ajax({
+									url : '{% url 'user:PhoneMessage' %}',
+									type : 'POST',
+									data : JSON.stringify(param),
+									success:function(){
+										$("#p_cef").css("display", "block");
+									},
+									error:function(){
+										alert('문자전송에 실패하였습니다');
+									}
+
+								})
+								return true;
+							} else{
+								alert('번호 형식이 올바르지 않습니다. 다시 확인해주시고 입력해주세요');
+							}
+
+						});
+						$("#phone_verify_cef").on("click", function(){
+							var PATH = window.location.host
+							let param ={
+								'phone_num' : $("#phone_num").val().trim().replace(/[^0-9]/g, ''),
+								'phone_cef' : $("#phone_cef").val(),
+							}
+							$.ajax({
+								url : '{% url 'user:PhoneCef' %}',
+								type : 'POST',
+								data : JSON.stringify(param),
+								success:function(){
+									alert('인증이 완료되었습니다');
+									location.href=`http://${PATH}/`;
+								},
+								error: function(){
+									alert('인증번호 오류');
+								}
+
+							})
+						});
+
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</article>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+<script>
+	$(function(){
+		$('#menu-1').addClass('on');
+	})
+</script>
+{% endblock extra_scripts %}

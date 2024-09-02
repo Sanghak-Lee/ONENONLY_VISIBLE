@@ -1,0 +1,41 @@
+# .idea
+# .ebignore
+.git/
+.venv/
+# venv-python/
+# # Byte-compiled / optimized / DLL files
+__pycache__/*
+*.py[cod]
+*.pyc
+*/.DS_Store
+.env
+log/
+Dockerfile
+docker-compose.yml
+core/upload/*
+
+Dockerrun.aws.json
+# nginx/
+# .platform/* 
+uwsgi.ini
+# .github/workflows/main.ymld
+# uwsgi_log/*
+# nginx_log/*
+# #develop ref
+# api/
+# #static_files
+# #static_root/
+# #static_in_env/
+#Celery
+dump.rdb
+# #reset1
+# # Elastic Beanstalk Files
+# .elasticbeanstalk/*
+# !.elasticbeanstalk/*.cfg.yml
+# !.elasticbeanstalk/*.global.yml
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+.DS_Store

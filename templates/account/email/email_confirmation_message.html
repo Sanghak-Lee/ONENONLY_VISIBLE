@@ -1,0 +1,83 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}
+<!-- {% autoescape off %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+땡큐프롬 {{ site_name }}! {{ site_domain }}
+{% endblocktrans %}
+{% endautoescape %} -->
+
+
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>온앤온리</title>
+<meta name="viewport" content="width=1280">
+
+<style>
+
+</style>
+
+</head>
+	<body style="margin:0;">
+		<!-- 메일폼 Start -->
+		<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" bgColor="ffffff">
+			<tr>
+				<td width="100%" height="30">&nbsp;</td>
+			</tr>
+			<tr>
+				<td width="100%" align="center">
+					<table width="320" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; width:320px;" bgColor="ffffff">
+						<tr>
+							<td width="320">
+								<!-- 내용컨텐츠 -->
+								<table width="320" border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td width="320">
+											<!-- 이메일 인증 영역 -->
+											<table width="320" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="320" valign="top">
+														<table width="320" border="0" cellpadding="0" cellspacing="0">
+															<tr>
+																<td width="320" align="center" valign="top">
+																	<p style="margin:0; padding:0; display:inline-block; font-family:'NanumGothic', '돋움', 'dotum', sans-serif; word-break:keep-all; font-size: 24px; font-weight: 400; letter-spacing: -0.75px; color: #808080;">원앤온리 이메일 재인증</p>
+																</td>
+															</tr>
+															<tr>
+																<td width="320" align="center" valign="top">
+                                  <img src="https://playplz-v2.s3.ap-northeast-2.amazonaws.com/Media+%ED%8C%8C%EC%9D%BC/ETC/%E1%84%8F%E1%85%A5%E1%86%AF%E1%84%85%E1%85%A5_%E1%84%89%E1%85%B5%E1%86%B7%E1%84%87%E1%85%A9%E1%86%AF.png" style="max-width:150px;padding-top:20px">
+																</td>
+															</tr>															
+															<tr>
+																<td width="320" align="center" valign="top" style="padding-top: 25px;">
+																	<p style="margin:0; padding:0; font-family:'NanumGothic', '돋움', 'dotum', sans-serif; word-break:keep-all; font-size: 14px; line-height:21px; color: #808080;">안녕하세요 {{ user_display }}님!<br/>원앤온리에 방문해주셔서 감사합니다.<br/><br/>하단의 이메일 인증 버튼을 클릭해<br/>이메일 인증을 완료해 주세요.</p>
+																</td>
+															</tr>
+															<tr>
+																<td width="100%" height="70">&nbsp;</td>
+															</tr>
+															<tr>
+																<td width="320" height="48" align="center" bgColor="FF405C" style="border-radius:48px;" valign="middle">
+																	<a onMouseOver="this.style.background='#afa698'" onMouseOut="this.style.background='#FF405C';" href="{{ activate_url }}" style="border-radius:48px; width:100%; height: 48px; display: inline-block; font-size: 14px; line-height:48px; color: #F2F2F2; text-align: center; text-decoration: none; word-break:keep-all; font-family:'NanumGothic', '돋움', 'dotum', sans-serif;">이메일 인증</a>
+																</td>
+															</tr>
+														</table>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" height="30">&nbsp;</td>
+			</tr>
+		</table>
+		<!-- // 메일폼 End -->
+	</body>
+</html>

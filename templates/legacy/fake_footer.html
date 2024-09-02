@@ -1,0 +1,132 @@
+{% load static %}
+
+<!-- 하단공통 -->
+<footer id="footer">	
+	<div class="wrap">
+		{% comment %} <div class="ic"><img src="{% static 'paze/img/ft_i1.png' %}" alt="비욘디멘션 주식회사"></div> {% endcomment %}
+		
+		<!-- PC View -->
+		<ul id="footerPCview" class="list clear">			
+			<li class="w1">
+				<p class="m1">주식회사 레브너</p>
+				<p class="m2">
+					서울특별시 서초구 강남대로 479, 신논현타워 B1층 275호 <br />
+					사업자등록번호 487-88-02275 <br />
+					통신판매업신고 2022-서울강남-01984호 <br />
+					대표자 : 조아란
+				</p>
+			</li>
+			<li class="w2">
+				<div class="lk_box">
+					<a href="{% url 'core:guide' %}">회사소개</a>							
+					<a href="{% url 'core:info-1' %}">이용약관</a>
+					<a href="{% url 'core:info-2' %}">개인정보취급방침</a>
+					<a href="{% url 'core:info-3' %}">환불규정</a>
+				</div>
+			</li>
+			<li class="w3">
+				<div class="txt">
+					<p class="m2 footerText">고객센터</p>
+					<a href="tel:15337193" class="lk">1533-7193</a>
+				</div>
+				<div class="txt">
+					<p class="m2 footerText">이메일</p>
+					<p class="m3">support@1nonly.io</p>
+				</div>
+			</li>
+			<li class="w4">
+				<p class="m2 footerText">Follow Us</p>
+				<div class="abox">
+					<a href="" target="_blank"><img src="{% static 'paze/img/sns_5.png' %}" alt="Youtube">Youtube</a>
+					<a href="" target="_blank"><img src="{% static 'paze/img/sns_3.png' %}" alt="Instagram">Instagram</a>
+				</div>
+				<div class="copy">&copy; 2022 REVENOR</div>
+			</li>
+		</ul>
+
+		<!-- Mobile View -->
+		<div id="footerMobileView">
+		<ul class="list clear mobileUl">			
+			<li class="w1">
+				<p class="m1">주식회사 레브너</p>
+				<p class="m2">
+					서울특별시 서초구 강남대로 479, 신논현타워 B1층 275호 <br />
+					사업자등록번호 448-87-02079 <br />
+					통신판매업신고 2021-서울서초-2860 <br />
+					대표자 : 조아란
+				</p>
+			</li>
+			<li class="w2">
+				<div class="lk_box">
+					<a href="{% url 'core:guide' %}">회사소개</a>							
+					<a href="{% url 'core:info-1' %}">이용약관</a>
+					<a href="{% url 'core:info-2' %}">개인정보취급방침</a>
+					<a href="{% url 'core:info-3' %}">환불규정</a>
+				</div>
+			</li>
+		</ul>
+		<ul class="list clear mobileUl">
+			<li class="w3">
+				<div class="txt">
+					<p class="m2 footerText">고객센터</p>
+					<a href="tel:070-4366-3383" class="lk">070-4366-3383</a>
+				</div>
+				<div class="txt">
+					<p class="m2 footerText">이메일</p>
+					<p class="m3">support@1nonly.io</p>
+				</div>
+			</li>
+			<li class="w4">
+				<p class="m2 footerText">Follow Us</p>
+				<div class="abox">
+					<a href="" target="_blank"><img src="{% static 'paze/img/sns_5.png' %}" alt="Youtube">Youtube</a>
+					<a href="" target="_blank"><img src="{% static 'paze/img/sns_3.png' %}" alt="Instagram">Instagram</a>
+				</div>
+				<div class="copy">&copy; 2022 REVENOR</div>
+			</li>
+		</ul>
+	</div>
+
+	<!-- under 600px view -->
+	<ul id="footerUnderView" class="list clear">			
+		<li class="w1">
+			<p class="m1">주식회사 레브너</p>
+			<p class="m2">
+				서울특별시 서초구 강남대로 479, 신논현타워 B1층 275호 <br />
+				사업자등록번호 448-87-02079 <br />
+				통신판매업신고 2021-서울서초-2860 <br />
+				대표자 : 조아란
+			</p>
+		</li>
+		<li class="w2">
+			<div class="lk_box">
+				<a href="">회원약관</a>
+				<a href="">개인정보처리방침</a>
+				<a href="">영상정보처리방침</a>
+				<a href="">이메일무단수집거부</a>
+			</div>
+		</li>
+		<li class="w3">
+			<div class="txt">
+				<p class="m2 footerText">고객센터</p>
+				<a href="tel:070-4366-3383" class="lk">070-4366-3383</a>
+			</div>
+			<div class="txt">
+				<p class="m2 footerText">이메일</p>
+				<p class="m3">support@1nonly.io</p>
+			</div>
+		</li>
+		<li class="w4">
+			<p class="m2 footerText">Follow Us</p>
+			<div class="abox">
+				<a href="" target="_blank"><img src="{% static 'paze/img/sns_5.png' %}" alt="Youtube">Youtube</a>
+				<a href="" target="_blank"><img src="{% static 'paze/img/sns_3.png' %}" alt="Instagram">Instagram</a>
+			</div>
+			<div class="copy">&copy; 2022 REVENOR</div>
+		</li>
+	</ul>
+
+
+	</div>
+</footer>
+<!-- 하단공통 -->

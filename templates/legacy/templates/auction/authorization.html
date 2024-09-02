@@ -1,0 +1,216 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% block head_title %} 초대장 인증 {% endblock %}
+
+{% block content %}
+<div class="passwordResetWrap">
+  <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="subjectWrapper" style="width:50%!important;">
+        <div class="profileSubject">초대코드
+        {% if messages %}
+        	{% for message in messages %}
+            <p style="color:#bb8a71;font-size:1.5rem;">{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+        </div>
+        <div><input type="text" class="comm_ipt existItem" placeholder="초대코드를 입력해주세요" name="code" style="color:white;"></div>
+      </div>
+
+      <div class="btn-wrap">
+          <button type="submit" class="btn btn-primary" style="width:200px;border-radius:0.5rem;background-color:#527461;padding:0.4rem;color:white;">입력하기</button>
+      </div>      
+
+  </form>
+
+  <div class="subjectWrapper" style="width:50%!important;">
+    <div id="info" class="profileSubject">VIP Membership NFT<p style="color:red;font-size:1.5rem;"></p></div>
+    <div><input id="account" disabled type="text" class="comm_ipt existItem" value="" style="color:white;"></div>
+    <div><input id="amount" disabled type="text" class="comm_ipt existItem" value="" style="color:white;"></div>    
+  </div>
+
+  <div class="btn-wrap">
+      <img style="max-width:80%;" class="fadein a"src=""/>
+      <p class="fadein a"></p>
+      <small class="fadein a" style="font-weight:200;"></small>
+      <button id="connect_wallet" class="btn btn-primary" style="width:200px;border-radius:0.5rem;background-color:#527461;padding:0.4rem;color:white;margin:0 auto;">NFT멤버쉽 인증하기</button>
+      <button type="button" id="reload_wallet" class="btn btn-primary fadein a" style="width:200px;border-radius:0.5rem;background-color:#bdaaff;padding:0.4rem;color:white;margin:1rem auto;" onclick="location.href='{% url 'auction:placement-detail' pk %}'">입장하기</button>
+  </div>        
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+<script src="https://unpkg.com/@walletconnect/web3-provider@1.7.1/dist/umd/index.min.js"></script>
+<script>
+$('#connect_wallet').on('click', async() => {
+    const token_list = {{ token_list | safe }};
+    const INFURAID = 'c39c73ade6234570a752da78c29ff630';
+    const CONTRACT_ADDRESS = '0x495f947276749Ce646f68AC8c248420045cb7b5e';
+    const TOKEN_ID = '44864546123105076723336414263823235385768479419789571885203792744747253104641';
+    // Modern dapp browsers...
+    if (window.ethereum) {
+        window.web3 = new Web3(ethereum);
+        await ethereum.enable();
+        $('div[id=info] > p').text('브라우저 감지되었습니다.');
+    }
+    // Legacy dapp browsers...
+    else if (window.web3) {
+        window.web3 = new Web3(web3.currentProvider);
+        await ethereum.enable();        
+        // Acccounts always exposed
+        $('div[id=info] > p').text('OldVersion Brower감지되었습니다.');
+        //web3.eth.sendTransaction({/* ... */});
+    }
+
+    //모바일
+    else if(isMobile){
+      let provider = new WalletConnectProvider.default({ 
+        infuraId: INFURAID
+        });
+      //to set it to BSC, uncomment the following line
+      //provider.chainId = 56;
+      //present the Wallet Connect QR code
+      try{
+      	web3 = await provider.enable().then(function(res){ 
+          return new Web3(provider); 
+      		});
+        $('div[id=info] > p').text('모바일 감지되었습니다.');        
+      }
+      catch{
+        $('div[id=info] > p').text('지갑연결에 실패하였습니다');
+      }
+      /* provider.enable().then(function(res){ 
+        //get wallet addrs and then wrap this into the Web3 JS
+        web3 = new Web3(provider);
+        //now do all the web3 stuff you want...
+        //awesome web3 application goes here
+      }); */
+    }
+    //None
+    else {
+      let provider = new WalletConnectProvider.default({ 
+        infuraId: INFURAID
+        });
+      try{
+      	web3 = await provider.enable().then(function(res){ 
+          return new Web3(provider); 
+      		});
+        $('div[id=info] > p').text('Mobile Wallet을 지원하지 않는 브라우저입니다.');        
+      }
+      catch{
+        $('div[id=info] > p').text('암호화폐 지갑과 호환되는 브라우저가 아닙니다. 아래 QR코드를 활용해주세요');
+      }
+    }
+       try {
+            // Acccounts now exposed
+            console.log(web3.eth);
+            let account = await web3.eth.getAccounts();
+            account=account[0];
+        let ABI =             
+        [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              }
+            ],
+            "name": "balanceOf",
+            "outputs": [
+              {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              }
+            ],
+            "name": "uri",
+            "outputs": [
+              {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          }          
+        ]
+
+//        let contract = new web3.eth.Contract(ABI,'0x236eb3Fa4b8e1E4d31fd3216d2bD836dC590E264');
+        let contract = new web3.eth.Contract(ABI,CONTRACT_ADDRESS);
+        console.log(contract, account);
+        let amount = 0;
+        for(var i in token_list){
+          amount = await contract.methods.balanceOf(account, token_list[i]).call();
+          console.log(amount);
+          if(amount==1){
+            break;
+          }
+        }
+
+        //fetch metadata
+        try{
+          let metadata = await contract.methods.uri(TOKEN_ID).call();
+          metadata = metadata.replace('0x{id}', TOKEN_ID);
+          metadata = await fetch(metadata);
+          metadata = await metadata.json();
+          $('.btn-wrap > img').attr('src', metadata['image']).addClass('loaded');
+          $('.btn-wrap > p').text(metadata['name']).addClass('loaded');
+          $('.btn-wrap > small').text(metadata['description']).addClass('loaded');
+        }
+        catch{
+          console.log('metadata Reading Fail');
+        }
+        $('input[id=account]').val(account);
+        $('input[id=amount]').val(amount);
+        if(amount >=1){
+								let param ={
+									'is_superpass' : 'True',
+								}
+								$.ajax({
+									url : '{% url 'auction:invi-auth' pk %}',
+									type : 'POST',
+									data : JSON.stringify(param),
+									success:function(data){
+                    if(data=="success"){
+                      $('button[id=reload_wallet]').addClass('loaded');
+                      $('div[id=info] > p').text('인증에 성공하였습니다. 아래 입장버튼을 눌러주세요');
+                    }
+									},
+									error:function(){
+										alert('에러가 발생하였습니다. 다시 시도해주세요');
+									}
+
+								})
+        }
+        else{
+        
+        }
+        console.log("PP", amount);
+
+            //web3.eth.sendTransaction({/* ... */});
+        } catch (error) {
+            // User denied account access...
+        }
+    
+
+});
+</script>
+{% endblock extra_scripts %}

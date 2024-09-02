@@ -1,0 +1,754 @@
+{% extends "base.html" %}
+{% load static %}
+{% load core_template_tags %}
+
+
+
+{% block head_title %} {{artist}}님 페이지 {% endblock %}
+
+{% block extra_head %} {% endblock %}
+
+
+
+
+<!--BODY -->
+{% block content %}
+<article id="content">
+	<div class="idx_ctt">
+	<!-- 해당페이지만 적용 css -->
+	<style>
+		.profile {
+			padding: 0;
+		}
+
+		@media (max-width: 1024px) {
+			.profile {
+				padding: 0;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.profile {
+				padding: 0;
+			}
+		}
+
+		@media (max-width: 640px) {
+			.profile {
+				padding: 0;
+			}
+			.artist_view {
+				margin-top: 0;
+			}
+		}
+	</style>
+	<!-- About comment -->
+	<div class="aboutComment pc768">
+		<div id="about">
+		About
+		</div>
+		<section id="section04" class="demo">
+			<a href="#scrollStop"><span></span></a>
+			<script>
+				document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+					anchor.addEventListener('click', function (e) {
+							e.preventDefault();
+							document.querySelector(this.getAttribute('href')).scrollIntoView({
+									behavior: 'smooth'
+							});
+					});
+			});
+		</script>
+		</section>
+	</div>
+	<!-- 아티스트 컨텐츠 -->
+	<div class="contentWrapper">
+	<div id="scrollStop" class="artist_view">
+		<div id="present">PRESENT</div>
+		<div class="itemBox">
+			<a class="imgA" href="{{ item.artist.get_artist_url}}">
+					<img src="{{ item.image.url }}" alt="김우연">
+			</a>
+		<div class="wrap profileWrap">
+			<div class="profile">
+				<!-- 프로필 이미지 -->
+				<!-- 프로필 내용 -->
+				<div class="info">
+					<div class="ws_btn">
+						<ul class="clear">
+							{% if artist in request.user.artist_like.all %}
+							<li class="art_v_wish on" ></li>
+							{% else %}
+							<li class="art_v_wish" ></li>
+							{% endif %}
+
+							<li class="art_v_share">
+								<div class="ov ani">
+									<div class="v1">URL 복사</div>
+									<div class="v2">카카오톡 공유</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<script>
+						$(".art_v_wish").click(function () {
+							$(this).toggleClass('on');
+							var pk = "{{ artist.pk }}"
+							$.ajax({
+							type: "POST",
+							url: "{% url 'core:toggle_like' %}",
+							data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+							dataType: "json",
+							success: function(response){
+								alert(response.message);
+								if(response.toggle == -1){
+									$("#like").html(response.like_count+"(-1 DOWN!)");
+								}
+								else{
+									$("#like").html(response.like_count+"(+1 UP!)");
+								}
+								// $("#like").html(response.like_count+"(+1 UP!)");
+								// var users = $("#like-user-"+pk).text();
+								// if(users.indexOf(response.nickname) != -1){
+								// $("#like-user-"+pk).text(users.replace(response.nickname, ""));
+								// }else{
+								// $("#like-user-"+pk).text(response.nickname+users);
+								// }
+							},
+							error: function(request, status, error){
+								alert("로그인이 필요합니다.")
+								window.location.replace("{% url 'account_login' %}")
+								//  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+							},
+							});
+						});
+						$(".art_v_share").click(function () {
+							$(this).toggleClass('on');
+						});
+					</script>
+					<div class="itemTheme">작곡/편곡</div>
+					<div class="itemTitle">Tell Me<br/>Your Name</div>
+					<div class="myself">
+						<div class="txt">당신의 이름으로,<br/>오직 당신만을 위한 맞춤 클래식 편곡 당신의 이름으로,<br/>오직 당신만을 위한 맞춤 클래식 편곡</div>
+					</div>
+				</div>
+			</div>
+			<script>
+				$(".r_ck1").click(function () {
+					$(this).parents('html').addClass('ly_open');
+				});
+				$(".r_x1").click(function () {
+					$(this).parents('html').removeClass('ly_open');
+				});
+				$(".r_ck2").click(function () {
+					$(this).parents('html').addClass('ly_open2');
+				});
+				$(".r_x2").click(function () {
+					$(this).parents('html').removeClass('ly_open2');
+				});
+			</script>
+			<script>
+				$(".star_ch span").click(function() {
+					 $(this).parent().children("span").removeClass("on");
+					 $(this).addClass("on").prevAll("span").addClass("on");
+					 return false;
+				});
+			</script>
+			<script>
+				$(".rv_more > span").click(function () {
+					$(this).parents('.tab_dv').toggleClass('on'); 
+				});
+			</script>
+			<script language="javascript"> 
+				$(function () {	
+					tab('#tab',0);	
+				});
+
+				function tab(e, num){
+					var num = num || 0;
+					var menu = $(e).children();
+					var con = $(e+'_con').children();
+					var select = $(menu).eq(num);
+					var i = num;
+
+					select.addClass('on');
+					con.eq(num).show();
+
+					menu.click(function(){
+						if(select!==null){
+							select.removeClass("on");
+							con.eq(i).hide();
+						}
+
+						select = $(this);
+						i = $(this).index();
+
+						select.addClass('on');
+						con.eq(i).show();
+					});
+				}
+			</script>
+		</div>
+	</div>
+</div>
+
+	<a href="/">
+		<div class="purchase">
+			<div class="art_req purchaseBox">
+				<div class="le">(클릭) <span class="name">{{ request.user.username }}님</span>, 재능을 구매하세요!</div>
+			</div>
+		</div>
+	</a>
+
+	<div>
+		<div class="profileWrapper">
+			<div class="profileBtn">
+				프리젠터 프로필 펼쳐보기 ∨
+			</div>
+		</div>
+	</div>
+
+	<!-- 프레젠터 소개 시작 -->
+	<div>
+		<div class="presenWrapper">
+			<div id="present">PRESENTER</div>
+			<div class="presenName">김재원</div>
+			<div class="presenExplain">김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개 김재원에 대한 짧은 소개</div>
+			<div class="presenImgs">
+				<div class="preImg1">
+					<a href="{{ item.artist.get_artist_url}}">
+						<img src="{% static 'paze/img/art_v_i1.jpg'%}" alt="프리젠터 사진">
+					</a>
+				</div>
+				<a href="/detail_item/2/" class="preImg2">
+					<img src="{% static 'paze/img/pp_ex3.jpg'%}" alt="재능 상품 2">
+					<div class="presenItemMent">김재원의<div>재능 상품 1</div></div>
+				</a>
+				<a href="/detail_item/3/" class="preImg3">
+					<img src="{% static 'paze/img/pp_ex5.jpg'%}" alt="재능 상품 3">
+					<div class="presenItemMent">김재원의<div>재능 상품 2</div></div>
+				</a>
+			</div>
+			<div class="detailWrapper">
+				<a class="goProfileBtn" href="{{ item.artist.get_artist_url}}">
+					<div class="profileDetail">프로필 상세보기</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+	<!-- 프레젠터 소개 끝 -->
+
+
+	<!-- 리뷰 시작 -->
+	{% comment %} <div class="art_rv_qna">
+		<div class="tab_box">
+			<ul class="tab clear" id="tab">
+				<li>리뷰</li>
+				<li>문의</li>
+			</ul>
+		</div>
+		<div class="tab_con" id="tab_con">
+			<!-- 리뷰 -->
+			<div class="tab_dv on">
+				<div class="abox">
+					<div class="txt">리뷰 <span>{{review_list|length}}</span></div>
+					<div class="sBtn r_ck1 ani">
+						<span class="rtxt">리뷰 남기기</span>						
+					</div>
+
+					<form action="?which=review" method="post">{% csrf_token %}
+					<div class="ly_box r_ck1_box">
+						<div class="dim"></div>
+						<p class="m1"><img src="{% static 'paze/img/rv_ic1.png' %}" alt="리뷰작성"><span>월광</span>에 대해 리뷰 남기기</p>
+						<div class="star_ch">
+							<span class = "on" id = star_ch_1></span>
+							<span id = star_ch_2></span>
+							<span id = star_ch_3></span>
+							<span id = star_ch_4></span>
+							<span id = star_ch_5></span>
+						</div>
+						<input type = "hidden" value = "1" name = "score" id="review_score">
+						
+						<!-- 별점 jquery -->
+						<script>
+							$("#star_ch_1").click(function () {
+								document.getElementById("review_score").value=1;
+							});
+							$("#star_ch_2").click(function () {
+								document.getElementById("review_score").value=2; 
+							});
+							$("#star_ch_3").click(function () {
+								document.getElementById("review_score").value=3; 
+							});
+							$("#star_ch_4").click(function () {
+								document.getElementById("review_score").value=4; 
+							});
+							$("#star_ch_5").click(function () {
+								document.getElementById("review_score").value=5; 
+							});
+						</script>
+
+
+						<div class="rv_texta">
+							<textarea name="text" id="" placeholder="아티스트와 의뢰 작품에 대한 평가를 남겨주세요."></textarea>
+						</div>
+						<div class="cfm_btn clear">
+							<ul class="clear">
+								<li class="c1 ly_close r_x1">취소</li>
+								<li id="" class="c2 ani"><input type="submit" id="" value="작성완료"></li>
+							</ul>
+						</div>
+					</div>
+					</form>
+
+				</div>
+				<div class="bbox">
+					<div class="rv_more btn1"><span>+ 다른 사람이 남긴 리뷰 보기</span></div>
+					<div class="rv_open">
+						<div class="rv_more"><span>- 리뷰 접기</span></div>
+						<!-- 통계 -->
+						<div class="avg_rv">
+							<div class="clear">
+								<!-- -->
+								<div class="w40">
+									<div class="ax">
+										<div class="w5">
+											<p class="m1"><span>총 리뷰 수</span></p>
+											<p class="m2"><span class="num">{{review_list|length}}</span><span class="sm">개</span></p>
+										</div>
+										<div class="w5">
+											<p class="m1"><span>평균 평점</span></p>
+											<p class="m2"><span class="num">{{artist.get_artist_score}}</span><img src="{% static 'paze/img/art_v_ic1.png' %}" alt="평균 평점"></p>
+										</div>
+									</div>
+									<div class="bx">아티스트 전체 평점 {{ artist.average_score }}</div>
+								</div>
+								<!-- -->
+								<div class="w60">
+									<ul class="in">
+
+										<li class="rv5">
+											<span class="num">5</span>
+											<span class="ic"><img src="{% static 'paze/img/rv_r5.png' %}" alt="5점"></span>
+											<div class="line">
+												<div class="per">
+													<div class="va" id="percent5"></div><!-- 비율에 따른 % -->
+												</div>
+											</div>
+											<span class="cnt">{% percentage artist 5 "on" %}</span>
+											
+										</li>
+
+
+										<li class="rv4">
+											<span class="num">4</span>
+											<span class="ic"><img src="{% static 'paze/img/rv_r4.png' %}" alt="4점"></span>
+											<div class="line">
+												<div class="per">
+													<div class="va" id="percent4"></div><!-- 비율에 따른 % -->
+												</div>
+											</div>
+											<span class="cnt">{% percentage artist 4 "on" %}</span>
+											
+
+											
+										</li>
+
+
+										<li class="rv3">
+											<span class="num">3</span>
+											<span class="ic"><img src="{% static 'paze/img/rv_r3.png' %}" alt="3점"></span>
+											<div class="line">
+												<div class="per">
+													<div class="va" id = "percent3"></div><!-- 비율에 따른 % -->
+												</div>
+											</div>
+											
+											<span class="cnt">{% percentage artist 3 "on" %}</span>
+
+											
+										</li>
+
+										<li class="rv2">
+											<span class="num">2</span>
+											<span class="ic"><img src="{% static 'paze/img/rv_r2.png' %}" alt="2점"></span>
+											<div class="line">
+												<div class="per">
+													<div class="va" id = "percent2"></div><!-- 비율에 따른 % -->
+												</div>
+											</div>
+											<span class="cnt">{% percentage artist 2 "on" %}</span>
+											
+										</li>
+
+										<li class="rv1">
+											<span class="num">1</span>
+											<span class="ic"><img src="{% static 'paze/img/rv_r1.png' %}" alt="1점"></span>
+											<div class="line">
+												<div class="per">
+													<div class="va" id="percent1"></div><!-- 비율에 따른 % -->
+												</div>
+											</div>
+
+											<span class="cnt">{% percentage artist 1 "on" %}</span>
+											
+											<script>
+												
+												document.getElementById("percent1").style.width ="{% percentage artist 1 "off" %}%"
+												document.getElementById("percent2").style.width ="{% percentage artist 2 "off" %}%"
+												document.getElementById("percent3").style.width ="{% percentage artist 3 "off" %}%"
+												document.getElementById("percent4").style.width ="{% percentage artist 4 "off" %}%"
+												document.getElementById("percent5").style.width ="{% percentage artist 5 "off" %}%"
+											</script>
+
+											
+										</li>
+									</ul>
+								</div>
+								<!-- -->
+							</div>
+						</div>
+						
+
+						<!-- 리뷰 내용 -->
+						<div class="rv_list">
+							<ul class="mason_wr">
+								<!-- -->
+								{% for review in reviews %}
+								<li class="item">
+									<div class="in">
+										<div class="comb clear">													
+											<div class="le">{{review.user}}<span>{{review.start_date}}</span></div>
+											<div class="ri">
+												<div class="star_avg">
+													<div class="on" id = "{{review.pk}}"></div>
+												</div>
+												<div class="rv_pdt"><img src="{% static 'paze/img/rv_pdt_ic.png' %}" alt="리뷰">의뢰 작품 - 월광</div>
+											</div>
+										</div>
+										<div class="ctt">
+											{{review.text}}
+										</div>
+									</div>
+								</li>
+								<script>
+									var id = "{{review.pk}}"
+									document.getElementById("{{review.pk}}").style.width ="{% widthratio review.score 1 20 %}%"
+								</script>
+								{% endfor %}
+							</ul>
+						</div>
+
+
+						
+					{% if reviews.has_previous %}
+					<a href ="?review_page=1">&laquo;&laquo;</a>
+					<a href ="?review_page={{reviews.previous_page_number}}">&laquo;</a>
+					{% endif %}
+					<span>{{reviews.number}}</span>
+					<span>/</span>
+					<span>{{reviews.paginator.num_pages}}</span>
+					{% if reviews.has_next %}
+					<a href ="?review_page={{ reviews.next_page_number }}">&raquo;</a>
+					<a href ="?review_page={{ reviews.paginator.num_pages }}">&raquo;&raquo;</a>
+					{% endif %}	
+
+					</div>
+				</div>
+			</div>					
+			
+			<!-- 문의 -->
+			
+			<div class="tab_dv on">
+				
+				<form action="?which=post" method="post">{% csrf_token %}
+				<div class="abox">
+					<div class="txt">문의 <span>20</span></div>
+					<div class="sBtn r_ck2 ani">
+						<span class="rtxt">문의 남기기</span>						
+					</div>
+					<div class="ly_box r_ck2_box">
+						<div class="dim"></div>
+						<p class="m1"><img src="{% static 'paze/img/rv_ic2.png' %}" alt="문의작성">문의글 작성하기</p>
+						<div class="rv_texta">
+							<textarea name="text" id="" placeholder="문의사항을 입력하세요."></textarea>
+						</div>
+						<div class="cfm_btn clear">
+							<ul class="clear">
+								<li class="c1 ly_close r_x2">취소</li>
+								<li id="" class="c2 ani abg"><input type="submit" value="작성완료"></li>
+							</ul>
+						</div>
+					</div>							
+				</div>
+				</form>
+
+				
+				<div class="bbox">
+					<div class="rv_more btn1"><span>+ 다른 사람이 남긴 문의 보기</span></div>
+					<div class="rv_open">
+						<div class="rv_more"><span>- 문의 접기</span></div>
+						<!-- 문의 내용 -->
+						<div class="rv_list">
+							<ul class="mason_wr">
+
+								
+								<!-- -->
+								{% for post in posts %}
+								<li class="item">
+									<div class="in">
+										<div class="comb clear">													
+											<div class="le">{{post.user}}<span>{{post.start_date}}</span></div>		
+										</div>
+										<div class="ctt">
+											 {{post.text}}
+										</div>
+										{% if post.comment.all %}
+										{% for comment in post.comment.all %}
+										<!-- 아티스트 님의 답변 -->
+										<div class="reply">
+											<p class="r1">{{ comment.post.artist }}<span>{{ comment.start_date }}</span></p>
+											<div class="ctt">
+												{{ comment.text }}
+											</div>
+										</div>
+										{% endfor %}
+										{% endif %}
+									</div>
+								</li>
+								{% endfor %}
+								<!-- -->
+
+
+							</ul>
+						</div>
+
+						{% if posts.has_previous %}
+						<a href ="?post_page=1">&laquo;&laquo;</a>
+						<a href ="?post_page={{posts.previous_page_number}}">&laquo;</a>
+						{% endif %}
+						<span>{{posts.number}}</span>
+						<span>/</span>
+						<span>{{posts.paginator.num_pages}}</span>
+						{% if posts.has_next %}
+						<a href ="?post_page={{ posts.next_page_number }}">&raquo;</a>
+						<a href ="?post_page={{ posts.paginator.num_pages }}">&raquo;&raquo;</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>{% endcomment %}
+		<!-- 리뷰 끝 -->
+</div>
+</article>
+
+<!-- 작품요청 레이어 -->
+<div id="req_ly" class="request-pop-wrap">
+	<div class="outb">
+		<div class="inb">
+			<div class="ctt">
+				<div class="art_req_close"></div>
+				<h2><img src="{% static 'paze/img/rv_ic1.png' %}" alt="작품요청"><span>{{request.user}}</span>님 만을 위한 작품 요청하기</h2>
+				<div class="in">
+					<div class="ly_tab">
+						<!-- 녹화 -->
+						<form method="post">{% csrf_token %}
+						<input type="hidden" name="music_purpose" id="purpose" value="1">
+						<div id="con1" class="conBox on">
+
+							<div class="abox">
+								<!-- <h3 class="ly_h3">원하는 곳이 있으신가요? (필수)</h3>
+								<div class="cont rdo1">
+									<ul class="comm_rdo1 clear">
+										<li><input type="radio" name="rdo_chk1" id="rdo_chk1-1" /> <label for="rdo_chk1-1"><span></span>예</label></li>
+										<li><input type="radio" name="rdo_chk1" id="rdo_chk1-2" /> <label for="rdo_chk1-2"><span></span>아니오</label></li>
+									</ul>
+								</div> -->
+								<div class="ipt_box">
+									<h4 class="ly_h4">서비스</h4>
+									<input type="text" class="comm_ipt" name="music_name" value={{item.title}} disabled/>
+								</div>
+								<div class="ipt_box">
+									<h4 class="ly_h4">분류</h4>
+									<input type="text" class="comm_ipt" name="music_purpose" value={{item.get_category_display}} disabled/>
+								</div>
+								<div class="ipt_box">
+									<h4 class="ly_h4">설명</h4>
+									<input type="text" class="comm_ipt" name="music_vibe" value={{item.description}} disabled />
+								</div>
+							</div>
+
+
+							<!-- <div class="abox">
+								<h3 class="ly_h3">이벤트를 선택해주세요. (필수)</h3>
+								<div class="cont rdo2">
+									<ul class="comm_rdo1 clear">
+										<li><input type="radio" name="rdo_chk2" id="rdo_chk2-1" /> <label for="rdo_chk2-1"><span></span>축하</label></li>
+										<li><input type="radio" name="rdo_chk2" id="rdo_chk2-2" /> <label for="rdo_chk2-2"><span></span>감사</label></li>
+										<li><input type="radio" name="rdo_chk2" id="rdo_chk2-3" /> <label for="rdo_chk2-3"><span></span>기념일</label></li>
+										<li><input type="radio" name="rdo_chk2" id="rdo_chk2-4" /> <label for="rdo_chk2-4"><span></span>위로</label></li>
+										<li><input type="radio" name="rdo_chk2" id="rdo_chk2-5" /> <label for="rdo_chk2-5"><span></span>기타</label></li>
+									</ul>
+								</div>
+							</div> -->
+
+
+							<div class="abox">
+								<h3 class="ly_h3">원하시는 분위기를 선택해주세요. (필수)</h3>
+								<div class="cont rdo3">
+									<ul class="comm_chk clear">
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-1" /> <label for="rdo_chk3-1"><span>#잔잔함</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-2" /> <label for="rdo_chk3-2"><span>#힙합</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-3" /> <label for="rdo_chk3-3"><span>#웅장</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-4" /> <label for="rdo_chk3-4"><span>#설렘</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-5" /> <label for="rdo_chk3-5"><span>#열정</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-6" /> <label for="rdo_chk3-6"><span>#시크</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-7" /> <label for="rdo_chk3-7"><span>#아침햇살</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-8" /> <label for="rdo_chk3-8"><span> #지는노을</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-9" /> <label for="rdo_chk3-9"><span>#해질녘</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-10" /> <label for="rdo_chk3-10"><span>#출근길</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-11" /> <label for="rdo_chk3-11"><span>#노동요</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-12" /> <label for="rdo_chk3-12"><span>#드라이브</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-13" /> <label for="rdo_chk3-13"><span>#쓸쓸</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-14" /> <label for="rdo_chk3-14"><span>#울적</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-15" /> <label for="rdo_chk3-15"><span>#행복</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-16" /> <label for="rdo_chk3-16"><span>#비트감있는</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-17" /> <label for="rdo_chk3-17"><span>#퇴근길</span></label></li>
+										<li><input class = "mood" type="checkbox" name="" id="rdo_chk3-18" /> <label for="rdo_chk3-18"><span>#기타</span></label></li>
+									</ul>
+									<div class="etc_ipt"><input type="text" name="music_vibe" class="comm_ipt moodtext" placeholder="기타 원하는 분위기를 적어주세요." /></div><!-- 기타 선택시 출력 -->
+								</div>
+							</div>
+
+
+							<div class="abox">
+								<h3 class="ly_h3">작품 받는 사람</h3>
+								<div class="cont">
+									<input type="text" class="comm_ipt" name="music_receiver" placeholder="(예시) 연인, 친구, 부모님, 동료" />
+								</div>
+							</div>
+							
+							<!-- <div class="abox">
+								<h3 class="ly_h3">작품 선물하는 사람</h3>
+								<div class="cont">
+									<input type="text" class="comm_ipt" placeholder="(예시) 본인 이름" />
+								</div>
+							</div>
+
+							<div class="abox">
+								<h3 class="ly_h3">아티스트에게 하고 싶은 말(선택)</h3>
+								<div class="cont">
+									<textarea name="" id="" class="comm_text" placeholder="(예시) 히사이시조 콘서트에서 지휘하시는 모습을 보고 팬이 됐어요 ㅠㅠ &#13;&#10; 지휘자님께서 저만을 위한 영상을 만들어 주신다는 생각에 너무 기대돼요!!"></textarea>
+								</div>
+							</div>
+
+							<div class="abox">
+								<h3 class="ly_h3">영상에 들어갈 멘트 입력(필수) </h3>
+								<div class="cont">
+									<textarea name="" id="" class="comm_text" placeholder="(예시) 제 여자친구와 200일 기념일을 앞두고 있습니다. &#13;&#10; 영상 초반에 “은지야 너를 위해 몰래 준비했어. 나랑 200일동안 만나줘서 고마워. &#13;&#10; 우리 계속 예쁜 사랑하자“라고 DJ처럼 진행 후 연주 부탁드립니다."></textarea>
+								</div>
+							</div>
+
+							<div class="bbox">
+								<ul class="comm_rdo1 clear">
+									<li><input type="radio" name="rdo_chk4" id="rdo_chk4-1" /> <label for="rdo_chk4-1"><span></span>내용 저장하기</label></li>
+									<li><input type="radio" name="rdo_chk4" id="rdo_chk4-2" /> <label for="rdo_chk4-2"><span></span>저장된 내용 불러오기</label></li>							
+								</ul>	
+							</div> -->
+							
+							<div class="cbox">
+								<div class="sBtn ani"><span class="rtxt"><input type="submit" value="바로 결제하기"></span></div>
+							</div>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+
+{% block extra_body %}
+{% endblock %}
+
+
+
+{% block extra_scripts %}
+<!-- <script>
+	$(".le").click(function () {
+		document.getElementById("purpose").value=1;
+		console.log(document.getElementById("purpose").value)
+	});
+	$(".ri").click(function () {
+		document.getElementById("purpose").value=2;
+		console.log(document.getElementById("purpose").value)
+	});
+</script> -->
+
+<script>
+    $(function(){
+        $(".ly_tab .ch_tb li").click(function(){
+            $(".ly_tab .ch_tb li").removeClass('on');
+            $(".ly_tab .conBox").removeClass('on');
+            $(this).addClass('on');
+            $("#"+$(this).data('id')).addClass('on');
+        });
+    });
+
+	$(function(){
+		$('.mood').click(function(){
+			var mood = $(this).closest('li').find('span').text()
+			if($('.moodtext').val().search(mood) != -1)
+			{
+				var v=$('.moodtext').val()
+				$('.moodtext').val(function(i,v){
+					return v.replace(mood,"")
+				});
+			}
+
+			else
+			{
+				var v=$('.moodtext').val()
+				v+=mood
+				$('.moodtext').val(v)
+			}
+        });
+    });
+
+
+</script>
+<script type="text/javascript">
+	$('.art_req_btn').on('click',function(){
+		$('.request-pop-wrap').stop(true).fadeIn(300);
+		$('html').addClass('ly_fix');
+	return false;
+	});
+
+	$('.art_req_close').on('click',function(){
+		$('.request-pop-wrap').stop(true).fadeOut(300);
+		$('html').removeClass('ly_fix');
+	return false;
+	});
+</script>
+
+<!-- profile toggle-->
+<script>
+$.fn.extend({
+toggleText: function(a, b){
+	return this.text(this.text() == b ? a : b);
+	}
+});
+$(function(){
+	$('.presenWrapper').slideToggle();
+});
+$('.profileBtn').click(function() {
+	$('.profileBtn').toggleText('프리젠터 프로필 펼쳐보기 ∨', '프리젠터 프로필 접어두기 ∧');
+	$('.presenWrapper').slideToggle();
+});
+</script>
+
+
+{% endblock extra_scripts %}

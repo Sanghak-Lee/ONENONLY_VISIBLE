@@ -1,0 +1,103 @@
+{% load humanize %}
+<!-- 팝업 :: 잔금 완납_결제 내역 모달  -->
+<article class="layer-fixed-pop-wrapper layer-popup" id="popupFundingPayDetails{{orderitem.id}}{{orderitem.placement.id}}">
+	<div class="modal-fixed-pop-inner">
+		<div class="modal-inner-box">
+			<div class="modal-inner-content">
+				<!-- 컨텐츠 영역 -->
+				<section class="cm-modal-content cm-alret-modal-content w-420"><!-- 가로로 좀 더 길게 쓸때는 w-420 클래스 붙혀주세요. -->
+					<div class="popup-inner-con long-ver02"><!-- 내부 스크롤 영역 좀 더 길게 쓸때는 long-ver / 더 긴 것 long-ver02 클래스 추가 -->
+						<div class="popup-funding-list">
+							<div class="popup-funding-item">
+								<h5 class="tit">결제 고객 정보</h5>
+								<table class="popup-funding-tbl">
+									<colgroup>
+										<col style="width: 38%;">
+										<col style="width: *;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th>주문자 성함</th>
+											<td>{{oi.user.verification.name | default:oi.user.username }}</td>
+										</tr>
+										<tr>
+											<th>이메일</th>
+											<td>{{oi.user.email}}</td>
+										</tr>
+										<tr>
+											<th>전화번호</th>
+											<td>{{ oi.user.verification.phone.as_national | default:"oi.user.verification.phone"}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="popup-funding-item">
+								<h5 class="tit">결제 정보</h5>
+								<table class="popup-funding-tbl">
+									<colgroup>
+										<col style="width: 38%;">
+										<col style="width: *">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th>개수</th>
+											<td>{{oi.quantity }}개</td>
+										</tr>										
+										<tr>
+											<th>총 금액</th>
+											<td>{{oi.get_total_item_price | intcomma }}원</td>
+										</tr>
+										{% if oi.coupon %}
+										<tr>
+											<th style="color:red;">할인 금액</th>
+											<td style="color:red;">-{{oi.coupon.amount | intcomma }}원</td>
+										</tr>
+										<tr>
+											<th style="color:red;">할인 후 총 금액</th>
+											<td style="color:red;">{{oi.get_final_price | intcomma }}원</td>
+										</tr>
+										{% endif %}
+										{% if oi.payment %}
+										<tr>
+											<th>결제 금액</th>
+											<td>{{oi.payment.amount | intcomma }}원</td>
+										</tr>
+										<tr>
+											<th>결제 수단</th>
+											<td>{% if oi.payment.pay_method == 'card' %}카드결제{% elif oi.payment.pay_method == 'vbank' %}가상계좌{% elif oi.payment.pay_method == 'trans' %}계좌이체{% else %}기타{% endif %}</td>
+										</tr>
+										{% if oi.payment.pay_method == 'card' %}
+										<tr>
+											<th>카드</th>
+											<td>{{ oi.payment.card_name }}</td>
+										</tr>
+										<tr>
+											<th>카드번호</th>
+											<td>{{ oi.payment.card_number }}</td>
+										</tr>
+										{% endif %}
+										<tr>
+											<th>전자영수증</th>
+											<td><a href="{{ oi.payment.receipt_url }}">영수증 보기</a></td>
+										</tr>
+										<tr>
+											<th>결제일</th>
+											<td>{{ oi.payment.paid_at | date:"Y/m/d H:i:s"  }}</td>
+										</tr>
+										{% endif %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="cm-modal-btn clearfix">
+						<ul class="col-01">
+							<li><a href="javascript:;" class="cm-positive-btn" onclick="modalPopupClose('#popupFundingPayDetails{{orderitem.id}}{{orderitem.placement.id}}')">닫기</a></li>
+						</ul>
+					</div>
+				</section>
+				<!-- // -->
+			</div>
+		</div>
+	</div>
+</article>

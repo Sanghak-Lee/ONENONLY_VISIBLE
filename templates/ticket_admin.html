@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static humanize %}
+{% block extra_head %}{% endblock extra_head %}
+{% block head_title %} | 티켓관리 {% endblock %}
+
+{% block body %}
+{% if checked %}
+<audio src="{% static 'rev/mp3/fail.mp3' %}" allow="autoplay" style="display:none;" id="bg">브라우저가 HTML5를 지원하지 않습니다.</audio>
+{% else %}
+<audio src="{% static 'rev/mp3/success.mp3' %}" allow="autoplay" style="display:none;" id="bg">브라우저가 HTML5를 지원하지 않습니다.</audio>
+{% endif %}
+<div id="wrap" class="sub-wrap">
+  <!-- container -->
+  <div id="container">
+    <!-- middleArea -->
+    <div id="middleArea">
+      <!-- content -->
+      <section id="content" class="area-box">
+        <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+          <div class="sub-page mypage-page">
+            <div class="join-con step04">
+              <h5 class="join-tit">티켓확인[관리자]</h5>
+              <div class="join-inner-box">
+                <div class="join-txt" style="border:1px white solid;padding:10px;margin-bottom:2rem;">
+                  <div style="color:red;text-align:center;"><i class="xi-coupon"></i> 티켓</div>
+                  {% if checked %}<br><span style="color:red;">이미 확인처리가 된 티켓입니다.</span>{% endif %}
+                  <hr>
+                  이름 : {{ orderitem.user.verification.name }}
+                  <br>
+                  개수 : {{ orderitem.quantity }}개
+                  <br>                  
+                  번호 : {{ orderitem.user.verification.standardize_phone }}                  
+                  <br>
+                  상품 : {{ orderitem.placement.title }}
+                  <br>
+                  주문금액 : {{orderitem.get_final_price | intcomma }}원
+                  <br>
+                </div>
+                <div class="ticket-container">
+                  <table class="ticket-table" border=".5" bordercolor="white" align="center" width ="100%" height="">
+                    <th width="25%">이름</th>
+                    <th width="15%">개수</th>
+                    <th width="30%">번호</th>
+                    <th width="30%">입장확인</th>
+                    {% for oi in orderitems %}
+                    <tr {% if oi.id == orderitem.id%}style="border:2px red solid;"{% endif %}><!--줄-->
+                        <td>{{oi.user.verification.name}}</td>
+                        <td>{{oi.quantity}}</td>
+                        <td class="number">{{oi.user.verification.standardize_phone}}</td>
+                        <td>{% if oi.ticket_checked %}O{% else %}X{% endif %}</td>
+                    </tr><!--줄-->
+                    {% endfor %}
+                  </table>                  
+                </div>
+                <div class="join-mail-info">
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+      </section>
+      <!-- //content -->
+    </div>
+    <!-- //middleArea -->
+  </div>
+  <!-- // container -->  
+</div>
+<!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}{% endblock extra_scripts %}

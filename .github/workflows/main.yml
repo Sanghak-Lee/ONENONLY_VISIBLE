@@ -1,0 +1,93 @@
+name: Onenonly-deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Create env file
+        run: |
+          touch .env
+          echo SECRET_KEY="${{ secrets.SECRET_KEY }}" >> .env
+          echo DEBUG = "${{ secrets.DEBUG }}" >> .env
+
+          echo DB_NAME= "${{ secrets.DB_NAME }}">> .env
+          echo DB_USER= "${{ secrets.DB_USER }}">> .env
+          echo DB_PASSWORD= "${{ secrets.DB_PASSWORD }}">> .env
+          echo DB_HOST= "${{ secrets.DB_HOST }}">> .env
+          echo DB_PORT= "${{ secrets.DB_PORT }}">> .env 
+
+          echo AWS_ACCESS_KEYID= "${{ secrets.AWS_ACCESS_KEYID }}">> .env
+          echo AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo AWS_STORAGE_BUCKET_NAME="${{ secrets.AWS_STORAGE_BUCKET_NAME }}" >> .env
+          echo AWS_REGION= "${{ secrets.AWS_REGION}}">> .env
+
+          echo EMAIL_HOST_PASSWORD= "${{ secrets.EMAIL_HOST_PASSWORD}}">> .env
+
+          echo AUTH_SECRET_KEY="${{ secrets.AUTH_SECRET_KEY}}">> .env
+          echo AUTH_ACCESS_KEY="${{ secrets.AUTH_ACCESS_KEY}}">> .env
+          echo SERVICEID="${{ secrets.SERVICEID}}">> .env
+          echo SMS_SEND_PHONE_NUMBER="${{ secrets.SMS_SEND_PHONE_NUMBER}}">> .env
+
+          echo REDIS_LOCATION_PRIMARY="${{ secrets.REDIS_LOCATION_PRIMARY}}">> .env
+          echo REDIS_LOCATION_REPLICA="${{ secrets.REDIS_LOCATION_REPLICA}}">> .env
+
+          echo IMP_KEY="${{ secrets.IMP_KEY }}">> .env
+          echo IMP_SECRET="${{ secrets.IMP_SECRET }}">> .env
+
+          echo SENTRY_DSN="${{ secrets.SENTRY_DSN }}">> .env
+          echo GOOGLE_TRACKING_ID="${{ secrets.GOOGLE_TRACKING_ID }}">> .env          
+
+
+          cat .env 
+
+      - name: Create ZIP deployment package
+        run: zip -r deploy_package.zip .
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEYID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+
+   
+
+          
+      - name: Upload package to S3 bucket
+        run: aws s3 cp deploy_package.zip s3://playplz-v2/gitaction/deploy-${{ github.sha }}.zip
+
+      - name: Create new ElasticBeanstalk Application Version
+        run: |
+          aws elasticbeanstalk create-application-version \
+          --application-name revenor \
+          --source-bundle S3Bucket="playplz-v2",S3Key="gitaction/deploy-${{ github.sha }}.zip" \
+          --version-label "ver-${{ github.sha }}" \
+          --description "commit-sha-${{ github.sha }}"
+
+      - name: Deploy new ElasticBeanstalk Application Version
+        run: aws elasticbeanstalk update-environment --environment-name revenor-env-5 --version-label "ver-${{ github.sha }}"
+
+
+      # - name: Generate deployment package
+      #   run: zip -r deploy-${{ github.sha }}.zip . -x '*.git*'
+
+      # - name: Beanstalk Deploy for app
+      #   uses: einaregilsson/beanstalk-deploy@v18
+      #   with:
+      #     aws_access_key: ${{secrets.AWS_ACCESS_KEYID}}
+      #     aws_secret_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+      #     application_name: PLAYPLZ_NEW
+      #     environment_name: Playplznew-dev
+      #     region: ${{secrets.AWS_REGION}}
+      #     version_label: "ver-${{ github.sha }}"
+      #     deployment_package: deploy-${{ github.sha }}.zip
+      #     use_existing_version_if_available : "true"
+      #     existing_bucket_name : playplz

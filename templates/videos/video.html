@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+   <!--Navbar-->
+<main>
+
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="container">
+
+
+    <!--/.Navbar-->
+
+{% if request.user.is_active %}
+<header class="page-header" style="overflow: auto;">
+        <h1 style="display: inline">Video List</h1>
+        <a class="btn btn-default" href="video_new/" style="float: right;">New Video</a>
+    </header>
+{% endif %}
+
+
+
+
+
+{% for x in video_list %}
+{% if x.video  %}
+<div class="container z-depth-2 my-4 py-100">
+
+
+  <!-- Section: Block Content -->
+  <div>
+
+    <!-- Modal -->
+
+    <h6 class="font-weight-bold text-center grey-text text-uppercase small mb-4">video</h6>
+    <h3 class="font-weight-bold text-center dark-grey-text pb-2">{{x.title}}</h3>
+    <hr class="w-header my-4">
+    <p class="lead text-center text-muted pt-2 mb-5">Listen {{x.title}}'s play. Vote for him. <br>Every attribute for him would be rewarded</p>
+
+    <div class="row">
+      <div class="col-md-8 mx-auto mb-4">
+<p align="middle">
+          <div class="view z-depth-1 rounded">
+           <video width="750" height="300" controls > <source src="{{x.video.url}}" type="video/mp4"> </video>
+
+
+          </div>
+</p>
+      </div>
+    </div>
+
+  </div>
+  <!-- Section: Block Content -->
+
+
+</div>
+
+        <!--
+   <span>
+<video width="500" height="500" controls >
+<source src="{{x.video.url}}" type="video/mp4">
+<p>{{x.title}}</p>
+</video>
+         </span>
+--></div>
+{% endif %}
+{% endfor %}
+
+
+
+
+
+{% endblock content %}

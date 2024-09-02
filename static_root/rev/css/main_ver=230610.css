@@ -1,0 +1,193 @@
+@charset "utf-8";
+/* *******************************************************
+ * filename : main.css
+ * description : 메인 레이아웃 및 컨텐츠 CSS
+ * date : 2022-07-15
+******************************************************** */
+
+/* ****************** 메인 비주얼 :: 영상 ********************** */
+.main-visual-video{position:fixed; top:0; left:0; width:100%; height:100%;}
+.main-visual-video #cmVideo {position:absolute; top:5%; right:-9%; width:100%; height:100%;}
+.main-visual-video #cmVideo.pc-ver{display: block;}
+.main-visual-video #cmVideo.m-ver{display: none;}
+
+/* ****************** 메인 비주얼 :: 텍스트 ********************** */
+#mainVisual{width:100%; position:relative;}
+.main-visual-con{width: 100%; padding-top: 22rem;}
+/* 메인 비주얼 :: 텍스트 */
+.main-visual-txt-con{}
+.main-visual-txt-box{}
+.main-visual-txt-box .main-visual-txt1{font-size:9rem; line-height: 1.15; font-weight:700; color:#fff; margin-bottom:0.1em;font-family: Pretendard;}
+.main-visual-txt-box .main-visual-txt2{font-size:9rem; font-weight: 400; line-height: 1; color:var(--main-color-y);}
+
+#mainTopContent{position: relative; padding-top: 48rem;}
+#mainTopContent:after{position: absolute; bottom: 0; left: 0; content: ''; width: 100%; height: 48rem;/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,1+58,1+100 */
+background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,1) 58%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 58%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 58%,rgba(0,0,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 ); /* IE6-9 */}
+
+/* -------- 메인 컨텐츠 :: 01 회사소개 -------- */
+#mainCompanyCon{}
+.main-company-txt-con{}
+.main-company-txt-con .txt02{margin-top: 4rem; font-size: 1.8rem; line-height: 1.44; color: #ccc;}
+.main-company-txt-con .txt03{margin-top: 1.6rem; font-size: 1.4rem; line-height: 1.57; color: #808080;}
+.main-company-txt-con .btn{margin-top: 4.1rem;}
+
+#mainBottomContent{padding-bottom: 39rem; position: relative; background-color: #000;}
+
+/* -------- 메인 컨텐츠 :: 02 클라우드펀딩 -------- */
+#mainFundingCon{padding-bottom: 10rem;}
+#mainFundingCon .area-box{/*overflow: hidden;*/}
+.main-funding-container {position:relative; max-width:1162px; width: 42%; margin:0 auto;}
+.main-funding-slide {width: 500px; height: 800px; margin: 0 auto; position: relative;}
+.main-funding-list{}
+/* 공통 item */
+.main-funding-list .main-funding-item {position: absolute; max-width: 500px; width: 100%; display: block; width: 500px; display: inline-block; transition: all .6s ease-in-out;}
+.main-funding-list .main-funding-item .main-funding-svg{transform: scale(.52); filter: blur(5px); opacity: 0.3; transition: all 1s;}
+/* 현재 item */
+.main-funding-list .main-funding-item.main-pos .main-funding-svg {transform: scale(1.0); opacity: 1; filter: blur(0px);}
+.main-funding-list .main-funding-item.main-pos .main-funding-txt{opacity: 1; visibility: visible; transition: all 0.5s; transition-delay: 0.6s;}
+/* 각각 item */
+.main-funding-list .main-pos {margin-left: 0 !important; z-index: 3000;}
+.main-funding-list .left-pos {margin-left: -47rem !important; z-index: 1000; cursor: pointer;}
+.main-funding-list .back-pos {margin-left: 0 !important;}
+.main-funding-list .right-pos {margin-left:  47rem !important; z-index: 1000; cursor: pointer;}
+/* svg */
+.main-funding-svg svg{position:relative; width: 100%;}
+/* 스크롤 */
+.main-funding-progress{position: absolute; top: 505px; left: 50%; margin-left: -52px; width: 104px; height: 3px; background-color: #4D4D4D;}
+.main-funding-progress .progress-bar{position: absolute; top: 0; left: 0; display: block; height: 100%; left: 0; background-color: var(--main-color-y); transition: left 0.3s;}
+/* 텍스트 */
+.main-funding-txt{margin-top: 6rem; text-align: center; opacity: 0; visibility: hidden;}
+.main-funding-txt .category{}
+.main-funding-txt .category .img{margin-right: 0.5rem; display: inline-block; vertical-align: middle;}
+.main-funding-txt .category .img svg{width: 2.1rem;}
+.main-funding-txt .category .cate-txt{font-size: 1.7rem; font-weight: 600; display: inline-block; vertical-align: middle; color: var(--main-color-y);}
+.main-funding-txt .deadline{margin-top: 0.57em; font-size: 1.4rem; line-height: 1.3; color: var(--main-color-y); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.main-funding-txt.crowd .category .cate-txt,
+.main-funding-txt.crowd .deadline{color: var(--main-color);}
+.main-funding-txt .tit{margin-top: 0.56em; height: 2.5em; font-size: 3.2rem; line-height: 1.25; color: #fff; overflow:hidden; display:block; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;}
+.main-funding-txt .btn{margin-top: 4rem;}
+/* -------- 메인 컨텐츠 :: 버튼 -------- */
+/* #mainButton{position: relative; padding-top: 5rem;} */
+#mainButton .about-con04-item{
+  padding:0 1rem;  
+}
+#mainButton .about-con04-item + .about-con04-item{
+  margin-top: 4rem;
+}
+#mainButton .about-con04-item .guide svg{
+  margin-left:0;
+  width: 3rem;
+}
+/* -------- 메인 컨텐츠 :: 소개 -------- */
+#mainAbout{position: relative; padding-top: 10rem;}
+/* -------- 메인 컨텐츠 :: 비디오 -------- */
+#mainVideoCon{position: relative; padding-top: 5rem;}
+.video-iframe-wrapper{position:relative; overflow:hidden;}
+.video-iframe-box{position:relative; padding-top:34.89%; height:0; background-color:#000; pointer-events: none;}
+.video-iframe-box iframe{position:absolute; top:0px; left:0px; width:100%; height:100%;}
+.video-cover-box{position:absolute; top:0px; left:0px; width:100%; height:100%; cursor:pointer;}
+.video-cover-box:after{position:absolute; top:0px; left:0px; width:100%; height:100%; cursor:pointer ; background-color:rgba(0,0,0,0.6); content:"";}
+.video-cover-box .thumb{display:block; width:100%; height:100%; transition:all 0.3s}
+.video-cover-box .thumb img{width:100%; height:100%;}
+.video-cover-box .icon{position:absolute; top:50%; left:50%; z-index:1; width: 7rem; height: 7rem; background: url("../img/main/icon_play.png") center/cover no-repeat; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center;}
+.video-cover-box .icon i{font-size:3rem; color:#fff;}
+
+/* -------- 메인 컨텐츠 :: 셀럽리뷰 -------- */
+#mainCelebCon{position: relative; padding-top: 5rem;}
+#mainCelebCon:before{position: absolute; content: ''; top: 0; bottom: 0; left: -597px; width: 50%; background-color: #000; z-index: 11; display: none;}
+.main-celeb-tit{margin-bottom: 4rem;}
+.main-celeb-wrapper{}
+.main-celeb-wrapper .slick-list{overflow: visible;}
+.main-celeb-list{margin: 0 -1.5rem;/*overflow: hidden;*/}
+.main-celeb-item{float: left; width: calc(33.33% - 3rem); margin: 0 1.5rem; overflow: hidden; /*max-width: 280px!important;*/}
+.main-celeb-inner{display: block; border-radius: 4px; overflow: hidden;}
+.main-celeb-top{width: 100%; height: 24rem; padding: 2rem; position: relative; box-sizing: border-box;}
+.main-celeb-top:before{position: absolute; top: 0; left: 0; content: ''; width: 100%; height: 100%; background-color: #191919; opacity: 0.8;}
+.main-celeb-top .tit{position: relative; padding-right: 4rem; font-size: 1.5rem; line-height: 1.25; font-weight: 600; color: #f2f2f2; overflow:hidden; display:block; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; position: relative;}
+.main-celeb-top .tit:before{position: absolute; top: 0; right: 0; font-size: 15px; font-weight: 400; color: #f2f2f2; font-family: xeicon; content: "\e93e"; transition: all 0.3s;}
+.main-celeb-top .sign-img{margin-top: 2rem; display: block; position: relative;}
+.main-celeb-top .sign-img img{display: inline-block; max-width: 200px; height: auto;filter:blur(.5px);-webkit-filter:blur(.5px);width:100%;}
+.main-celeb-bottom{
+  padding: 2rem;
+  background-color: #191919;
+  min-height: 90px;
+  height: 135px!important;  
+  background-color: #191919;
+}
+.main-celeb-bottom dl{}
+.main-celeb-bottom dl + dl{margin-top: .5rem;}
+.main-celeb-bottom dl dt{position: relative; padding-left: 4.8rem; width: calc(100% - 6rem); font-size: 1.3rem; line-height: 1.3; font-weight: 600; color: #F2F2F2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.main-celeb-bottom dl dt b{position: absolute; top: 0; left: 0; width: 4rem; display: block;}
+.main-celeb-bottom dl .celeb b{color: var(--main-color);}
+.main-celeb-bottom dl .oney b{color: var(--main-color-y);}
+.main-celeb-bottom dl .txt{margin-top: 0.55em; font-size: 1.3rem; line-height: 1.44; color: #999; overflow:hidden; display:block; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;}
+
+.main-celeb-inner:hover .main-celeb-top .tit:before{color: var(--main-color-y); font-weight: 600;}
+
+
+/* -------- 메인 컨텐츠 :: Q&A -------- */
+#mainQnaCon{padding-top: 10rem;}
+.main-qna-tit{margin-bottom: 0.7em;}
+
+.faq-list-con{border-top:1px solid #333; position: relative;}
+.faq-list-con .faq-item{border-bottom:1px solid #333;}
+.faq-list-con .faq-more{
+  -webkit-animation: blink-1 2s infinite both;
+	animation: blink-1 2s infinite both;
+  position:absolute;
+  cursor:pointer;
+  margin-top:3rem;
+  text-align:center;
+  display:block;
+  width:100%;
+  font-size:3rem;
+  font-weight:500;
+  color:white;
+}
+.faq-list-con .faq-more:hover{color:var(--main-color-y);}
+.faq-list-con .faq-item.hidden{display:none;}
+.faq-list-con .faq-item dt{position:relative; padding:2rem 60px 2rem 0; cursor:pointer; }
+.faq-list-con .faq-item dt .faq-title{display:block; color:#f2f2f2; font-size:1.9rem; font-weight:600; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; vertical-align:top; transition: color 0.3s;}
+.faq-list-con .faq-item dt .arrow{position:absolute; top:1.6rem; right:10px;}
+.faq-list-con .faq-item dt .arrow:after{color:#ccc; font-size:1.9rem; font-family: xeicon; content: "\e913"; display: inline-block; transition: color 0.3s, transform 0.3s;}
+.faq-list-con .faq-item.open dt .arrow:after{/* content: "\e921"; */ font-size: 2.05rem; font-weight: 600; color: var(--main-color); transform: rotate(45deg);}
+.faq-list-con .faq-item.open dt .faq-title{color: var(--main-color); white-space:normal; text-overflow:unset;}
+.faq-list-con .faq-item dd{display:none;}
+.faq-list-con .faq-item dd .answer-txt{ font-size: 1.6rem; line-height: 1.5; color: #ccc; padding:2rem; min-height: 19rem; box-sizing: border-box;}
+.faq-list-con .faq-item dd .answer-txt .answer-q{
+  display: flex;
+  font-size: 20px;  
+}
+.faq-list-con .faq-item dd .answer-txt svg{
+  width: 2.5rem;
+  margin-right: 1rem;
+}
+.faq-list-con .faq-item dt:hover .faq-title,
+.faq-list-con .faq-item dt:hover .arrow:after{color: var(--main-color);}
+.faq-list-con .faq-item dt:hover .arrow:after{font-weight: 600;}
+
+@-webkit-keyframes blink-1 {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+@keyframes blink-1 {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,59 @@
+{% load account socialaccount %}
+{% load i18n %}
+{% load static %}
+<!-- 로그인 레이어 -->
+
+  <form class="login" method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+		<div class="outb">
+			<div class="inb">
+				<div class="ctt">
+					<div class="login_be">
+						<div class="Login_btn_close login_be_close"></div>
+						<div class="signLogoBox"><img src="{% static 'paze/img/hd_logo.png' %}"></div>
+						<div class="login_abox">
+							<div class="ipt">
+								<ul class="errorlist">
+								{% if form.errors %}
+								{% for key, value in form.errors.items %}
+									{{ value }}
+								{% endfor %}
+								{% endif %}
+								</ul>
+								<input type="email" class="comm_ipt" name="login" {% if form.login.value != None  %} value="{{form.login.value}}" {% endif %} placeholder="이메일 주소" autofocus="autofocus" required id="id_login">
+								<input type="password" class="comm_ipt" name="password" placeholder="비밀번호" required id="id_password">
+								{% if request.GET.next != null %}
+									<input type="hidden" name="next" value="{{ request.GET.next }}">
+								{% else %}
+									<input type="hidden" name="next" value="{{ request.path }}">
+								{% endif %}
+
+							</div>
+						</div>
+						<div class="underPw">
+							<div class="comm_chk1">
+								<input type="checkbox" name="remember_me" id="auto_lg" />
+								<label for="auto_lg"><span></span>로그인 상태 유지</label></div>
+							<a class="forgot">아이디 / 비밀번호 찾기</a>
+						</div>
+						<div class="btn loginBtn"><button type= "submit" class="lk">{% trans "Sign In" %}</button></div>
+					</div>
+					<div class="login_bbox">
+						<div class="sns_login">
+							{% include "socialaccount/snippets/provider_list.html" with process="login" %}
+							{% include "socialaccount/snippets/login_extra.html" %}
+						</div>
+					</div>
+					<div class="cboxWrapper">
+						<div class="login_cbox clear">
+							<div class="le">아직 원앤온리 회원이 아니신가요?</div>
+							<div class="ri mb_Reg"><a href="{{ signup_url }}">회원가입</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>

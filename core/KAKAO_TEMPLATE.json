@@ -1,0 +1,381 @@
+{
+  "v2_signup":{
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n원앤온리에 가입해주셔서 감사합니다.\n\n원앤온리에서 셀럽과 함께하는 특별한 시간을 경험하세요.",
+    "messageType": "AI",
+    "attach":{
+      "button":[
+        {
+          "name":"채널 추가",
+          "type":"AC"
+        },        
+        {
+          "name":"상품 둘러보기",
+          "type":"WL",
+          "url_mobile":"https://onenonly.io/auction/list",
+          "url_pc":"https://onenonly.io/auction/list"
+        }
+      ]
+    }
+  },
+  "v2_bid_withdraw":{
+    "title": "구매취소 처리 완료 알림",
+    "message":"안녕하세요 원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n가격: #{PRICE}원\n\n구매 취소가 완료되었습니다.\n\n원앤온리의 또 다른 특별한 시간상품을 기대해주세요!",
+    "attach":{
+      "button":[
+        {
+            "name":"상품 둘러보기",
+            "type":"WL",
+            "url_mobile":"https://oneonly.io/auction/list",
+            "url_pc":"https://oneonly.io/auction/list"
+        }
+      ]
+    }
+  },      
+  "v2_bid_refund":{
+    "title": "환불처리 완료",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n가격: #{PRICE}\n\n환불이 정상적으로 완료되었습니다.\n\n원앤온리의 또 다른 특별한 시간상품을 기대해주세요!",
+    "attach":{
+      "button":[
+        {
+            "name":"마이페이지",
+            "type":"WL",
+            "url_mobile":"https://onenonly.io/mypage",
+            "url_pc":"https://onenonly.io/mypage"
+        }
+      ]
+    }
+  },
+  "v3_bid_before_finish_push":{
+    "title": "티켓 판매 마감 임박 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n\n1시간 뒤 시간상품의 판매가 종료됩니다.",
+    "attach":{
+      "button":[
+        {
+          "name":"상품 보러가기",
+          "type":"WL",
+          "url_mobile":"https://onenonly.io/auction/list/#{PID}",
+          "url_pc":"https://onenonly.io/auction/list/#{PID}"
+        }
+      ]
+    }
+  },
+  "v2_bid_finish_push":{
+    "title": "티켓 판매 마감 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n\n해당 시간상품의 판매가 마감되었습니다. 감사합니다.",
+    "attach":{
+      "button":[
+        {
+            "name":"상품 둘러보기",
+            "type":"WL",
+            "url_mobile":"https://onenonly.io/auction/list",
+            "url_pc":"https://onenonly.io/auction/list"
+        }
+      ]
+    }
+  },  
+  "v2_bid_pay_push":{
+    "title": "미결제 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n\n결제 유효시간이 #{TIME} 남았습니다!\n유효시간 내 결제가 완료되지 않으면 구매가 자동 취소됩니다.",
+    "attach":{
+      "button":[
+        {
+            "name":"마이페이지",
+            "type":"WL",
+            "url_mobile":"https://onenonly.io/mypage",
+            "url_pc":"https://onenonly.io/mypage"
+        }
+      ]
+    }
+  },              
+  "v2_bid_encore_push":{
+    "title": "앵콜 요청 상품 재진행 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n\n앵콜 요청해주신 시간상품의 앵콜 진행이 확정되었습니다!\n\n버튼을 클릭해 화면 하단 상품을 찾아, 오픈 예정 시각을 확인해주세요.",
+    "attach":{
+      "button":[
+        {
+            "name":"상품 둘러보기",
+            "type":"WL",
+            "url_mobile":"https://onenonly.io/auction/list",
+            "url_pc":"https://onenonly.io/auction/list"
+        }
+      ]
+    }
+  },              
+  "v2_bid_alarm_push":{
+    "title": "알람 등록 상품 구매 가능 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n\n알람 등록해주신 시간상품의 판매가 시작되었습니다.",
+    "attach":{
+      "button":[
+        {
+            "name":"상품 보러가기",
+            "type":"WL",
+            "url_mobile":"https://onenonly.io/auction/list/#{PID}",
+            "url_pc":"https://onenonly.io/auction/list/#{PID}"
+        }
+      ]
+    }
+  },              
+  "v2_bid_survey_push":{
+    "title": "사전질문지 미제출 알림",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n\n사전질문지가 아직 미제출 상태입니다.\n\n사전질문지에는 셀럽이 워니와의 만남을 준비하기 위해 직접 질문한 내용이 포함되어 있어, 사전에 전달되어야 합니다.",
+    "attach":{
+      "button":[
+        {
+            "name":"사전질문지 작성하기",
+            "type":"WL",
+            "url_mobile":"https://onenonly.io/mypage/qna/#{SLUG}/#{OID}",
+            "url_pc":"https://onenonly.io/mypage/qna/#{SLUG}/#{OID}"
+        }
+      ]
+    }
+  },
+  "v2_bid_ticket":{
+    "message":"안녕하세요 원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n장소 : #{PLACE}\n일시 : #{TIME}\n\n티켓이 도착하였습니다.\n행사 당일 직원에게 티켓을 제시해주세요.",
+    "attach":{
+      "button":[
+        {
+          "type":"WL",
+          "name":"티켓 발급하기",
+          "url_mobile":"https://onenonly.io/ticket/#{SLUG}/#{OID}",
+          "url_pc":"https://onenonly.io/ticket/#{SLUG}/#{OID}"
+        }
+      ]
+    }
+  },
+  "v2_crowd_bid_1":{
+    "title": "결제 요청 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n가격: #{PRICE}원\n\n마이페이지 > 구매리스트에서 기한 내 결제를 완료해주세요.",
+    "attach":{
+      "button":[
+        {
+            "type":"WL",          
+            "name":"마이페이지",
+            "url_mobile":"https://onenonly.io/mypage",
+            "url_pc":"https://onenonly.io/mypage"
+        }
+      ]
+    }
+  },
+  "v2_crowd_bid_3_y":{
+    "title": "결제 완료 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n가격: #{PRICE}원\n\n결제가 정상적으로 완료되었습니다.\n감사합니다.",
+    "attach":{
+      "button":[
+        {
+            "type":"WL",          
+            "name":"마이페이지",
+            "url_mobile":"https://onenonly.io/mypage",
+            "url_pc":"https://onenonly.io/mypage"
+        }
+      ]
+    }
+  },
+  "v2_crowd_bid_3_n":{
+    "title": "구매 자동 취소 알림",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n가격: #{PRICE}원\n\n결제가 완료되지않아, 구매가 자동 취소되었습니다.",
+    "attach":{
+      "button":[
+        {
+          "name":"마이페이지",
+          "type":"WL",
+          "url_mobile":"https://onenonly.io/mypage",
+          "url_pc":"https://onenonly.io/mypage"
+        },
+        {
+          "name":"상품 다시보기",
+          "type":"WL",
+          "url_mobile":"https://onenonly.io/auction/list/#{PID}",
+          "url_pc":"https://onenonly.io/auction/list/#{PID}"          
+        }
+      ]
+    }
+  },
+  "v2_crowd_bid_4_y":{
+    "title":"티켓 마감 및 워니 확정 알림",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n\n해당 상품의 티켓이 전량 소진되어 판매가 성공적으로 마감되었습니다.\n마이페이지 > 구매리스트에서\n사전질문지를 작성해주세요.",
+    "attach":{
+      "button":[
+        {
+          "name":"마이페이지",
+          "type":"WL",
+          "url_mobile":"https://onenonly.io/mypage",
+          "url_pc":"https://onenonly.io/mypage"
+        },
+        {
+          "type":"WL",
+          "name":"사전질문지 작성하기",
+          "url_mobile":"https://onenonly.io/mypage/qna/#{SLUG}/#{OID}",
+          "url_pc":"https://onenonly.io/mypage/qna/#{SLUG}/#{OID}"
+        }
+      ]
+    }
+  },
+  "crowd_bid_4_n":{
+    "title": "미진행 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n펀딩: #{TITLE}\n\n아쉽게도 목표 금액이 달성되지 않아,\n진행이 취소되었습니다.\n\n마이페이지 > 펀딩내역에서\n환불계좌를 입력해주세요.\n\n다음 특별한 콘텐츠를 기대해주세요.\n이용해주셔서 감사합니다.",
+    "attach":{
+      "button":[
+        {
+            "name":"환불계좌 입력하기",
+            "type":"WL",
+            "url_mobile":"https://onenonly.io/mypage",
+            "url_pc":"https://onenonly.io/mypage"
+        }
+      ]
+    }
+  },
+  "v2_secret_bid_0":{
+    "title": "응찰 완료 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n응찰가: #{PRICE}원\n\n응찰이 완료되었습니다.",
+    "attach":{
+      "button":[
+        {
+          "name":"마이페이지",
+          "type":"WL",
+          "url_mobile":"https://onenonly.io/mypage",
+          "url_pc":"https://onenonly.io/mypage"
+        }
+      ]
+    }
+  },
+  "v2_secret_bid_1_n":{
+    "title": "패찰 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n#{TITLE} 판매가 마감되었습니다.\n\n#{USERNAME}님은 아쉽게도\n낙찰되지 못하셨습니다.",
+    "attach":{
+      "button":[
+        {
+          "name":"마이페이지",
+          "type":"WL",
+          "url_mobile":"https://onenonly.io/mypage",
+          "url_pc":"https://onenonly.io/mypage"
+        }
+      ]
+    }
+  },
+  "v2_secret_bid_1_y":{
+    "title": "낙찰 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n낙찰가: #{PRICE}원\n축하드립니다. 상품이 #{USERNAME}님에게 낙찰되었습니다.\n\n마이페이지 > 구매리스트에서\n예약금 #{DEPOSIT}원을 3시간 내에 결제해주세요.",
+    "attach":{
+      "button":[
+        {
+          "name":"마이페이지",
+          "type":"WL",
+          "url_mobile":"https://onenonly.io/mypage",
+          "url_pc":"https://onenonly.io/mypage"
+        }
+      ]
+    }
+  },
+  "v2_secret_bid_2_n":{
+    "title": "낙찰 자동 취소 알림",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n낙찰가: #{PRICE}원\n\n예약금 결제가 확인되지 않아,\n낙찰이 자동 취소되었습니다.",
+    "attach":{
+      "button":[
+        {
+            "name":"마이페이지",
+            "type":"WL",
+            "url_mobile":"https://onenonly.io/mypage",
+            "url_pc":"https://onenonly.io/mypage"
+        }
+      ]
+    }
+  },
+  "v2_secret_bid_2_y":{
+    "title": "예약금 결제 완료",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n낙찰가: #{PRICE}원\n\n예약금 결제가 정상적으로 완료되었습니다.\n\n마이페이지 > 구매리스트에서\n잔여금 #{PRICE_CALC}원을 7일 내에 결제해주세요.",
+    "attach":{
+      "button":[
+        {
+          "name":"마이페이지",
+          "type":"WL",
+          "url_mobile":"https://onenonly.io/mypage",
+          "url_pc":"https://onenonly.io/mypage"
+      }
+      ]
+    }
+  },
+  "v2_secret_bid_3_n":{
+    "title": "낙찰 자동 취소 알림",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n낙찰가: #{PRICE}원\n\n낙찰가 잔여금 입금이 확인되지 않아,\n낙찰이 자동 취소되었습니다.",
+    "attach":{
+      "button":[
+        {
+            "name":"마이페이지",
+            "type":"WL",
+            "url_mobile":"https://onenonly.io/mypage",
+            "url_pc":"https://onenonly.io/mypage"
+        }
+      ]
+    }
+  },
+  "v2_secret_bid_3_y":{
+    "title": "잔여금 결제 완료 안내",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n\n낙찰가 최종 납부가 완료되었습니다.\n\n#{TITLE}의 원앤온리가 되신 것을 축하드립니다!",
+    "attach":{
+      "button":[
+        {
+            "name":"마이페이지",
+            "type":"WL",
+            "url_mobile":"https://onenonly.io/mypage",
+            "url_pc":"https://onenonly.io/mypage"
+        }
+      ]
+    }
+  },
+  "v2_secret_bid_4_y":{
+    "title": "티켓 마감 및 워니 확정 알림",
+    "message":"안녕하세요\n원앤온리입니다.\n#{USERNAME}님\n\n시간상품: #{TITLE}\n\n#{USERNAME}님만을 위한 특별한 시간이 진행되는 장소 및 시간이 확정되었습니다!",
+    "attach":{
+      "button":[
+        {
+          "name":"마이페이지",
+          "type":"WL",
+          "url_mobile":"https://onenonly.io/mypage",
+          "url_pc":"https://onenonly.io/mypage"
+        },
+        {
+          "type":"WL",
+          "name":"사전질문지 작성하기",
+          "url_mobile":"https://onenonly.io/mypage/qna/#{SLUG}/#{OID}",
+          "url_pc":"https://onenonly.io/mypage/qna/#{SLUG}/#{OID}"
+        }
+      ]
+    }
+  },
+  "2_bid_alarm":{
+    "title": "d",
+    "message":"",
+    "attach":{
+      "button":[
+        {
+          "name":"원앤온리 채널 추가",
+          "type":"AC"
+        },
+        {
+            "name":"옥션 보러가기",
+            "type":"WL",
+            "url_mobile":"https://onenonly.io/auction/list/",
+            "url_pc":"https://onenonly.io/auction/list/"
+        }      
+      ]
+    }
+    ,"supplement": 
+      { 
+        "quick_reply":
+        [
+            {
+                "name":"스토어 확인하기",
+                "type":"WL", 
+                "url_mobile":"https://onenonly.io/mypage/qna/#{TYPE}/#{OID}",
+                "url_pc":"https://onenonly.io/mypage/qna/#{TYPE}/#{OID}"
+            },
+            {
+              "name":"스토어 확인하기",
+              "type":"WL", 
+              "url_mobile":"https://store.kakao.com/playplz",
+              "url_pc":"https://store.kakao.com/playplz"
+            }            
+        ]
+      }
+  }
+}

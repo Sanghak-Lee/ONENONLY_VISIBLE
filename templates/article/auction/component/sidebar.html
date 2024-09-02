@@ -1,0 +1,122 @@
+{% load static %}
+{% load humanize %}
+{% load component_template_tags %}
+{% sidebar as context %}
+
+  <!-- Begin sidebar widget -->
+  <div class="sidebar-widget sidebar-search">
+    {% if request.user.is_staff %}
+    <h3 class="sidebar-heading"><a href="{% url 'core:article_write' %}">글 작성하기</a></h3>
+    {% endif %}
+    <h3 class="sidebar-heading">검색</h3>
+    <!-- Begin form (Note: for design purposes only!) 
+    ================ 
+    * Use class "tt-form-filled" or "tt-form-minimal" to change form style.
+    * Use class "tt-form-sm" or "tt-form-lg" to change form size (no class = default size).
+    -->
+    <form action="{% url 'core:article_list' %}">
+      <div class="tt-form-btn-inside">
+        <input class="tt-form-control" type="text" id="search" name="tcu" placeholder="작성자, 제목, 글 내용..." required>
+        <input type="hidden" name="category" value='{{category}}'>              
+        <button type="submit"><i class="fas fa-search"></i></button>
+      </div>
+    </form>
+    <!-- End form -->
+
+  </div> 
+  <!-- End sidebar widget -->
+
+  <!-- Begin sidebar widget -->
+  <div class="sidebar-widget sidebar-categories">
+    <h3 class="sidebar-heading">카테고리</h3>
+    <ul class="list-unstyled">
+      <li><div><a {% if category == '0' %} class="on" {% endif %} href="{% url 'core:article_list' %}?category=0">전체</a><span title="all">{{ context.c.0 }}</span></div></li>
+      <li><div><a {% if category == '1' %} class="on" {% endif %} href="{% url 'core:article_list' %}?category=1">공지사항</a><span title="notice">{{ context.c.1 }}</span></div></li>
+      <li><div><a {% if category == '2' %} class="on" {% endif %} href="{% url 'core:article_list' %}?category=2">이벤트</a><span title="event">{{ context.c.2 }}</span></div></li>
+      <li><div><a {% if category == '3' %} class="on" {% endif %} href="{% url 'core:article_list' %}?category=3">보도자료</a><span title="news">{{ context.c.3 }}</span></div></li>
+      <li><div><a {% if category == '4' %} class="on" {% endif %} href="{% url 'core:article_list' %}?category=4">참고자료</a><span title="ref">{{ context.c.4 }}</span></div></li>
+      <!-- <li><div><a {% if category == '5' %} class="on" {% endif %} href="{% url 'core:article_list' %}?category=5">특별기획</a><span title="ask">{{ context.c.5 }}</span></div></li> -->
+    </ul>
+  </div>
+  <!-- End sidebar widget -->
+
+  <!-- Begin sidebar widget -->
+  <div class="sidebar-widget sidebar-post-list">
+    <!-- Can be "Recent Posts" or "Popular Posts" etc. -->
+    <h3 class="sidebar-heading">인기 게시물</h3>
+    <ul class="list-unstyled">
+      <!-- <li>
+        <div class="sidebar-post-data">
+          <h5 class="sidebar-post-title"><a href="{% url 'core:about' %}">회사소개</a></h5>
+            <span class="sidebar-post-author"><a href="{% url 'core:about' %}">We are Revenorian</a></span>
+          <span class="sidebar-post-date">2022-03-02</span>
+        </div>
+      </li> -->
+      {% for p_a in context.p_articles %}
+      <li>
+        <div class="sidebar-post-data">
+          <h5 class="sidebar-post-title"><a href="{{ p_a.get_absolute_url }}">{{ p_a.title }}</a></h5>
+            <span class="sidebar-post-author"><a href="{{ p_a.get_absolute_url }}">{{ p_a.user.username }}</a></span>
+          <span class="sidebar-post-date">{{ p_a.created }}</span>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <!-- End sidebar widget -->
+
+  <!-- Begin sidebar widget -->
+  <div class="sidebar-widget sidebar-comments-list">
+    <h3 class="sidebar-heading">최근 올라온 글</h3>
+    <ul class="list-unstyled">
+
+      {% for r_a in context.r_articles %}
+      <li class="sidebar-comment">
+        <div class="sidebar-comment-meta">
+          <div class="sidebar-comment-data">
+            <span class="sidebar-comment-author"><a href="{{ r_a.get_absolute_url }}">{{ r_a.user.username }}</a></span>
+            <span class="sidebar-comment-date">{{ r_a.created }}</span>
+          </div>
+        </div>
+        <div class="sidebar-comment-text">
+          <a href="{{ r_a.get_absolute_url }}"> {{ r_a.title }}</a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <!-- End sidebar widget -->
+
+  {% comment %} <!-- Begin sidebar widget -->
+  <div class="sidebar-widget sidebar-tags">
+    <h3 class="sidebar-heading">Tags</h3>
+    <div class="sidebar-tags-list">
+      <ul>
+        <li><a href="blog-archive.html">#portfolio</a></li>
+        <li><a href="blog-archive.html">#multipurpose</a></li>
+        <li><a href="blog-archive.html">#minimal</a></li>
+        <li><a href="blog-archive.html">#agency</a></li>
+        <li><a href="blog-archive.html">#creatives</a></li>
+        <li><a href="blog-archive.html">#freelancers</a></li>
+        <li><a href="blog-archive.html">#design</a></li>
+        <li><a href="blog-archive.html">#bootstrap</a></li>
+        <li><a href="blog-archive.html">#responsive</a></li>
+        <li><a href="blog-archive.html">#simple</a></li>
+        <li><a href="blog-archive.html">#creative</a></li>
+        <li><a href="blog-archive.html">#blog</a></li>
+        <li><a href="blog-archive.html">#wordpress</a></li>
+        <li><a href="blog-archive.html">#black &amp; white</a></li>
+      </ul>
+    </div> <!-- /.sidebar-tags-list -->
+  </div>
+  <!-- End sidebar widget --> {% endcomment %}
+
+  <!-- Begin sidebar widget -->
+  <div class="sidebar-widget sidebar-meta">
+    <h3 class="sidebar-heading">메타데이터</h3>
+    <ul class="list-unstyled">
+      <li><a href="{% url 'feeds' %}">시간상품 구독 RSS</a></li>
+      <li><a href="{% url 'robots' %}">수집허용정책</a></li>
+    </ul>
+  </div>
+  <!-- End sidebar widget -->

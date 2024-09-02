@@ -1,0 +1,40 @@
+{% load humanize %}
+<!-- 팝업 :: 상세_구매하기 모달  -->
+<article class="layer-fixed-pop-wrapper layer-popup" id="popupFundingDetail">
+	<div class="modal-fixed-pop-inner">
+		<div class="modal-inner-box">
+			<div class="modal-inner-content">
+				<!-- 컨텐츠 영역 -->
+				<section class="cm-modal-content cm-alret-modal-content">
+					<div class="popup-inner-con long-ver">
+						<div class="cm-modal-tit">
+							<p class="unboxing-buy-tit"><b>{{ unit_price | intcomma | default:'입력되지 않음' }}</b>에<br> 구매하시겠습니까?<br><span></span></p>
+							<p class="unboxing-buy-txt"><br>구매에 참여하시면 취소가 불가능합니다.</p>
+							<ul class="popup-dot-txt">
+								<li>구매 성공 후 취소 시 30%의 수수료가 발생할 수 있습니다.</li>
+								<li>단, 구매 종료 전 취소는 마이페이지에서 가능합니다.</li>
+								{% if type != 'crowdfunding' %}
+								<li>구매 종료 전, 마지막으로 입력한 가격이 최종 구매 응모 가격입니다.</li>
+								{% endif %}
+								<li>자세한 사항은 원앤온리 <a style="color:var(--main-color)" href="{% url 'core:info-1' %}">이용약관</a>을 참고해주세요.</li>
+							</ul>							
+						</div>
+					</div>
+					<div class="cm-modal-btn clearfix">
+						<ul class="col-02">
+							<li><a href="javascript:;" class="cm-basic-btn" onclick="modalPopupClose('#popupFundingDetail')">취소</a></li>
+							<li><a href="javascript:;" onclick="FormSubmit();" class="cm-positive-btn">구매하기</a></li>
+						</ul>
+					</div>
+				</section>
+				<!-- // -->
+			</div>
+		</div>
+	</div>
+</article>
+
+<script>
+	function FormSubmit(){
+		$("form[id='funding']").submit();
+	}
+</script>

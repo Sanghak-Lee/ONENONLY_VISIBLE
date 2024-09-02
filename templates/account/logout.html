@@ -1,0 +1,50 @@
+{% extends "account/base.html" %}
+{% load account i18n static %}
+<!-- {% load core_template_tags component_template_tags %} -->
+
+{% block head_title %} | 로그아웃 {% endblock %}
+
+{% block body %}
+<div id="wrap" class="sub-wrap">
+  <!-- container -->
+  <div id="container">
+    <!-- middleArea -->
+    <div id="middleArea">
+      <!-- content -->
+      <section id="content" class="area-box">
+        
+        <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+        <form class="login" method="POST" action="{% url 'account_logout' %}">
+          {% csrf_token %}
+          <!-- hidden field -->
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+          {% endif %}
+          {% if request.GET.next != null %}
+          <input type="hidden" name="next" value="{{ request.GET.next }}">
+          {% else %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          {% endif %}
+
+          <div class="sub-page mypage-page">
+            <div class="modify-pw-check-con">
+              <div class="login-btn-con">
+                <button type="submit" class="cm-custom-button">로그아웃</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+      </section>
+      <!-- //content -->
+    </div>
+    <!-- //middleArea -->
+  </div>
+  <!-- // container -->
+</div>
+<!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}

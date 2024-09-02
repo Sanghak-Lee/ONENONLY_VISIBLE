@@ -1,0 +1,203 @@
+{% extends "account/base.html" %}
+{% load static socialaccount %}
+
+{% block head_title %} | 개인정보 수정 {% endblock %}
+
+{% block body %}
+      <div id="wrap" class="sub-wrap">
+        <!-- container -->
+        <div id="container">
+          <!-- middleArea -->
+          <div id="middleArea">
+            <!-- content -->
+            <section id="content" class="area-box">
+              <ul class="tabs">
+                <li id='tab1'><a href="{% url 'core:user' %}?tab=1"><p>구매 리스트</p></a></li>
+                <li id='tab2'><a href="{% url 'core:user' %}?tab=2"><p>관심구매</p></a></li>
+                <li id='tab3' class="active"><a href="{% url 'core:user' %}?tab=3"><p>개인정보</p></a></li>
+              </ul>
+              <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+              <div class="content__wrapper">
+                <div class="sub-page mypage-info">
+                  <div class="modify-info-con">
+                    <div class="modify-info-item">
+                      <p class="tit">로그인 정보</p>
+                      <form method="POST" action="{% url 'core:userupdate' %}">
+                        {% csrf_token%}                      
+                      <table class="cm-tbl-style">                      
+                        <colgroup>
+                          <col style="width: 9.5rem;">
+                          <col style="">
+                        </colgroup>
+                        <tbody>
+
+                          <tr>
+                            <th colspan="2">
+                              아이디(이메일)
+                              <div class="modify-info-box">                      
+                                <div class="input-con">
+                                  <input type="text" name="email" value="{{ request.user.email }}" class="cm-input baseline" placeholder="이메일 주소 입력">
+                                </div>
+                              </div>                      
+                            </th>
+                          </tr>
+                          <tr style="border-top:inherit;">
+                            <th colspan="2">
+                              유저이름
+                              <div class="modify-info-box">
+                                <div class="input-con">
+                                  <input type="text" name="username" value="{{ user.username }}" class="cm-input baseline" placeholder="유저이름 입력">
+                                </div>
+                                <p style="color: var(--main-color)">
+                                  {% if form.errors %}
+                                    {% for field in form %}
+                                      {% if field.name == "username" %}
+                                        {% for error in field.errors %}
+                                          {{error | escape}}
+                                        {% endfor %}
+                                      {% endif %}
+                                    {% endfor %}
+                                  {% endif %}
+                                </p>                                
+                                <div class="change-btn">
+                                  <button type="submit" class="cm-custom-button">변경하기</a>
+                                </div>
+                              </div>
+                            </th>
+                          </tr>
+
+                          <tr>
+                            <th colspan="2">
+                            비밀번호
+                                <input disabled type="password" class="cm-input" value="123456789000000">
+                                <div class="change-btn">
+                                  <a href="{% url 'core:userpw' %}" class="cm-custom-button">변경하러 가기</a>
+                                </div>
+                            </th>
+                          </tr>
+                          <tr>
+                            <th colspan="2">SNS 연동</th>
+                          </tr>
+                          <tr>
+                            <td colspan="2">
+                              연결된 SNS 계정으로 로그인할 수 있습니다.
+                              <div class="sns-btn">
+                              {% get_providers as socialaccount_providers %}
+                              {% if socialaccounts|length == 0 %}
+                                {% for provider in socialaccount_providers %}
+                                  <a href="{% provider_login_url provider.id process='connect' scope=scope auth_params=auth_params next=''%}" class="{{provider.id}}"><i class="xi-{% if provider.id == 'kakao' %}speech{% else %}naver{% endif %}"></i></a>
+                                {% endfor %}
+                              {% elif socialaccounts|length == 1 %}
+                                {% if socialaccounts.0.provider == 'kakao' %}
+                                  <a href="javascript:;" onclick="SnsDisconnect('{% url 'socialaccount_connections' %}', '{{socialaccounts.0.id}}')" class="kakao connected"><i class="xi-speech"></i></a>
+                                  <a href="{% provider_login_url 'naver' process='connect' scope=scope auth_params=auth_params %}" class="naver"><i class="xi-naver"></i></a>                                                        
+                                {% elif socialaccounts.0.provider == 'naver' %}
+                                  <a href="javascript:;" onclick="SnsDisconnect('{% url 'socialaccount_connections' %}', '{{socialaccounts.0.id}}')" class="naver connected"><i class="xi-naver"></i></a>
+                                  <a href="{% provider_login_url 'kakao' process='connect' scope=scope auth_params=auth_params %}" class="kakao"><i class="xi-speech"></i></a>                            
+                                {% endif %}
+
+                              {% elif socialaccounts|length == 2 %}
+                                {% for base_account in socialaccounts %}
+                                  <a href="javascript:;" onclick="SnsDisconnect('{% url 'socialaccount_connections' %}', '{{base_account.id}}')" class="{{base_account.provider}} connected"><i class="xi-{% if base_account.provider == 'kakao' %}speech{% else %}naver{% endif %}"></i></a>
+                                {% endfor %}
+                              {% endif %}
+
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      </form>                    
+                    </div>
+                    <div class="modify-info-item">
+                      <p class="tit">회원 정보</p>
+                      <table class="cm-tbl-style">
+                        <colgroup>
+                          <col style="width: 9.5rem;">
+                          <col style="width: *;">
+                        </colgroup>
+                        <tbody>
+                          <tr>
+                            <th>성명</th>
+                            <td id="cef_name">{{request.user.verification.name |default:'ONEY'}}</td>
+                          </tr>
+                          <tr>
+                            <th>연락처</th>
+                            <td id="cef_phone">{{request.user.verification.phone.as_national | default:'전화번호가 없습니다'}}</td>
+                          </tr>
+                          <tr>
+                            <th>생일</th>
+                            <td id="cef_birthday">{{ request.user.verification.birthday | date:"Y년 m월 d일" | default:''}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div class="change-btn">
+                        <button style="margin-bottom:10px;" onclick="SmartCef(event);" class="cm-custom-button">통합인증으로 변경하기</button>
+                        <button onclick="SmsCef(event);" class="cm-custom-button">SMS 인증으로 변경하기</button>
+                      </div>
+                    </div>
+                    <div class="modify-info-item">
+                      <p class="tit">마케팅 정보 수신 및 활용 동의</p>
+                      <table class="cm-tbl-style">
+                        <colgroup>
+                          <col style="width: 9.5rem;">
+                          <col style="width: *;">
+                        </colgroup>
+                        <tbody>
+                          <tr>
+                            <td colspan="2">
+                              <!-- 
+                                * 필요한 팝업으로 연결해서 사용해주세요.
+                                * 동의 팝업 #popupMessegeAgree / #popupEmailAgree
+                                * 거부 팝업 #popupMessegeRefusal / #popupEmailRefusal
+                              -->
+                              <div class="cm-custom-checkbox">
+                                <span class="checkbox-item">
+                                  <input {% if request.user.userprivacy.agreement_4 %}checked{% endif %} type="checkbox" rev='userprivacy' id="checkbox1-1" name="" class="agree-checkbox" onclick="ToggleUserPrivacy('{% url 'core:userprivacy' %}', '{{csrf_token}}');"></input>
+                                  <label for="checkbox1-1"><span>수신 동의</span></label>
+                                </span>
+                              </div>
+                              <p class="marketing-txt">원앤온리의 다양한 소식을 누구보다 빠르게 받아보세요.</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="2">
+                              <a href="javascript:;" onclick="modalPopupOpen(event,'#popupMembershipWithdrawal');" class="membership-withdrawal-btn">회원 탈퇴</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+              <!-- 팝업 리스트 -->	
+              {% include "account/mypage/popup/mail_authentication.html" %}<!-- 아이디 변경_인증 번호 전송 모달 팝업 -->
+              {% include "account/mypage/popup/pw_change_complete.html" %}<!-- 비밀번호 변경_변경 완료 모달 -->
+              {% include "account/mypage/popup/id_change_complete.html" %}<!-- 아이디 변경_1_변경 완료 모달 팝업 -->
+              {% include "account/mypage/popup/sns_complete.html" %}<!-- sns 연동 모달 팝업 -->
+              {% include "account/mypage/popup/self_authentication.html" %}<!-- 본인 인증 완료 모달 팝업 -->
+              {% include "account/mypage/popup/messege_agree.html" %}<!-- 문자메시지 동의 모달 팝업 -->
+              {% include "account/mypage/popup/email_agree.html" %}<!-- _이메일 동의 모달 팝업 -->
+              {% include "account/mypage/popup/messege_refusal.html" %}<!-- 문자메시지 거부 모달 팝업 -->
+              {% include "account/mypage/popup/email_refusal.html" %}<!-- _이메일 거부 모달 팝업 -->
+              {% include "account/mypage/popup/membership_withdrawal.html" %}<!-- 회원 탈퇴 팝업 -->
+              <!-- //팝업 리스트 -->
+
+            </section>
+            <!-- //content -->
+          </div>
+          <!-- //middleArea -->
+        </div>
+        <!-- // container -->
+      </div>
+      <!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+  <!-- iamport.payment.js -->
+  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>  
+  <!-- <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script> -->
+{% endblock extra_scripts %}

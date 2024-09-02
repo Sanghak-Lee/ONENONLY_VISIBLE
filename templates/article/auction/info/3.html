@@ -1,0 +1,86 @@
+{% extends 'article/auction/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}
+{% load auction_templatetag %}
+  {% block head_title %} | 환불규정 {% endblock head_title %}
+
+	{% block header %}
+	{% endblock header%}
+
+	{% block content %}
+		<!-- *************************************
+		*********** Begin page content *********** 
+		************************************** -->
+		<div id="page-content">
+
+
+			<!-- =======================
+			///// Begin tt-section /////
+			============================ 
+			* You can use padding classes if needed. For example "padding-top-xlg-150", "padding-bottom-xlg-150", "no-padding-top", "no-padding-bottom", etc. Note that each situation may be different and each section may need different classes according to your needs. More info about helper classes can be found in the file "helper.css".
+			-->
+			<div class="tt-section">
+				<div class="tt-section-inner tt-wrap max-width-900">
+
+					<!-- Begin blog post 
+					===================== --> 
+					<article class="tt-blog-post lightgallery">
+
+						<!-- Begin blog post content -->
+						<div class="tt-blog-post-content">
+							{% include 'article/auction/component/3_c.html' %}
+						</div>
+						<!-- End blog post content -->
+
+					</article>
+					<!-- End blog post -->
+
+
+					<!-- Begin blog post nav 
+					======================== -->
+					<div class="tt-blog-post-nav">
+						<div class="tt-bp-nav-col tt-bp-nav-left">
+							<a href="{% url 'core:info-2' %}"><div class="tt-bp-nav-text"><span><i class="fas fa-angle-left"></i></span>이전</div></a>
+							<h4 class="tt-bp-nav-title"><a href="{% url 'core:info-2' %}">개인정보취급방침</a></h4>
+						</div>
+						<div class="tt-bp-nav-col tt-bp-nav-right">
+							<a href="{% url 'core:info-1' %}"><div class="tt-bp-nav-text">이후<span><i class="fas fa-angle-right"></i></span></div></a>
+							<h4 class="tt-bp-nav-title"><a href="{% url 'core:info-1' %}">이용약관</a></h4>
+						</div>
+					</div>
+					<!-- End blog post nav -->
+
+				</div> <!-- /.tt-section-inner -->
+			</div>
+			<!-- End tt-section -->
+
+
+
+
+		</div>
+		<!-- End page content -->
+	{% endblock content%}
+
+	{% block sidebar %}
+		<!-- 사이드바-->
+		<div class="tt-sliding-sidebar-wrap">
+			<div class="tt-sliding-sidebar">
+				<div class="tt-sliding-sidebar-inner">					
+					{% include 'article/auction/component/sidebar.html' %}
+				</div> <!-- /.tt-sliding-sidebar-inner -->
+			</div> <!-- /.tt-sliding-sidebar -->
+
+			<!-- Begin sliding sidebar trigger -->
+			<div class="tt-sliding-sidebar-trigger hide-cursor">
+				<span class="tt-ss-icon"><i class="fas fa-align-justify"></i></span>
+				<span class="tt-ss-icon-close"><i class="fas fa-times"></i></span>
+			</div>
+			<!-- End sliding sidebar trigger -->
+
+			<!-- Close overlay -->
+			<div class="tt-sliding-sidebar-close cursor-close"></div>
+		</div> 
+		<!-- End sliding sidebar -->
+		<!-- /.사이드바-->
+	{% endblock sidebar %}

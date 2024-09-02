@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}  
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>플레이플리즈 옥션</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/static/img/classic_logo.png" rel="icon">
+  <link href="/static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/static/assets/css/style.css" rel="stylesheet">
+
+  <style>
+  td{
+      color:#c8c2c2;
+  }
+  th{
+      font-weight:bold;
+      color:white;
+  }  
+  </style>
+
+
+  <!-- =======================================================
+  * Template Name: Personal - v4.7.0
+  * Template URL: https://bootstrapmade.com/personal-free-resume-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+  <audio loop hidden autoplay>
+    <source src="https://playplz.s3.ap-northeast-2.amazonaws.com/EXTRA_kakao/%EA%B9%80%EC%9E%AC%EC%9B%90_%EC%9D%8C%EC%95%85%EC%9D%84+%EA%B7%B8%EB%A6%AC%EB%8A%94+%ED%99%94%EA%B0%80.mp3" type="audio/mp3" />
+  </audio>
+
+  <header id="header" class="header-top" style="background:black; overflow-y:visible;height:110px;!important;">
+    <div class="container">
+    <a href="{% url 'auction:home' %}"><img src="/static/img/classic_logo_banner.png" height="100px;" weight="100px;" style="margin-top: 12px;margin-left: 22px;"alt=""></a>
+    <h1></h1>
+      {% comment %} <h1><a href="{% url 'auction:home' %}">PLAYPLZ AUCTION</a></h1> {% endcomment %}
+      {% comment %} <a href="{% url 'auction:placement-detail' placement.pk %}"><img src="/static/img/classic_logo_banner.png" alt=""></a> {% endcomment %} 
+      <nav id="navbar" class="navbar">
+
+        <ul>
+          <li><a class="nav-link active" href="#about">아티스트</a></li>
+          <li><a class="nav-link" href="#resume" >낙찰 확인하기</a></li>
+          <li><a class="nav-link" href="#contact">플레이플리즈</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+  <!-- ======= About Section ======= -->
+  <section id="about" class="about-show section-show">
+
+    <!-- ======= About Me ======= -->
+    <div class="about-me container">
+
+      <div class="section-title">
+        <h2>아티스트</h2>
+        <p>Chang Maria</p>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4" data-aos="fade-right">
+          <img src="/static/img/auction/chang_2.jpeg" class="img-fluid" style="object-fit:cover; weight:100%; height:100%;!important"alt="">
+        </div>
+        <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+          <h3>Designer</h3>
+          <p class="fst-italic" style="font-size:17px; font-weight:bold;">
+            캔버스위 하얀눈을 녹이고, 피어나는 봄을 그리는 작가
+          </p>
+          <div class="row">
+            <div class="col-lg-6">
+              <ul>
+                <li><i class="bi bi-chevron-right"></i> <strong>이름:</strong> <span>장마리아</span></li>
+                <li><i class="bi bi-chevron-right"></i> <strong>생일:</strong> <span>1981년 출생</span></li>
+              </ul>
+            </div>
+            <div class="col-lg-6">
+              <ul>
+                <li><i class="bi bi-chevron-right"></i> <strong>학력:</strong> <span>홍익대학교 졸업</span></li>              
+                <li><i class="bi bi-chevron-right"></i> <strong>대표작:</strong> <span>In Between</span></li>
+              </ul>
+            </div>
+          </div>
+          <p>
+장마리아(b.1981-)는 두텁게 쌓아올린 마티에르(matière)로 캔버스 위에 물성을 표현하며 
+본인만의 조형언어를 찾고자 끊임없이 새로운 주제와 표현 소재를 연구하고 변주해가는 작가이다. 
+초기 작업인 “Man” 연작에서 그는 소중한 것들을 지켜주는 초자연적이고 영웅적인 캐릭터를 주로 그렸다. 
+ 쓴 듯한 무표정한 얼굴, 만화와 같이 굵은 윤곽선, 평면성을 극대화한 신체 표현으로 그려진 이 연작으로 
+ 인해 그의 초기작은 팝아트로 분류되곤 했다. 그러나 2015년부터 작가는 자화상 시리즈 
+ “Gray is the New Black”에서 작품을 그리고, 회칠로 덮은 후 그 위를 뾰족한 도구로 긁어내는 방식으로
+  작업의 변화를 도모했다. 눈, 코, 입 등의 형상만이 간신히 화면 위에 남은 이 회화에서 이전 작품에서의 선명한 형상은 해체되어 찾아볼 수 없다. 
+  이 연작을 통해 그는 구상에서 추상으로 옮겨가며 스스로의 내면을 들여다보는 과정을 담아냈다. 최근 장마리아는 자화상 시리즈에서 더 나아가, 회반죽, 모래, 젤스톤 등 화면의 양감을 살릴 수 있는 재료로 격자 형태의 추상 화면이 특징적인 “In Between”과 회반죽 아래 가리어져 있던 색채들이 과감하게 사용된 “Spring Series” 연작을 선보였다. 그가 캔버스에 남긴 흔적은 기하학적 그리드에만 머물지 않고 사방으로 뻗어 나가는 형태로 표현되며, 화면을 리듬감 있게 구성한다. 또한 그는 화면의 물성을 극대화시켜 부조에 가까운 회화를 만들었는데, 일반적 화구가 아닌 공구 또는 조소용 도구를 사용함으로써 조각과 회화의 경계에 있는 화면을 탄생시켰다.
+<hr>
+2010 올림푸스 카메라 ‘펜’- ARTIST COLLABORATION
+<br>2010 OLYMPUS FORUM & CONTEST_ 올림푸스 포럼 강의
+<br>2010 삼청갤러리 ‘순간의 감흥’
+<br>2009 갤러리 영_ MAKING ARTIST WORLD展
+<br>2009 예술의전당 한가람 미술관 SCAF_ 한국미술의 빛
+<br>2008 KT&G 상상마당 ‘서교육십’
+<br>2008 조선일보 주최 ‘ASYAAF_아시아프  
+<br><a href="https://www.ganaart.com/author/maria-chang/">More...</a>
+          </p>
+        </div>
+      </div>
+
+    </div><!-- End About Me -->
+    <!-- ======= Counts ======= -->
+    <div class="counts container">
+
+      <div class="row">
+
+        <div class="col-lg-3 col-md-6">
+          <div class="count-box">
+            <i class="bi bi-emoji-smile"></i>
+            <img src="{% static 'img/auction/chang_3.jpeg' %}" class="img-fluid" alt="">            
+            <span data-purecounter-start="0" data-purecounter-end="2020" data-purecounter-duration="1" class="purecounter"></span>
+            <p>In Between</p><p style="font-style:italic;">Spring Series(Green)</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="count-box">
+            <i class="bi bi-journal-richtext"></i>
+            <img src="{% static 'img/auction/chang_4.jpeg' %}" class="img-fluid" alt="">            
+            <span data-purecounter-start="0" data-purecounter-end="2020" data-purecounter-duration="1" class="purecounter"></span>
+            <p>In Between</p><p style="font-style:italic;">Spring Series(Orange)</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+          <div class="count-box">
+            <i class="bi bi-headset"></i>
+            <img src="{% static 'img/auction/chang_5.jpeg' %}" class="img-fluid" alt="">            
+            <span data-purecounter-start="0" data-purecounter-end="2020" data-purecounter-duration="1" class="purecounter"></span>
+            <p>In Between</p><p style="font-style:italic;">Spring Series(Violet 1)</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+          <div class="count-box">
+            <i class="bi bi-award"></i>
+            <img src="{% static 'img/auction/chang_6.jpeg' %}" class="img-fluid" alt="">              
+            <span data-purecounter-start="0" data-purecounter-end="2020" data-purecounter-duration="1" class="purecounter"></span>
+            <p>In Between</p><p style="font-style:italic;">Spring Series(White Ivory 2)</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- End Counts -->
+  <!-- ======= Contact Section ======= -->
+    <div class="contact container">
+
+      <div class="section-title">
+        <h2>경매</h2>
+        <p>작품요청 응찰하기</p>
+      </div>
+
+        <div class="info-box">
+          <i class="bx bx-time"></i>
+          <h3>경매 종료까지 남은시간</h3>
+          <p id="demo" style="color:#FF8343!important;font-size:20px!important"></p>
+            <script>
+            // Set the date we're counting down to
+            var countDownDate = new Date("Jan 5, 2022 15:37:25").getTime();
+
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("demo").innerHTML = days + "일 " + hours + "시간 "
+            + minutes + "분 " + seconds + "초 ";
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+            }, 1000);
+            </script>
+          
+        </div>
+
+        <div class="info-box">
+          <i class="bx bx-analyse"></i>
+          <h3>추정가</h3>
+          <h3 style="color:white;!important">{{placement.placement_price | intcomma }}원</h3>
+        </div>
+
+        <div class="info-box">
+          <i class="bx ri-auction-line"></i>
+          <h3>시작가</h3>
+          <h3 style="color:white;!important">{{placement.placement_price | intcomma }}원</h3>
+        </div>
+        
+
+        <div class="info-box">
+          <i class="bx ri-auction-fill"></i>
+          <h3>현재 응찰가</h3>
+          <h3 style="color:white;!important">{% get_top_3 placement as placementbid %} {{placementbid.0.offer | intcomma }}원</h3>
+        </div>
+
+
+
+      <form action="" method="POST" class="php-email-form mt-4">
+        {% csrf_token %}      
+        <div class="form-group mt-3" style="padding: 15px!important;">
+          <input style = "background:rgba(255, 255, 255, 0.25) !important;"type="text" class="form-control" name="amount" id="subject" placeholder="응찰금액을 입력해주세요" required>
+        </div>
+        <div class="text-center"><button type="submit">응찰하기</button></div>
+      </form>
+    <div class="info-box">
+        <i class="bx ri-auction-fill"></i>
+        <h3 style="color:white!important;">나의 응찰기록</h3>
+                <table class="table responsive-table" style ="border-color:#3c3f42;">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>응찰금</th>
+                            <th>시간</th>                           
+                            <th>결과</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for b in pbd %}
+                            <tr>
+                                <td>{{ b.id }}</td>
+                                <td>{{ b.offer | intcomma }}&#8361;</td>
+                                <td>{{ b.placementbid_created }}</td>                               
+                                <td>{% if b.placement.placement_win.pk == b.pk %}
+                                        {% if b.confirmed %}
+                                        <span style="color:#FF8343;">결제완료</span>  
+                                        {% else %}
+                                        <span><a style="color:#FF8343;" href="{% url 'core:AddAuctionToOrderItem' b.pk %}">낙찰(결제하기)</a></span>
+                                        {% endif %}
+                                    {% else %} 
+                                        <span class="chip">패찰</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+        {% comment %} {% for p in pbd %}
+        <h3 style="color:white;!important">{{p.offer | intcomma }}원</h3>
+        {% endfor %} {% endcomment %}
+    </div>      
+
+    </div>
+    <!-- End Contact Section -->
+
+  </section><!-- End About Section -->
+
+  <!-- ======= Resume Section ======= -->
+  <section id="resume" class="resume">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>낙찰 확인하기</h2>
+        <p>마이옥션</p>
+      </div>
+
+      <div class="row">
+        {% if placement.placement_win %}
+                {% if placement.placement_win.user == request.user %}
+                  <!--결제 완료-->
+                  {% if placement.placement_win.orderitem.order.ordered == True %}
+                     <div class="resume-item pb-0">
+                        <h4>결제완료</h4>
+                        <p><em>결제가 완료되었습니다. 배송상황 문의는 아래 홈페이지 톡으로 문의부탁드립니다.</em></p>
+                        <p>
+                        <ul>
+                        <li> 우국원의 아티스트 초상화 경매</li>
+                        <li>응찰금액 : {{pbd.0.offer | intcomma}}&#8361;</li>
+                        <li>응찰일시 : {{ pbd.0.placementbid_created }}</li>
+                        <li style="color:#FF8343!important;">결제완료일 : {{ placement.placement_win.orderitem.order.ordered_date }}</li>
+                        </ul>
+                        </p>
+                    </div>
+                  <!--결제 미완료-->
+                  {% else %} 
+                    <canvas id="canvas" style="background:#000; position:relative;"></canvas>
+                    <div class="resume-item pb-0" style="position:absolute; width:65%;">
+                        <h4>낙찰</h4>
+                        <p><em>낙찰뒤 1주일이내 결제 불이행시 낙찰이 취소 될 수 있음을 공지해드립니다.</em></p>
+                        <p>
+                        <ul>
+                        <li> 우국원의 아티스트 초상화 경매</li>
+                        <li>응찰금액 : {{pbd.0.offer | intcomma}}&#8361;</li>
+                        <li>응찰일시 : {{ pbd.0.placementbid_created }}</li>
+                        <li style="color:#FF8343!important;">결제마감일 : 2021년 10월 18일 오후 1시 33분</li>
+                        </ul>
+                        </p>
+                        <div class="text-center"><a style="color:#FF8343!important;" href="{% url 'core:AddAuctionToOrderItem' pbd.0.pk %}" ><hr>결제하기<hr></a></div>                        
+                    </div>
+                  {% endif %}
+
+
+                {% else %}
+                    <h3 class="resume-title">우국원의 아티스트 초상화 경매</h3>
+                    <div class="resume-item pb-0">
+                        <h4>종료</h4>
+                        <p><em>낙찰뒤 1주일이내 결제 불이행시 낙찰이 취소 될 수 있음을 공지해드립니다.</em></p>
+                        <p>
+                        <ul>
+                        <li>응찰금액 : 10,000,000원</li>
+                        <li>응찰일시 : 2021년 10월 11일 오후 2시 33분</li>
+
+                        </ul>
+                        </p>
+                    </div>
+               {% endif %}
+        {% else %}
+                <h3 class="resume-title">우국원의 아티스트 초상화 경매</h3>
+                <div class="resume-item pb-0">
+                <h4>경매 중</h4>
+                <p><em>낙찰뒤 1주일이내 결제 불이행시 낙찰이 취소 될 수 있음을 공지해드립니다.</em></p>
+                <p>
+                <ul>
+                <li>응찰금액 : 10,000,000원</li>
+                <li>응찰일시 : 2021년 10월 11일 오후 2시 33분</li>
+
+                </ul>
+                </p>
+                </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </section><!-- End Resume Section -->
+
+
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>About</h2>
+        <p>PLAYPLZ</p>
+      </div>
+
+      <div class="row mt-2">
+
+        <div class="col-md-6 d-flex align-items-stretch">
+          <div class="info-box">
+            <i class="bx bx-map"></i>
+            <h3>Company Address</h3>
+            <p>516, 5F, 25, Yeonmujang 5ga-gil, Seongdong-gu,<br>Seoul 04782, Republic of Korea</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch">
+          <div class="info-box">
+            <i class="bx bx-share-alt"></i>
+            <h3>Social Profiles</h3>
+            <div class="social-links">
+        <a href="https://store.kakao.com/playplz" class="kakao_shop" data-toggle="tooltip" data-placement="top" title="Playplz 카카오톡 스토어" ><i class="bi bi-shop"></i></a>            
+        <a href="https://www.youtube.com/channel/UCQDqkGw5-Z2oCUFy-AWmx-Q" class="youtube" data-toggle="tooltip" data-placement="top" title="Playplz 유튜브"><i class="bi bi-youtube"></i></a>
+        <a href="https://www.instagram.com/playplz_official/" class="instagram" data-toggle="tooltip" data-placement="top" title="Plaplz 인스타그램" ><i class="bi bi-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 d-flex align-items-stretch">
+          <div class="info-box">
+            <i class="bx bx-envelope"></i>
+            <h3>Email</h3>
+            <p><a href="mailto:annalee@beyondimension.co.kr">annalee@beyondimension.co.kr</a></p>
+          </div>
+        </div>
+        <div class="col-md-6 mt-4 d-flex align-items-stretch">
+          <div class="info-box">
+            <i class="bx bx-phone-call"></i>
+            <h3>Call</h3>
+            <p><a href="tel:+827043663383">+82 70 4366-3383</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="php-email-form mt-4">
+       
+      PLAYPLZ will become fully usable soon 
+
+      </div>
+
+    </div>
+  </section><!-- End Contact Section -->
+
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/personal-free-resume-bootstrap-template/ -->
+    <a href="http://www.ftc.go.kr/www/bizCommView.do?key=232&apv_perm_no=2017321015330201022&pageUnit=10&searchCnd=wrkr_no&searchKrwd=1198668123&pageIndex=1">BEYONDIMENSION</a> Inc.
+  </div>
+
+  <!-- Vendor JS Files -->
+  <script src="/static/assets/vendor/purecounter/purecounter.js"></script>
+  <script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="/static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="/static/assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="/static/assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/static/assets/js/main.js"></script>
+
+  <script>
+        window.addEventListener("resize", resizeCanvas, false);
+        window.addEventListener("DOMContentLoaded", onLoad, false);
+        
+        window.requestAnimationFrame = 
+            window.requestAnimationFrame       || 
+            window.webkitRequestAnimationFrame || 
+            window.mozRequestAnimationFrame    || 
+            window.oRequestAnimationFrame      || 
+            window.msRequestAnimationFrame     || 
+            function (callback) {
+                window.setTimeout(callback, 1000/60);
+            };
+        
+        var canvas, ctx, w, h, particles = [], probability = 0.04,
+            xPoint, yPoint;
+        
+        
+        
+        
+        
+        function onLoad() {
+            canvas = document.getElementById("canvas");
+            ctx = canvas.getContext("2d");
+            resizeCanvas();
+            
+            window.requestAnimationFrame(updateWorld);
+        } 
+        
+        function resizeCanvas() {
+            if (!!canvas) {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+        } 
+        
+        function updateWorld() {
+            update();
+            paint();
+            window.requestAnimationFrame(updateWorld);
+        } 
+        
+        function update() {
+            if (particles.length < 500 && Math.random() < probability) {
+                createFirework();
+            }
+            var alive = [];
+            for (var i=0; i<particles.length; i++) {
+                if (particles[i].move()) {
+                    alive.push(particles[i]);
+                }
+            }
+            particles = alive;
+        } 
+        
+        function paint() {
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = "rgba(0,0,0,0.2)";
+            ctx.fillRect(0, 0, w, h);
+            ctx.globalCompositeOperation = 'lighter';
+            for (var i=0; i<particles.length; i++) {
+                particles[i].draw(ctx);
+            }
+        } 
+        
+        function createFirework() {
+            xPoint = Math.random()*(w-200)+100;
+            yPoint = Math.random()*(h-200)+100;
+            var nFire = Math.random()*50+100;
+            var c = "rgb("+(~~(Math.random()*200+55))+","
+                 +(~~(Math.random()*200+55))+","+(~~(Math.random()*200+55))+")";
+            for (var i=0; i<nFire; i++) {
+                var particle = new Particle();
+                particle.color = c;
+                var vy = Math.sqrt(25-particle.vx*particle.vx);
+                if (Math.abs(particle.vy) > vy) {
+                    particle.vy = particle.vy>0 ? vy: -vy;
+                }
+                particles.push(particle);
+            }
+        } 
+        
+        function Particle() {
+            this.w = this.h = Math.random()*4+1;
+            
+            this.x = xPoint-this.w/2;
+            this.y = yPoint-this.h/2;
+            
+            this.vx = (Math.random()-0.5)*10;
+            this.vy = (Math.random()-0.5)*10;
+            
+            this.alpha = Math.random()*.5+.5;
+            
+            this.color;
+        } 
+        
+        Particle.prototype = {
+            gravity: 0.05,
+            move: function () {
+                this.x += this.vx;
+                this.vy += this.gravity;
+                this.y += this.vy;
+                this.alpha -= 0.01;
+                if (this.x <= -this.w || this.x >= screen.width ||
+                    this.y >= screen.height ||
+                    this.alpha <= 0) {
+                        return false;
+                }
+                return true;
+            },
+            draw: function (c) {
+                c.save();
+                c.beginPath();
+                
+                c.translate(this.x+this.w/2, this.y+this.h/2);
+                c.arc(0, 0, this.w, 0, Math.PI*2);
+                c.fillStyle = this.color;
+                c.globalAlpha = this.alpha;
+                
+                c.closePath();
+                c.fill();
+                c.restore();
+            }
+        } 
+                    </script>
+
+</body>
+
+</html>

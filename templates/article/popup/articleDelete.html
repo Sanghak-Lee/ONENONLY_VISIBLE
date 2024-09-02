@@ -1,0 +1,49 @@
+<!-- 팝업 :: 회원 탈퇴 팝업  -->
+<article class="layer-fixed-pop-wrapper layer-popup" id="articleDelete">
+	<div class="modal-fixed-pop-inner">
+		<div class="modal-inner-box">
+			<div class="modal-inner-content">
+				<!-- 컨텐츠 영역 -->
+				<section class="cm-modal-content cm-alret-modal-content w-420">
+					<div class="popup-inner-con long-ver02">
+						<div class="cm-modal-tit">
+							<p class="cm-txt">{{ article.title | truncatechars:16 }}<br>을 삭제하시겠습니까?</p>
+						</div>
+						<div class="popup-funding-item">
+							<h5 class="tit">게시글 정보</h5>
+							<table class="popup-funding-tbl">
+								<colgroup>
+									<col style="width: 38%;">
+									<col style="width: *;">
+								</colgroup>
+								<tbody>
+									<tr>
+										<th>작성자</th>
+										<td>{{ article.user.username }}</td>
+									</tr>
+									<tr>
+										<th>마지막 수정일</th>
+										<td>{{ article.updated }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+					<div class="cm-modal-btn clearfix">
+						<ul class="col-02">
+							<li><a href="javascript:;" class="cm-basic-btn" onclick="modalPopupClose('#articleDelete')">취소</a></li>
+							<li>
+								<form method="post" action="{% url 'core:article_delete' article.id %}">
+									{% csrf_token %}
+										<button class="cm-positive-btn" type="submit">삭제하기</button>
+								</form>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<!-- // -->
+			</div>
+		</div>
+	</div>
+</article>

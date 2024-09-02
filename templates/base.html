@@ -1,0 +1,391 @@
+{% load static humanize i18n ads_template_tags auction_templatetag %}
+<!doctype html>
+<html lang="ko">
+
+<head>
+	<meta charset="utf-8">
+	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">  
+	<link rel="shortcut icon" href="{% static 'rev/favicon/favicon.ico' %}"><!-- 파비콘 -->
+	<link rel="apple-touch-icon-precomposed" href="{% static 'rev/favicon/favicon.png' %}"><!-- 파비콘 -->
+	<meta name="title" content="원앤온리">
+	<meta name="subject" content="오직 당신만을 위한">
+	<meta name="author" content="주식회사 레브너">
+	<meta name="keywords" content="원앤온리, ONE&amp;ONLY, 시간상품, 일반티켓, 경쟁티켓, 셀럽, 워니, onenonly, onenonly.io, 조아란, 1nonly">
+	<meta name="description" content="셀럽과 함께하는 특별한 시간! 원앤온리에서 원앤온리한 시간을 구매하세요.">
+	<meta name="reply-to" content="1nonly.biz@gmail.com">
+	<meta name="robots" content="index, follow">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="원앤온리">
+	<meta property="og:description" content="셀럽과 함께하는 특별한 시간! 원앤온리에서 원앤온리한 시간을 구매하세요.">
+	<meta property="og:image" content="{% static 'rev/img/common/logo_image_long.png' %}">
+	<meta property="og:url" content="https://onenonly.io">
+	<meta property="og:site_name" content="원앤온리">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="원앤온리">
+	<meta name="twitter:description" content="셀럽과 함께하는 특별한 시간! 원앤온리에서 원앤온리한 시간을 구매하세요.">
+	<meta name="twitter:image" content="{% static 'rev/img/common/logo_image_long.png' %}">
+	<meta name="twitter:domain" content="원앤온리">  
+	<meta name="google-site-verification" content="">
+  <meta name="naver-site-verification" content="9498c625102d771717eadc482478a630a0cb88b1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- 모바일사이트, 반응형사이트 제작시 사용 -->
+	<meta name="format-detection" content="telephone=no" /><!-- ios 자동전화걸기 방지 -->
+
+	<title>원앤온리{% block head_title %}{% endblock %}</title>
+
+  <script type="application/ld+json">
+    {
+      "@context":"http://schema.org",
+      "@type":"Organization",
+      "name":"원앤온리",
+      "url":"https://onenonly.io",
+      "alternateName":"onenonly",
+      "description":"셀럽과 함께하는 특별한 시간! 원앤온리에서 원앤온리한 시간을 구매하세요.",
+      "logo":"https://onenonly.io/static/rev/img/common/logo_image.png",
+      "sameAs":[
+        "https://onenonly.io/",
+        "https://www.instagram.com/onenonly.io/",
+        "https://www.youtube.com/channel/UCwWckww4Bi7jRYUjYlTsNOA/",
+        "https://pf.kakao.com/_kmkDb/",
+        "https://store.kakao.com/onenonly/"
+        ]
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context":"http://schema.org",
+      "@type":"Person",
+      "name":"원앤온리",
+      "url":"https://onenonly.io",
+      "alternateName":"onenonly",
+      "description":"셀럽과 함께하는 특별한 시간! 원앤온리에서 원앤온리한 시간을 구매하세요.",
+      "sameAs":[
+        "https://onenonly.io/",
+        "https://www.instagram.com/onenonly.io/",
+        "https://www.youtube.com/channel/UCwWckww4Bi7jRYUjYlTsNOA/",
+        "https://pf.kakao.com/_kmkDb/",
+        "https://store.kakao.com/onenonly/"
+      ]
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context":"http://schema.org",
+      "@type":"WebSite",
+      "name":"원앤온리",
+      "url":"https://onenonly.io",
+      "alternateName":"onenonly",
+      "potentialAction":{
+        "@type":"SearchAction",
+        "target":"https://onenonly.io/auction/list/?search=gigs&keyword={search_term_string}",
+        "query-input":"required name=search_term_string"
+      }
+    }
+  </script>
+
+
+  <!-- Favicon -->
+
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'rev/favicon/apple-touch-icon.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'rev/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'rev/favicon-16x16.png' %}">
+  <link rel="manifest" href="{% static 'rev/favicon/site.webmanifest' %}">
+  <link rel="mask-icon" href="{% static 'rev/favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+  {% block extra_head %}{% endblock extra_head %}
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/css/reset_ver=220810.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/css/common_ver=230112.css' %}"><!-- 공통 css -->
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/css/layout_ver=220810.css' %}"><!-- 레이아웃 css -->
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/css/main_ver=230610.css' %}" /><!-- 메인 css -->
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/css/content_ver=230112.css' %}" /><!-- 컨텐츠 css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'rev/scss/ad.css' %}"><!-- scss 광고 -->
+
+	<!-- 반응형 css -->
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/css/layout_responsive_ver=220810.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/css/main_responsive_ver=230110.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/css/content_responsive_ver=230723.css' %}" />
+	<!-- 플러그인 -->
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/vendor/css/slick.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/vendor/css/slick-theme.css' %}">  
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/vendor/css/jquery.mCustomScrollbar.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/vendor/css/aos.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/vendor/css/swiper.css' %}" />
+	<!-- 아이콘폰트 -->
+	<link rel="stylesheet" type="text/css" href="{% static 'rev/vendor/css/xeicon.min.css' %}"><!-- naver -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  
+	<script type="text/javascript" src="{% static 'rev/vendor/js/jquery-3.2.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rev/vendor/js/jquery.easing.1.3.js' %}"></script>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	{% if google_tracking_id %}
+	<script async src="https://www.googletagmanager.com/gtag/js?id={{ google_tracking_id }}"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', `{{ google_tracking_id }}`);
+	</script>
+	{% endif %}
+
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MCS34D5');</script>
+  <!-- End Google Tag Manager -->
+
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '555539089874133');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=555539089874133&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+</head>
+
+<body>
+  <!-- 공통 팝업 -->  
+  {% include "popup_common.html" %}
+
+  <!-- header -->
+  {% include "component/header.html" %}
+  <!-- //header --> 
+
+  <!-- 메시지 레이어 -->
+  <div class="alert-container">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {% if message.tags == 'success' %}
+      <i class="xi-check-circle"></i>
+      {% elif message.tags == 'info' %}
+      <i class="xi-info"></i>
+      {% elif message.tags == 'debug' %}
+      <i class="xi-debug"></i>
+      {% elif message.tags == 'error' %}
+      <i class=" xi-error"></i>
+      {% elif message.tags == 'warning' %}
+      <i class="xi-warning"></i>
+      {% endif %}
+      {{ message }}
+      <span class="msg_close">&times;</span>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+		<!-- 광고 레이어 -->
+		{% get_ads as ads %}
+    <div style="display:none;">
+      {% for ad in ads %}
+      <div class="ad-item" imgURL="{{ad.thumbnail.url}}" badgeURL="{{ad.badge.url}}" title="{{ad.title}}" des="{{ ad.display_text | removetag | truncatechars:110 }}" url="{{ad.display_url}}" total="{{ ads | length }}" new="true"></div>
+      {% endfor %}
+      <div class="ad_num">{{ads|length}}</div>
+    </div>
+
+    <div id="ad">
+      <nav tabindex="0">
+        <div class="nav__notification"></div>
+      </nav>
+    </div>
+    <div class="ad-bg"></div>
+
+  {% block body %}
+  {% endblock body %}
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/react-motion/build/react-motion.js"></script>
+	<!-- scripts -->
+  <script type="text/javascript" src="{% static 'rev/vendor/js/jquery-fakeform-0.5.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rev/vendor/js/slick.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rev/vendor/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rev/vendor/js/aos.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rev/vendor/js/swiper.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rev/js/functions_ver=230120.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rev/js/common_ver=220810.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rev/js/nav_ver=220810.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rev/js/main_ver=230112.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rev/js/sub_ver=221020.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rev/js/react_ver=230220.js' %}"></script>
+
+  <!--[if lt IE 9]>
+		<script src="{% static 'rev/vendor/js/html5shiv.js' %}"></script>
+		<script src="{% static 'rev/vendor/js/respond.min.js' %}"></script>
+		<link rel="stylesheet" href="{% static 'rev/vendor/css/ie8.css' %}">
+	<![endif]-->
+	<!-- //scripts -->
+
+
+  <!-- detect mobile -->
+  <!-- <script>
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Nokia|Opera Mini/i.test(navigator.userAgent) ? true : false;
+  </script> -->
+
+  <!-- Channel Plugin Scripts -->
+  <script>
+    (function() {
+      var w = window;
+      if (w.ChannelIO) {
+        return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+      }
+      var ch = function() {
+        ch.c(arguments);
+      };
+      ch.q = [];
+      ch.c = function(args) {
+        ch.q.push(args);
+      };
+      w.ChannelIO = ch;
+      function l() {
+        if (w.ChannelIOInitialized) {
+          return;
+        }
+        w.ChannelIOInitialized = true;
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+        s.charset = 'UTF-8';
+        var x = document.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+      }
+      if (document.readyState === 'complete') {
+        l();
+      } else if (window.attachEvent) {
+        window.attachEvent('onload', l);
+      } else {
+        window.addEventListener('DOMContentLoaded', l, false);
+        window.addEventListener('load', l, false);
+      }
+    })();
+    ChannelIO('boot', {
+      "pluginKey": "1667cfad-2f7b-4f6d-afb2-2df83a3f5349"
+    });
+  </script>
+  <!-- End Channel Plugin -->
+
+
+  <!-- ajax 통신시 csrf 토큰 동기화 -->
+  <script>
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    
+    var csrftoken = getCookie('csrftoken');
+    
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+
+
+  </script>
+
+  <!--message-->
+  <script>
+    //fadeout
+    $('.alert').on('click',function(){
+      $(this).addClass('close');
+      setTimeout(function(alert){
+        alert.css('display','none');
+      }, 500, $(this));
+    });
+
+    //message auto disappear
+    if($('.alert').length){
+      setTimeout(function(){
+        $('.alert').addClass('close');
+      }, 12000);
+      setTimeout(function(){
+        $('.alert').css('display','none');
+      }, 12500);
+    }
+  </script>
+
+  <!-- 우클릭, 개발자도구 방지-->
+  <script type="text/javascript">
+  let _prevent = true;
+  {% if DEBUG == 'False' %}
+    {% if request.user.is_authenticated %}
+      {% if request.user.is_superuser %}
+        _prevent=false;
+      {% else %}
+      //막기
+      {% endif %}
+    {% else %}
+      //막기
+    {% endif %}
+  {% else %}
+  _prevent=false
+  {% endif %}  
+  if(_prevent){
+    $(document).ready(function(){
+      $(document).bind('keydown',function(e){ 
+        if ( e.keyCode == 123 /* F12 */) { 
+          e.preventDefault(); e.returnValue = false; 
+            }         
+        }); 
+        });
+    $('body').contextmenu(function(){
+      return false;
+    })
+  }else{
+    console.log('개발자모드가 활성화되었습니다.')
+  }
+  </script>
+
+
+  {% block base_scripts %}
+  {% endblock base_scripts %}
+
+  {% block extra_scripts %}
+  {% endblock extra_scripts %}
+
+</body>
+
+<!-- 추가내용
+{% block extra_body %}
+{% endblock %} -->
+
+	<!-- [if lt IE 7]>
+<p class="cm-alert-ie">현재 웹브라우저에서는 사이트가 정상적으로 표시되지 않을 수 있습니다. <strong><a href="http://browsehappy.com/" target="_blank">여기를 클릭</a></strong>하여 웹브라우저를 업그레이드 하세요.</p>
+<![endif]-->
+
+<!-- 하단공통 -->
+{% include "component/footer.html" %}
+
+</html>

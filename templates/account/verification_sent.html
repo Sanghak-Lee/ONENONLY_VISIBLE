@@ -1,0 +1,52 @@
+{% extends "account/base.html" %}
+{% load i18n static %}
+
+{% block head_title %} | 이메일 인증 {% endblock %}
+
+{% block body %}
+	<div id="wrap" class="sub-wrap">
+		<!-- container -->
+		<div id="container">
+			<!-- middleArea -->
+			<div id="middleArea">
+				<!-- content -->
+				<section id="content" class="area-box">
+					<!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+					<div class="sub-page mypage-page">
+						<div class="join-con step03">
+							<h5 class="join-tit">회원가입</h5>
+							<div class="join-inner-box">
+								<p class="join-txt">이메일 인증 메일이 전송되었습니다.<br>이메일을 확인하여 이메일 인증 버튼을 클릭하시면 회원 가입이 완료됩니다.</p>
+								<div class="join-mail-info">
+									<p>인증 메일을 받지 못하셨나요?</p>
+									<ul class="dot-txt">
+										<li><p>스팸메일함 또는 수신거부 메일 주소 목록에 @onenonly.io 형태의 메일 주소가 있는지 확인 부탁드립니다.<br>
+										수신거부가 되어있는 경우라면 @onenonly.io 형태의 메일 주소를 제거해 주시고, 하단의 <span class="cm-font-color-y">재전송 요청 버튼</span>을 클릭해 주세요.</p></li>
+										<li><p>지속적으로 이메일이 수신되지 않는 경우, 시도하고 있는 이메일 주소를 기재하여 <span class="cm-font-color-y">support@onenonly.io</span>으로 문의하시거나 <span class="cm-font-color-y">챗봇 상담</span>을 이용해 주세요.</p></li>
+									</ul>
+								</div>
+							</div>
+							<div class="join-btn-con">
+								<a href="{% url 'account_email' %}" class="cm-custom-button">재전송 요청</a>
+							</div>
+						</div>
+					</div>
+					<!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+					<!-- 팝업 리스트 -->	
+
+					<!-- //팝업 리스트 -->
+
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //middleArea -->
+		</div>
+		<!-- // container -->
+    </div>
+    <!-- // wrap -->
+
+{% endblock body %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}

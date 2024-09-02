@@ -1,0 +1,184 @@
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}  
+{% get_top_3 placement as placementbid %}
+
+  <div class="" id="bidding-modal">
+      <div class="content">
+        <div class="modal-hd" id="modal-hd">
+          <h2 class="left">[ BID 퍼블릭 온라인 경매 Ⅰ]</h2>
+          <i class="right modal-toggle bi bi-box-arrow-right"></i>
+        </div>
+
+        <div class="modal-bd">
+          <div class="bd-left">
+            <div class="picture"><img src="{{ placement.placement_artist.avatar.url }}" class="img-fluid" alt=""></div>
+            <div class="bio">
+              <div class="l1">{{ placement.pk }}<br>{{ placement.placement_artist.name}}</div>
+              <div class="l2">{{ placement.title }}</div> 
+              <div class="l3">{{ placement.placement_description }}</div>
+            </div>
+          </div>
+          <div class="bd-right">
+              <!-- 가격표시 -->
+            <div class="r1">
+                  <div class="price">
+                  <div class="price-1">
+                      <span class="le">현재가</span>
+                      <span class="ri">호가 <strong>단위 KRW {{ placement.unit_price | intcomma}}</strong></span>
+                  </div>
+                  <div class="price-2">
+                      <span class="le">KRW</span>
+                      <span class="ri">{{placement.placement_price | intcomma }}</span>            
+                  </div> 
+                  </div>            
+                  <div class="time">
+                  <span class="le">
+                      <p><strong>남은시간</strong></p>
+                      <p id="bid-countdown" class="t"></p>                
+                  </span>
+                  <span class="ri">
+                      <p><strong>시작시간</strong></p>
+                      <p class="t">{{ placement.placement_start }}</p> 
+                  </span>            
+                  </div>
+            </div>
+
+            <!-- 응찰 -->
+            <div class="r2">
+                <div class="bid">
+                  <div class="unit">
+                      <span class="le">1회 응찰가</span>
+                      <span class="ri">KRW</span>                
+                  </div>
+
+                  <!-- submit -->
+                  <form action="" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="input-box">
+                          <input id="bid" type="text" value="{{ placement.placement_price | add:placement.unit_price | intcomma}}" style="width:90%!important;" name="amount"></input>
+                          <div class="bid-info">최소응찰금 : {{ placement.placement_price | add:placement.unit_price | intcomma}}원</div>
+                          <div class="bts">
+                          <span class="plus-1">+</span>
+                          <span class="minus-1">-</span>
+                          </div>
+                      </div>
+                      <div class="btn-wrap">
+                          {% if all_pbd.0.user == request.user %}
+                            <button id="disabled-button" type="submit" name="one-bid" disabled> 최고가 응찰중 </button>
+                          {% else %}
+                          {% if my_autobid %}
+                              {% if my_autobid.limit < all_pbd.0.offer %}
+                              <button type="submit" name="one-bid">1회 응찰</button>
+                              {% else %}
+                              <button disabled> 자동응찰중 </button>
+                              {% endif %}
+                          {% else %}
+                              <button type="submit" name="one-bid">1회 응찰</button>
+                          {% endif %}
+                          {% endif %}
+                          {% if placement.placement_buynow_price != 0  and placement.placement_buynow_price > all_pbd.0.offer %}
+                              {% if max_autobid and placement.placement_buynow_price > max_autobid.limit %}
+                                <button type='button' class='modal-button' target-modal='bidinfo-1' style="position: relative;">
+                                    바로구매
+                                    <!--<span style="color: #ed7c40;position: absolute;width: 100%;bottom: -0.25rem;left: 0;right: 0;">
+                                        <small><em>{{placement.placement_buynow_price | intcomma }}원</em></small>
+                                    </span>-->
+                                </button>
+                              {% else %}
+                                <button type='button' class='modal-button' target-modal='bidinfo-1' style="position: relative;">
+                                    바로구매
+                                    <span style="color: #ed7c40;position: absolute;width: 100%;bottom: -0.25rem;left: 0;right: 0;">
+                                        <small><em>{{placement.placement_buynow_price | intcomma }}원</em></small>
+                                    </span>
+                                </button>                              
+                              {% endif %}  
+                          {% endif %}
+                      </div>
+                  </form>
+
+                  <ul class="notice">
+                      <li>버튼 클릭 시 입력하신 응찰가에 1회 응찰하게 됩니다.</li>
+                      <li>응찰버튼을 누르시면 바로 응찰되어 취소가 불가능합니다.</li>
+                      <li>다음 응찰가격이 자동으로 조정됩니다.</li>
+                  </ul>
+                </div>
+
+                <div class="bid autobid">
+                  <div class="unit">
+                      <span class="le">자동응찰 한도가</span>
+                      <span class="ri">KRW</span>        
+                  </div>
+
+                  <!-- submit -->
+                  <form action="" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="input-box">
+                          <input id="autobid"type="text" value="{{ placement.placement_price | add:placement.unit_price | intcomma}}" name="limit" style="width:90%!important;" readonly/>
+                          {% if my_autobid %}
+                          {% comment %} <div class="autobid-info"> {{ my_autobid.limit | intcomma }}원/{{ max_autobid.limit | intcomma }}원 (내 자동응찰금/현 최고 자동응찰금)</div> {% endcomment %}
+                          <div class="autobid-info">내 자동응찰금 : {{ my_autobid.limit | intcomma }}원</div>
+                          {% endif %}
+                          <div class="bts">
+                          <span class="plus-2">+</span>
+                          <span class="minus-2">-</span>
+                          </div>
+                      </div>
+                      <div class="btn-wrap">                
+                      <button type="submit" name="auto-bid">자동응찰</button>
+                      </div>
+                  </form>
+
+                  <ul class="notice">
+                      <li>+/- 버튼으로 금액을 조정합니다 </li>
+                      <li>자동응찰을 선택하면, 설정한 금액까지 자동으로 응찰을 진행하게 됩니다.</li>
+                      <li>응찰버튼을 누르시면 바로 응찰되어 금액변경이나 취소가 불가능합니다.</li>
+                  </ul>
+                </div>
+
+            </div>        
+
+            <!-- 응찰현황 -->
+            <div class="r3">
+                  <span class="refresh"><a>REFRESH</a></span>
+                  <div class="scroll">
+                  <table border="1" width ="500" height="300" align = "center" >
+                      <tbody>
+                      <tr align = "center">
+                          <th style="width:8%;" rowspan="100%" align = "center" bgcolor="skyblue">Bid.<br>{{all_pbd | length}} </th>
+                          <th style="width:8%;">No.</th>
+                          <th style="width:14%;">응찰자</th>
+                          <th style="width:25%;">응찰가</th>
+                          <th style="width:25%;">응찰시각</th>
+                          <th style="width:20%;">상태</th>                            
+                      </tr>
+                      {% for p in all_pbd %}
+                      <tr align = "center">
+                          <td>{{ p.id }}</td>                      
+                          <td {% if p.user == request.user %}style="color:red;"{% endif %}>{% if p.is_superior %}<span style="color:red">(先)</span>{% endif %}{{ p.user.username | truncatechars:2 }}</td>
+                          <td class="offer">{{ p.offer | intcomma }}&#8361;</td>
+                          <td>{{ p.placementbid_created }}</td>
+                          <td>{% if p.is_autobid %} (자동응찰){% endif %}</td>                            
+                      </tr>
+                      {% endfor %}              
+                      </tbody>    
+                  </table>
+                  </div>
+                  <ul class="notice">             
+                  <li> 30초마다 표가 새로고침 됩니다. REFRESH버튼을 누르시면 직접 새로고침할 수 있습니다.</li> 
+                  <li> 경매진행시에는 원활한 진행을 위해 상위40번의 비딩이 보입니다.</li>
+                  <li> 동시 응찰자 경우, 서버시각 기준 응찰에 먼저 응해준 응찰자에게 우선순위가 부여됩니다.</li>
+                  <li> 옥션 응찰 마감 시, 응찰 결과를 바로 확인하실 수 있습니다.</li>
+                  </ul>
+            </div>         
+          </div>
+          <div class="finish">
+              <a class="modal-toggle" id="finish-button">결과보기</a>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <span class="right modal-toggle">닫기</span>
+        </div>
+      </div>
+  </div>

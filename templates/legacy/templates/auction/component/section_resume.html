@@ -1,0 +1,131 @@
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}
+{% load auction_templatetag %}
+{% get_top_3 placement as placementbid %}
+  <section id="resume" class="resume">
+    <div class="myauction container">
+      <div class="section-title">
+        <h2>낙찰 확인하기</h2>
+        <p>마이옥션</p>
+      </div>
+      <div class="info-box">
+        <div class="row">
+          {% start_or_yet request placement.id as Y %}
+          {% if not Y %}
+                  <!-- 낙찰 -->
+                  {% if placement.placement_win.user == request.user %}
+                    <!--결제 완료-->
+                    {% if placement.placement_win.orderitem.order.ordered == True %}
+                      <div class="resume-item pb-0">
+                          <h4>결제완료</h4>
+                          <p><em>결제가 완료되었습니다. 배송상황 문의는 아래 홈페이지 톡으로 문의부탁드립니다.</em></p>
+                          <ul>
+                            <li> {{ placement.title }}</li>
+                            <li>낙찰금액 : {{placementbid.0.offer | intcomma}}&#8361;</li>
+                            <li>응찰일시 : {{ placementbid.0.placementbid_created }}</li>
+                            <li style="color:#FF8343!important;">결제완료일 : {{ placement.placement_win.orderitem.order.ordered_date }}</li>
+                          </ul>
+                          </p>
+                      </div>
+                    <!--결제 미완료-->
+                    {% else %} 
+                      <div class="resume-item pb-0">
+                          <h4>낙찰</h4>
+                          <p><em>낙찰뒤 1주일이내 결제 불이행시 낙찰이 취소 될 수 있음을 공지해드립니다.</em></p>
+                          <p>
+                          <ul>
+                          <li> {{ placement.title }}</li>
+                          <li>낙찰금액 : {{placementbid.0.offer | intcomma}}&#8361;</li>
+                          <li>응찰일시 : {{ placementbid.0.placementbid_created }}</li>
+                          <li style="color:#FF8343!important;">결제마감일 : [{{ placement.placement_end }}] 로부터 1주일 이내</li>
+                          </ul>
+                          </p>
+                          <div class="text-center">
+                            <a style="color:#FF8343!important;" href="{% url 'core:AddAuctionToOrderItem' placementbid.0.pk placement.id %}" ><hr>결제하기<hr></a>
+                            <div class="canvas-wrapper">
+                              <canvas class="firework" id="canvas"></canvas>
+                            </div>
+                          </div>
+                      </div>
+                    {% endif %}
+
+                  <!-- 패찰 -->
+                  {% else %}
+                      <h3 class="resume-title">{{ placement.title }}</h3>
+                      <div class="resume-item pb-0">
+                          <h4>종료</h4>
+                          <p><em>낙찰뒤 1주일이내 결제 불이행시 낙찰이 취소 될 수 있음을 공지해드립니다.</em></p>
+                          <p>
+                          <ul>
+                            <li>낙찰금액 : {{ placementbid.0.offer | intcomma }}원</li>
+                            <li>응찰일시 : {{ placementbid.0.placementbid_created }}</li>
+                            <li>낙찰자 : {{ placementbid.0.user | truncatechars:4 }}</li>
+                          </ul>
+                          </p>
+                      </div>
+                {% endif %}
+          {% else %}
+                  <h3 class="resume-title">{{ placement.title }}</h3>
+                  <div class="resume-item pb-0">
+                  <h4>경매 중</h4>
+                  <p><em>낙찰뒤 1주일이내 결제 불이행시 낙찰이 취소 될 수 있음을 공지해드립니다.</em></p>
+                  <p>
+                  <ul>
+                  <li>응찰 최고가 :{{ placementbid.0.offer | intcomma }}원 </li>
+                  <li>응찰일시 : {{ placementbid.0.placementbid_created }}</li>
+
+                  </ul>
+                  </p>
+                  </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <!-- ======= Contact(응찰기록) ======= -->
+    <div class="contact container" id="bidding">        
+      <div class="info-box">
+        <i class="bx ri-auction-fill"></i>
+        <h3>최고 응찰가</h3>
+        <h3 style="color:white;!important">{{placement.placement_price | intcomma }}원</h3>
+      </div>
+      <div class="info-box">
+          <i class="bx ri-auction-fill"></i>
+          <h3>나의 응찰기록</h3>
+                  <table class="table responsive-table" style ="border-color:#3c3f42;">
+                      <thead>
+                          <tr>
+                              <th>No.</th>
+                              <th>응찰금</th>
+                              <th>시간</th>                           
+                              <th>상태</th>
+                          </tr>
+                      </thead>
+
+                      <tbody>
+                          {% for b in pbd %}
+                              <tr>
+                                  <td>{{ b.id }}</td>
+                                  <td>{{ b.offer | intcomma }}&#8361;</td>
+                                  <td>{{ b.placementbid_created }}</td>                               
+                                  <td>{% if b.placement.placement_win.pk == b.pk %}
+                                          {% if placement.placement_win.orderitem.order.ordered == True %}
+                                          <span style="color:#FF8343;">결제완료</span>  
+                                          {% else %}
+                                          <span><a style="color:#FF8343;" href="{% url 'core:AddAuctionToOrderItem' b.pk placement.id %}">낙찰(결제하기)</a></span>
+                                          {% endif %}
+                                      {% else %} 
+                                          <span class="chip">{% if b.is_autobid %}(자동응찰){% endif %}</span>
+                                      {% endif %}
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+
+          {% comment %} {% for p in pbd %}
+          <h3 style="color:white;!important">{{p.offer | intcomma }}원</h3>
+          {% endfor %} {% endcomment %}
+      </div>      
+    </div>
+  </section><!-- End resume(마이옥션) Section -->

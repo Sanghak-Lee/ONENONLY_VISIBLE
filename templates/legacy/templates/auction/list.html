@@ -1,0 +1,428 @@
+{% load static %}
+{% load auction_templatetag %}
+{% load staticfiles %}
+{% load humanize %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+
+		<!-- Title -->
+		<title>ONE &amp; ONLY Auction</title>
+
+		<!-- Meta -->
+		<meta charset="utf-8">
+		<meta name="description" content="1NONLY - Bid your one and only masterpiece">
+		<meta name="author" content="1NONLY">
+		<meta property="og:title" content="ONE&amp;ONLY AUCTION">
+		<meta property="og:description" content="오직 당신만을 위한 선물, One&amp;Only">
+		<meta property="og:image" content="{% static 'img/logo/002.jpeg' %}">
+		<!-- Mobile Meta -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Favicon (http://www.favicon-generator.org/) -->
+		<link rel="icon" href="{% static 'img/logo/001_icon.jpeg' %}">
+
+		<!-- Google Analytics - Global site tag (gtag.js) -->
+		<!-- Paste your Google Anaytics code here. -->
+
+		<!-- Google fonts (https://www.google.com/fonts) -->
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> <!-- Body font -->
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet"> <!-- Secondary/Alter font -->
+
+		<!-- Libs and Plugins CSS -->
+		<link rel="stylesheet" href={% static 'tank/assets/vendor/normalize/normalize.min.css' %} >
+		<link rel="stylesheet" href={% static 'tank/assets/vendor/fontawesome/css/fontawesome-all.min.css' %}> 
+		<link rel="stylesheet" href={% static 'tank/assets/vendor/swiper/css/swiper-bundle.min.css' %} >
+		<link rel="stylesheet" href={% static 'tank/assets/vendor/lightgallery/css/lightgallery.min.css' %}>
+
+		<!-- Template master CSS -->
+		<link rel="stylesheet" href={% static 'tank/assets/css/helper.css' %}>
+		<link rel="stylesheet" href={% static 'tank/assets/css/theme.css' %}>
+
+	</head>
+
+	
+	<!-- ===========
+	///// Body /////
+	================
+	* Use class "tt-boxed" to enable page boxed layout globally (affects all elements containing class "tt-wrap").
+	* Use class "tt-smooth-scroll" to enable page smooth scrolling.
+	* Use class "tt-transition" to enable page transitions.
+	* Use class "tt-magic-cursor" to enable magic cursor.
+	-->
+	<body id="body" class="tt-boxed tt-smooth-scroll tt-magic-cursor">
+
+
+		<!-- *************************************
+		*********** Begin body inner ************* 
+		************************************** -->
+		<main id="body-inner">
+
+			<!-- Begin page transition (do not remove!!!) 
+			=========================== -->
+			<div id="page-transition">
+				<div class="ptr-overlay"></div>
+				<div class="ptr-preloader">
+					<div class="ptr-prel-content">
+						<!-- Hint: You may need to change the img height and opacity to match your logo type. You can do this from the "theme.css" file (find: ".ptr-prel-image"). -->
+						<img src={% static 'tank/assets/img/logo-light.png' %} class="ptr-prel-image tt-logo-light" alt="Logo">
+					</div> <!-- /.ptr-prel-content -->
+				</div> <!-- /.ptr-preloader -->
+			</div>
+			<!-- End page transition -->
+
+			<!-- Begin magic cursor 
+			======================== -->
+			<div id="magic-cursor">
+				<div id="ball"></div>
+			</div>
+			<!-- End magic cursor -->
+
+			<!-- Begin noise background -->
+			<div class="bg-noise"></div>
+			<!-- End noise background --> 
+
+
+			<!-- *****************************************
+			*********** Begin scroll container *********** 
+			****************************************** -->
+			<div id="scroll-container"> 
+				{% include 'auction/component/menu.html' %}
+
+				<!-- 메시지 레이어 -->
+			<div class="alert-container">
+				{% if messages %}
+				{% for message in messages %}
+				<div id="msg" class="alert alert-{{ message.tags }}">
+					{{ message }}
+					<span class="msg_close">&times;</span>
+				</div>
+				{% endfor %}
+				{% endif %}
+			</div>
+				
+				<!-- *************************************
+				*********** Begin content wrap *********** 
+				************************************** -->
+				<div id="content-wrap">
+
+					
+					<!-- ========================
+					///// Begin page header /////
+					============================= 
+					* Use class "ph-full" to enable fullscreen size.
+					* Use class "ph-cap-sm", "ph-cap-lg", "ph-cap-xlg" or "ph-cap-xxlg" to set caption size (no class = default size).
+					* Use class "ph-center" to enable content center position.
+					* Use class "ph-bg-image" to enable page header background image (required for a portfolio single project!).
+					* Use class "ph-bg-image-is-light" if needed, it makes the elements dark and more visible if you use a very light image (effect only with class "ph-bg-image").
+					* Use class "ph-image-shadow" to enable page header background image (effect only with class "ph-bg-image").
+					* Use class "ph-image-cropped" to crop image. It fixes image dimensions (no effect for "ph-bg-image"!).
+					* Use class "ph-image-cover-*" to set image overlay opacity. For example "ph-image-cover-2" or "ph-image-cover-2-5" (up to "ph-image-cover-9-5").
+					* Use class "ph-content-parallax" to enable content parallax.
+					* Use class "ph-stroke" to enable caption title stroke style.
+					-->
+					<div id="page-header" class="ph-full ph-center ph-cap-xxlg ph-image-cropped ph-image-cover-2 ph-content-parallax">
+						<div class="page-header-inner tt-wrap">
+
+							<!-- Begin page header image 
+							============================= -->
+							<div class="ph-image">
+								<div class="ph-image-inner">
+									<img src="{% static 'img/logo/003_symbol.png' %}" alt="1nonly Symbol">
+								</div>
+							</div>
+							<!-- End page header image -->
+
+							<!-- Begin page header caption
+							=============================== 
+							Use class "max-width-*" to set caption max width if needed. For example "max-width-1000". More info about helper classes can be found in the file "helper.css".
+							-->
+							<div class="ph-caption">
+								<h1 class="ph-caption-title ph-appear ph-title-parallax">AUCTION</h1>
+								{% comment %} <div class="ph-caption-title-ghost ph-appear">AUCTION</div> {% endcomment %}
+								<div class="ph-caption-subtitle-eng ph-appear">Only one in the world, just for you.</div>
+								<div class="ph-caption-subtitle-kor ph-appear">세상에 단 하나뿐인, 오직 당신만을 위한</div>
+							</div> 
+							<!-- End page header caption -->
+
+						</div> <!-- /.page-header-inner -->
+
+						<!-- Begin scroll down circle (you can change "data-offset" to set scroll top offset) 
+						============================== -->
+						<a href="#page-content" class="scroll-down-circle" data-offset="30">
+							<div class="sdc-inner ph-appear">
+								<div class="sdc-icon"><i class="fas fa-chevron-down"></i></div>
+								<svg viewBox="0 0 500 500">
+									<defs>
+										<path d="M50,250c0-110.5,89.5-200,200-200s200,89.5,200,200s-89.5,200-200,200S50,360.5,50,250" id="textcircle"></path>
+									</defs>
+									<text dy="30">
+										<textPath xlink:href="#textcircle">Scroll down - Scroll down -</textPath>
+									</text>
+								</svg>
+							</div> <!-- /.sdc-inner -->
+						</a>
+						<!-- End scroll down circle -->
+
+						<!-- Begin made with love 
+						========================== -->
+						<div class="made-with-love ph-appear">
+							<div class="mwl-inner">
+								<div class="mwl-text">REVENOR. Ltd.</div>
+								<div class="mwl-icon"><i class="far fa-heart"></i></div>
+							</div>
+						</div>
+						<!-- End made with love -->
+						
+					</div>
+					<!-- End page header -->
+
+
+					<!-- *************************************
+					*********** Begin page content *********** 
+					************************************** -->
+					<div id="page-content">
+
+
+						<!-- =======================
+						///// Begin tt-section /////
+						============================ 
+						* You can use padding classes if needed. For example "padding-top-xlg-150", "padding-bottom-xlg-150", "no-padding-top", "no-padding-bottom", etc. Note that each situation may be different and each section may need different classes according to your needs. More info about helper classes can be found in the file "helper.css".
+						-->
+						<div class="tt-section padding-bottom-150">
+							<div class="tt-section-inner">
+
+								<!-- Begin portfolio list 
+								========================== 
+								* Use class "pl-alter" to enable alternative layout.
+								* Use class "pl-compact" to enable compact layout (no effect with class "pli-info-overlay"!).
+								* Use class "pli-cropped" to crop images (it sets the images to a fixed height).
+								* Use class "pli-hover" to enable item hover effect.
+								* Use class "pli-info-overlay" to enable item info overlay.
+								* Use class "pli-title-stroke" to enable item title stroke effect.
+								* Use class "pli-info-sm", "pli-info-lg", "pli-info-xlg" or "pli-info-xxlg" to set item info size (no class = default size!)
+								-->
+								<div class="portfolio-list pli-info-lg pl-alter pli-cropped pli-hover">
+
+
+									{% for p in placements %}
+									<!-- Begin portfolio list item 
+									===============================
+									*  -->
+									{% start_or_yet request p.pk as Y %}
+									<div class="portfolio-list-item">
+										<div class="pli-inner">
+											<div class="pli-image-col">
+												<a {% if Y %} href="{% url 'auction:placement-detail' p.pk %}" {% endif %} class="pli-image-link" data-cursor="{{p.placement_artist.E_name | escape }}">
+													<div class="pli-image-holder">
+														<div class="pli-image">
+
+															<!-- Begin background video (you can use poster="your-video-poster.jpg" for a custom image while the video is loading) -->
+															<figure class="pli-video-wrap anim-image-parallax">
+																{% if p.video_thumbnail %}
+																<video class="pli-video" loop muted preload="metadata" poster="{{ p.video_thumbnail.url }}">
+																	<source src="{{ p.mp4_video.url }}" type="video/mp4">
+																	<source src="{{ p.webm_video.url }}" type="video/webm">
+																</video>
+																{% endif %}
+															</figure>
+															<!-- End background video -->
+														</div> <!-- /.pli-image -->
+													</div> <!-- /.pli-image-holder -->
+												</a> <!-- /.pli-image-link -->
+											</div> <!-- /.pli-image-col -->
+											
+
+											<div class="pli-info-col pli-info-outer">
+												<div class="pli-info">
+													<div class="pli-counter">
+														<div class="countdown_container">
+															<h1 id="c{{p.pk}}_headline">Countdown to {{p.placement_artist.name | slice:"0:3"}}'s Auction</h1>
+															<div id="c{{p.pk}}_countdown">
+																<li style="--smaller:0.4;"><span id="c{{p.pk}}_days"></span>days</li>
+																<li style="--smaller:0.4;"><span id="c{{p.pk}}_hours"></span>Hours</li>
+																<li style="--smaller:0.4;"><span id="c{{p.pk}}_minutes"></span>Minutes</li>
+																<li style="--smaller:0.4;"><span id="c{{p.pk}}_seconds"></span>Seconds</li>
+															</div>
+															<div id="c{{p.pk}}_content" class="emoji">
+															  <span> 최종가 : {{ p.placement_price | intcomma }}원</span>
+															  {% if p.placement_win %} <span> 낙찰자 : {{ p.placement_win.user | truncatechars:5 }}님</span> {% endif %}
+															</div>
+														</div>
+													</div>
+													<h2 class="pli-title eng">
+														<a {% if Y %} href="{% url 'auction:placement-detail' p.pk %}" {% endif %}>{{p.placement_artist.E_name | linebreaks }}</a>
+													</h2>
+													<h2 class="pli-title kor">
+														<a {% if Y %} href="{% url 'auction:placement-detail' p.pk %}" {% endif %}>{{ p.placement_artist.name }}</a>
+													</h2> 
+													{% if p.placement_buynow_price != '0' %}
+														<p class="pli-tag">#바로구매</p>
+													{% elif p.is_crowdfunding %}
+														<p class="pli-tag">#펀딩</p>
+													{% endif %}
+													<!-- You can use <br class="hide-from-sm"> to break a text line if needed -->
+													<div class="pli-categories-wrap">
+														<div class="pli-category">{{ p.title }}</div>
+													</div> <!-- /.pli-categories-wrap -->
+												</div> <!-- /.pli-info -->
+											</div> <!-- /.pli-info-col -->
+
+										</div> <!-- /.pli-inner -->
+									</div> 
+									<!-- End portfolio list item -->
+									{% endfor %}
+								</div>
+								<!-- End portfolio list -->
+
+							</div> <!-- /.tt-section-inner -->
+						</div>
+						<!-- End tt-section -->
+
+
+						<!-- =======================
+						///// Begin tt-section /////
+						============================ 
+						* You can use padding classes if needed. For example "padding-top-xlg-150", "padding-bottom-xlg-150", "no-padding-top", "no-padding-bottom", etc. Note that each situation may be different and each section may need different classes according to your needs. More info about helper classes can be found in the file "helper.css".
+						-->
+						<div class="tt-section padding-bottom-xlg-150">
+							<div class="tt-section-inner tt-wrap">
+
+								<!-- Begin page nav 
+								==================== 
+								* Use class "tt-pn-stroke" to enable title stroke style.
+								* Use class "tt-pn-scroll" to enable hover title scroll. Note: If "tt-pn-hover-title" text is wider than "tt-pn-link" then it scrolls by default. The longer the text, the faster it scrolls.
+								-->
+								<div class="tt-page-nav tt-pn-scroll">
+									<a href="mailto:admin@revenor.io" class="tt-pn-link anim-fadeinup">
+										<div class="tt-pn-title">REVENOR</div>
+										<div class="tt-pn-hover-title">REVENOR</div>
+									</a> <!-- /.tt-pn-link -->
+
+									<div class="tt-pn-subtitle anim-fadeinup">Contact us</div>
+
+									<!-- Use if destination page contains page header image -->
+									<div class="tt-pn-image">
+										<img src={% static 'tank/assets/img/page-header/ph-3.jpg' %} alt="image">
+									</div>
+								</div>
+								<!-- End page nav -->
+
+							</div> <!-- /.tt-section-inner -->
+						</div>
+						<!-- End tt-section -->
+
+
+					</div>
+					<!-- End page content -->
+					
+				<!-- footer -->
+				{% include 'auction/component/footer.html' %}
+
+				</div>
+				<!-- End content wrap -->
+
+			</div>
+			<!-- End scroll container -->
+
+
+		</main>
+		<!-- End body inner -->
+
+
+        
+
+		<!-- ====================
+		///// Scripts below /////
+		===================== -->
+
+		<!-- Core JS -->
+		<script src={% static 'tank/assets/vendor/jquery/jquery.min.js' %}></script> 
+
+		<!-- Libs and Plugins JS -->
+		<script src={% static 'tank/assets/vendor/gsap/gsap.min.js' %}></script> <!-- GSAP JS (https://greensock.com/gsap/) -->
+		<script src={% static 'tank/assets/vendor/gsap/ScrollToPlugin.min.js' %}></script> <!-- GSAP ScrollToPlugin JS (https://greensock.com/scrolltoplugin/) -->
+		<script src={% static 'tank/assets/vendor/gsap/ScrollTrigger.min.js' %}></script> <!-- GSAP ScrollTrigger JS (https://greensock.com/scrolltrigger/) -->
+
+		<script src={% static 'tank/assets/vendor/smooth-scrollbar.js' %}></script> <!-- Smooth Scrollbar JS (https://github.com/idiotWu/smooth-scrollbar/) -->
+		<script src={% static 'tank/assets/vendor/swiper/js/swiper-bundle.min.js' %}></script> <!-- Swiper JS (https://swiperjs.com/) -->
+		<script src={% static 'tank/assets/vendor/isotope/imagesloaded.pkgd.min.js' %}></script> <!-- imagesloaded JS (more info: https://imagesloaded.desandro.com/) -->
+		<script src={% static 'tank/assets/vendor/isotope/isotope.pkgd.min.js' %}></script> <!-- Isotope JS (http://isotope.metafizzy.co) -->
+		<script src={% static 'tank/assets/vendor/isotope/packery-mode.pkgd.min.js' %}></script> <!-- Isotope Packery Mode JS (https://isotope.metafizzy.co/layout-modes/packery.html) -->
+		<script src={% static 'tank/assets/vendor/lightgallery/js/lightgallery-all.min.js' %}></script> <!-- lightGallery Plugins JS (http://sachinchoolur.github.io/lightGallery) -->
+		<script src={% static 'tank/assets/vendor/jquery.mousewheel.min.js' %}></script> <!-- A jQuery plugin that adds cross browser mouse wheel support (https://github.com/jquery/jquery-mousewheel) -->
+
+		<!-- Theme master JS -->
+		<script src={% static 'tank/assets/js/theme.js' %}></script>
+<!--message-->
+	<script>
+    //fadeout
+		$('.msg_close').on('click',function(){
+			$(this).parent(".alert").addClass('close');
+		});
+
+    //message auto disappear
+    if($('.alert').length){
+      setTimeout(function(){
+        $('.alert').addClass('close');
+      }, 7500)
+    }
+	</script>
+
+		<!--카운트 다운 js-->
+		<script>
+			(function () {
+			const second = 1000,
+					minute = second * 60,
+					hour = minute * 60,
+					day = hour * 24;
+			{% for p in placements %}
+			const c{{p.pk}}_start = new Date('{{ p.placement_start | date:"Y/m/d H:i:s" }}').getTime();
+			const c{{p.pk}}_end = new Date('{{ p.placement_end | date:"Y/m/d H:i:s" }}').getTime();
+			{% endfor %}
+
+			{% for p in placements %}
+			c{{p.pk}}_x = setInterval(function() {    
+				const now = new Date().getTime();
+				const c{{p.pk}}_tostart = c{{p.pk}}_start - now;
+				const c{{p.pk}}_toend = c{{p.pk}}_end - now;
+
+				//c1 시작전
+				if(c{{p.pk}}_tostart > 0){
+					document.getElementById("c{{p.pk}}_days").innerText = Math.floor(c{{p.pk}}_tostart / (day)),
+					document.getElementById("c{{p.pk}}_hours").innerText = Math.floor((c{{p.pk}}_tostart % (day)) / (hour)),
+					document.getElementById("c{{p.pk}}_minutes").innerText = Math.floor((c{{p.pk}}_tostart % (hour)) / (minute)),
+					document.getElementById("c{{p.pk}}_seconds").innerText = Math.floor((c{{p.pk}}_tostart % (minute)) / second);
+					document.getElementById("c{{p.pk}}_headline").innerText = "옥션 시작까지";
+					document.getElementById("c{{p.pk}}_countdown").style.color = "#177D4E";
+
+				}
+				//진행중
+				else if(c{{p.pk}}_tostart <= 0 && c{{p.pk}}_toend > 0)
+				{
+					document.getElementById("c{{p.pk}}_days").innerText = Math.floor(c{{p.pk}}_toend / (day)),
+					document.getElementById("c{{p.pk}}_hours").innerText = Math.floor((c{{p.pk}}_toend % (day)) / (hour)),
+					document.getElementById("c{{p.pk}}_minutes").innerText = Math.floor((c{{p.pk}}_toend % (hour)) / (minute)),
+					document.getElementById("c{{p.pk}}_seconds").innerText = Math.floor((c{{p.pk}}_toend % (minute)) / second);
+					document.getElementById("c{{p.pk}}_headline").innerText = "옥션 남은 시간";
+					document.getElementById("c{{p.pk}}_countdown").style.color = "#FF8343";
+				}
+				//끝
+				else{
+					document.getElementById("c{{p.pk}}_headline").innerText = "판매종료";
+					document.getElementById("c{{p.pk}}_countdown").style.display = "none";
+					document.getElementById("c{{p.pk}}_content").style.display = "block";
+					clearInterval(c{{p.pk}}_x);
+				}
+
+			}, 0)			
+			{% endfor %}
+			}());
+			
+		</script>
+
+	</body>
+
+</html>

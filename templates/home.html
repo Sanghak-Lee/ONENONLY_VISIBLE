@@ -1,0 +1,794 @@
+{% extends "base.html" %}
+{% load static auction_templatetag %}
+{% block extra_head %}
+<meta name="description" content="원앤온리는 셀럽과 함께하는 특별한 시간상품을 구매할 수 있는 서비스입니다. 내 시간을 소중하고 값진 경험에 투자하는 Intelligent luxury, 원앤온리가 만들어드립니다.">
+<meta property="og:description" content="원앤온리는 셀럽과 함께하는 특별한 시간상품을 구매할 수 있는 서비스입니다. 내 시간을 소중하고 값진 경험에 투자하는 Intelligent luxury, 원앤온리가 만들어드립니다.">
+<meta name="twitter:description" content="원앤온리는 셀럽과 함께하는 특별한 시간상품을 구매할 수 있는 서비스입니다. 내 시간을 소중하고 값진 경험에 투자하는 Intelligent luxury, 원앤온리가 만들어드립니다.">
+<script type="application/ld+json">
+	{
+		"@context":"http://schema.org",
+		"@type":"BreadcrumbList",
+		"itemListElement":[
+			{
+				"@type":"ListItem",
+				"position":1,
+				"name":"홈",
+				"item":"https://onenonly.io"
+			}
+		]
+	}
+</script>
+
+<script type="application/ld+json">
+	{
+		"@context":"https://schema.org",
+		"@type":"FAQPage",
+		"mainEntity":[
+		{
+			"@type":"Question",
+			"name":"원앤온리 서비스",
+			"acceptedAnswer":{
+				"@type":"Answer",
+				"text":"⏰ 셀럽과 함께하는 특별한 시간을 기획하고 티켓으로 판매하는 서비스"
+			}
+		},
+		{
+			"@type":"Question",
+			"name":"원앤온리 티켓",
+			"acceptedAnswer":{
+				"@type":"Answer",
+				"text":"🎫 셀럽과 게임을 통해 단독 영상통화 기회를 갖는 서바이벌 메타버스 팬미팅 🎫 셀럽의 전문 재능을 살려 팬의 이야기를 담은 레시피나 작품으로 제작 🎫 셀럽과 함께 음원, 영상 등 숏폼 콘텐츠 제작 🎫 러닝, 영화 관람 등 일상을 함께하는 시간 등도 가능하다."
+			}
+		}
+		]
+	}
+</script>
+
+<script type="application/ld+json">
+	{
+		"@context": "http://schema.org",
+		"@type": "ItemList",
+		"itemListElement":[
+		{% for pm in pmemorys %}
+			{
+				"@type": "ListItem",
+				"item": {
+					"@type": "Organization",
+					"name": "{{ pm.placement.title | safe }}",
+					"image": "{{pm.history_background.url}}",
+					"url": "{{ pm.placement.get_absolute_url }}"
+				},
+				"position": "{{forloop.counter}}"
+			}{% if forloop.last %}{% else %},{% endif %}
+		{% endfor %}
+		]
+	}
+	</script>
+{% endblock extra_head %}
+
+{% block head_title %}{% endblock %}
+
+{% block body %}
+	<div id="wrap" class="main-wrap">
+		<!-- container -->
+		<div id="mainContainer">
+			<div class="main-visual-video">
+				<video muted loop autoplay playsinline id="cmVideo" class="pc-ver" data-keepplaying>
+					<source src="{% static 'rev/video/PC_HOME.mp4' %}" type="video/mp4">
+					Your browser does not support HTML5 video.
+				</video>
+				<video muted loop autoplay playsinline id="cmVideo" class="m-ver" data-keepplaying>
+					<source src="{% static 'rev/video/M_HOME.mp4' %}" type="video/mp4">
+					Your browser does not support HTML5 video.
+				</video>
+			</div>
+			<!-- ****************** 메인 비주얼 ********************** -->
+			<section id="mainVisual">
+				<div class="main-visual-con">
+					{% comment %} <div class="main-visual-txt-con">
+						<div class="main-visual-txt-box area-box">
+							<div class="main-visual-txt-inner">
+								<p class="main-visual-txt1">셀럽과 <br class="m-br">함께하는<br>특별한 시간,</p>
+								<p class="main-visual-txt1 cm-font-color-y">원앤온리</p>
+								<!-- <p class="main-visual-txt2 font-nephilm">LIFE-<br class="m-br">CHANGING <br>MOMENTS</p> -->
+								<div class="btn"><a style="margin-top:4rem;" href="{% url 'core:guide' %}" class="cm-custom-button">가이드 보러가기</a></div>
+							</div>
+						</div>
+					</div> {% endcomment %}
+				<article id="mainCompanyCon">
+					<div class="main-visual-txt-box area-box">
+						<div class="main-company-txt-con">
+							<p class="main-visual-txt1">셀럽과 <br class="m-br">함께하는<br>특별한 시간,</p>
+							<p class="main-visual-txt1 cm-font-color-y">원앤온리</p>						
+							{% comment %} <h5 class="cm-title-style"><span class="font-nephilm">TIME-UNBOXING</span>ONE&amp;ONLY</h5> {% endcomment %}
+							{% comment %} <h5 class="cm-title-style">셀럽과 <br class="m-br">함께하는<br>특별한 시간<br><span class="font-nephilm">원앤온리</span></h5>{% endcomment %}
+							{% comment %} <p class="txt02">원앤온리는 단 한 명의 *워니(Oney)를 위해 마련된 <br class="pc-br">셀럽과의 프라이빗한 만남과 유니크한 콘텐츠를 통해 <br class="pc-br">평생 잊지 못할 감동의 순간을 선물합니다.</p> {% endcomment %}
+							<p class="txt02">
+									원앤온리는 다양한 분야의 셀럽과 함께 일생동안 감동으로 기억될 시간을 만들어갑니다.
+									<br>
+									<br class="m-br">
+									내 시간을 소중하고 값진 경험에 투자하는 <b>Intellectual Luxury</b>, 원앤온리 시간상품으로 즐기세요.
+							</p>
+							{% comment %} <p class="txt03">* 워니(Oney)는 원앤온리의 소중한 팬이자 고객을 의미하는 용어입니다.</p> {% endcomment %}
+							<div class="btn">
+								<a href="{% url 'core:partnership' %}" class="home-btn cm-custom-button">제휴문의</a>
+							</div>
+							{% comment %} <div id="mainButton" class="rev pc-ver" style="width:350px; margin-top:50px;">
+								<div class="about-con04-item">
+									<div class="about-con04-bg pc-ver" style="background: url('https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') 100% 50% no-repeat; background-size: cover;"></div>
+									<a href="{% url 'core:partnership' %}">
+										<div class="about-con04-txt guide">
+											<h5 style="color:#ee8668;">제휴문의 <span class="guide"><i class="fas fa-edit"></i></span></h5>
+											<p>
+												<b>특별한 커뮤니티 이벤트</b>가 필요하신가요?
+												<br>
+												<br>
+												원앤온리는 커뮤니티 특성 맞춤 시간상품을 제공합니다.
+											</p>
+										</div>
+									</a>											
+								</div>							
+							</div>
+							<div id="mainButton" class="rev m-ver" style="margin-top:40px;">
+								<div class="about-con04-item">
+									<div class="about-con04-bg m-ver" style="background: url('https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') 100% 50% no-repeat; background-size: cover;"></div>
+									<a href="{% url 'core:partnership' %}">
+										<div class="about-con04-txt guide">
+											<h5 style="color:#ee8668;">제휴문의 <span class="guide"><i class="fas fa-edit"></i></span></h5>
+											<p>
+												<b>특별한 커뮤니티 이벤트</b>가 필요하신가요?
+												<br>
+												<br>
+												원앤온리는 커뮤니티 특성 맞춤 시간상품을 제공합니다.
+											</p>
+										</div>
+									</a>											
+								</div>							
+							</div> {% endcomment %}
+
+
+						</div>
+					</div>
+				</article>									
+				</div>
+
+			</section>
+			<!-- ****************** 메인 상단 컨텐츠 ********************** -->
+			<section id="mainTopContent">
+				<!-- ****************** 메인컨텐츠 1 (회사소개) ********************** -->
+				{% comment %} <article id="mainCompanyCon">
+					<div class="area-box">
+						<div class="main-company-txt-con">
+							<h5 class="cm-title-style"><span class="font-nephilm">TIME-UNBOXING</span>ONE&amp;ONLY</h5>
+							<p class="txt02">원앤온리는 단 한 명의 *워니(Oney)를 위해 마련된 <br class="pc-br">셀럽과의 프라이빗한 만남과 유니크한 콘텐츠를 통해 <br class="pc-br">평생 잊지 못할 감동의 순간을 선물합니다.</p>
+							<p class="txt03">* 워니(Oney)는 원앤온리의 소중한 팬이자 고객을 의미하는 용어입니다.</p>
+							<div class="btn">
+								<a href="{% url 'core:about' %}" class="cm-custom-button">READ MORE</a>
+							</div>
+						</div>
+					</div>
+				</article> {% endcomment %}
+			</section>
+			<!-- ****************** 메인 하단 컨텐츠 ********************** -->
+			<section id="mainBottomContent">
+				<article id="mainVideoCon" class="cm-tab-content-style cm-tab-content-wrapper-JS">
+					<div class="sub-tab-con area-box" id="tabCon01">
+						<div class="unboxing-con03-wrapper">
+							<ul class="unboxing-con03-list all faketimestore center clearfix">
+
+								<!-- ONENONLY 다이닝 -->
+								{% if onenonly_items %}
+								{% for item in onenonly_items %}
+									<li class="unboxing-con03-item timestore display">
+										<a href="{{ item.get_absolute_url }}">
+											<div class="unboxing-con03-img">
+												<!-- 이미지 권장사이즈 210x244 -->
+												<img src="{{ item.thumbnail.url }}" {% if item.is_crowdfunding_really_finish %} style="opacity:0.4!important;"{% endif %}alt="히스토리 썸네일 이미지">
+												{% if item.is_crowdfunding_really_finish %}<div class="soldout">꽉 찼어요!</div>{% endif %}
+											</div>
+											<div class="text-badge">
+												<img src="{% static 'rev/img/common/logo_image.png' %}">
+											</div>
+										</a>
+										<div class="unboxing-con03-txt-wrapper">
+											<p class="unboxing-con03-txt">{{ item.title | safe | linebreaksbr }}</p>
+											<p class="unboxing-con03-txt-detail">{{ item.description | safe | linebreaksbr | truncatechars:35}}</p>
+											<p class="unboxing-con03-txt-detail" style="margin-top:1rem"></p>
+											<p class="unboxing-con03-txt-detail unboxing-con03-txt-place cm-font-color-y">{{ item.d_place | safe | linebreaksbr }}</p>
+											<p class="unboxing-con03-txt-detail unboxing-con03-txt-day">{{ item.d_day | date:"m월 d일 H:i" }}</p>
+										</div>															
+									</li>
+								{% endfor %}                          
+								{% endif %}
+
+								<!-- 파트너스 -->
+								{% if items %}
+								{% for item in items %}
+									<li class="unboxing-con03-item timestore display">
+										<a href="{{ item.display_url }}">																
+											<div class="unboxing-con03-img">
+												<!-- 이미지 권장사이즈 210x244 -->
+												<img src="{{ item.thumbnail.url }}" {% if item.is_soldout %} style="opacity:0.4!important;"{% endif %}alt="히스토리 썸네일 이미지">
+												{% if item.is_soldout %}<div class="soldout">꽉 찼어요!</div>{% endif %}
+											</div>
+											<div class="text-badge">
+												<img src="{{ item.badge.url }}">
+											</div>
+										</a>
+										<div class="unboxing-con03-txt-wrapper">
+											<p class="unboxing-con03-txt">{{ item.title | safe | linebreaksbr }}</p>
+											<p class="unboxing-con03-txt-detail">{{ item.display_text | safe | linebreaksbr }}</p>
+											<p class="unboxing-con03-txt-detail" style="margin-top:1rem"></p>
+											<p class="unboxing-con03-txt-detail unboxing-con03-txt-place cm-font-color-y">{{ item.display_place | safe | linebreaksbr }}</p>
+											<p class="unboxing-con03-txt-detail unboxing-con03-txt-day">{{ item.display_day | date:"m월 d일 H:i" }}</p>
+										</div>															
+									</li>
+								{% endfor %}
+
+								{% if items|length >= 10 %}
+								<div class="btn" style="text-align:center;">
+									<a href="{% url 'auction:dlv' %}" class="cm-custom-button" style="margin-top:7rem;">더보기</a>
+								</div>
+								{% endif %}
+								{% endif %}
+								{% if items is none and onenonly_items is none %}
+								<div class="mypage-funding-no-list">
+									<p>파트너스 아이템을 준비중입니다.</p>
+								</div>													
+								{% endif %}
+							</ul>
+							<div class="unboxing-con03-date">
+								<button class="btn prev-btn"><i class="xi-angle-left-thin"></i></button>
+								<button class="btn next-btn"><i class="xi-angle-right-thin"></i></button>
+							</div>
+							{% if is_paginated %}
+							<div class="unboxing-con03-date display">
+									<a {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}"{% endif %} class="btn prev-btn"><i class="xi-angle-left-thin"></i></a>
+									<span class="pagination-wrapper">
+										{% if page_obj.has_previous %}
+										<a href="?page={{ page_obj.previous_page_number }}" class="prev">{{ page_obj.previous_page_number }}</a>
+										{% endif %}
+										<a href="?page={{ page_obj.number }}" class="now">&nbsp;{{ page_obj.number }}&nbsp;</a>
+										{% if page_obj.has_next %}
+										<a href="?page={{ page_obj.next_page_number }}" class="next">{{ page_obj.next_page_number }}</a>
+										{% endif %}
+									</span>
+									<a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}"{% endif %} class="btn next-btn"><i class="xi-angle-right-thin"></i></a>
+							</div>
+							{% endif %}
+
+						</div>
+					</div>
+				</article>
+				<!-- ****************** 메인컨텐츠 2 (클라우드구매) ********************** -->
+				{% comment %} <article id="mainFundingCon">
+					<div class="area-box">
+						<div class="main-funding-slide carousel__3d__block">
+							<ul class="main-funding-list carousel__3d">
+              {% for p in placements %}
+                <li class="main-funding-item items" id="{{forloop.counter}}">
+                  <div class="main-funding-svg">
+                    <svg version="1.1" id="레이어_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                      y="0px" viewBox="0 0 439.85 437.65" xml:space="preserve">
+                      <defs>
+                        <clipPath id="FundingShape">
+                          <path id="패스_544" d="M269.01,18.83L19.92,95.19v276.36l194.54,47.27l205.46-58.18l-14.54-221.82L269.01,18.83z" fill="none"/>
+                        </clipPath>
+                      </defs>
+                      <image width="500" height="500" clip-path="url(#FundingShape)"  xlink:href="{{ p.thumbnail.url }}" ></image>
+                    </svg>
+                  </div>
+                  <!-- Crowd Funding -->                  
+                  {% if p.placement_type == "crowdfunding" %}
+                    <div class="main-funding-txt crowd">
+                      <div class="category">
+                        <span class="img">{% include "svg/icon_crowd_funding.html" %}</span>
+                        <span class="cate-txt">{{ p.get_placement_type_display }}</span>
+                      </div>
+                      <p class="deadline" id="c{{p.pk}}_countdown" ></p>
+                      <!-- <h5 class="tit">피아니스트 손여음이 작곡해 주는 <br class="pc-br"> 세상에 하나뿐인 랩소디</h5> -->
+                      <h5 class="tit">{{ p.title | safe | linebreaksbr }}</h5>
+											{% if p.placement_order != 1 %}
+                      <div class="btn">
+                        <a href="{{ p.get_absolute_url }}" class="cm-custom-button">구매하기</a>
+                      </div>
+											{% else %}
+                      <div class="btn">
+                        <button disabled class="cm-custom-button">COMING SOON</button>
+                      </div>
+											{% endif %}
+                    </div>
+
+                  <!-- Open Funding -->                    
+                  {% elif p.placement_type == "openfunding" %}
+                    <div class="main-funding-txt crowd">
+                      <div class="category">
+                        <span class="img">{% include "svg/icon_crowd_funding.html" %}</span>
+                        <span class="cate-txt">{{ p.get_placement_type_display }}</span>
+                      </div>
+                      <p class="deadline" id="c{{p.pk}}_countdown" ></p>
+                      <!-- <h5 class="tit">피아니스트 손여음이 작곡해 주는 <br class="pc-br"> 세상에 하나뿐인 랩소디</h5> -->
+                      <h5 class="tit">{{ p.title | safe | linebreaksbr }}</h5>
+											{% if p.placement_order != 1 %}
+                      <div class="btn">
+                        <a href="{{ p.get_absolute_url }}" class="cm-custom-button">구매하기</a>
+                      </div>
+											{% else %}
+                      <div class="btn">
+                        <button disabled class="cm-custom-button">COMING SOON</button>
+                      </div>											
+											{% endif %}
+                    </div>
+
+                  <!-- Secret Funding -->                    
+                  {% else %}
+                    <div class="main-funding-txt">
+                      <div class="category">
+                        <span class="img">{% include "svg/icon_secret_funding.html" %}</span>
+                        <span class="cate-txt">{{ p.get_placement_type_display }}</span>
+                      </div>
+                      <p class="deadline" id="c{{p.pk}}_countdown" ></p>
+                      <!-- <h5 class="tit">피아니스트 손여음이 작곡해 주는 <br class="pc-br"> 세상에 하나뿐인 랩소디</h5> -->
+                      <h5 class="tit">{{ p.title | safe | linebreaksbr }}</h5>
+											{% if p.placement_order != 1 %}
+                      <div class="btn">
+                        <a href="{{ p.get_absolute_url }}" class="cm-custom-button">구매하기</a>
+                      </div>
+											{% else %}
+                      <div class="btn">
+                        <button disabled class="cm-custom-button">COMING SOON</button>
+                      </div>																						
+											{% endif %}
+                    </div>
+                  {% endif %}
+                </li>
+              {% endfor %}
+								
+							</ul>
+							<div class="main-funding-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+								<span class="progress-bar">
+							</div>
+						</div>
+					</div>
+				</article> {% endcomment %}
+				<!-- ****************** 메인컨텐츠 3 (버튼))) ********************** -->								
+				{% comment %} <article id="mainButton">
+					<div class="area-box">
+						<ul class="mainButton-wrapper" style="margin-top:0rem;">
+							<li class="about-con04-item">
+								<div class="about-con04-bg pc-ver" style="background: url('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg') 100% 50% no-repeat; background-size: cover;"></div>
+								<div class="about-con04-bg m-ver" style="background: url('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg') 100% 50% no-repeat; background-size: cover;"></div>
+								<a href="{% url 'auction:dlv' %}">
+									<div class="about-con04-txt guide">
+										<h5 style="color:#eb6561;">파트너스 <span class="guide"><i class="fas fa-handshake"></i></span></h5>
+										<p>
+											<b>원앤온리</b> 시간상품을 만나볼 수 있는 커뮤니티 이벤트를 소개합니다.
+											<br>
+											<br>
+											다양한 <b>커뮤니티</b>와 교류할 수 있는 원앤온리 시간상품을 경험하세요.
+										</p>
+									</div>
+								</a>
+							</li>
+							<li class="about-con04-item">
+								<div class="about-con04-bg pc-ver" style="background: url('https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') 100% 50% no-repeat; background-size: cover;"></div>
+								<div class="about-con04-bg m-ver" style="background: url('https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') 100% 50% no-repeat; background-size: cover;"></div>
+								<a href="{% url 'core:partnership' %}">
+									<div class="about-con04-txt guide">
+										<h5 style="color:#ee8668;">제휴문의 <span class="guide"><i class="fas fa-edit"></i></span></h5>
+										<p>
+											<b>특별한 커뮤니티 이벤트</b>가 필요하신가요?
+											<br>
+											<br>
+											원앤온리는 커뮤니티 특성 맞춤 시간상품을 제공합니다.
+										</p>
+									</div>
+								</a>											
+							</li>
+							<li class="about-con04-item">
+								<div class="about-con04-bg pc-ver" style="background: url('/static/rev/img/content/about_con04_bg01.png') 100% 50% no-repeat; background-size: cover;"></div>
+								<div class="about-con04-bg m-ver" style="background: url('/static/rev/img/content/about_con04_bg01_m.png') 100% 50% no-repeat; background-size: cover;"></div>
+								<a href="{% url 'auction:plv' %}">
+									<div class="about-con04-txt guide">
+										<h5 style="color:#f3b172;">단독기획<span class="guide" style="vertical-align:middle;">{% include "svg/logo.html" with color='#f3b172' %}</span></h5>
+										<p>
+											원앤온리의, 원앤온리에 의한, 원앤온리를 위한
+											<br>
+											<br>
+											원앤온리 멤버만 구매에 참여할 수 있는 <b>시간상품</b>을 경험하세요.
+										</p>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</article> {% endcomment %}
+				<!-- ****************** 메인컨텐츠 3 (소개)) ********************** -->				
+				{% comment %} <article id="mainAbout">
+					<div class="area-box">
+						<h5 class="cm-title-style">OUR VALUE</h5>
+						<div class="about-con03-wrapper">
+							<div class="about-con03-video">
+								<div class="video-box">
+									<video muted="" loop="" autoplay="" playsinline="" id="cmVideo" data-keepplaying="">
+										<source src="/static/rev/video/ABOUT_Our%20Value%20%ED%81%90%EB%B8%8C.mp4" type="video/mp4">
+										Your browser does not support HTML5 video.
+									</video>
+								</div>
+							</div>
+							<div class="about-con03-txt">
+								<dl>
+									<dt>UNIQUE</dt>
+									<dd>어디에서도 볼 수 없었던 <br>특별한 시간을 제공합니다.</dd>
+								</dl>
+								<dl>
+									<dt>BESPOKE</dt>
+									<dd>여러분의 니즈에 맞춘 시간을 기획합니다.</dd>
+								</dl>
+								<dl>
+									<dt>EXCLUSIVE <!--<br class="m-br">TIME--></dt>
+									<dd>일상 공유부터 액티비티까지,<br>셀럽과 여러분의 개인적인 서사를 만들 수 있는 친밀한 시간을 기획합니다.</dd>
+								</dl>
+								<dl>
+									<dt>ACCESSIBLE</dt>
+									<dd>원앤온리 웹사이트 뿐만 아니라<br>다양한 커뮤니티 이벤트를 통해 원앤온리 시간상품을 제공합니다.</dd>
+								</dl>
+								<dl>
+									<dt>TANGIBLE</dt>
+									<dd>원앤온리는 다양한 분야의 셀럽의 재능과 인사이트를<br>자산화할 수 있는 시간으로 디자인합니다. </dd>
+								</dl>
+							</div>
+						</div>
+					</div>
+				</article> {% endcomment %}
+				<!-- ****************** 메인컨텐츠 3 (비디오) ********************** -->
+				<article id="mainVideoCon" style="margin-top:90px;">
+					<div class="video-iframe-wrapper">
+						<div class="video-iframe-box"><div id="player" data-code="{{ homebanner.info }}"></div><!-- 유투브ID --></div>
+						<div class="video-cover-box">
+							<span class="thumb" style="background: url('{{ homebanner.image.url }}') 45% 50% no-repeat; background-size: cover;"></span>
+							<div class="icon"></div>
+						</div>
+					</div>
+				</article>
+				<!-- ****************** 메인컨텐츠 4 (셀럽) ********************** -->
+				<article id="mainCelebCon">
+					<div class="area-box">
+						<h5 class="main-celeb-tit cm-title-style">REVIEWS</h5>
+						<div class="main-celeb-wrapper">
+							<ul class="main-celeb-list clearfix">
+                {% for pm in pmemorys %}
+								<li class="main-celeb-item">
+									<a href="{{ pm.placement.get_absolute_url }}" class="main-celeb-inner">
+										<div class="main-celeb-top" style="background: url('{{ pm.history_background.url }}') center/cover no-repeat;">
+											<p class="tit">{{ pm.placement.title | safe  | linebreaksbr }}</p>
+											<span class="sign-img"><img src="{{pm.history_sign.url}}" alt="사인 이미지"></span>
+										</div>
+										<div class="main-celeb-bottom">
+											<dl>
+												<dt class="celeb"><b>CELEB</b>{{ pm.celeb_name }}</dt>
+												<dd class="txt">{{ pm.celeb_comment | truncatechars:45}}</dd>
+											</dl>
+											{% if pm.oneys.all.count > 1  %}
+											<dl>
+												<dt class="oney"><b>ONEY</b>{{ pm.oneys.all | length }}명</dt>
+												<dd class="txt">{% with pm.oneys.all|random as oney %}{{oney.comment| truncatechars:45}}{% endwith %}</dd>
+											</dl>
+											{% else %}
+											<dl>
+												<dt class="oney"><b>ONEY</b>{{ pm.oneys.all.0.name }}</dt>
+												<dd class="txt">{{ pm.oneys.all.0.comment | truncatechars:45 }}</dd>
+											</dl>
+											{% endif %}
+
+
+										</div>
+									</a>
+								</li>
+                {% endfor %}
+
+								<!-- <li class="main-celeb-item">
+									<a href="/templates/unboxing/product_view.html" class="main-celeb-inner">
+										<div class="main-celeb-top" style="background: url('{% static 'rev/img/main/main_celeb_img01.png' %}') center/cover no-repeat;">
+											<p class="tit">{{"피아니스트 손열음이 작곡해 주는 하나뿐인 랩소디" | linebreaksbr | truncatechars:26}}</p>
+											<span class="sign-img"><img src="{% static 'rev/img/main/main_celeb_sian01.png' %}" alt="사인 이미지"></span>
+										</div>
+										<div class="main-celeb-bottom">
+											<dl>
+												<dt class="celeb"><b>CELEB</b> 손열음</dt>
+												<dd class="txt">{{"내일을 버텨내는 하루 말고, 살아가는 하루 가 그대에게 찾아가기를 바랍니다." | truncatechars:50}}</dd>
+											</dl>
+											<dl>
+												<dt class="oney"><b>ONEY</b> 정이선</dt>
+												<dd class="txt">그냥 그것들이 좋다. 그냥이라고 말하는 그 마음들의 물살이 가슴에 닿는 느낌이 좋다.</dd>
+											</dl>
+										</div>
+									</a>
+								</li>
+								<li class="main-celeb-item">
+									<a href="/templates/unboxing/product_view.html" class="main-celeb-inner">
+										<div class="main-celeb-top" style="background: url({% static 'rev/img/main/main_celeb_img01.png' %}) center/cover no-repeat;">
+											<p class="tit">피아니스트 손열음이 작곡해 주는 하나뿐인 랩소디</p>
+											<span class="sign-img"><img src="{% static 'rev/img/main/main_celeb_sian01.png' %}" alt="사인 이미지"></span>
+										</div>
+										<div class="main-celeb-bottom">
+											<dl>
+												<dt class="celeb"><b>CELEB</b> 손열음</dt>
+												<dd class="txt">내일을 버텨내는 하루 말고, 살아가는 하루 가 그대에게 찾아가기를 바랍니다.</dd>
+											</dl>
+											<dl>
+												<dt class="oney"><b>ONEY</b> 정이선</dt>
+												<dd class="txt">그냥 그것들이 좋다. 그냥이라고 말하는 그 마음들의 물살이 가슴에 닿는 느낌이 좋다.</dd>
+											</dl>
+										</div>
+									</a>
+								</li>
+								<li class="main-celeb-item">
+									<a href="/templates/unboxing/product_view.html" class="main-celeb-inner">
+										<div class="main-celeb-top" style="background: url("{% static 'img/main/main_celeb_img01.png' %}") center/cover no-repeat;">
+											<p class="tit">피아니스트 손열음이 작곡해 주는 하나뿐인 랩소디</p>
+											<span class="sign-img"><img src="{% static 'rev/img/main/main_celeb_sian01.png' %}" alt="사인 이미지"></span>
+										</div>
+										<div class="main-celeb-bottom">
+											<dl>
+												<dt class="celeb"><b>CELEB</b> 손열음</dt>
+												<dd class="txt">내일을 버텨내는 하루 말고, 살아가는 하루 가 그대에게 찾아가기를 바랍니다.</dd>
+											</dl>
+											<dl>
+												<dt class="oney"><b>ONEY</b> 정이선</dt>
+												<dd class="txt">그냥 그것들이 좋다. 그냥이라고 말하는 그 마음들의 물살이 가슴에 닿는 느낌이 좋다.</dd>
+											</dl>
+										</div>
+									</a>
+								</li> -->
+							</ul>
+							<div class="unboxing-con03-date">
+								<button class="home btn prev-btn slick-arrow" style=""><i class="xi-angle-left-thin"></i></button>
+								<button class="home btn next-btn slick-arrow" style=""><i class="xi-angle-right-thin"></i></button>
+							</div>
+						</div>
+					</div>
+				</article>
+
+				<!-- ****************** 메인컨텐츠 5 (Q&A) ********************** -->
+				<article id="mainQnaCon">
+					<div class="area-box">
+						<h5 class="main-qna-tit cm-title-style">FAQ
+						{% comment %} <a id="faq-more" class="cm-font-color-y" style="cursor:pointer; display:block; font-size:2rem; padding-left:0.4rem; text-align:right; position:relative; top:2rem;">전체보기</a> {% endcomment %}
+						</h5>
+						<div class="faq-list-con">
+							{% comment %} <dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">원앤온리는 어떤 서비스인가요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt">
+											원앤온리는 셀럽과 함께하는 특별한 시간을 구매할 수 있는 서비스입니다.<br>
+											메타버스 팬미팅부터 오프라인에서의 이색데이트까지, 취미를 함께하는 시간부터 콜라보레이션 작품 제작까지 다양한 시간이 기획됩니다. 											
+											<!-- 원앤온리는 상상으로만 가능했던, <br>
+											꿈 같은 경험을 구매할 수 있는<br>
+											‘타임굿즈 구매 서비스’ 입니다.<br>					
+											동경하던 우상이나, 팔로우하는 <br>
+											셀럽과 함께 소중한 추억을 만들어보세요.<br>
+											<br>
+											멀리서만 응원하고 지켜봤던 유명인이<br>
+											나의 꿈을 응원하는 멘토가 되어주고,<br>
+											때로는 친구처럼 볼링을 치거나 <br>
+											RPG 게임 속에서 만나기도 하고,<br>
+											함께 작품을 기획하고 같이 만들 수 있습니다.<br>
+											<br>											
+											내 시간을 소중하고 값진 경험에<br>
+											투자하는 Intellectual Luxury,<br>
+											원앤온리와 함께 인생에 단 한 번뿐인 특별한 시간을 경험하세요.<br>-->
+											<br><br>
+											<a class="cm-font-color-y" href="{% url 'core:about' %}">원앤온리 회사 소개</a>
+										</div>
+									</div>
+								</dd>
+							</dl> {% endcomment %}
+							<dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">원앤온리 시간상품은 어떻게 구매할 수 있나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt">
+										Only 원앤온리 상품의 경우, 원앤온리 멤버(회원가입자)만 구매 가능합니다.
+										<br>다양한 커뮤니티 이벤트 내 원앤온리 시간상품의 경우, 파트너사 플랫폼을 이용해 구매 가능합니다.
+										<!-- 원앤온리의 구매 종류 세가지와 참여 방법을 자세히 알아보실 수 있는 페이지로 안내해드릴게요.<br> -->
+										<!-- <br><br>
+										<a class="cm-font-color-y" href="{% url 'core:guide' %}">구매 가이드</a> -->
+										</div>
+									</div>
+								</dd>
+							</dl>							
+							<!-- <dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">카드 결제가 가능한가요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt">원앤온리는 현재 계좌이체만 가능한 서비스입니다.</div>
+									</div>
+								</dd>
+							</dl> -->
+							<dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">구매를 취소하려면 어떻게 해야 하나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt break-all">
+											{% comment %} <h5 class="answer-q">{% include "svg/icon_crowd_funding.html" %}일반티켓</h5> {% endcomment %}
+												<div class="cm-font-color-y"><i class="xi-check"></i> 결제 이전</div>
+													마이페이지(해당 티켓) > 구매취소버튼
+												<br><br>
+												<div class="cm-font-color-y"><i class="xi-check"></i> 결제 이후</div>
+												 마이페이지(해당 티켓) > 구매취소버튼 > 구매 취소 신청서 작성
+												<br><br>
+												<!-- <strong>구매 종료 이전 |</strong> <br>마이페이지(해당 티켓) > 구매취소버튼 > 구매 취소 신청서 작성
+												<br>
+												<strong>구매 종료 이후 |</strong> 고객센터(1533-7193)로 전화 주시거나, 이메일(support@onenonly.io)을 보내주세요.<br>
+												<br> -->
+												<!-- <strong>구매 취소되었을 경우</strong><i class="xi-angle-right"></i>  마이페이지(해당 주문서 탭) -> 주문서 -> 환불계좌입력 버튼 -> 환불계좌 입력
+												<br> -->
+												<p style="font-weight:200">
+													* 환불규정에 따라 티켓 판매가 종료된 이후 구매를 취소하실 경우,
+													&nbsp;환불 수수료(결제 금액의 30%)를 차감한 금액이 환불됩니다.</p>
+											<!-- <hr>
+											<h5 class="answer-q">{% include "svg/icon_secret_funding.html" %}경쟁티켓</h5>
+												낙찰 안내를 받은 이후 구매 취소를 원하실 경우,
+												&nbsp;고객센터(1533-7193)로 전화 주시거나,
+												&nbsp;웹사이트 우측 하단의 상담봇을 이용해주세요. -->
+										</div>
+									</div>
+								</dd>
+							</dl>
+							<dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">소셜로그인(카카오, 네이버)으로 가입했는데 비밀번호를 별도로 설정해야 하나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt break-all">
+											<a href="{% url 'core:user' %}?tab=3" class="cm-font-color-y">마이페이지</a>에서 개인정보 수정 시 비밀번호 설정이 필요합니다.
+											<br>
+											그 외 모든 웹사이트 이용에는 비밀번호 설정이 별도로 필요하지 않습니다.
+										</div>
+									</div>
+								</dd>
+							</dl>
+							<dl class="faq-item">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">본인인증은 로그인 할 때마다 해야 하나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt break-all">
+											웹사이트 사용시 안정성 유지를 위해 마지막 인증 이후 8주에 한 번씩 본인인증이 요구됩니다.
+										</div>
+									</div>
+								</dd>
+							</dl>							
+							<i class="faq-more xi-angle-down"></i>
+							<dl class="faq-item hidden">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">비밀번호는 어떻게 변경할 수 있나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt">로그인 후 [마이페이지(My Page) → 회원 정보 수정]에서 변경할 수 있습니다.</div>
+									</div>
+								</dd>
+							</dl>
+							<dl class="faq-item hidden">
+								<dt>
+									<div class="faq-subject">
+										<strong class="faq-title">다른 궁금한 사항은 어디로 문의하면 되나요?</strong>
+										<span class="arrow"></span>
+									</div>
+								</dt>
+								<dd style="display: none;">
+									<div class="answer-con">
+										<div class="answer-txt">아래 세 가지 방법으로 1<em style="position: relative; top: -0.1rem;">:</em>1 문의가 가능합니다.<br>
+										▸ 상담봇 문의<br>
+										▸ 이메일 문의 <em style="position: relative; top: -0.1rem;">:</em> support@onenonly.io<br>
+										▸ 전화 문의 <em style="position: relative; top: -0.1rem;">:</em> 1533-7193
+										</div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</article>
+
+			</section>
+		</div>
+		<!-- // container -->
+
+{% endblock body %}
+{% block extra_scripts %}
+  <!--카운트 다운 js-->
+  <script>
+		if ($.exists(".main-funding-list"))
+		{
+			$(function () {
+			const second = 1000,
+					minute = second * 60,
+					hour = minute * 60,
+					day = hour * 24;
+
+			{% for p in placements %}
+				const c{{p.pk}}_start = new Date('{{ p.placement_start | date:"Y/m/d H:i:s" }}').getTime();
+				const c{{p.pk}}_end = new Date('{{ p.placement_end | date:"Y/m/d H:i:s" }}').getTime();
+			{% endfor %}
+
+			{% for p in placements %}
+			{% yet_start_done request p.id as STATUS %}		
+			c{{p.pk}}_x = setInterval(function() {    
+				const now = new Date().getTime();
+				const c{{p.pk}}_tostart = c{{p.pk}}_start - now;
+				const c{{p.pk}}_toend = c{{p.pk}}_end - now;
+
+				//c1 시작전
+				if(c{{p.pk}}_tostart > 0){
+					var days = Math.floor(c{{p.pk}}_tostart / (day));
+					var hours = Math.floor((c{{p.pk}}_tostart % (day)) / (hour));
+					var mins = Math.floor((c{{p.pk}}_tostart % (hour)) / (minute));
+					var secs = Math.floor((c{{p.pk}}_tostart % (minute)) / second);        
+					document.getElementById("c{{p.pk}}_countdown").innerText = `시작까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;
+					// document.getElementById("c{{p.pk}}_countdown").style.color = "#177D4E";
+				}
+				//진행중
+				else if(c{{p.pk}}_tostart <= 0 && c{{p.pk}}_toend > 0)
+				{
+					var days = Math.floor(c{{p.pk}}_toend / (day));
+					var hours = Math.floor((c{{p.pk}}_toend % (day)) / (hour));
+					var mins = Math.floor((c{{p.pk}}_toend % (hour)) / (minute));
+					var secs = Math.floor((c{{p.pk}}_toend % (minute)) / second);
+					// if('{{ STATUS }}' == 'pending'){
+					// 	document.getElementById("c{{p.pk}}_countdown").innerText = `<낙찰 진행중> 종료까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;
+					// }
+					// else{
+					// 	document.getElementById("c{{p.pk}}_countdown").innerText = `종료까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;
+					// }			
+					document.getElementById("c{{p.pk}}_countdown").innerText = `종료까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;				
+					// document.getElementById("c{{p.pk}}_countdown").style.color = "#FF8343";
+				}
+				//끝
+				else{
+					document.getElementById("c{{p.pk}}_countdown").innerText = `판매종료`;
+					document.getElementById("c{{p.pk}}_countdown").style.display = "block";
+					clearInterval(c{{p.pk}}_x);
+				}
+
+			}, 0)			
+			{% endfor %}
+			}());
+		}
+  </script>
+
+
+{% endblock extra_scripts %}

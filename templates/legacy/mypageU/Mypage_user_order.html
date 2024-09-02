@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}
+
+{% load account socialaccount %}
+
+
+{% block head_title %} 주문내역 {% endblock %}
+
+{% block extra_head %} {% endblock %}
+
+
+
+{% block content %}
+
+<article id="content" class="backWrapper">
+	<div class="myp user uploadAtt">
+		<div class="wrap">
+			<div class="myp_wr">
+				<!-- 좌측 메뉴 -->
+				{% comment %} <div class="leSlidebar">
+					{% include "component/mypageU_sidebar.html" %}
+				</div> {% endcomment %}
+				<!-- 우측 컨텐츠 -->
+				<div class="myp_ctt user_reg_ri">
+					<h2>주문 내역</h2>
+					<div class="myp_odr">
+						<!-- 주문한 상품 현황 -->
+						<div class="odr_box">
+							<div class="in">
+								<dl>
+									<dt>주문한 작품 수</dt>
+									<dd>{{ order_list | length }}개</dd>
+								</dl>
+								<dl>
+									<dt>최근 결제 일시</dt>
+									<dd id="latelyOrderedDate"></dd>
+								</dl>
+								<dl>
+									<dt>누적 결제 금액</dt>
+									<dd>200,000원</dd>
+								</dl>
+							</div>
+						</div>
+						<div class="odr_list">
+							<div class="subj">
+								<ul class="clear">
+									<li class="li1">아티스트 이름</li>
+									<li class="li2">작품 이름</li>
+									<li class="li3">결제 금액</li>
+								</ul>
+							</div>
+							<!-- order_list에서 뽑아와서 아래 각 항목에 대입 후 dom 출력 -->
+							{% for order in order_list %}
+							{% for a in order.orderartists_set.all %}
+							<div class="list">
+								<ul class="list_ck clear">
+									<li class="li1">{{ a.artist.K_name }}</li>
+									<li class="li2">{{ a.music_name }}</li>
+									<li class="li3">{{ a.get_final_price | intcomma }}</li>
+								</ul>
+								<div class="ov">
+									<div class="in">
+										<div class="step_txt">
+											<div class="tbox">
+												<div class="step">단계</div>
+												<div class="detailStep">세부 단계</div>
+												<div class="date">날짜</div>
+											</div>
+											<div id="satrack1-{{ a.pk }}" class="sbox">
+												<div class="step"><span class="grp"></span></div>
+												<div class="detailStep">주문 접수</div>
+												<div class="date">2021년 7월 2일 3:34 오후</div>
+											</div>
+											<div id="satrack2-{{ a.pk }}" class="sbox">
+												<div class="step"><span class="grp"></span></div>
+												<div class="detailStep">제작 중</div>
+												<div class="date">2021년 7월 2일 3:34 오후</div>
+											</div>
+											<div id="satrack3-{{ a.pk }}" class="sbox"><!-- 현재 진행중 ing 동작 -->
+												<div class="step"><span class="grp"></span></div>
+												<div class="detailStep">편집/배송 중</div>
+												<div class="date">확인 불가</div>
+											</div>
+											<div id="satrack4-{{ a.pk }}" class="sbox"><!-- 현재 진행중 ing 동작 -->
+												<div class="step"><span class="grp"></span></div>
+												<div class="detailStep">배송 완료</div>
+												<div class="date">확인 불가</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<script>
+							var apk = '{{a.pk}}'
+							var state = '{{ a.deliver_detail }}'
+							var delivered = '{{ a.delivered }}'
+							track1=document.getElementById("atrack1-"+apk)
+							track2=document.getElementById("atrack2-"+apk)
+							track3=document.getElementById("atrack3-"+apk)
+							track4=document.getElementById("atrack4-"+apk)
+							strack1=document.getElementById("satrack1-"+apk)
+							strack2=document.getElementById("satrack2-"+apk)
+							strack3=document.getElementById("satrack3-"+apk)
+							strack4=document.getElementById("satrack4-"+apk)
+							if(state==1){
+								track1.classList.add('pass','now')
+								strack1.classList.add('now')
+							}
+							else if(state==2){
+								track1.classList.add('pass')
+								track2.classList.add('pass', 'now')
+								strack2.classList.add('now')
+							}
+							else if(state==3){
+								track1.classList.add('pass')
+								track2.classList.add('pass')
+								track3.classList.add('pass','now')
+								strack3.classList.add('now')
+							}
+							else if(state==4){
+								track1.classList.add('pass')
+								track2.classList.add('pass')
+								track3.classList.add('pass')
+								track4.classList.add('pass','now')
+								strack4.classList.add('now')
+							}
+							</script>
+							{% endfor %}
+
+							{% for i in order.orderitems_set.all %}
+							<div class="list">
+								<ul class="list_ck clear">
+									<li class="li1">{{ i.artist.K_name }}</li>
+									<li class="li2">{{ i }}</li>
+									<li class="li3">{{ i.get_final_price | intcomma }}</li>
+								</ul>
+								<div class="ov">
+									<div class="in">
+										<div class="step_txt">
+											<div class="tbox">
+												<div class="step">단계</div>
+												<div class="detailStep">세부 단계</div>
+												<div class="date">날짜</div>
+											</div>
+											<div id="sitrack1-{{ i.pk }}" class="sbox">
+												<div class="step"><span class="grp"></span></div>
+												<div class="detailStep">주문 접수</div>
+												<div class="date">2021년 7월 2일 3:34 오후</div>
+											</div>
+											<div id="sitrack2-{{ i.pk }}" class="sbox">
+												<div class="step"><span class="grp"></span></div>
+												<div class="detailStep">제작 중</div>
+												<div class="date">2021년 7월 2일 3:34 오후</div>
+											</div>
+											<div id="sitrack3-{{ i.pk }}" class="sbox"><!-- 현재 진행중 ing 동작 -->
+												<div class="step"><span class="grp"></span></div>
+												<div class="detailStep">편집/배송 중</div>
+												<div class="date">확인 불가</div>
+											</div>
+											<div id="sitrack4-{{ i.pk }}" class="sbox"><!-- 현재 진행중 ing 동작 -->
+												<div class="step"><span class="grp"></span></div>
+												<div class="detailStep">배송 완료</div>
+												<div class="date">확인 불가</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<script>
+							var ipk = '{{i.pk}}'
+							var state = '{{ i.deliver_detail }}'
+							var delivered = '{{ i.delivered }}'
+							track1=document.getElementById("itrack1-"+ipk)
+							track2=document.getElementById("itrack2-"+ipk)
+							track3=document.getElementById("itrack3-"+ipk)
+							track4=document.getElementById("itrack4-"+ipk)
+							strack1=document.getElementById("sitrack1-"+ipk)
+							strack2=document.getElementById("sitrack2-"+ipk)
+							strack3=document.getElementById("sitrack3-"+ipk)
+							strack4=document.getElementById("sitrack4-"+ipk)
+							if(state==1){
+								track1.classList.add('pass','now')
+								strack1.classList.add('now')
+							}
+							else if(state==2){
+								track1.classList.add('pass')
+								track2.classList.add('pass', 'now')
+								strack2.classList.add('now')
+							}
+							else if(state==3){
+								track1.classList.add('pass')
+								track2.classList.add('pass')
+								track3.classList.add('pass','now')
+								strack3.classList.add('now')
+							}
+							else if(state==4){
+								track1.classList.add('pass')
+								track2.classList.add('pass')
+								track3.classList.add('pass')
+								track4.classList.add('pass','now')
+								strack4.classList.add('now')
+							}
+							</script>
+							{% endfor %}
+
+							{% endfor %}
+							<!-- -->
+							<script>
+								$(".list_ck").click(function () {
+									$(this).parents('.list').toggleClass('on');
+								});
+							</script>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</article>
+
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+	$(function(){
+		$('#menu-4').addClass('on');
+
+		$("#latelyOrderedDate").html(`<div><div>${"{{order_list.0.ordered_date}}".substr(0, "{{order_list.0.ordered_date}}".indexOf("일")+1)}</div><div>${"{{order_list.0.ordered_date}}".substr("{{order_list.0.ordered_date}}".indexOf("일")+2)}</div></div>`);
+	})
+
+</script>
+{% endblock extra_scripts %}
+

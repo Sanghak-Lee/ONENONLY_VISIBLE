@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% load core_template_tags %}
+
+{% load account socialaccount %}
+
+
+{% block head_title %} 결제완료 {% endblock %}
+
+{% block extra_head %} {% endblock %}
+
+{% block content %}
+<article id="content">
+	<div class="payment_rst">
+		<div class="step_box">
+			<div class="wrap processWrap">
+				<h2>결제하기</h2>
+				<div class="paymentProcess">
+					<ul class="list clear">
+						<li class="li1"><span class="num">1</span><span class="txt">작품 요청하기</span></li>
+						<li class="li1"><span class="num">2</span><span class="txt">결제</span></li>
+						<li class="li2"><span class="num">3</span><span class="txt">완료</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="wrap contentWrap">
+			<div class="bbox">
+				<p class="m1">결제가 완료되었습니다.</p>
+				<p class="m2">주문하신 내역은 <span class="s1">우측 상단 메뉴 ▶ 마이페이지</span> 에서 확인이 가능합니다.</p>
+			</div>
+			<div class="cbox">
+				<dl>
+					<dt>주문번호</dt>
+					<dd>{{ order_complete.ref_code }}</dd>
+				</dl>
+				<dl>
+					<dt>주문자</dt>
+					<dd>{{ order_complete.user.username }}</dd>
+				</dl>
+				<dl>
+					<dt>상품 이름</dt>
+					<dd>{{ order_complete }}</dd>
+				</dl>
+				<dl>
+					<dt>결제일</dt>
+					<dd>{{ order_complete.ordered_date }}</dd>
+				</dl>
+				<dl>
+					<dt>결제방법</dt>
+					<dd>{{ order_complete.get_PG_display }}</dd>
+				</dl>
+				<dl class="lastDl">
+					<dt>결제금액</dt>
+					<dd>{{ order.get_final_total }}</dd>
+				</dl>
+			</div>
+			<div class="cfm2_box">
+				<ul class="clear">
+					<li><a href="{% url 'core:userorder' %}" class="c1 ani">결제 관리로 이동</a></li>
+					<li><a href="{% url 'core:home' %}" class="c2 ani">홈으로 이동</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+</article>
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
+
+<!--BODY -->

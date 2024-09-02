@@ -1,0 +1,20 @@
+{
+  "1_bid_alarm":{
+    "title": "1회 비딩참여 완료",
+    "message":"#NAME이 #USER를 하하하",
+    "button":{
+    }
+  },
+  "2_bid_alarm":{
+    "title": "d",
+    "message":"",
+    "button":[
+      {
+          "name":"옥션 보러가기",
+          "type":"WL",
+          "url_mobile":"https://onenonly.io/auction/list/",
+          "url_pc":"https://onenonly.io/auction/list/"
+      }
+    ]
+  }
+}

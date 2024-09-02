@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_head %}{% endblock extra_head %}
+{% block head_title %} | 파트너쉽 제안 {% endblock %}
+{% block body %}
+  <div id="wrap" class="sub-wrap">
+    <!-- container -->
+    <div id="container">
+      <!-- middleArea -->
+      <div id="middleArea">
+        <!-- content -->
+        <section id="content" class="wide">
+          
+          <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+          <div class="sub-page etc-page">
+            <div class="inquiry-partnership-top">
+              <div class="video-iframe-wrapper">
+                <div class="video-iframe-box">
+                <video autoplay='true' loop='true' width="100%" height="100%" src="{% static 'rev/img/content/inquiry_partnership_bg4.mp4' %}">
+                {% comment %} <iframe width="100%" height="100%" src="https://www.youtube.com/embed/E_h1vm0a6QE?controls=0&autoplay=1&mute=1&loop=1" title="YouTube video player" frameborder="0" muted allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> {% endcomment %}
+                </div>
+              </div>
+              <div class="visual-txt">
+                <div class="inner">
+                  <h5>원앤온리와 함께 <br>특별한 시간을 만들어갈 <br>셀럽을 기다립니다.</h5>
+                  <!-- <p class="inner-txt break-all">
+                    * 워니(Oney)는 One and Only의 <br>The One에서 따온 말로, <br>원앤온리의 소중한 팬이자, 고객을 의미하는 용어입니다.
+                  </p> -->
+                </div>
+              </div>
+            </div>
+            <div class="inquiry-partnership-bottom">
+              <div class="inquiry-partnership-con01">
+                <div class="bg"><span></span></div>
+                <div class="inquiry-partnership-con01-txt">
+                  <div class="area-box">
+                    <p class="txt01">
+                      원앤온리는 다양한 분야의 셀럽과 함께 대중에게<br class="pc-br"> 일생의 감동이 되는 시간을 기획합니다.
+                      <br><br>
+                      여러분의 경험이 가장 빛나는 시간으로 대중에게 제공될 수 있도록
+                      <br class="pc-br"> 원앤온리가 든든한 파트너로 함께하겠습니다.
+                    </p>
+                    {% comment %} <p class="txt02">* 워니(Oney)는 원앤온리의 소중한 팬이자 <br class="m-br">고객을 의미하는 용어입니다.</p> {% endcomment %}
+                  </div>
+                </div>
+                {% comment %} <div class="inquiry-partnership-con01-video">
+                  <p class="video-txt break-all">
+                    <i>2022. 10. </i><br>Fine Art 작가 Estelle Tcha와 워니의 시간,
+                    작가가 워니의 인연에 대한 이야기를 듣고 유일무이한 작품을 창작                  
+                  </p>
+                  <div class="video-iframe-wrapper">
+                    <!-- <div class="video-iframe-box"><div id="player" data-code="{{ partnership.info }}" ></div></div>
+                    <div class="video-cover-box">
+                      <span class="thumb" style="background: url('{{ partnership.image.url }}') 45% 50% no-repeat; background-size: cover;"></span>
+                      <div class="icon"></div>
+                    </div> -->
+                  <div class='embed-container'><iframe src='https://www.youtube.com/embed/{{ partnership.info }}' frameborder='0' allowfullscreen></iframe></div>
+                  </div>
+                </div> {% endcomment %}
+              </div>
+              {% comment %} <div class="inquiry-partnership-con02">
+                <div class="inquiry-partnership-con02-box">
+                  <div class="area-box">
+                    <h5 class="font-nephilm">PARTNERSHIP</h5>
+                    <p>원앤온리와 함께 나아갈 <br class="m-br">파트너를 찾습니다.<br>함께 성장해나갈 <br class="m-br">뿐만 아니라, <br class="pc-br">세상에 따뜻한 온기를 <br class="m-br">전함으로써 <br class="pc-br">값진 보람과 자부심을 <br class="m-br">느낄 수 있습니다.</p>
+                  </div>
+                </div>
+              </div> {% endcomment %}
+              <form method="POST">
+                {% csrf_token %}
+                <div class="inquiry-partnership-con03">
+                  <div class="area">
+                    <!-- <h5 class="inquiry-partnership-con03-tit">여러분을 기다리는 워니(Oney)들과 함께 <br class="pc-br">잊을 수 없는 시간을 경험해 보세요.</h5>	 -->
+                    <div class="inquiry-partnership-con03-wrapper">
+                      <ul class="inquiry-partnership-con03-list">
+                        <li class="inquiry-partnership-con03-item">
+                          <div class="form"><input required name="name" type="text" class="cm-input" placeholder="이름*"></div>
+                        </li>
+                        <li class="inquiry-partnership-con03-item">
+                          <div class="form"><input name="company" type="text" class="cm-input" placeholder="소속사"></div>
+                        </li>
+                        <li class="inquiry-partnership-con03-item">
+                          <div class="form"><input required name="email" type="email" class="cm-input" placeholder="이메일*"></div>
+                        </li>
+                        <li class="inquiry-partnership-con03-item">
+                          <div class="form"><input required name="phone" type="tel" class="cm-input" placeholder="전화번호*"></div>
+                        </li>
+                        <li class="inquiry-partnership-con03-item w-100">
+                          <div class="form"><textarea required name="text" id="" class="cm-textarea" placeholder="문의 내용(300자 이내)*"></textarea></div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="inquiry-partnership-con03-btn">
+                      <button type="submit" class="cm-custom-button">문의하기</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+          <!-- 팝업 리스트 -->
+      {% comment %} 					{% include("./popup_inquiry_fail.html") %}<!-- 내용 입력 다 안 했을 시의 모달 -->
+          {% include("./popup_inquiry_complete.html") %}<!-- 문의 내용 신청 완료 모달 -->{% endcomment %}
+          <!-- //팝업 리스트 -->
+
+        </section>
+        <!-- //content -->
+      </div>
+      <!-- //middleArea -->
+    </div>
+    <!-- // container -->
+
+  </div>
+  <!-- //wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
+

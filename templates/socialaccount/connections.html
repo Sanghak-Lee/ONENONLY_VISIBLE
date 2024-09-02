@@ -1,0 +1,102 @@
+{% extends "socialaccount/base.html" %}
+{% load account i18n static %}
+
+{% block head_title %} | {% trans "Account Connections" %}{% endblock %}
+
+{% block body %}
+<div id="wrap" class="sub-wrap">
+  
+
+  <!-- container -->
+  <div id="container">
+    <!-- middleArea -->
+    <div id="middleArea">
+      <!-- content -->
+      <section id="content" class="area-box">
+        <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+        <div class="sub-page mypage-page">
+          <div class="join-con step03">
+            <h5 class="join-tit">소셜계정 연결</h5>
+              <div class="join-inner-box">
+                {% url 'account_login' as login_url %}
+                <p class="join-txt">본 계정과 소셜계정을 연결할 수 있습니다. 계정을 연결하길 원하시면 아래 연결 버튼을 눌러주세요.</p>
+                <div style="margin-top:3.5rem; text-align:center; color:white;">
+                  <div>
+                    <h1>연결된 계정</h1>
+
+                    {% if form.accounts %}
+                    <form method="post" action="{% url 'socialaccount_connections' %}">
+                    {% csrf_token %}
+                    
+                    <fieldset>
+                    {% if form.non_field_errors %}
+                    <div id="errorMsg">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                    
+                    {% for base_account in form.accounts %}
+                    {% with base_account.get_provider_account as account %}
+                    <label class="socialaccount_wrapper" for="id_account_{{ base_account.id }}">
+                      <input id="id_account_{{ base_account.id }}" type="radio" name="account" value="{{ base_account.id }}"/>
+                      <span class="socialaccount_provider {{ base_account.provider }} {{ account.get_brand.id }}">
+                        {% if base_account.provider == 'kakao' %}
+                        <i class="xi-speech"></i>
+                        &nbsp;&nbsp;
+                        <span>{{ account }}</span>
+                        {% elif base_account.provider == 'naver' %}
+                        <i class="xi-naver"></i>
+                        &nbsp;&nbsp;
+                        <span>{{ account }}</span>
+                        {% endif %}
+                      </span>
+                    </label>
+                    {% endwith %}
+                    {% endfor %}
+                    
+                    <div style="margin-top:20px;" class="join-btn-con">
+                      <button class="cm-custom-button" type="submit">연결 끊기</button>
+                    </div>
+                    
+                    </fieldset>
+                    
+                    </form>
+                    
+                    {% else %}
+                    <p style="margin:2rem 0;">{% trans 'You currently have no social network accounts connected to this account.' %}</p>
+                    {% endif %}
+                  
+                  </div>
+                  <div style="margin-top:50px;">
+                    <h2 style="margin-bottom:1rem;">소셜계정 연결하기</h2>
+                    
+                    <ul class="socialaccount_providers">
+                    {% include "socialaccount/snippets/provider_list.html" with process="connect"%}
+                    </ul>
+                    
+                    {% include "socialaccount/snippets/login_extra.html" %}                  
+                  </div>
+                </div>
+                <!-- <div class="join-btn-con">
+                  <button class="cm-custom-button" type="submit">{% trans "Sign Up" %} &raquo;</button>
+                </div> -->
+                <div class="join-mail-info">
+                  <p>지속적인 에러가 있나요?</p>
+                  <ul class="dot-txt">
+                    <li><p>지속적으로 에러가 발생하는 경우, 아이디(이메일)을 기재하여 <span class="cm-font-color-y">support@onenonly.io</span>으로 문의하시거나 <span class="cm-font-color-y">챗봇 상담</span>을 이용해 주세요.</p></li>
+                  </ul>
+                </div>
+              </div>
+          </div>
+        </div>
+        <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+      </section>
+      <!-- //content -->
+    </div>
+    <!-- //middleArea -->
+  </div>
+  <!-- // container -->
+</div>
+<!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}

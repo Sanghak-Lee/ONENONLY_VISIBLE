@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load static %}
+{% load core_template_tags %}
+
+{% load account socialaccount %}
+
+
+{% block head_title %} 나만의 작품 보관함 {% endblock %}
+
+{% block extra_head %} {% endblock %}
+
+
+
+{% block content %}
+
+<article id="content" class="backWrapper">
+	<div class="myp user wishListWrapper">
+		<div class="wrap">
+			<div class="myp_wr">
+				<!-- 좌측 메뉴 -->
+				{% comment %} <div class="leSlidebar">
+					{% include "component/mypageU_sidebar.html" %}
+				</div> {% endcomment %}
+				<!-- 우측 컨텐츠 -->
+				<div class="myp_ctt user_reg_ri">
+					<div class="wishListTitle">위시리스트</div>
+					<div class="basketBlock">
+						<div class="wishListSubTitle">장바구니</div>
+						<!-- 장바구니 개별 아이템 start -->
+						<div class="basketItem">
+							<div class="basketImage">
+								<img src="{% static 'img/auction/danny_2.jpg' %}">
+							</div>
+							<div class="basketInfo">
+								<div class="itemName">상품 이름</div>
+								<div class="itemPrice">20,000원</div>
+								<div class="itemCount">
+									<div class="countMinus">-</div>
+									<div class="countNum">1</div>
+									<div class="countPlus">+</div>
+								</div>
+							</div>
+							<div class="deleteWrapper"><div class="deleteBtn">제거하기</div></div>
+						</div>
+						<!-- 장바구니 개별 아이템 end -->
+						<!-- 장바구니 개별 아이템 start -->
+						<div class="basketItem">
+							<div class="basketImage">
+								<img src="{% static 'img/auction/danny_1.jpg' %}">
+							</div>
+							<div class="basketInfo">
+								<div class="itemName">상품 이름</div>
+								<div class="itemPrice">20,000원</div>
+								<div class="itemCount">
+									<div class="countMinus">-</div>
+									<div class="countNum">1</div>
+									<div class="countPlus">+</div>
+								</div>
+							</div>
+							<div class="deleteWrapper"><div class="deleteBtn">제거하기</div></div>
+						</div>
+						<!-- 장바구니 개별 아이템 end -->
+						<!-- 장바구니 개별 아이템 start -->
+						<div class="basketItem">
+							<div class="basketImage">
+								<img src="{% static 'img/auction/woo.jpg' %}">
+							</div>
+							<div class="basketInfo">
+								<div class="itemName">상품 이름</div>
+								<div class="itemPrice">20,000원</div>
+								<div class="itemCount">
+									<div class="countMinus">-</div>
+									<div class="countNum">1</div>
+									<div class="countPlus">+</div>
+								</div>
+							</div>
+							<div class="deleteWrapper"><div class="deleteBtn">제거하기</div></div>
+						</div>
+						<!-- 장바구니 개별 아이템 end -->
+						<div class="purchaseWrapper">
+							<a href="/checkout" class="purBtn">주문하기</a>
+						</div>
+					</div>
+					<!-- 특정 상품 찜 목록 -->
+					<div class="wishListSubTitle">찜 - PRESENT</div>
+					<div class="dibPresentWrapper">
+						<a href="/detail_item/3" class="dibPresentItem">
+							<div class="itemImage"><img src="{% static 'img/auction/woo_4.jpg' %}"></div>
+							<div class="presenterName">프리젠터 이름</div>
+							<div class="itemName">작품 이름</div>
+							<div class="itemPrice">작품 가격</div>
+						</a>
+						<a href="/detail_item/3" class="dibPresentItem">
+							<div class="itemImage"><img src="{% static 'img/auction/woo_5.jpg' %}"></div>
+							<div class="presenterName">프리젠터 이름</div>
+							<div class="itemName">작품 이름</div>
+							<div class="itemPrice">작품 가격</div>
+						</a>
+						<a href="/detail_item/3" class="dibPresentItem">
+							<div class="itemImage"><img src="{% static 'img/auction/chang_4.jpeg' %}"></div>
+							<div class="presenterName">프리젠터 이름</div>
+							<div class="itemName">작품 이름</div>
+							<div class="itemPrice">작품 가격</div>
+						</a>
+						<a href="/detail_item/3" class="dibPresentItem">
+							<div class="itemImage"><img src="{% static 'img/auction/chang_5.jpeg' %}"></div>
+							<div class="presenterName">프리젠터 이름</div>
+							<div class="itemName">작품 이름</div>
+							<div class="itemPrice">작품 가격</div>
+						</a>
+						<a href="/detail_item/3" class="dibPresentItem">
+							<div class="itemImage"><img src="{% static 'img/auction/chang_3.jpeg' %}"></div>
+							<div class="presenterName">프리젠터 이름</div>
+							<div class="itemName">작품 이름</div>
+							<div class="itemPrice">작품 가격</div>
+						</a>
+					</div>
+					<!-- 특정 아티스트 찜 목록 -->
+					<div class="wishListPresenter">
+						<div class="wishListSubTitle">찜 - PRESENTER</div>
+						<div class="swiper mySwiper">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide">
+									<div class="swiperImageWrapper"><img src="{% static 'img/auction/son_3.jpg' %}"></div>
+									<div class="swiperImageCaption">피아니스트 손열음</div>
+								</div>
+								<div class="swiper-slide">
+									<div class="swiperImageWrapper"><img src="{% static 'img/auction/chang_2.jpeg' %}"></div>
+									<div class="swiperImageCaption">화가 장마리아</div>
+								</div>
+								<div class="swiper-slide">
+									<div class="swiperImageWrapper"><img src="{% static 'img/auction/danny_2.jpg' %}"></div>
+									<div class="swiperImageCaption">래퍼 대니</div>
+								</div>
+								<div class="swiper-slide">
+									<div class="swiperImageWrapper"><img src="{% static 'img/auction/son_5.jpg' %}"></div>
+									<div class="swiperImageCaption">피아니스트 손열음</div>
+								</div>
+								<div class="swiper-slide">
+									<div class="swiperImageWrapper"><img src="{% static 'img/auction/son_4.jpg' %}"></div>
+									<div class="swiperImageCaption">피아니스트 손열음</div>
+								</div>
+							</div>
+						</div>
+						<div class="paginationWrapper">
+							<div class="swiper-pagination"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+				<script>
+					var swiper = new Swiper(".mySwiper", {
+						slidesPerView: 3,
+						spaceBetween: 30,
+						loop: true,
+						pagination: {
+							el: ".swiper-pagination",
+							clickable: true,
+						},
+					});
+
+					$('.play_open').on('click',function(){
+						$('.play-pop-wrap').stop(true).fadeIn(300);
+						$('html').addClass('play_fix');
+					return false;
+					});
+
+					$('.play_close').on('click',function(){
+						$('.play-pop-wrap').stop(true).fadeOut(300);
+						$('html').removeClass('play_fix');
+					return false;
+					});	
+
+					$('.sb').on('click',function(){
+						var input = $('.password').val()
+						// var password = "{{ ordervideo.password }}"
+						var password = "1234"
+						if(password == input)
+						{
+							$('.ipt_b').fadeOut();
+							return false;
+						}
+					});
+					$('.mov_play').on('click',function(){
+						let videoElem = document.getElementById("passwordvideo");
+						if(videoElem.paused)
+						{
+							videoElem.play();
+							videoElem.setAttribute("controls", "true")
+							console.log("screen playing")
+							$(".mov_play").fadeOut();
+						}
+						else {
+						$(".mov_play").fadeIn();
+						videoElem.pause();
+						videoElem.setAttribute("controls", "false")
+						}
+					});
+					$('.mov').on('click',function(){
+						let videoElem = document.getElementById("passwordvideo");
+				
+						if(videoElem.play)
+						{
+							$(".mov_play").fadeIn();
+							videoElem.pause();
+						}
+					});
+
+				</script>	
+			</div>
+		</div>
+	</div>
+
+</article>
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+	$(function(){
+		$('#menu-3').addClass('on');
+	})
+</script>
+{% endblock extra_scripts %}
+

@@ -1,0 +1,326 @@
+{% extends "auction/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}  
+{% get_top_3 placement as placementbid %}
+
+
+{% block head_title %} Danny's Auction {% endblock %}
+
+<!-- additioinal css, favicon, metadata -->
+{% block extra_head %}{% endblock %}
+
+
+<!-- Bidding modal -->
+{% block extra_body %}
+{% endblock extra_body%}
+
+{% block body %}
+  <!-- ======= About Section ======= -->    
+  <section id="about" class="about-show section-show">  
+    <!-- ======= About Me ======= -->
+    <div class="about-me container">
+      <div class="section-title">
+        <h2>옥션 경매품</h2>
+      </div>
+      <div class="auction-style1">
+        <div class="left">
+          <!--slider삽입-->
+          {% comment %} <div class="swiper style1-container">
+            <div class="swiper-wrapper style1-wrapper">
+              <div class="swiper-slide style1-slide">
+                <img src="//unsplash.it/500/500?random=1" alt="" />
+              </div>
+              <div class="swiper-slide style1-slide">
+                <img src="//unsplash.it/500/500?random=2" alt="" />
+              </div>              
+              <div class="swiper-slide style1-slide">
+                <img src="//unsplash.it/500/500?random=3" alt="" />
+              </div>
+              <div class="swiper-slide style1-slide">
+                <img src="//unsplash.it/500/500?random=4" alt="" />
+              </div>              
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="style1-pagination"></div>
+          </div> {% endcomment %}
+          <div class="swiper style1-container counts">
+            <div class="swiper-wrapper style1-wrapper">
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-emoji-smile"></i>
+                <img src="{% static 'img/auction/danny_1.jpg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="2018" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Danny</p><p style="font-style:italic;">The rapper</p>
+              </div>
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-journal-richtext"></i>
+                <img src="{% static 'img/auction/danny_2.jpg' %}" class="img-fluid" alt="">
+                <span data-purecounter-start="0" data-purecounter-end="2019" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Danny</p><p style="font-style:italic;">The rapper</p>
+              </div>
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-emoji-smile"></i>
+                <img src="{% static 'img/auction/danny_3.jpg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="2018" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Danny</p><p style="font-style:italic;">The rapper</p>
+              </div>
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-journal-richtext"></i>
+                <img src="{% static 'img/auction/danny_4.jpg' %}" class="img-fluid" alt="">
+                <span data-purecounter-start="0" data-purecounter-end="2019" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Danny</p><p style="font-style:italic;">The rapper</p>
+              </div>
+              <div class="swiper-slide count-box style1-slide">
+                <i class="bi bi-emoji-smile"></i>
+                <img src="{% static 'img/auction/danny_5.jpg' %}" class="img-fluid" alt="">            
+                <span data-purecounter-start="0" data-purecounter-end="2018" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Danny</p><p style="font-style:italic;">The rapper</p>
+              </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="style1-pagination"></div>
+          </div>          
+        </div>
+        <div class="right">
+            {% include "auction/component/right.html" with placement=placement now_price=placementbid.0.offer %}
+        </div>
+        {% comment %} <div class="right">
+            <div class="item">
+              <div class="l1">
+                BeCollector Auction #4
+              </div>            
+              <div class="l2">
+                대니와 함께 만드는 특별한 화이트데이
+              </div>
+              <div class="l3">
+                Special White Day gift with rapper Danny
+              </div>              
+            </div>
+
+            <div class="author">
+
+              <div class="l4">
+                <div>대니</div>
+                <div>Danny</div>
+              </div>              
+              <div class="l5">
+                <p>“음악을 사랑하는 래퍼<br>
+                그외의 설명을 직접 주시면 작성이 가능합니다<br>
+                그외의 설명을 직접 주시면 작성이 가능합니다”</p>
+              </div>
+            </div>
+
+            <div class="price">
+              <div class="l6">
+                <dl>
+                  <dt>추정가</dt>
+                  <dd class="KRW">KRW 500,000 ~ 700,000</dd>
+                  <dd class="USD">USD 500 ~ 700</dd>
+                  <dt>시작가</dd>
+                  <dd class="KRW">KRW 100,000</dd>
+                  <dd class="USD">USD 80</dd>
+                  <dt class="red">현재가 KRW {{placementbid.0.offer | intcomma }}</dt>
+                </dl>
+              </div>
+            </div>
+
+            <div class="info">
+              <p>2022 화이트데이, 연인을 위한 특별한 선물은 어떤가요<br>
+              사랑하는 사람을 위해, 혹은 사랑하는 사람과 함께, 직접 노래를 제작하고<br>
+              음원도 배포하세요<br>
+              깜짝 이벤트를 위해 같이 협의도 가능합니다 :)
+            </p>
+            </div>
+
+            <div class="tel">
+              <p>이벤트 옥션 문의: 010-2954-3621<br>
+              낙찰가는 로그인 후 확인할 수 있습니다.</p>
+            </div>                         
+
+            <div class="button">
+              <span class="">문의하기</span>
+              <button type="button" class="btn btn-primary modal-toggle" data-toggle="modal" data-target="#bid-modal">
+                응찰하기
+              </button>              
+            </div>                         
+        </div> {% endcomment %}
+      </div>
+
+    </div><!-- End About Me -->
+  </section><!-- End About Section -->
+
+  <!-- ======= resume(마이옥션) Section ======= -->
+  <section id="resume" class="resume">
+    <div class="myauction container">
+      <div class="section-title">
+        <h2>낙찰 확인하기</h2>
+        <p>마이옥션</p>
+      </div>
+      <div class="info-box">
+        <div class="row">
+          {% if placement.placement_win %}
+                  <!-- 낙찰 -->
+                  {% if placement.placement_win.user == request.user %}
+                    <!--결제 완료-->
+                    {% if placement.placement_win.orderitem.order.ordered == True %}
+                      <div class="resume-item pb-0">
+                          <h4>결제완료</h4>
+                          <p><em>결제가 완료되었습니다. 배송상황 문의는 아래 홈페이지 톡으로 문의부탁드립니다.</em></p>
+                          <p>
+                          <ul>
+                          <li> {{ placement.title }}</li>
+                          <li>낙찰금액 : {{placementbid.0.offer | intcomma}}&#8361;</li>
+                          <li>응찰일시 : {{ placementbid.0.placementbid_created }}</li>
+                          <li style="color:#FF8343!important;">결제완료일 : {{ placement.placement_win.orderitem.order.ordered_date }}</li>
+                          </ul>
+                          </p>
+                      </div>
+                    <!--결제 미완료-->
+                    {% else %} 
+                      <canvas id="canvas" style="background:#000; position:relative;"></canvas>
+                      <div class="resume-item pb-0" style="position:absolute; width:65%;">
+                          <h4>낙찰</h4>
+                          <p><em>낙찰뒤 1주일이내 결제 불이행시 낙찰이 취소 될 수 있음을 공지해드립니다.</em></p>
+                          <p>
+                          <ul>
+                          <li> {{ placement.title }}</li>
+                          <li>낙찰금액 : {{placementbid.0.offer | intcomma}}&#8361;</li>
+                          <li>응찰일시 : {{ placementbid.0.placementbid_created }}</li>
+                          <li style="color:#FF8343!important;">결제마감일 : [{{ placement.placement_start }}] 로부터 1주일 이내</li>
+                          </ul>
+                          </p>
+                          <div class="text-center"><a style="color:#FF8343!important;" href="{% url 'core:AddAuctionToOrderItem' placementbid.0.pk %}" ><hr>결제하기<hr></a></div>
+                      </div>
+                    {% endif %}
+
+                  <!-- 패찰 -->
+                  {% else %}
+                      <h3 class="resume-title">{{ placement.title }}</h3>
+                      <div class="resume-item pb-0">
+                          <h4>종료</h4>
+                          <p><em>낙찰뒤 1주일이내 결제 불이행시 낙찰이 취소 될 수 있음을 공지해드립니다.</em></p>
+                          <p>
+                          <ul>
+                            <li>낙찰금액 : {{ placementbid.0.offer | intcomma }}원</li>
+                            <li>응찰일시 : {{ placementbid.0.placementbid_created }}</li>
+                            <li>낙찰자 : {{ placementbid.0.user | truncatechars:4 }}</li>
+                          </ul>
+                          </p>
+                      </div>
+                {% endif %}
+          {% else %}
+                  <h3 class="resume-title">{{ placement.title }}</h3>
+                  <div class="resume-item pb-0">
+                  <h4>경매 중</h4>
+                  <p><em>낙찰뒤 1주일이내 결제 불이행시 낙찰이 취소 될 수 있음을 공지해드립니다.</em></p>
+                  <p>
+                  <ul>
+                  <li>응찰 최고가 :{{ placementbid.0.offer | intcomma }}원 </li>
+                  <li>응찰일시 : {{ placementbid.0.placementbid_created }}</li>
+
+                  </ul>
+                  </p>
+                  </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <!-- ======= Contact(응찰기록) ======= -->
+    <div class="contact container" id="bidding">        
+      <div class="info-box">
+        <i class="bx ri-auction-fill"></i>
+        <h3>최고 응찰가</h3>
+        <h3 style="color:white;!important">{{placement.placement_price | intcomma }}원</h3>
+      </div>
+      <div class="info-box">
+          <i class="bx ri-auction-fill"></i>
+          <h3>나의 응찰기록</h3>
+                  <table class="table responsive-table" style ="border-color:#3c3f42;">
+                      <thead>
+                          <tr>
+                              <th>No.</th>
+                              <th>응찰금</th>
+                              <th>시간</th>                           
+                              <th>결과</th>
+                          </tr>
+                      </thead>
+
+                      <tbody>
+                          {% for b in pbd %}
+                              <tr>
+                                  <td>{{ b.id }}</td>
+                                  <td>{{ b.offer | intcomma }}&#8361;</td>
+                                  <td>{{ b.placementbid_created }}</td>                               
+                                  <td>{% if b.placement.placement_win.pk == b.pk %}
+                                          {% if b.confirmed %}
+                                          <span style="color:#FF8343;">결제완료</span>  
+                                          {% else %}
+                                          <span><a style="color:#FF8343;" href="{% url 'core:AddAuctionToOrderItem' b.pk %}">낙찰(결제하기)</a></span>
+                                          {% endif %}
+                                      {% else %} 
+                                          <span class="chip">패찰</span>
+                                      {% endif %}
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+
+          {% comment %} {% for p in pbd %}
+          <h3 style="color:white;!important">{{p.offer | intcomma }}원</h3>
+          {% endfor %} {% endcomment %}
+      </div>      
+    </div>
+  </section><!-- End resume(마이옥션) Section -->
+
+
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>옥션 아티스트</h2>
+        <p>Danny</p>
+      </div>
+
+      <div class="row mt-2">
+
+        <div class="col-md-6 d-flex align-items-stretch">
+          <div class="info-box">
+                <iframe width="100%" height="100%" src="/" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch">
+          <div class="info-box">
+                <iframe width="100%" height="100%" src="/" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 d-flex align-items-stretch">
+          <div class="info-box">
+                <iframe width="100%" height="100%" src="/" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="col-md-6 mt-4 d-flex align-items-stretch">
+          <div class="info-box">
+                <iframe width="100%" height="100%" src="/" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="php-email-form mt-4">
+       
+      <strong><i>Danny</i></strong><br>&amp;<br><strong><i>BeCollector</i></strong>
+
+      </div>
+
+    </div>
+  </section><!-- End Contact Section -->
+{% endblock body %}
+
+{% block extra_scripts %}
+ 
+{% endblock extra_scripts %}

@@ -1,0 +1,179 @@
+﻿{% extends "account/base.html" %}
+{% load static %}
+{% load core_template_tags %}
+
+
+{% block head_title %} {{artist}}님 페이지 {% endblock %}
+
+{% comment %} {% block extra_head %} 주문 영상 업로드 {% endblock %} {% endcomment %}
+
+{% block content %}
+
+<article id="content" class="backWrapper">
+	<div class="myp att uploadAtt">
+		<div class="wrap">
+			<div class="myp_wr">
+				<!-- 좌측 메뉴 -->
+				{% comment %} <div class="leSlidebar">
+					{% include "component/mypageA_sidebar.html" %}
+				</div> {% endcomment %}
+				<!-- 우측 컨텐츠 -->
+				<div class="myp_ctt user_reg_ri">
+					<h2>주문 영상 업로드</h2>
+					<div class="od_video">
+						<!-- 주문 처리 현황 박스 -->
+						<div class="odr_box">
+							<div class="in">
+								<dl>
+									<dt>미완료 주문 {% if deliver_detail1 %}<span class="al"></span>{% endif %}</dt>
+									<dd>{% deliver_detail1 %}</dd>
+								</dl>
+								<dl>
+									<dt>처리된 주문</dt>
+									<dd>{% deliver_detail2 %}</dd>
+								</dl>
+								<dl>
+									<dt>누적 주문 수</dt>
+									<dd id="orderCount"><script>$("#orderCount").text({% deliver_detail1 %}+{% deliver_detail2 %})</script></dd>
+									{% comment %} {{ orderartistcount|length }} {% endcomment %}
+								</dl>
+							</div>
+						</div>
+						<div class="list_alm">
+							<p class="m1">새로운 알림이 <span>{% deliver_detail1 %}</span>개 있습니다.</p>
+							<p class="m2">새로운 작품 주문 알림이 있습니다. 내용을 확인하세요.</p>
+						</div>
+						{% for orderartist in orderartist_list %}
+						<!-- orderartist_list 에서 현 계정에게 주문된 정보를 받아와서 각 항목당 dom에 추가합니다. -->
+						<div class="od_view">
+							<div class="in">
+								<!-- 신규알림 -->
+								<span class="new_ic"></span>
+								<div class="abox">
+									<div class="img">
+										<img src="{% static 'paze/img/od_view_thumb.png' %}" alt="작품 썸네일">
+									</div>
+									<div class="info">
+										<p class="m1">주문일시 ㆍ {{ orderartist.order.ordered_date }} </p>
+										<h3 class="m2"><span>{{ orderartist.user.username }}</span> 님의 작품 주문</h3>
+										{% if orderartist.deliver_detail == 1 %}
+										<p class="m3 cc1">주문 처리 미완료</p><!-- 미완료 cc1 / 완료 cc2 -->
+										{% else %}
+										<p class="m3 cc2">주문 처리 완료</p><!-- 미완료 cc1 / 완료 cc2 -->
+										{% endif %}
+									</div>
+									<!-- 주문내역 상세보기를 클릭하면 bbox가 보여집니다. display: block; -->
+									<div class="od_det_view"><span>주문 상세 내역 보기</span></div>
+								</div>
+								<div class="bbox">
+									<div class="order_box">
+										<p class="m1"><img src="{% static 'paze/img/rv_ic1.png' %}" alt="요청사항"><span>{{ orderartist.user.username }}</span>님 만을 위한 작품 요청사항</p>
+										<dl>
+											<dt>작품 용도</dt>
+											<dd>{{ orderartist.get_music_purpose_display }}</dd>
+										</dl>
+										<dl>
+											<dt>원하는 곡</dt>
+											<dd>{{ orderartist.music_name}}</dd>
+										</dl>
+										<dl>
+											<dt>이벤트 종류</dt>
+											<dd>감사</dd>
+										</dl>
+										<dl>
+											<dt>음악 레퍼런스</dt>
+											<dd>{{ orderartist.music_ref }}</dd>
+										</dl>
+										<dl>
+											<dt>원하는 분위기</dt>
+											<dd>{{ orderartist.music_vibe }}</dd>
+										</dl>
+										<dl>
+											<dt>작품 받는 사람</dt>
+											<dd>{{ orderartist.music_receiver}}</dd>
+										</dl>
+										<dl>
+											<dt>작품 구매자</dt>
+											<dd>{{ orderartist.user.username}}</dd>
+										</dl>
+										<dl>
+											<dt>아티스트에게 하고 싶은 말</dt>
+											<dd>(없음)</dd>
+										</dl>
+										<dl>
+											<dt>영상에 들어갈 멘트 입력</dt>
+											<dd>영상에 넣을 멘트 없음</dd>
+										</dl>
+									</div>
+									<div class="b185"><span class="od_up_open ani">작품 업로드하기</span></div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+
+					<!-- 작품 업로드 레이어 - 작품 업로드 버튼을 누르면 보여집니다. -->
+					<form action="?pk={{request.user.pk}}" method="POST" enctype = "multipart/form-data">{% csrf_token %}
+						<div id="od_ly" class="od-pop-wrap">
+							<div class="outb">
+								<div class="inb">
+									<div class="ctt">
+										<p class="m1">작품 업로드</p>
+										<div class="abox">
+											<div class="txt clear">
+												<a href="https://revenor.notion.site/Revenor-c6621a0382e4479796912ca8a5f2d4dd" class="ri">작품 업로드 가이드</a>
+											</div>
+										</div>
+										<div class="ipt filebox">
+											<input id="fileUpload" class="upload-name comm_ipt" readonly value="" />
+											<label for="od_file">파일 첨부</label>
+											<input type="file" id="od_file" name="video">
+										</div>
+										<div class="cfm_btn clear">
+											<ul class="clear">
+												<li class="c1 od_up_close"><span>취소</span></li>
+												<button type="submit" class="submitBtn">완료</button>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</article>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+	<script>
+		$(function(){
+			$('#menu-2').addClass('on');
+		})
+
+		$(".od_det_view").click(function () {
+			$(this).parents('.od_view').toggleClass('on');
+		});
+
+		$('.od_up_open').on('click',function(){
+			$('.od-pop-wrap').stop(true).fadeIn(300);
+			$('html').addClass('play_fix');
+		return false;
+		});
+
+		$('.od_up_close').on('click',function(){
+			$('.od-pop-wrap').stop(true).fadeOut(300);
+			$('html').removeClass('play_fix');
+		return false;
+		});
+
+		$("#od_file").on('change',function(){
+			var fileName = $("#od_file").val().replace(/c:\\fakepath\\/i,'');
+			$(".upload-name").val(fileName);
+		});
+	</script>
+{% endblock extra_scripts %}

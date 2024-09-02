@@ -1,0 +1,24 @@
+<!-- 팝업 :: 알림 신청 로그인 이동  -->
+<article class="layer-fixed-pop-wrapper layer-popup" id="popupAlarmLogin">
+	<div class="modal-fixed-pop-inner">
+		<div class="modal-inner-box">
+			<div class="modal-inner-content">
+				<!-- 컨텐츠 영역 -->
+				<section class="cm-modal-content cm-alret-modal-content">
+					<div class="popup-inner-con">
+						<div class="cm-modal-tit">
+							<p class="cm-txt">로그인 후 <br>이용해 주세요.</p>
+						</div>
+					</div>
+					<div class="cm-modal-btn clearfix">
+						<ul class="col-02">
+							<li><p style="cursor:pointer;" class="cm-basic-btn" onclick="modalPopupClose('#popupAlarmLogin')">취소</p></li>
+							<li><a href="{% url 'account_login' %}" class="cm-positive-btn">로그인</a></li>
+						</ul>
+					</div>
+				</section>
+				<!-- // -->
+			</div>
+		</div>
+	</div>
+</article>

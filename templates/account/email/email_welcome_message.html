@@ -1,0 +1,111 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}
+<!-- {% autoescape off %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+땡큐프롬 {{ site_name }}! {{ site_domain }}
+{% endblocktrans %}
+{% endautoescape %} -->
+
+
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>원앤온리</title>
+<meta name="viewport" content="width=1280">
+
+<style>
+
+</style>
+
+</head>
+	<body>
+
+		<!-- 메일폼 Start -->
+		<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" bgColor="ffffff">
+			<tr>
+				<td width="100%" height="30">&nbsp;</td>
+			</tr>
+			<tr>
+				<td width="100%" align="center">
+					<table width="320" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; width:320px;" bgColor="ffffff">
+						<tr>
+							<td width="320">
+								<!-- 내용컨텐츠 -->
+								<table width="320" border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td width="320">
+											<!-- 이메일 인증 영역 -->
+											<table width="320" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="320" valign="top">
+														<table width="320" border="0" cellpadding="0" cellspacing="0">
+															<tr>
+																<td width="320" align="center" valign="top">
+																	<p style="margin:0; padding:0; display:inline-block; font-family:'NanumGothic', '돋움', 'dotum', sans-serif; word-break:keep-all; font-size: 24px; font-weight: 400; letter-spacing: -0.75px; color: #808080;">원앤온리 이메일 인증</p>
+																</td>
+															</tr>
+															<tr>
+																<td width="320" align="center" valign="top">
+                                                                    <img src="https://playplz-v2.s3.ap-northeast-2.amazonaws.com/Media+%ED%8C%8C%EC%9D%BC/ETC/%E1%84%8F%E1%85%A5%E1%86%AF%E1%84%85%E1%85%A5_%E1%84%89%E1%85%B5%E1%86%B7%E1%84%87%E1%85%A9%E1%86%AF.png" style="max-width:150px;padding-top:20px">
+																</td>
+															</tr>
+															<tr>
+																<td width="320" align="center" valign="top" style="padding-top: 25px;">
+																	<p style="margin:0; padding:0; font-family:'NanumGothic', '돋움', 'dotum', sans-serif; word-break:keep-all; font-size: 14px; line-height:21px; color: #808080;">안녕하세요,<br />원앤온리 가입을 축하드립니다!<br /><br />하단은 {{ user_display }}님의 소중한 계정정보이니, 꼭 기억해주세요!<p>
+																</td>
+															</tr>
+                                                            <tr>
+                                                                <td style="margin:0;padding:30px 20px;" align="left">
+                                                                    <table style="width:100%;background-color: rgba(175, 166, 152, 0.2);box-shadow: rgb(161 166 172) 0px 20px 30px -10px; border-radius:10px;padding:0.7rem;">
+                                                                        <tr style="border-collapse:collapse">
+                                                                            <td valign="top" align="center" style="padding:0;Margin:0;width:560px">
+                                                                                <tr style="display:flex;justify-content:center;">
+                                                                                <td style="width:100%;">
+                                                                                    <h3 style="margin:0.5rem;color:#716f6b;">계정 정보</h3>
+                                                                                    <div style="box-shadow: 3px 5px 10px rgb(82 82 82 / 20%); background: #e0dddd; border-radius: 10px; color:#323131;padding:0.5rem;margin-top:0.75rem;margin-bottom:0.75rem;">
+                                                                                        <div style="display:flex; flex-direction:row; align-items:center;">
+                                                                                        <div style="width:35%; display:flex; justify-content:start; font-size:13px;">아이디</div>
+                                                                                        <div style="font-size:12px;">{{ user.username }}</div>
+                                                                                    </div>
+                                                                                    <div style="display:flex; flex-direction:row; align-items:center;">
+                                                                                        <div style="width:35%; display:flex; justify-content:start; font-size:13px;">이메일</div>
+                                                                                        <div style="font-size:12px;">{{ user.email }}</div>
+                                                                                    </div>
+                                                                                    <div style="display:flex; flex-direction:row; align-items:center;">
+                                                                                        <div style="width:35%; display:flex; justify-content:start; font-size:12px;">정보수집</div>
+                                                                                        <div style="font-size:12px;">{% if user.userprivacy.agreement_4 %}동의{% else %}거부{% endif %}</div>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+
+															<tr>
+																<td width="320" height="48" style="border-radius:48px;" align="center" bgColor="FF405C" valign="middle" >
+																	<a href="https://onenonly.io/accounts/login" style="width:100%; border-radius:48px; height: 48px; display: inline-block; font-size: 14px; line-height:48px; color: #F2F2F2; text-align: center; text-decoration: none; word-break:keep-all; font-family:'NanumGothic', '돋움', 'dotum', sans-serif;" onMouseOver="this.style.background='#afa698'" onMouseOut="this.style.background='#FF405C';" >원앤온리 로그인</a>
+																</td>
+															</tr>
+														</table>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" height="30">&nbsp;</td>
+			</tr>
+		</table>
+		<!-- // 메일폼 End -->
+	</body>
+</html>

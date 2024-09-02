@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /*admin
+Disallow: /checkout/
+Disallow: /mypage/
+
+Sitemap: https://onenonly.io/sitemap.xml

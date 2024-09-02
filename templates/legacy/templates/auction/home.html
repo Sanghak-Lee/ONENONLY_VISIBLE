@@ -1,0 +1,581 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+
+    <meta charset="utf-8">
+		<!-- Mobile Meta -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="imagetoolbar" content="no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="Robots" content="index,follow">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="원앤온리">
+    <meta property="og:description" content="세상에 단 하나뿐인, 당신만의 위한 옥션">
+    <meta property="og:image" content="{% static 'img/logo/002.jpeg' %}">
+    <meta property="og:url" content="https://1nonly.io/auction">
+    <meta name="description" content="당신을 위한 하나뿐인 옥션, 원앤온리에서." >
+    <meta name="keywords" content="원앤온리" >
+    <title> 원앤온리 | One &amp; Only</title>
+    <link rel = "icon" href = "{% static 'img/logo/001_icon.jpeg' %}">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    {% if google_tracking_id %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ google_tracking_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ google_tracking_id }}');
+    </script>
+    {% endif %}
+
+		<!-- Google fonts (https://www.google.com/fonts) -->
+		<link rel="preconnect" href="{% static 'tank/https://fonts.gstatic.com' %}">
+		<link href='https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap' rel="stylesheet"> <!-- Body font -->
+		<link href='https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&display=swap' rel="stylesheet"> <!-- Secondary/Alter font -->
+
+		<!-- Libs and Plugins CSS -->
+		<link rel="stylesheet" href="{% static 'tank/assets/vendor/normalize/normalize.min.css' %}"> <!-- Normalize CSS (https://necolas.github.io/normalize.css/) -->
+		<link rel="stylesheet" href="{% static 'tank/assets/vendor/fontawesome/css/fontawesome-all.min.css' %}"> <!-- Font Icons CSS (https://fontawesome.com) Free version! -->
+		<link rel="stylesheet" href="{% static 'tank/assets/vendor/swiper/css/swiper-bundle.min.css' %}"> <!-- Swiper CSS (https://swiperjs.com/) -->
+		<link rel="stylesheet" href="{% static 'tank/assets/vendor/lightgallery/css/lightgallery.min.css' %}"> <!-- lightGallery CSS (http://sachinchoolur.github.io/lightGallery) -->
+
+		<!-- Template master CSS -->
+		<link rel="stylesheet" href="{% static 'tank/assets/css/helper.css' %}">
+		<link rel="stylesheet" href="{% static 'tank/assets/css/theme.css' %}">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	</head>
+
+	
+	<!-- ===========
+	///// Body /////
+	================
+	* Use class "tt-boxed" to enable page boxed layout globally (affects all elements containing class "tt-wrap").
+	* Use class "tt-smooth-scroll" to enable page smooth scrolling.
+	* Use class "tt-transition" to enable page transitions.
+	* Use class "tt-magic-cursor" to enable magic cursor.
+	-->
+	<body id="body" class="tt-transition tt-boxed tt-smooth-scroll tt-magic-cursor">
+
+
+		<!-- *************************************
+		*********** Begin body inner ************* 
+		************************************** -->
+		<main id="body-inner">
+
+			<!-- Begin page transition (do not remove!!!) 
+			=========================== -->
+			<div id="page-transition">
+				<div class="ptr-overlay"></div>
+				<div class="ptr-preloader">
+					<div class="ptr-prel-content">
+						<!-- Hint: You may need to change the img height and opacity to match your logo type. You can do this from the "theme.css" file (find: ".ptr-prel-image"). -->
+						<img src="{% static 'img/logo/004_nobg.png' %}" class="ptr-prel-image tt-logo-light" alt="Logo">
+            <!--<h1 style="color:orange;r">One &amp; Only</h1>-->
+					</div> <!-- /.ptr-prel-content -->
+				</div> <!-- /.ptr-preloader -->
+			</div>
+			<!-- End page transition -->
+
+			<!-- Begin magic cursor 
+			======================== -->
+			<div id="magic-cursor">
+				<div id="ball"></div>
+			</div>
+			<!-- End magic cursor -->
+
+			<!-- Begin noise background -->
+			<div class="bg-noise"></div>
+			<!-- End noise background -->
+
+
+			<!-- *****************************************
+			*********** Begin scroll container *********** 
+			****************************************** -->
+			<div id="scroll-container"> 
+				
+        {% include 'auction/component/menu.html' %}
+				
+        <!-- 메시지 레이어 -->
+			<div class="alert-container">
+				{% if messages %}
+				{% for message in messages %}
+				<div id="msg" class="alert alert-{{ message.tags }}">
+					{{ message }}
+					<span class="msg_close">&times;</span>
+				</div>
+				{% endfor %}
+				{% endif %}
+			</div>
+				
+				<!-- *************************************
+				*********** Begin content wrap *********** 
+				************************************** -->
+				<div id="content-wrap">
+
+					<!-- *************************************
+					*********** Begin page content *********** 
+					************************************** -->
+					<div id="page-content">
+
+						<!-- 배너 -->
+						<div class="tt-section no-padding-bottom padding-right-sm-3-p padding-left-sm-3-p">
+							<div class="tt-section-inner">
+
+								<!-- Begin tt-image
+								====================
+								* Use class "tti-fixed-height" to enable image fixed height (no effect on small screens!).
+								* Use class "anim-image-parallax" on <img> tag to enable parallax effect.
+								* Use class "margin-bottom-*" to enable bottom margins. For example "margin-bottom-100". More info about helper classes can be found in the file "helper.css".
+								-->
+								<div class="tt-image lightgallery tti-fixed-height">
+									<a href="" class="lg-trigger" data-cursor="Play" data-html="
+										<video class='lg-video-object lg-html5' controls playsinline preload='auto'>
+											<source src='/static/tank/assets/vids/fashion-week.mp4' type='video/mp4'>
+											<source src='/static/tank/assets/vids/fashion-week.webm' type='video/webm'>
+										</video>">
+
+										<figure class="cover-opacity-2">
+											<img class="anim-image-parallax tt-lazy" src="{% static 'img/logo/002.jpeg' %}" data-src="{% static 'img/logo/002.jpeg' %}" alt="image">
+											<!-- <figcaption>
+												Image Caption
+											</figcaption> -->
+										</figure>
+
+										<!-- Play button for mobile devices only -->
+										<div class="align-center z-index-2">
+											<div class="tt-btn tt-btn-light tt-btn-round anim-fadeinup">
+												<div data-hover="Play"><i class="fas fa-solid fa-play"></i></div> <!-- Use short text only! -->
+											</div>
+										</div>
+									</a>
+								</div>
+								<!-- End tt-image -->
+
+							</div> <!-- /.tt-section-inner -->
+						</div>
+						<!-- End tt-section -->
+
+
+						<!-- 옥션 소개-->
+						<div class="tt-section no-padding-bottom padding-right-sm-3-p">
+							<div class="tt-section-inner tt-wrap">
+
+								<div class="tt-row">
+									<div class="tt-col-lg-8">
+
+										<!-- Begin tt-Heading 
+										====================== 
+										* Use class "tt-heading-xsm", "tt-heading-sm", "tt-heading-lg", "tt-heading-xlg" or "tt-heading-xxlg" to set caption size (no class = default size).
+										* Use class "tt-heading-stroke" to enable stroke style.
+										* Use class "tt-heading-center" to align tt-Heading to center.
+										* Use prepared helper class "max-width-*" to add custom width if needed. Example: "max-width-800". More info about helper classes can be found in the file "helper.css".
+										-->
+										<div class="tt-heading tt-heading-sm anim-fadeinup">
+											<h2 class="tt-heading-title">Auction</h2>
+											<!-- <h3 class="tt-heading-subtitle text-gray">Subtitle</h3> -->
+										</div>
+										<!-- End tt-Heading -->
+
+										<div class="anim-fadeinup font-alter text-gray text-sm">
+											<p>첫째, 오직 당신만을 위한, 당신만 가질수 있는 단 하나뿐인 옥션을 개최합니다. 아티스트와의 긴밀한 협의로 제한된 개수로만 진행하며 경매방식을 통해 입찰합니다.</p>
+											<p>둘째, 단 한번뿐인 옥션을 주최합니다. 아티스트분과의 미팅을 통해 최적의 서비스 제공을 기획하고, 모든 순간을 큐레이팅 하는 서비스입니다.</p>
+										</div>
+
+										<div class="tt-btn tt-btn-link anim-fadeinup">
+											<a href="{% url 'auction:placementlist' %}" data-hover="ALL">옥션 전체보기</a>
+										</div>
+
+									</div> <!-- /.tt-col -->
+
+									<div class="tt-col-lg-4">
+									</div> <!-- /.tt-col -->
+								</div> <!-- /.tt-row -->
+
+							</div> <!-- /.tt-section-inner -->
+						</div>
+						<!-- End tt-section -->
+
+						<!-- 옥션 슬라이더 -->
+						<div class="tt-section padding-bottom-xlg-150 padding-right-sm-3-p padding-left-sm-3-p">
+							<div class="tt-section-inner">
+
+								<!-- =============================
+								///// Begin content carousel /////
+								==================================
+								* Use class "cc-shifted" to enable shifted style (no effect on small screens!).
+								* Use class "cursor-drag" to enable cursor drag on carousel hover ("data-simulate-touch" attribute must be enabled!).
+								* Use class "cc-scale-down" to enable scale down animation on carousel click.
+								* Use class "cc-pagination-outside" to bring pagination outside.
+								* Use class "cc-hide-pagination" to hide pagination (for desktop only!).
+								* Use class "cc-hide-navigation" to hide navigation arrows.
+								* Available data attributes:
+										data-speed="900"......................(milliseconds)
+										data-autoplay="5000"..................(milliseconds. Note: disabled after user first interactions)
+										data-simulate-touch="true"............(true/false)
+										data-loop="true"......................(true/false)
+										data-pagination-type="bullets"........(bullets/fraction/progressbar)
+								-->
+								<div class="tt-content-carousel cursor-drag cc-scale-down cc-hide-pagination" data-loop="true" data-simulate-touch="true" data-speed="900">
+
+									<!-- Begin swiper container -->
+									<div class="swiper-container">
+
+										<!-- Begin swiper wrapper (required) -->
+										<div class="swiper-wrapper">
+
+                      {% for p in placements %}
+											<!-- Begin swiper slide 
+											======================== -->
+											<div class="swiper-slide">
+												<div class="tt-content-carousel-item">
+                          <a href="{% url 'auction:placement-detail' p.pk %}">
+                            <figure class="cover-opacity-1" style="text-align:center;">
+                              <img class="tt-cc-image anim-image-parallax swiper-lazy" src="{{ p.thumbnail_video.url }}" alt="Image">
+                              <figcaption>{{ p.title | truncatechars:14 }}</figcaption>
+                            </figure>
+                          </a>
+												</div> <!-- /.tt-content-carousel-item -->
+											</div>
+											<!-- End swiper slide -->
+                      {% endfor %}
+
+										</div>
+										<!-- End swiper wrapper -->
+
+									</div>
+									<!-- End swiper container -->
+
+									<!-- Content carousel navigation (arrows) -->
+									<div class="tt-cc-nav-prev">
+										<div class="tt-cc-nav-arrow magnetic-item"></div>
+									</div>
+									<div class="tt-cc-nav-next">
+										<div class="tt-cc-nav-arrow magnetic-item"></div>
+									</div>
+
+									<!-- Content carousel pagination -->
+									{% comment %} <div class="tt-cc-pagination hide-cursor"></div> {% endcomment %}
+
+								</div>
+								<!-- End content carousel -->
+
+							</div> <!-- /.tt-section-inner -->
+						</div>
+						<!-- End tt-section -->
+
+
+						<!-- 아티스트 소개 -->
+						<div class="tt-section no-padding-bottom padding-top-xlg-150 padding-left-sm-3-p">
+							<div class="tt-section-inner tt-wrap">
+
+								<div class="tt-row">
+									<div class="tt-col-lg-4">
+									</div> <!-- /.tt-col -->
+
+									<div class="tt-col-lg-8">
+
+										<!-- Begin tt-Heading 
+										====================== 
+										* Use class "tt-heading-xsm", "tt-heading-sm", "tt-heading-lg", "tt-heading-xlg" or "tt-heading-xxlg" to set caption size (no class = default size).
+										* Use class "tt-heading-stroke" to enable stroke style.
+										* Use class "tt-heading-center" to align tt-Heading to center.
+										* Use prepared helper class "max-width-*" to add custom width if needed. Example: "max-width-800". More info about helper classes can be found in the file "helper.css".
+										-->
+										<div class="tt-heading tt-heading-sm anim-fadeinup">
+											<h2 class="tt-heading-title">Artists</h2>
+											<!-- <h3 class="tt-heading-subtitle text-gray">Subtitle</h3> -->
+										</div>
+										<!-- End tt-Heading -->
+
+										<div class="anim-fadeinup font-alter text-gray text-sm">
+											<p>선정된 각 분야 최고의 아티스트 분들을 모셔 함께하려 합니다. 특별한 '꿈'을 꾸게 해주신 명사님들은 철저한 분석과 노력 이후 협업을 진행합니다.</p>
+										</div>
+
+										<!-- <div class="tt-btn tt-btn-link anim-fadeinup">
+											<a href="{% static 'tank/dummy-page.html" data-hover="Explore More">Explore More</a>
+										</div> -->
+
+									</div> <!-- /.tt-col -->
+								</div> <!-- /.tt-row -->
+
+							</div> <!-- /.tt-section-inner -->
+						</div>
+						<!-- End tt-section -->
+
+						<!-- 아티스트 그리드-->
+						<div class="tt-section">
+							<div class="tt-section-inner tt-wrap max-width-1600">
+
+								<!-- Begin tt-Gallery (works combined with tt-Ggrid!)
+								======================
+								* Use class "ttga-hover" to enable gallery item hover effect (behavior depends on "ttgr-gap-*" classes below).
+								--> 
+								<div class="tt-gallery ttga-hover">
+
+									<!-- Begin tt-Grid
+									=================== 
+									* Use class "ttgr-layout-2", "ttgr-layout-3", "ttgr-layout-4" to set grid layout (columns). No class = one column.
+									* Use class "ttgr-layout-1-2", "ttgr-layout-2-1", "ttgr-layout-2-3", "ttgr-layout-3-2", "ttgr-layout-3-4" or "ttgr-layout-4-3" to set grid mixed layout (columns).
+									* Use class "ttgr-layout-creative-1" or "ttgr-layout-creative-2" to set grid creative mixed layout (no effect with classes "ttgr-portrait", "ttgr-portrait-half", "ttgr-not-cropped" and "ttgr-shifted").
+									* Use class "ttgr-portrait" or "ttgr-portrait-half" to enable portrait mode (no effect with classes "ttgr-layout-creative-1", "ttgr-layout-creative-2" and "ttgr-not-cropped").
+									* Use class "ttgr-gap-1", "ttgr-gap-2", "ttgr-gap-3", "ttgr-gap-4", "ttgr-gap-5" or "ttgr-gap-6" to add space between items.
+									* Use class "ttgr-not-cropped" to enable not cropped mode (effect only with classes "ttgr-layout-2", "ttgr-layout-3" and "ttgr-layout-4").
+									* Use class "ttgr-shifted" to enable shifted layout (effect only with classes "ttgr-layout-2", "ttgr-layout-3" and "ttgr-layout-4").
+									-->
+									<div class="tt-grid ttgr-layout-4 ttgr-portrait ttgr-gap-2">
+
+										<!-- tt-Grid 필터 -->
+										<div class="tt-grid-top">
+
+											<!-- Begin tt-Ggrid categories/filter
+											====================================== -->
+											<div class="tt-grid-categories">
+
+												<!-- Begin tt-Ggrid categories trigger 
+												======================================= 
+												* Use class "ttgr-cat-fixed" to enable categories trigger fixed position.
+												-->
+												<div class="ttgr-cat-trigger-wrap ttgr-cat-fixed">
+													<a href="#portfolio-grid" class="ttgr-cat-trigger not-hide-cursor" data-offset="150">
+														<div class="ttgr-cat-text">
+															<span data-hover="열기">분야</span>
+														</div>
+														<div class="ttgr-cat-icon">
+															<span class="magnetic-item"><i class="fas fa-layer-group"></i></span>
+														</div>
+													</a>
+												</div>
+												<!-- End tt-Ggrid categories trigger -->
+
+												<!-- Begin tt-Ggrid categories nav 
+												=================================== -->
+												<div class="ttgr-cat-nav">
+													<div class="ttgr-cat-list-holder cursor-close">
+														<div class="ttgr-cat-list-inner">
+															<div class="ttgr-cat-list-content">
+																<ul class="ttgr-cat-list">
+																	<li class="ttgr-cat-close">닫기<i class="fas fa-times"></i></li> <!-- For mobile devices! -->
+																	<li class="ttgr-cat-item"><a href="#" class="active">ALL</a></li>
+																	{% for slug in slugs %}
+																	<li class="ttgr-cat-item">
+																		<a href="#" data-filter=".{{slug}}">
+																			{% if slug == 'woo' %}
+																			Painter
+																			{% elif slug == 'son' %}
+																			Pianist
+																			{% elif slug == 'chang' %}
+																			Woodblock artist
+																			{% elif slug == 'layers' %}
+																			Singer
+																			{% elif slug == 'test' %}
+																			Fashion illustrator
+																			{% endif %}
+																		</a></li>
+																	{% endfor %}
+																</ul>
+															</div> <!-- /.ttgr-cat-links-content -->
+														</div> <!-- /.ttgr-cat-links-inner -->
+													</div> <!-- /.ttgr-cat-links-holder -->
+												</div>
+												<!-- End tt-Ggrid categories nav -->
+
+											</div>
+											<!-- End tt-Ggrid categories/filter-->
+
+										</div>
+										<!-- End tt-Grid 필터 -->
+
+
+										<!-- Begin tt-Grid items wrap 
+										============================== -->
+										<div class="tt-grid-items-wrap isotope-items-wrap lightgallery" id="portfolio-grid">
+
+                      {% for a in auctionartists %}
+											<!-- Begin tt-Grid item
+											======================== -->
+											<div class="tt-grid-item isotope-item {{a.slug}}">
+												<div class="ttgr-item-inner">
+
+													<!-- Begin tt-Gallery item
+													=========================== -->
+													<a href="{% url 'auction:auctionartistdetailview' a.slug %}" >
+														<div class="tt-gallery-item-inner">
+															<div class="tt-gallery-image-wrap anim-zoomin">
+																<figure class="tt-gallery-image ttgr-height">
+																	<img src="{{ a.avatar.url }}" alt="image">
+																</figure> <!-- /.tt-gallery-image -->
+															</div> <!-- /.tt-gallery-image-wrap -->
+														</div> <!-- /.tt-gallery-item-inner -->
+													</a>
+													<!-- End tt-Gallery item -->
+                          <div class="role">
+                            <div class="weak">Painter / Artist</div>
+                            <div class="weak">Auction</div>
+                          </div>
+                          <div class="name">{{ a.E_name }}</div>
+
+												</div> <!-- /.ttgr-item-inner -->
+											</div>
+											<!-- End tt-Grid item -->
+                      {% endfor %}
+										</div>
+										<!-- End tt-Grid items wrap  -->
+
+                    <!-- More button -->
+                    <div class="more_btn" style="text-align:center;"> MORE </div>
+
+									</div>
+									<!-- End tt-Grid -->
+
+								</div>
+								<!-- End tt-Gallery -->
+
+							</div> <!-- /.tt-section-inner -->
+						</div>
+						<!-- End tt-section -->
+
+
+						<!-- 회사 마무리소개-->
+						<div class="tt-section no-padding-top padding-bottom-xlg-150 padding-left-sm-3-p padding-right-sm-3-p">
+							<div class="tt-section-inner tt-wrap">
+										<!-- Begin tt-Heading 
+										====================== 
+										* Use class "tt-heading-xsm", "tt-heading-sm", "tt-heading-lg", "tt-heading-xlg" or "tt-heading-xxlg" to set caption size (no class = default size).
+										* Use class "tt-heading-stroke" to enable stroke style.
+										* Use class "tt-heading-center" to align tt-Heading to center.
+										* Use prepared helper class "max-width-*" to add custom width if needed. Example: "max-width-800". More info about helper classes can be found in the file "helper.css".
+										-->
+										<div class="tt-heading tt-heading-sm anim-fadeinup">
+											<h2 class="tt-heading-title">주식회사 레브너</h2>
+											<h3 class="tt-heading-subtitle text-gray">rêve:(프랑스어) 꿈.</h3>
+										</div>
+										<!-- End tt-Heading -->
+
+										<div class="anim-fadeinup font-alter text-gray text-sm">
+											<p> revenor꿈을 주는 사람들이란 뜻으로 고객들에게 꿈을 서비스 형태로 제공합니다.<br> 첫번째 꿈, 'One and only Dream' 원앤온리를 소개합니다.</p>
+										</div>
+
+										<div class="tt-btn tt-btn-link anim-fadeinup">
+											<a href="{% url 'core:guide' %}" data-hover="Explore More">Explore More</a>
+										</div>
+							</div> <!-- /.tt-section-inner -->
+						</div>
+						<!-- End tt-section -->
+
+			<!-- Contact -->
+			<div class="tt-section padding-bottom-xlg-150">
+				<div class="tt-section-inner tt-wrap">
+
+					<!-- Begin page nav 
+					==================== 
+					* Use class "tt-pn-stroke" to enable title stroke style.
+					* Use class "tt-pn-scroll" to enable hover title scroll. Note: If "tt-pn-hover-title" text is wider than "tt-pn-link" then it scrolls by default. The longer the text, the faster it scrolls.
+					-->
+					<div class="tt-page-nav tt-pn-scroll">
+						<a href="#" class="tt-pn-link anim-fadeinup">
+							<div class="tt-pn-title">ONE&amp;ONLY</div>
+							<div class="tt-pn-hover-title">원앤온리</div>
+						</a> <!-- /.tt-pn-link -->
+
+						<div class="tt-pn-subtitle anim-fadeinup">YOUR <strong class="font-nephilm">LIFE-<br class="m-br">CHANGING MOMENTS</strong> WILL BE DELIVERED</div>
+
+						<!-- Use if destination page contains page header image -->
+						<div class="tt-pn-image">
+							<img src="/static/tank/assets/img/page-header/ph-1.jpg" alt="image">
+						</div>
+					</div>
+					<!-- End page nav -->
+
+				</div> <!-- /.tt-section-inner -->
+			</div>
+			<!-- End tt-section -->
+
+
+					</div>
+					<!-- End page content -->
+
+
+				<!-- footer -->
+				{% include 'auction/component/footer.html' %}
+
+				</div>
+				<!-- End content wrap -->
+
+			</div>
+			<!-- End scroll container -->
+
+
+		</main>
+		<!-- End body inner -->
+
+
+        
+
+		<!-- ====================
+		///// Scripts below /////
+		===================== -->
+    <!--message-->
+    <script>
+      //fadeout
+      $('.msg_close').on('click',function(){
+        $(this).parent(".alert").addClass('close');
+      });
+
+      //message auto disappear
+      if($('.alert').length){
+        setTimeout(function(){
+          $('.alert').addClass('close');
+        }, 7500)
+      }
+    </script>
+ 
+    <!--More btn-->
+		<script>
+			$(".tt-grid-item").hide();
+			$(".tt-grid-item").slice(0, 4).fadeIn();
+			$(".more_btn").click(function(e){
+				e.preventDefault();				
+				if($(".tt-grid-item:hidden").length == 0){
+				$(".more_btn").remove();
+				}else{
+					var $append=$(".tt-grid-item:hidden").slice(0,2).fadeIn();
+					//재정렬
+					var $container = $(".isotope-items-wrap");
+					$container.isotope('layout');
+				}
+			});
+			</script>
+
+		<!-- Core JS -->
+		<script src="{% static 'tank/assets/vendor/jquery/jquery.min.js' %}"></script> <!-- jquery JS (https://jquery.com) -->
+
+		<!-- Libs and Plugins JS -->
+		<script src="{% static 'tank/assets/vendor/gsap/gsap.min.js' %}"></script> <!-- GSAP JS (https://greensock.com/gsap/) -->
+		<script src="{% static 'tank/assets/vendor/gsap/ScrollToPlugin.min.js' %}"></script> <!-- GSAP ScrollToPlugin JS (https://greensock.com/scrolltoplugin/) -->
+		<script src="{% static 'tank/assets/vendor/gsap/ScrollTrigger.min.js' %}"></script> <!-- GSAP ScrollTrigger JS (https://greensock.com/scrolltrigger/) -->
+
+		<script src="{% static 'tank/assets/vendor/smooth-scrollbar.js' %}"></script> <!-- Smooth Scrollbar JS (https://github.com/idiotWu/smooth-scrollbar/) -->
+		<script src="{% static 'tank/assets/vendor/swiper/js/swiper-bundle.min.js' %}"></script> <!-- Swiper JS (https://swiperjs.com/) -->
+		<script src="{% static 'tank/assets/vendor/isotope/imagesloaded.pkgd.min.js' %}"></script> <!-- imagesloaded JS (more info: https://imagesloaded.desandro.com/) -->
+		<script src="{% static 'tank/assets/vendor/isotope/isotope.pkgd.min.js' %}"></script> <!-- Isotope JS (http://isotope.metafizzy.co) -->
+		<script src="{% static 'tank/assets/vendor/isotope/packery-mode.pkgd.min.js' %}"></script> <!-- Isotope Packery Mode JS (https://isotope.metafizzy.co/layout-modes/packery.html) -->
+		<script src="{% static 'tank/assets/vendor/lightgallery/js/lightgallery-all.min.js' %}"></script> <!-- lightGallery Plugins JS (http://sachinchoolur.github.io/lightGallery) -->
+		<script src="{% static 'tank/assets/vendor/jquery.mousewheel.min.js' %}"></script> <!-- A jQuery plugin that adds cross browser mouse wheel support (https://github.com/jquery/jquery-mousewheel) -->
+
+		<!-- Theme master JS -->
+		<script src="{% static 'tank/assets/js/theme.js' %}"></script>
+
+
+
+	</body>
+
+</html>

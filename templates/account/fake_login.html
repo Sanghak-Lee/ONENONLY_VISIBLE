@@ -1,0 +1,10 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load static %}
+{% block head_title %} {% trans "Sign In" %} {% endblock %}
+
+{% block content %}
+	<div class="account-form">
+		{% include "component/login.html" %}
+	</div>
+{% endblock %}

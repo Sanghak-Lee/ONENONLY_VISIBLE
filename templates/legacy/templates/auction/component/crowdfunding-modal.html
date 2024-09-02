@@ -1,0 +1,107 @@
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}  
+{% get_top_3 placement as placementbid %}
+
+  <div class="" id="bidding-modal">
+      <div class="content">
+        <div class="modal-hd" id="modal-hd">
+          <h2 class="left">[ BID 퍼블릭 온라인 경매 Ⅰ]</h2>
+          <i class="right modal-toggle bi bi-box-arrow-right"></i>
+        </div>
+
+        <div class="modal-bd">
+          <div class="bd-left">
+            <div class="picture"><img src="{{ placement.placement_artist.avatar.url }}" class="img-fluid" alt=""></div>
+            <div class="bio">
+              <div class="l1">{{ placement.pk }}<br>{{ placement.placement_artist.name}}</div>
+              <div class="l2">{{ placement.title }}</div> 
+              <div class="l3">{{ placement.placement_description }}</div>
+            </div>
+          </div>
+          <div class="bd-right">
+              <!-- 가격표시 -->
+            <div class="r1">
+                  <div class="price">
+                  <div class="price-1">
+                      <span class="le">목표금</span>
+                      <span class="ri">펀딩금액<strong>KRW {{ placement.unit_price | intcomma}}</strong></span>
+                  </div>
+                  <div class="price-2">
+                      <span class="le">KRW</span>
+                      <span class="ri">{{placement.placement_price | intcomma }}</span>            
+                  </div> 
+                  </div>            
+                  <div class="time">
+                  <span class="le">
+                      <p><strong>남은시간</strong></p>
+                      <p id="bid-countdown" class="t"></p>                
+                  </span>
+                  <span class="ri">
+                      <p><strong>시작시간</strong></p>
+                      <p class="t">{{ placement.placement_start }}</p> 
+                  </span>            
+                  </div>
+            </div>
+
+            <!-- 응찰 -->
+            <div class="r2">
+              <div class="fundcircle">
+                <div class="progressbar">
+                  <svg class="progressbar__svg shadow-css">
+                    <circle cx="120" cy="110" r="110" class="progressbar__svg-circle circle-animation shadow-css"> </circle>
+                  </svg>
+                  <span class="count" countvalue="{% widthratio placement.get_crowdfunding_total placement.placement_price 100 %}"><span>퍼센트</span></span>
+                </div>
+              </div>
+              <div class="status">
+                <p><strong>{{ placement.get_crowdfunding_total | intcomma }}</strong> 원 펀딩</p>
+                <p><strong>{{donations | length}}</strong> 명의 서포터</p>
+                <p><strong>{{ placement.get_crowdfunding_total_cnt }}</strong> 개의 펀딩</p>                
+                <form method="post" action="{% url 'auction:crowdfundingstart' placement.id %}">
+                  {% csrf_token %}
+                  <label for="cwd_n">No.(Max < 5) <input id="cwd_n" type="number" value="1" name="cwd_n" max="5" min="1" /></label>
+                  <button type="submit">펀딩하기</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- 응찰현황 -->
+            <div class="r3">
+                  <div class="scroll">
+                  <table border="1" width ="500" height="300" align = "center" >
+                      <tbody>
+                      <tr align = "center">
+                          <th style="width:12%;" rowspan="100%" align = "center" bgcolor="skyblue">SP.<br>{{donations | length}} </th>
+                          <th style="width:12%;">개수</th>
+                          <th style="width:18%;">서포터</th>
+                          <th style="width:29%;">펀딩금액</th>
+                          <th style="width:29%;">펀딩시각</th>
+                      </tr>
+                      {% for d in donations %}
+                      <tr align = "center">
+                          <td>{{ d.quantity }}</td>                      
+                          <td {% if d.user == request.user %}style="color:red;"{% endif %}>{{ d.user.username | truncatechars:2 }}</td>
+                          <td class="offer">{{ d.offer | intcomma }}&#8361;</td>
+                          <td>{{ d.donation_created }}</td>
+                      </tr>
+                      {% endfor %}              
+                      </tbody>    
+                  </table>
+                  </div>
+                  <ul class="notice">             
+                  <li> 펀딩금액에 도달할 경우 자동으로 펀딩종료 됩니다. 상단 마이옥션 메뉴에서 결과를 확인해주세요. </li>
+                  <li> 펀딩 도중 도움이 필요하시면 고객센터에 전화하시거나 하단 챗봇을 이용해주세요. </li>
+                  </ul>
+            </div>         
+          </div>
+          <div class="finish">
+              <a class="modal-toggle" id="finish-button">결과보기</a>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <span class="right modal-toggle">닫기</span>
+        </div>
+      </div>
+  </div>

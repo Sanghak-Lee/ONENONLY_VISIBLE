@@ -1,0 +1,742 @@
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}
+{% load auction_templatetag %}
+{% get_top_3 placement as placementbid %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=no">	
+	<meta name="HandheldFriendly" content="true">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="imagetoolbar" content="no">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="Robots" content="index,follow">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="{{ placement.placement_artist.name }}옥션">
+	<meta property="og:description" content="세상에 단 하나뿐인, 당신만의 위한 옥션">
+	<meta property="og:image" content="{% static 'img/logo/002.jpeg' %}">
+	<meta property="og:url" content="https://1nonly.io/auction">
+  <meta name="description" content="당신을 위한 하나뿐인 옥션, 원앤온리에서." >
+  <meta name="keywords" content="원앤온리" >
+
+    <title> Auction | {% block head_title %}{% endblock %}</title>
+    <link rel = "icon" href = "{% static 'img/logo/001_icon.jpeg' %}">
+    {% block extra_head %}
+    {% endblock %}
+
+
+    <!-- Favicons -->
+    <link href="/static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+
+    <!-- Template1 Main CSS File -->
+    <link href="/static/assets/css/style.css" rel="stylesheet">
+    
+    <!--Swiper css-->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <link href="/static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    {% if google_tracking_id %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ google_tracking_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8E9VSC85NV');
+    </script>
+    {% endif %}
+
+  </head>
+
+{% comment %} <body oncontextmenu='return false' onselectstart='return false' ondragstart='return false'> {% endcomment %}
+
+<header id="header" class="header-top" style="">
+  <div class="container">
+  {% comment %} <a href="{% url 'auction:home' %}"><img src="/static/img/classic_logo_banner.png" height="100px;" weight="100px;" style="margin-top: 12px;margin-left: 22px;"alt=""></a> {% endcomment %}
+  <h1><a href="{% url 'auction:home' %}" class="detail_page"><img src="{% static 'paze/img/hd_logo.png' %}"></a></h1>
+    {% comment %} <h1><a href="{% url 'auction:home' %}">BeCollector Auction</a></h1> {% endcomment %}
+    {% comment %} <a href="{% url 'auction:placement-detail' placement.pk %}"><img src="/static/img/classic_logo_banner.png" alt=""></a> {% endcomment %} 
+    <nav id="navbar" class="navbar">
+
+      <ul>
+        <li><a class="nav-link active" href="#about">옥션 경매품</a></li>
+        <li><a class="nav-link" href="#contact">옥션 아티스트</a></li>
+        <li><a class="nav-link" href="#resume" >낙찰 확인하기</a></li>
+        <li><a class="nav-link" href="{% url 'account_logout' %}">로그아웃</a></li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+
+  </div>
+</header><!-- End Header -->
+
+<!-- 메시지 레이어 -->
+<div class="alert-container">
+  {% if messages %}
+  {% for message in messages %}
+  <div id="msg" class="alert alert-{{ message.tags }}">
+    {{ message }}
+    <span class="msg_close">&times;</span>
+  </div>
+  {% endfor %}
+  {% endif %}
+</div>
+
+<body>
+  {% comment %} <audio loop hidden autoplay>
+    <source src="https://playplz.s3.ap-northeast-2.amazonaws.com/EXTRA_kakao/%EA%B9%80%EC%9E%AC%EC%9B%90_%EC%9D%8C%EC%95%85%EC%9D%84+%EA%B7%B8%EB%A6%AC%EB%8A%94+%ED%99%94%EA%B0%80.mp3" type="audio/mp3" />
+  </audio> {% endcomment %}
+    <!-- modal popup -->
+
+    <!--바로구매-->
+    {% if placement.placement_buynow_price != 0 %}
+    <div id="modal-container" modal='bidinfo-1'>
+      <div class="modal-background">
+        <div class="modal">
+          <button style="position:absolute;right:0;top:0;"class='modal-closebutton' target-modal='bidinfo-1'> close</button>
+          <h2>바로구매 안내문</h2>
+          <ul>
+            <li>낙찰규정</li>
+            <small>낙찰자는 낙찰을 철회할 수 없습니다. 부득이 철회를 하는 경우에는 낙찰일로부터 3일 이내에 서면으로 철회의사를 통보하고, 위약별로 낙찰가의 30%에 해당하는 금액을 낙찰일로부터 3일 이내에 납부하여야 합니다.</small>
+            <li>수수료</li>
+            <small>경매물품과 관련된 구매 수수료는 낙찰금액의 10%(부가가치세 별도)입니다.</small>
+            <li>구매기한</li>
+            <small>옥션 낙찰된 이후 24시간 이내 수수료 10% 입금, 7일 이내 수수료 포함 전액 납부 원칙입니다. 기한이 지나면 임의로 차순위 응찰자에게 권한이 넘어갈 수 있습니다.</small>
+            <li>환불규정</li>
+            <small>콘텐츠 결제 후에는 환불되지 않습니다. 자세한 내용은 <a href="{% url 'core:info-3' %}">환불규정</a>을 참고해주십시오. </small>
+          </ul>
+          <p> 경매품 '{{placement.title}}'를 바로구매 하시겠습니까?</p>
+          <p>바로구매 가격 : <em style="color:#E99265;">{{placement.placement_buynow_price | intcomma }}원</em></p>
+          <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="buynow-notice">모두 동의</label><input type="checkbox" id="buynow-notice" required />
+            <button type="submit" name="buynow-bid">바로구매</button>
+          </form>
+          <svg class="modal-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
+            <rect x="0" y="0" fill="none" rx="3" ry="3"></rect>
+          </svg>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Bidding Modal -->
+    {% include 'auction/component/bidding-modal.html' with placement=placement all_pbd=all_pbd my_autobid=my_autobid %}
+
+
+    {% block extra_body %}
+    {% endblock %}
+    <!-- Section -->
+    {% block body %}
+    {% endblock body %}
+
+    <!-- 하단공통 -->
+    <div class="credits">
+        <a href="{% url 'core:guide' %}">REVENOR</a> Inc.
+    </div>
+    {% include 'auction/component/footer.html' %}
+
+  <!-- Vendor JS Files -->
+  <script src="/static/assets/vendor/purecounter/purecounter.js"></script>
+  <script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+  <script src="/static/assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="/static/assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/static/assets/js/main.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>  
+  <script src={% static 'tank/assets/vendor/smooth-scrollbar.js' %}></script> <!-- Smooth Scrollbar JS (https://github.com/idiotWu/smooth-scrollbar/) -->  
+  <script src={% static 'tank/assets/vendor/gsap/gsap.min.js' %}></script> <!-- GSAP JS (https://greensock.com/gsap/) -->
+  <script src={% static 'tank/assets/vendor/gsap/ScrollToPlugin.min.js' %}></script> <!-- GSAP ScrollToPlugin JS (https://greensock.com/scrolltoplugin/) -->
+  <script src={% static 'tank/assets/vendor/gsap/ScrollTrigger.min.js' %}></script> <!-- GSAP ScrollTrigger JS (https://greensock.com/scrolltrigger/) -->  
+  
+  <!-- KAKAO SDK -->
+  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+  <!-- body height 최대 설정 -->
+  <script>
+    const fullHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.offsetHeight,
+        document.body.clientHeight,
+        document.documentElement.clientHeight
+    );
+    $('body').height(fullHeight);
+  </script>
+
+  <script> //smooth scroll
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Nokia|Opera Mini/i.test(navigator.userAgent) ? true : false;
+    $('a[href^="#"]')
+      .not('[href$="#"]')  // omit from selection
+      .not('[href$="#0"]')  // omit from selection
+      .on("click", function() {
+
+      var target = this.hash;
+      var $offset = 0;
+
+      // You can use data attribute (data-offset="100") to set top offset in HTML markup if needed. 
+      if ($(this).data("offset") != undefined) $offset = $(this).data("offset");
+      
+      if(!isMobile) { // Not for mobile devices!
+          var topY = $(target).offset().top - $("body").offset().top - $offset;
+          gsap.to($(window), { duration: 2, scrollTo: { y: topY, autoKill: true }, ease: Expo.easeInOut });			
+      } else {
+        var topY = $(target).offset().top - $("body").offset().top - $offset;
+        gsap.to($(window), { duration: 2, scrollTo: { y: topY, autoKill: true }, ease: Expo.easeInOut });
+      }
+      return false;
+    });
+  </script>
+<!-- CSRF token 자동 setting -->
+<script>
+ function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+  }
+
+  var csrftoken = getCookie('csrftoken');
+
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+      }
+  });
+</script>
+
+  {% comment %} <!-- 우클릭, 개발자도구 방지-->
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $(document).bind('keydown',function(e){ 
+        if ( e.keyCode == 123 /* F12 */) { 
+          e.preventDefault(); e.returnValue = false; 
+            } 
+        
+        }); 
+        });
+    $('body').contextmenu(function(){
+      return false;
+    })
+  </script> {% endcomment %}
+
+  <!-- slider js-->
+  <script>
+    var swiper1 = new Swiper(".style1-container", {
+      effect: "cards",
+      grabCursor: true,
+      loop: true,      
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
+      },      
+      pagination: {
+        el: ".style1-pagination",
+      },      
+    });  
+  </script>
+
+  <!--Canvas js-->
+  <script>
+        window.addEventListener("resize", resizeCanvas, false);
+        window.addEventListener("DOMContentLoaded", onLoad, false);
+        
+        window.requestAnimationFrame = 
+            window.requestAnimationFrame       || 
+            window.webkitRequestAnimationFrame || 
+            window.mozRequestAnimationFrame    || 
+            window.oRequestAnimationFrame      || 
+            window.msRequestAnimationFrame     || 
+            function (callback) {
+                window.setTimeout(callback, 1000/60);
+            };
+        
+        var canvas, ctx, w, h, particles = [], probability = 0.04,
+            xPoint, yPoint;
+        
+        
+        
+        
+        
+        function onLoad() {
+            canvas = document.getElementById("canvas");
+            ctx = canvas.getContext("2d");
+            resizeCanvas();
+            
+            window.requestAnimationFrame(updateWorld);
+        } 
+        
+        function resizeCanvas() {
+            if (!!canvas) {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+        } 
+        
+        function updateWorld() {
+            update();
+            paint();
+            window.requestAnimationFrame(updateWorld);
+        } 
+        
+        function update() {
+            if (particles.length < 500 && Math.random() < probability) {
+                createFirework();
+            }
+            var alive = [];
+            for (var i=0; i<particles.length; i++) {
+                if (particles[i].move()) {
+                    alive.push(particles[i]);
+                }
+            }
+            particles = alive;
+        } 
+        
+        function paint() {
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = "rgba(0,0,0,0.2)";
+            ctx.fillRect(0, 0, w, h);
+            ctx.globalCompositeOperation = 'lighter';
+            for (var i=0; i<particles.length; i++) {
+                particles[i].draw(ctx);
+            }
+        } 
+        
+        function createFirework() {
+            xPoint = Math.random()*(w-200)+100;
+            yPoint = Math.random()*(h-200)+100;
+            var nFire = Math.random()*50+100;
+            var c = "rgb("+(~~(Math.random()*200+55))+","
+                 +(~~(Math.random()*200+55))+","+(~~(Math.random()*200+55))+")";
+            for (var i=0; i<nFire; i++) {
+                var particle = new Particle();
+                particle.color = c;
+                var vy = Math.sqrt(25-particle.vx*particle.vx);
+                if (Math.abs(particle.vy) > vy) {
+                    particle.vy = particle.vy>0 ? vy: -vy;
+                }
+                particles.push(particle);
+            }
+        } 
+        
+        function Particle() {
+            this.w = this.h = Math.random()*4+1;
+            
+            this.x = xPoint-this.w/2;
+            this.y = yPoint-this.h/2;
+            
+            this.vx = (Math.random()-0.5)*10;
+            this.vy = (Math.random()-0.5)*10;
+            
+            this.alpha = Math.random()*.5+.5;
+            
+            this.color;
+        } 
+        
+        Particle.prototype = {
+            gravity: 0.05,
+            move: function () {
+                this.x += this.vx;
+                this.vy += this.gravity;
+                this.y += this.vy;
+                this.alpha -= 0.01;
+                if (this.x <= -this.w || this.x >= screen.width ||
+                    this.y >= screen.height ||
+                    this.alpha <= 0) {
+                        return false;
+                }
+                return true;
+            },
+            draw: function (c) {
+                c.save();
+                c.beginPath();
+                
+                c.translate(this.x+this.w/2, this.y+this.h/2);
+                c.arc(0, 0, this.w, 0, Math.PI*2);
+                c.fillStyle = this.color;
+                c.globalAlpha = this.alpha;
+                
+                c.closePath();
+                c.fill();
+                c.restore();
+            }
+        } 
+                    </script>
+  <!-- scroll down circle -->
+  <script>
+		// Page header scroll down circle
+		if ($(".scroll-down-circle").length) {
+			gsap.to(".scroll-down-circle", { 
+				x: -100,
+				autoAlpha: 0,
+				ease: "none",
+				scrollTrigger: {
+					trigger: "#about",
+					start: "top top",
+					end: "20% top",
+					scrub: true,
+					markers: false
+				}, 
+			});
+		}
+  </script>
+  <!-- modal toggle class-->
+  <script>
+    $(".modal-toggle").click(function () {
+      if ($("#bidding-modal.on").length > 0){
+        $('body').css('overflow','auto');
+        $("#bidding-modal.on").removeClass('on');
+      }
+      else {
+        $('body').css('overflow', 'hidden');
+        $("#bidding-modal").addClass('on');        
+        let div = $("#bidding-modal");
+        div.css("top", Math.max(0, (($(window).height() - div.outerHeight()) / 2) + $(window).scrollTop()) + "px");
+        div.css("left", Math.max(0, (($(window).width() - div.outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+      }
+    });
+  </script>
+
+<!-- plus, minus-->
+<script>
+  //1회 응찰
+  $('input[id=bid]').on('input', function(){
+    var nprice = parseInt($('input[id=bid]').val().replace(/[^\d]+/g, ""))    
+    nprice=nprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    $('input[id=bid]').val(nprice);
+  });
+  $("span.plus-1").click(function () {
+    var cprice = parseInt($('input[id=bid]').val().replace(/[^\d]+/g, ""))
+    var nprice = cprice + {{ placement.unit_price }}
+    var sprice = {{ placement.placement_price }} + {{ placement.unit_price }}
+    if( nprice >= sprice ){
+      nprice=nprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      $('input[id=bid]').val(nprice);
+    }
+
+  });
+  $("span.minus-1").click(function () {
+    var cprice = parseInt($('input[id=bid]').val().replace(/[^\d]+/g, ""))
+    var nprice = cprice - {{ placement.unit_price }}
+    var sprice = {{ placement.placement_price }} + {{ placement.unit_price }}
+    if( nprice >= sprice ){
+      nprice=nprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      $('input[id=bid]').val(nprice);
+    }
+  });  
+  
+  //자동응찰
+  $("span.plus-2").click(function () {
+    var cprice = parseInt($('input[id=autobid]').val().replace(/[^\d]+/g, ""))
+    var nprice = cprice + {{ placement.unit_price }}
+    var sprice = {{ placement.placement_price }} + {{ placement.unit_price }}
+    if( nprice >= sprice ){
+      nprice=nprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      $('input[id=autobid]').val(nprice);
+    }
+
+  });
+  $("span.minus-2").click(function () {
+    var cprice = parseInt($('input[id=autobid]').val().replace(/[^\d]+/g, ""))
+    var nprice = cprice - {{ placement.unit_price }}
+    var sprice = {{ placement.placement_price }} + {{ placement.unit_price }}
+    if( nprice >= sprice ){
+      nprice=nprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      $('input[id=autobid]').val(nprice);
+    }
+  });
+</script>
+
+<!--message-->
+	<script>
+    //fadeout
+		$('.msg_close').on('click',function(){
+			$(this).parent(".alert").addClass('close');
+		});
+
+    //message auto disappear
+    if($('.alert').length){
+      setTimeout(function(){
+        $('.alert').addClass('close');
+      }, 7500)
+    }
+	</script>
+  
+  <!-- bidding count down -->
+  <script>
+    // Set the date we're counting down to
+    var time = '{{ placement.placement_end | date:"Y/m/d H:i:s" }}'
+    var countDownDate = new Date(time).getTime();
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+    // Get today's date and time
+    var now = new Date().getTime();
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    // Display the result in the element with id="demo"
+    document.getElementById("bid-countdown").innerHTML = days + "일 " + hours + ":"
+    + minutes + ":" + seconds;
+
+    // If the count down is finished, write some text
+    if (distance < 0) {
+        clearInterval(x);
+        $("#bid-countdown").html("경매종료");
+        $(".bd-right").css('display','none');        
+        $(".finish").css('display','block');
+    }
+    }, 1000);
+
+    $("#finish-button").on('click', function(e){
+      $('a[href="#resume"]')[0].click();
+    })
+  </script>
+  <!-- fade in component-->
+  <script>
+  $(function(){
+    $('.fadein').addClass('loaded');
+  });
+  </script>
+
+  {% start_or_yet request placement.id as Y %}
+  {% if Y %}
+    <!-- REFRESH button timeout-->  
+    <script>
+    setInterval(function(){
+      $("#bidding-modal .modal-bd .bd-right .r3 .refresh").trigger('click');
+    }, 1000*30);
+    </script>
+
+    <!-- ajax REFRESH button -->
+    <script>
+        $("#bidding-modal .modal-bd .bd-right .r3 .refresh").on('click', function(){
+          $(this).addClass('loading');
+          let param ={
+            'first_id' : $("#bidding-modal .modal-bd .bd-right .r3 table tbody tr:nth-child(2) td:first").text(), 
+          }
+          $.ajax({
+            url : '{% url 'auction:bidding-refresh' placement.id %}',
+            type : 'GET',
+            data : JSON.stringify(param),
+            success:function(data){
+              if(data['res']=="success"){
+                var last_user_id = '';
+                for (p of data['context'])
+                {
+                  last_user_id=p.user_id;
+                  var render = "<tr class='fr' align='center'>";
+                  render+=`<td>${p.id}</td>`;
+                  if(p.is_superior == 'True'){
+                    render+=`<span style="color:red">(先)</span>`;
+                  }
+                  //truncated_chars = (p.username).substring(0,1);            
+                  render+=`<td>${p.username}</td>`;
+
+                  render+=`<td class="offer">${p.offer}&#8361;</td>`;
+
+                  render+=`<td>${p.created}</td>`;
+
+                  if(p.is_autobid == 'True'){
+                    render+=`<td>자동응찰</td>`;
+                  }
+                  else{
+                    render+=`<td></td>`;
+                  }
+                    render+=`</tr>`;
+
+                  $("#bidding-modal .modal-bd .bd-right .r3 table tbody tr:nth-child(1)").after(`${render}`);
+                }
+
+              //1회응찰 input, 최소응찰금, 자동응찰 input 변경
+              var bid1 = parseInt($("#bidding-modal .modal-bd .bd-right .r3 table > tbody > tr:nth-child(2) > td.offer").text().replace(/[^\d]+/g, ""));
+              var cur = bid1;
+              bid1 += {{ placement.unit_price }}
+              bid1=bid1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              cur=cur.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");    
+              $('input[id=bid]').val(bid1).addClass('fr');
+              $('input[id=autobid]').val(bid1).addClass('fr');
+              $("#bidding-modal .modal-bd .bd-right .r2 .bid-info").text(`최소응찰금 : ${bid1}원`).addClass('fr');
+              $("#bidding-modal .modal-bd .bd-right .r1 .price .price-2 .ri").text(cur).addClass('fr');
+
+              //1회응찰 열어주기
+              if('{{request.user.id}}' != last_user_id){
+                try {
+                  $("#bidding-modal .modal-bd .bd-right .r2 .bid .btn-wrap button[id=disabled-button]").removeAttr('disabled').text('1회 응찰');
+                }
+                catch{
+                  
+                }
+              }
+
+
+              }
+            },
+            error:function(){
+              alert('에러가 발생하였습니다. 다시 시도해주세요');
+            }
+          });
+
+        setTimeout(function(){
+          $("#bidding-modal .modal-bd .bd-right .r3 .refresh").removeClass('loading');
+          $('input[id=bid]').removeClass('fr');
+          $('input[id=autobid]').removeClass('fr');
+          $("#bidding-modal .modal-bd .bd-right .r2 .bid-info").removeClass('fr');
+        $("#bidding-modal .modal-bd .bd-right .r1 .price .price-2 .ri").removeClass('fr');      
+        }, 1000);
+
+
+
+      });
+    </script>    
+  {% endif %}
+
+
+<!-- Channel Plugin Scripts -->
+<script>
+  (function() {
+    var w = window;
+    if (w.ChannelIO) {
+      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+    }
+    var ch = function() {
+      ch.c(arguments);
+    };
+    ch.q = [];
+    ch.c = function(args) {
+      ch.q.push(args);
+    };
+    w.ChannelIO = ch;
+    function l() {
+      if (w.ChannelIOInitialized) {
+        return;
+      }
+      w.ChannelIOInitialized = true;
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+      s.charset = 'UTF-8';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+    if (document.readyState === 'complete') {
+      l();
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', l);
+    } else {
+      window.addEventListener('DOMContentLoaded', l, false);
+      window.addEventListener('load', l, false);
+    }
+  })();
+  ChannelIO('boot', {
+    "pluginKey": "1667cfad-2f7b-4f6d-afb2-2df83a3f5349"
+  });
+</script>
+<!-- End Channel Plugin -->
+
+
+  <!--Share button -->
+  <script>
+
+
+    $(".art_v_share").click(function(){
+        $(this).toggleClass('on');
+    });
+
+    
+    $(".art_v_share .v1").on('click', function(){
+      var url = '';
+      var textarea = document.createElement("textarea");
+      document.body.appendChild(textarea);
+      url = window.document.location.href;
+      textarea.value = url;
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    });
+
+    $(".art_v_share .v2").on('click', function(){
+      var link=$('meta[property="og:url"]').attr('content');
+      var path=window.location.pathname;
+      if(path.charAt(0) == '/'){
+        path=path.slice('1');
+      }
+      try{
+        Kakao.init('473452b14b7dc9d856d7fd5b0c830bb2');
+      }
+      catch{        
+      }
+
+      Kakao.Link.sendCustom({
+        templateId: 75100,
+        templateArgs: {
+          THU: '{{ placement.placement_artist.avatar.url }}', // 썸네일 주소
+          TITLE: '{{ placement.title }}', // 제목 텍스트
+          ARTIST: '{{ placement.placement_artist }}', //아티스트
+          DESC: '{{ placement.placement_description }}', // 설명 텍스트
+          PATH: path,
+        }
+      });
+    });
+  </script>
+  <!-- modal button -->
+  <script>
+    $('button.modal-button').click(function(){
+      var target = $(this).attr('target-modal');
+      $(`#modal-container[modal=${target}]`).removeAttr('class').addClass('on');
+      //$('body').addClass('modal-active');
+    })
+
+    $('button.modal-closebutton').click(function(){
+      var target = $(this).attr('target-modal');      
+      $(`#modal-container[modal=${target}]`).addClass('out');
+    });
+  </script>
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
+
+</body>
+
+</html>

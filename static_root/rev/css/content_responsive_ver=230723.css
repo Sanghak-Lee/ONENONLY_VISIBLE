@@ -1,0 +1,709 @@
+@charset "utf-8";
+/* *******************************************************
+ * filename : content_responsive.css
+ * description : 서브페이지 컨텐츠 CSS
+ * date : 2022-07-15
+******************************************************** */
+
+
+/* ****************** 
+	* 02 ABOUT
+********************** */
+@media all and ( max-width: 1280px ){
+	.about-con04-bg {/* left: 0; margin-left: 0; */ left: 0; margin-left: 0;}
+	.about-con04-txt p .pc-br{display: block;}
+}
+@media all and ( max-width: 800px ){
+	.about-con01{margin-bottom: 2rem; padding-top: 49rem; width: 100%; min-height: auto;}
+	.about-con01-txt{font-size: 8rem;}
+	.about-con01-txt span{display: inline-block;}
+
+	.about-con02 {padding-top: 2.5rem;}
+	.about-con02-txt{max-width: 58.2rem; width: 63%;}
+	.about-con02-txt .txt02{font-size: 1.95rem;}
+
+	.about-con04-bg:before {
+		/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#000000+0,000000+33,000000+100&1+0,1+33,0+100 */
+		background: -moz-linear-gradient(left,  rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 20% rgba(0,0,0,0) 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,.2) 20%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to right,  rgba(0,0,0,1) 0%,rgba(0,0,0,.2) 20%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+	}
+	.about-con04-item .about-con04-bg{left: 0; background-position-x: 50% !important;}
+	.about-con05{padding: 20rem 0 26rem;}
+	.about-con05-txt .btn{margin-top: 4rem;}
+}
+@media all and ( max-width: 640px ){
+	.about-con01-txt{font-size: 6rem;}	
+	.about-con02-txt{max-width: 58.2rem; width:100%;}
+	.about-con04-bg {opacity: 1;}
+}
+@media all and ( max-width: 480px ){
+	.about-con01{margin-bottom: 1rem; padding-top: 35rem;}
+	.about-con01-txt{font-size: 5rem;}
+
+	.about-con02{padding-top: 22rem; background: url('../img/content/about_con02_bg_m.png') 50% 0% no-repeat; background-size: calc(100% - 14vw);}
+	.about-con02-txt .txt02{font-size: 1.6rem;}
+	.about-con02-txt .txt02 span{font-size: 1.95rem;}
+
+	.about-con03{padding-top: 19rem;}
+	.about-con03-wrapper{margin-top: 6rem; display: block;}
+	.about-con03-txt{margin-top: 10rem; position: static; width: 100%;}
+	.about-con03-txt dl + dl{margin-top: 4rem;}
+	.about-con03-txt dt{font-size: 3.2rem; line-height: 1.25;}
+	.about-con03-txt dd{margin-top: 0.71em; font-size: 1.4rem; line-height: 1.57;}
+	.about-con03-video{position: static; width: 100%;}
+	.about-con03-video .video-box #cmVideo {top: 10%; left: 10%; bottom: auto; right: auto; width: 80%; height: 80%;}
+
+	.about-con04{padding-top: 20rem;}
+	.about-con04-list{padding: 0 var(--area-padding); margin-top: 2rem;}
+	.about-con04-item{min-height: 15.5rem;}
+	.about-con04-item + .about-con04-item{margin-top: 8rem;}
+	.about-con04-bg.pc-ver{display: none;}
+	.about-con04-bg.m-ver{display: block;}
+	.about-con04-bg:before{position: absolute; top: -3px; height: calc(100% + 3px);
+	background: -moz-linear-gradient(top,  rgba(0,0,0,0) -100%, rgba(0,0,0,1) 100%, rgba(0,0,0,1) 0%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(0,0,0,0) -100%,rgba(0,0,0,1) 100%,rgba(0,0,0,1) 0%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(0,0,0,0) -100%,rgba(0,0,0,1) 100%,rgba(0,0,0,1) 0%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 ); /* IE6-9 */}
+	.about-con04-txt{position: absolute; bottom: 1rem; left: 0; padding:0;}
+	.about-con04-txt .area-box{padding: 0;}
+	#mainButton .about-con04-txt.guide{
+		padding:0 1rem;
+	}	
+	.about-con04-txt h5{font-size: 2.4rem; line-height: 1.2;}
+	.about-con04-txt p{margin-top: 0.62em; font-size: 1.6rem; line-height: 1.5;}
+	.about-con04-txt p .pc-br{display: none;}
+
+	.about-con05{padding: 19rem 0 20rem;}
+	/* .about-con05-txt{text-align: left;} */
+	.about-con05-txt .txt{font-size: 3.2rem; line-height: 1.18;}
+	.about-con05-txt .btn{margin-top: 4rem;}
+}
+
+
+/* ****************** 
+	* 02 UNBOXING :: 리스트
+********************** */
+@media all and (max-width:1560px){
+	.unboxing-con01-item .area-box{min-height: auto; padding-top: 6rem !important; padding-bottom: 6rem !important; max-width: none;  padding: 0 5%;}
+	.unboxing-con01-item:nth-child(2n) .area-box{right: 0; padding: 0 8%;}
+	.unboxing-con01-item:nth-child(3n) .area-box{left: 0; padding: 0 8%;}
+	/* 텍스트 */
+	.unboxing-con01-txt{width: 45%;}
+	/* 영상 */
+	.unboxing-con01-txt .video-box{margin-left: 5%; width: 40%;}
+	.unboxing-con01-item:nth-child(even) .unboxing-con01-txt .video-box{margin-right: 5%;}
+
+	/* {padding-top: 16rem;} */
+}
+
+@media all and (max-width: 1280px){
+	.unboxing-con03-txt-place{
+		height:3.5rem;
+	}
+}
+
+@media all and ( max-width: 800px ){
+	/* 텍스트 */
+	.unboxing-con01-txt{width: 37%;}
+	.unboxing-con01-txt .tit-group .deadline{margin-top: 0.57em; font-size: 1.8rem; line-height: 1.3;}
+	.unboxing-con01-txt .tit-group .tit{margin-top: 0.31em; font-size: 3.2rem; line-height: 1.25; word-break: keep-all;}
+	.unboxing-con01-txt .tit-group .name{margin-top: 1.66em;}
+	/* 영상 */
+	.unboxing-con01-txt .video-box{width: 51%;}
+
+	.unboxing-con02{padding-top: 16rem;}
+	.unboxing-con02-wrapper{padding: 0 5%;}
+	.unboxing-con02-list{padding-top: 4rem; margin: -4rem -1rem;}
+	.unboxing-con02-item{width: calc(50% - 2rem); margin: 4rem 1rem;}
+	.unboxing-con02-txt{top: 0; background-color: transparent;}
+	.unboxing-con02-btn{margin-top: 4rem;}
+
+	.unboxing-con03{padding: 25rem 0;}
+	.unboxing-con03-wrapper{padding: 0 5%;}
+	.unboxing-con03-wrapper .mypage-funding-more{margin-top: 6rem;}
+	.unboxing-con03-list{margin: -1.5rem -1rem;}
+	.unboxing-con03-item{width: calc(50% - 2rem); margin: 1.5rem 1rem; float: left;}
+	.unboxing-con03-item:nth-child(4n+1){clear: none;}
+	.unboxing-con03-item:nth-child(2n+1){clear: both;}
+
+	.unboxing-con03-txt-place{
+		height:2rem;
+	}	
+}
+@media all and ( max-width: 640px ){
+	.unboxing-con01-item .area-box{padding-top: 10rem !important; padding-bottom: 10rem !important;}
+	.unboxing-con01-item:first-child .area-box{padding-top: 4.5rem !important;}
+	.unboxing-con01-item:nth-child(2n) .area-box,
+	.unboxing-con01-item:nth-child(3n) .area-box,
+	.unboxing-con01-item:nth-child(4n) .area-box{padding: 0 5%;}
+	/* 텍스트 */
+	.unboxing-con01-txt{width: 100%;}
+	.unboxing-con01-txt .tit-group .txt{display: none;}
+	/* 영상 */
+	.unboxing-con01-item:nth-child(even) .unboxing-con01-txt .video-box,
+	.unboxing-con01-txt .video-box{position: absolute; top: auto; bottom: 11rem; left: 15%; right: auto; margin: 0; width: 90%; transform: none;}
+	/* 버튼 */
+	.unboxing-con01-txt .btn{margin-top: 38rem;text-align: center;}
+
+	.unboxing-con03-txt-place{
+		height:4rem;
+	}	
+}
+@media all and ( max-width: 480px ){
+	.unboxing-con01{padding-top: 80px;}	
+	/* 텍스트 */
+	.unboxing-con01-txt .tit-group .top-info .category{margin-right: 1rem;}
+	.unboxing-con01-txt .tit-group .top-info .category .img{margin-right: 0.5rem;}
+	.unboxing-con01-txt .tit-group .top-info .category .cate-txt{font-size: 1.9rem;}
+	.unboxing-con01-txt .tit-group .top-info .add-info{padding-left: 1.5rem; font-size: 1.9rem;}
+	.unboxing-con01-txt .tit-group .top-info .add-info:before{top: 0.1rem; width: 0.2rem; height: 1.4rem;}
+	.unboxing-con01-txt .tit-group .deadline{margin-top: 0.57em; font-size: 1.4rem; line-height: 1.3;}
+	.unboxing-con01-txt .tit-group .tit{margin-top: 0.31em; font-size: 3.2rem; line-height: 1.25;}
+	.unboxing-con01-txt .tit-group .name{margin-top: .8em; font-size: 1.8rem; line-height: 1.25;}
+	.unboxing-con01-txt .tit-group .name span{margin-bottom: 0.41em; font-size: 1.4rem;}
+	.unboxing-con01-txt .tit-group .name.small{font-size:1.8rem;}
+	/* 영상 */
+	.unboxing-con01-item:nth-child(even) .unboxing-con01-txt .video-box,
+	.unboxing-con01-txt .video-box{bottom: 17.5rem;}
+	/* 버튼 */
+	.unboxing-con01-txt .btn{margin-top: 34rem;}
+
+	.unboxing-con02 .cm-title-style{text-align: left;}
+	.unboxing-con02 .cm-title-style span{display: block;}
+	.unboxing-con02-wrapper {position: relative; padding: 0; width: 80%; margin: 0 auto;}
+	.unboxing-con02-list .slick-list{overflow: visible;}
+	.unboxing-con02-list{margin: 0 -1.5rem;}
+	.unboxing-con02-item{width: calc(100% - 3rem); margin: 4rem 1.5rem;}
+	/* 스크롤 */
+	.unboxing-progress{position: absolute; left: 50%; margin-left: -32px; bottom: 5rem; width: 64px; height: 2px; background-color: #4D4D4D; display: block;}
+	.unboxing-progress .progress-bar{position: absolute; top: 0; left: 0; display: block; height: 100%; left: 0; background-color: var(--main-color-y); transition: left 0.3s;}
+	.unboxing-con02-btn{margin-top: 6rem;}
+
+	.unboxing-con03{padding: 20rem 0;}
+	.unboxing-con03-date{margin-top: 2rem; position: relative;}
+	.unboxing-con03-date .btn{position: absolute; width: 4rem; height: 5rem;}
+	.unboxing-con03-date .btn i{font-size: 4rem;}
+	.unboxing-con03-date.display .btn{top:-1rem;}		
+	.unboxing-con03-date .prev-btn{left: 0; margin-right: 0;}
+	.unboxing-con03-date .prev-btn.deactivate i{color:gray;}	
+	.unboxing-con03-date .next-btn{right: 0; margin-left: 0;}
+	.unboxing-con03-date .next-btn.deactivate i{color:gray;}	
+	.unboxing-con03-date .date{font-size: 1.4rem; line-height: 5rem;}
+	.unboxing-con03-date .date b{width: auto; margin-left: 0.5rem;}
+	.unboxing-con03-wrapper{margin-top: 4rem; padding: 0;}
+	.unboxing-con03-list{margin: -2rem -1rem;}
+	.unboxing-con03-item{width: calc(50% - 1.4rem); margin: 2rem 0.7rem;}
+	.unboxing-con03 .cm-title-style{text-align: left;}
+	.unboxing-con03-txt-wrapper{height:300px;}
+	.display .unboxing-con03-txt-wrapper{height:150px;}
+	.unboxing-con03-txt{margin-top: 1rem; font-size: 1.4rem;height:5.5rem;}
+	.unboxing-con03-txt-detail{margin-top: 1.6rem; font-size: 1.1rem; line-height: 1.3; height:2.4rem;}
+	.unboxing-con03-txt-place{margin-top: 0rem; height:3.4rem;}
+	.unboxing-con03-txt-day{margin-top: 0rem;}
+}
+
+/* ****************** 
+	* 03 UNBOXING :: 뷰
+********************** */
+@media all and (max-width: 1280px){
+	.unboxing-tab-list-style.top-fixed{
+		top:75px;
+	}	
+}
+
+@media all and (max-width:846px){ 
+	.unboxing-other-con{margin: 0;}
+}
+@media all and ( max-width: 800px ){
+	.unboxing-fixed-btn-con ul li + li{margin-left: 1rem;}
+
+	.unboxing-view-con01-txt{padding-bottom: 3.9%;}
+	.unboxing-view-celeb .txt-box .tit{margin-bottom: 0.48em;font-size:3.2rem;}
+	.unboxing-view-con02-left{padding-top: 2.5rem; width: 50%; padding-right: 2.9%;}
+	.unboxing-view-con02-right{padding: 2.5rem 2.9% 0; padding-right: 0; width: 50%;}
+
+	.unboxing-view-info .tit{font-size:4rem;}
+
+	.unboxing-view-banner .txt p{font-size: 2.7rem;}
+
+	.product-view-wrap .to-top-btn {bottom: 10rem;}
+}
+@media all and ( max-width: 640px ){
+	.unboxing-view-con01-visual{height:85%;}	
+	.unboxing-view-con01{padding-top: 177.86%;}
+	.unboxing-view-con01-visual video.pc-ver{display: none;}
+	.unboxing-view-con01-visual video.m-ver{display: block;}
+
+	.unboxing-view-celeb{position: static; min-height: auto; display: block;}
+	.unboxing-view-celeb .img-box{width: 100%; position: static;}
+	.unboxing-view-celeb .txt-box{width: 100%;}
+	.unboxing-view-celeb .txt-box .tit{margin-bottom: 0.48em;font-size:2.4rem;}
+	.unboxing-view-celeb .txt-box .info-list{margin-top: 2rem;}
+	.unboxing-view-info .tit{font-size:3.2rem;}
+	.unboxing-tip .unboxing-view-item .unboxing-view-txt .txt{font-size:1.4rem;}
+	.unboxing-tip h3 span{
+		font-size:2.6rem;
+	}
+}
+@media all and ( max-width: 480px ){
+	.unboxing-fixed-btn-con{height: 6.4rem;}
+	.unboxing-fixed-btn-con.crowd .area-box,
+	.unboxing-fixed-btn-con .area-box{justify-content: center;}
+	
+	.unboxing-view-con01-bg.tb-ver{display: none;}
+	.unboxing-view-con01-bg.m-ver{display: block;}
+	.unboxing-view-con01-txt{padding-bottom: 5.99%;}
+	.unboxing-view-con01-txt .area-box{display: block;}
+	.unboxing-view-con01-info{width: 100%;}
+	.unboxing-view-con02 .name{padding-bottom: 0; border-bottom: none;}
+	.unboxing-view-con02 .name span{font-size: 1.3rem;}
+	.unboxing-view-con01-txt .top-info .category{margin-right: 1rem;}
+	.unboxing-view-con01-txt .top-info .category .img{margin-right: 0.5rem;}
+	.unboxing-view-con01-txt .top-info .category .cate-txt{font-size: 1.4rem;}
+	.unboxing-view-con01-txt .top-info .add-info{padding-left: 1.5rem; font-size: 1.4rem;}
+	.unboxing-view-con01-txt .top-info .add-info:before{top: 0.1rem; width: 0.2rem; height: 1.4rem;}
+	.unboxing-view-con01-txt .deadline{margin-top: 0.57em; font-size: 1.4rem; line-height: 1.3;}
+	.unboxing-view-con01-txt .tit{margin-top: 0.31em; font-size: 3.2rem; line-height: 1.2;}
+	.unboxing-view-con01-cotrol{margin-top: 3rem; width: 100%; text-align: left;}
+	
+	.unboxing-view-con02{margin-top: 4rem;}
+	/* .unboxing-view-con02{background-color: #191919;} */
+	.unboxing-view-con02-inner{padding: 4rem 1.8rem;}
+	.unboxing-view-con02-left{padding-top: 2.5rem; width: 100%; padding-right: 0;}
+	.unboxing-view-con02-right{margin-top: 5rem; padding: 2.5rem 0 0; width: 100%; border-left: none; border-top: 1px solid #333;}
+
+	.unboxing-view-con03{padding: 18rem 0 20rem;}
+	.cm-tab-list-style ul li a em,
+	.unboxing-tab-list-style ul li a em{font-size:1.4rem;}
+
+	.unboxing-tab-con + .unboxing-tab-con{margin-top: 14rem;}
+	.unboxing-view-item + .unboxing-view-item{margin-top: 10rem;}
+
+	.unboxing-view-banner{margin: 0 -7vw; width: auto;}
+	.unboxing-view-banner .txt p{font-size: 2.4rem;}
+
+	.unboxing-view-txt{padding: 2rem 0;}
+	.unboxing-view-txt .txt01{font-size: 2.4rem; line-height: 1.25;}
+	.unboxing-view-txt .txt02{margin-top: 1.11em; font-size: 1.6rem;}
+
+	.unboxing-other-con {padding-top: 20rem;}
+	.unboxing-other-con .cm-title-style{text-align: left;}
+	.unboxing-other-wrapper{width: 71.2%; margin-top: 2rem;}
+	.unboxing-other-list .slick-list{overflow: visible;}
+	.unboxing-other-txt .tit{margin-top: 0.62em;}
+}
+
+
+/* ****************** 
+	* 03 UNBOXING :: 뷰 :: 시크릿펀딩 추가 css
+********************** */
+@media all and ( max-width: 480px ){
+	.unboxing-fixed-btn-con.secret .area-box{padding: 0;}
+	.unboxing-fixed-btn-con.secret ul,
+	.unboxing-fixed-btn-con.secret ul li,
+	.unboxing-fixed-btn-con.secret ul li button{width: 100%; height: 100%; border-radius: 0;}
+}
+
+
+/* ****************** 
+	* 03 UNBOXING :: 뷰 :: 크로우드펀딩 추가 css
+********************** */
+ @media all and ( max-width: 800px ){
+	.crowd-funding-personnel-left{width: 29%;}
+	.crowd-funding-graph-box {flex-direction: column;}
+	.crowd-funding-graph{margin-top: 0.5rem; width: 100%;}
+
+	.crowd-funding-personnel-box{margin-right: 1rem;}
+	.crowd-funding-personnel {width: 16rem;}
+}
+@media all and ( max-width: 640px ){
+	.crowd-funding-personnel-box .tit{display: none;}
+}
+@media all and ( max-width: 480px ){
+	.unboxing-fixed-btn-con.crowd{height: 9rem;}
+	.unboxing-fixed-btn-con.crowd .area-box{flex-wrap:wrap;}
+	.crowd-funding-personnel-left{width: 100%; max-width: auto;}
+	.crowd-funding-personnel-right{width: 100%;}
+	.crowd-funding-percent{font-size: 1.2rem; color: #808080; text-align: center;}
+
+	.crowd-funding-graph-box {flex-direction: row-reverse;}
+	.crowd-funding-graph{margin-top: 0; width: calc(100% - 6rem); height: 1.1rem;}
+
+	.crowd-funding-personnel-box{width: calc(50% - 0.75rem); margin-right: 0.75rem;}
+	.crowd-funding-personnel{width: 100%;}
+	.unboxing-fixed-btn-con.crowd ul{width: calc(50% - 0.75rem); margin-left: 0.75rem;}
+	.unboxing-fixed-btn-con.crowd ul li,
+	.unboxing-fixed-btn-con.crowd ul li button{width: 100%;}
+}
+
+
+/* ****************** 
+	* 03 UNBOXING :: 뷰 :: 지난 펀딩 추가 css
+********************** */
+@media all and ( max-width: 480px ){
+	.unboxing-fixed-btn-con.last .area-box{padding: 0;}
+	.unboxing-fixed-btn-con.last ul,
+	.unboxing-fixed-btn-con.last ul li,
+	.unboxing-fixed-btn-con.last .cm-custom-button{width: 100%; height: 100%; border-radius: 0;}
+
+	.unboxing-view-con-last{margin-top: 14rem;}
+	.unboxing-view-last-date{margin-top: 4rem; padding-bottom: 1.2rem; padding-right: calc(64% + 1rem);}
+	.unboxing-view-last-date .date em{display: none;}
+	.unboxing-view-last-date .date span{display: block;}
+	.unboxing-view-last-date .sign-img{position: absolute; bottom: 0; right: 0; width: 64%;}
+}
+
+/* ****************** 
+	* 03 UNBOXING :: 뷰 :: 바로구매하기 팝업
+********************** */
+@media all and ( max-width: 480px ){
+	.popup-dot-txt,
+	.unboxing-buy-txt{margin-top: 2rem;}
+}
+
+/* ****************** 
+	* 03 UNBOXING :: 펀딩하기
+********************** */
+@media all and ( max-width: 800px ){
+	.unboxing-order-con01{padding: calc(60px + 4rem) 0 22.5rem;}
+	.unboxing-order-con01 .area-box{display: block; width: 100%; max-width: 58.2rem; margin: 0 auto; box-sizing: border-box;}
+	.unboxing-order-img{width: 100%;}
+	.unboxing-order-txt{margin-top: 4rem; padding-left: 0; width: 100%;}
+}
+@media all and ( max-width: 640px ){
+	.unboxing-order-funding-list{margin: 0 0%;}
+	.unboxing-order-funding-list .funding-item{margin: 0; margin-bottom: 6rem; padding-top: 1.2rem; border-top: 1px solid #333; width: 100%;}
+
+	.unboxing-order-bid{margin-top: 0;}
+}
+@media all and ( max-width: 480px ){
+	.unboxing-fixed-btn-con ul li .cm-custom-button{width: 15.5rem;}
+	.unboxing-fixed-btn-con ul li .cm-custom-button.soon{width: 17.4rem;}
+	.unboxing-order-con01{padding: calc(60px + 4rem) 0 20rem;}
+	.unboxing-order-price .price-item .info-txt {width: calc(100% - 10rem);}
+	.unboxing-order-bid-tbl .pc-none{display: table-row;}
+	.unboxing-order-bid-tbl .m-none{display: none;}
+	.unboxing-order-bid-tbl td{font-size: 1.4rem;}
+	.unboxing-order-bid-tbl td{font-size: 1.2rem;}
+	.crowd-funding-personnel button i,
+	.unboxing-order-personnel button i{position: relative; top: 0.1rem;}
+}
+
+
+/* ****************** 
+	* 03 UNBOXING :: 펀딩하기 :: 시크릿 펀딩
+********************** */
+@media (max-width: 1254px){
+	.unboxing-order-secret-con .area-box{padding: 0 var(--area-padding);}
+}
+@media all and ( max-width: 800px ){
+	/* 펀딩 컨텐츠 */
+	.unboxing-order-secret-con{padding: 26rem 0 6rem;}
+	.unboxing-order-secret-top{display: block;}
+	/* 왼쪽 폼 */
+	.unboxing-order-secret-tit{width: 100%; margin-bottom: 23rem;}
+	.unboxing-order-secret-tit .sub-tit{line-height: 1.44;}
+	/* 오른쪽 폼 */
+	.unboxing-order-secret-txt{width: 100%; display: flex; justify-content: space-between; align-items: flex-end;}
+	.unboxing-order-secret-price{width: 49%;}
+	.unboxing-order-secret-price .price-item:last-child{margin-bottom: 0;}
+	.unboxing-order-secret-txt .cm-custom-button{width: 49%;}
+}
+@media all and ( max-width: 640px ){
+	/* 오른쪽 폼 */
+	.unboxing-order-secret-txt{width: 100%; display: block;}
+	.unboxing-order-secret-price .price-item:last-child{margin-bottom: 1rem;}
+	.unboxing-order-secret-price,
+	.unboxing-order-secret-txt .cm-custom-button{width: 100%;}
+}
+@media all and ( max-width: 480px ){
+	/* 펀딩 컨텐츠 */
+	.unboxing-order-secret-con{padding: 10rem 0 4rem;}
+	/* 왼쪽 폼 */
+	.unboxing-order-secret-tit{margin-bottom: 14rem;}
+	.unboxing-order-secret-tit .sub-tit{margin-bottom: 1rem; font-size: 1.8rem;}
+	.unboxing-order-secret-tit .tit{font-size: 3.2rem; line-height: 1.2;}
+	/* 오른쪽 폼 */
+	.unboxing-order-secret-price .price-item{padding: 0 6%; margin-bottom: 1.2rem; font-size: 1.2rem;}
+	/* 하단 */
+	.unboxing-order-secret-bottom{padding: 1.2em 0; font-size: 1.4rem;}
+}
+
+
+/* ****************** 
+	* 03 UNBOXING :: 펀딩하기 시크릿 :: 팝업 css
+********************** */
+@media all and ( max-width: 480px ){
+	#popupFundingSecretNotice .popup-funding-notice-list{padding-top: 0;}
+}
+
+
+/* ****************** 
+	* 11 MYPAGE :: 마이페이지
+********************** */
+@media all and ( max-width: 800px ){
+	/* 펀딩내역 없을 때 */
+	.mypage-funding-no-list{padding: 28rem 0;}
+
+	.funding-subject-box .title{width: calc(95.3% - 15.5rem);}
+	.funding-subject-box .progress-status{padding-left: 4.7%; width: 15.5rem;}
+}
+@media all and ( max-width: 640px ){
+	.funding-subject-box{flex-wrap:wrap;}
+	.mypage-funding-list .funding-item > a,
+	.mypage-funding-list .funding-item dt{padding-right: 4.5rem;}
+	.funding-subject-box .img {width: 10rem; height: 12rem;}
+	.press-con .funding-subject-box .inner,
+	.funding-subject-box .inner{padding-left: 1.5rem; display: block;}
+	.funding-subject-box .title,
+	.funding-subject-box .progress-status {padding: 0; width: 100%;}
+	.funding-subject-box .title{font-size: 1.6rem;}
+	.funding-subject-box .progress-status{margin-top: 1rem;}
+	.funding-subject-box .progress-status:before{display: none;}
+	.funding-subject-box .progress-status .icon{width: 1.5rem;}
+	.funding-subject-box .arrow{margin-top: -1rem; right:1rem;}
+}
+@media all and ( max-width: 480px ){
+	/* 펀딩내역 없을 때 */
+	.mypage-funding-no-list{padding: 19rem 0;}
+	.mypage-funding-no-list p{font-size: 1.8rem; line-height: 1.33;}
+	/* 안에 내용 */
+	.mypage-funding-content{padding: 5rem 1.5rem;}
+	.mypage-funding-content .txt{font-size: 1.6rem; line-height: 1.44;}
+	.mypage-funding-content .date{margin-top: 2rem; font-size: 1.6rem; line-height: 1.44;}
+	.mypage-funding-content .info{/*margin-top: 1rem;*/ font-size: 1.4rem; line-height: 1.57;}
+	.mypage-funding-content .btn{margin-top: 2.5rem;}
+}
+
+
+/* ****************** 
+	* 11 MYPAGE :: 마이페이지 :: 결제하기
+********************** */
+@media all and ( max-width: 800px ){
+	.mypage-paying-left{width: 48.59%;}
+	.mypage-paying-right{width: 48.59%;}
+	.mypage-paying-total{padding: 5.5rem 7.2%;}
+}
+@media all and ( max-width: 640px ){
+	.mypage-paying-con{display: block; margin-top: 6rem;}
+	.mypage-paying-left,
+	.mypage-paying-right{width: 100%;}
+	.mypage-paying-total{margin-top: 6.5rem; padding:0; position: static; background-color: transparent;}
+	.mypage-paying-total:before,
+	.mypage-paying-total:after{display: none;}
+
+	.mypage-paying-total .mypage-paying-item .tit{color: #F2F2F2;}
+	.mypage-paying-total .cm-tbl-style tr{border-top: 1px solid #333;}
+	.mypage-paying-total .cm-tbl-style tr:first-child{border-top: 1px solid #CCC;}
+	.mypage-paying-total .cm-tbl-style th{color: #CCC;}
+	.mypage-paying-total .cm-tbl-style td.total-price{font-size: 1.8rem;}
+
+	.mypage-paying-total .cm-custom-checkbox .checkbox-item label{color: #F2F2F2;}
+	.mypage-paying-total .cm-custom-checkbox .checkbox-item input[type="checkbox"]:checked + label:before{background-color: #F2F2F2; border-color: #F2F2F2;}
+	.mypage-paying-total .cm-custom-checkbox .checkbox-item input[type="checkbox"]:checked + label:after{color: #000;}
+	
+	.mypage-paying-btn{margin-top: 0; position: fixed; bottom: 0; left: 0; width: 100%; height: 6.4rem; z-index: 101;}
+	.mypage-paying-btn .cm-custom-button{border-radius: 0; height: 6.4rem;}
+
+	.paying-wrap .to-top-btn {bottom: 6.4rem;}
+}
+
+
+/* ****************** 
+	* 11 MYPAGE :: 마이페이지 :: 팝업
+********************** */
+@media all and ( max-width: 480px ){
+	#popupFundingDetails .cm-modal-btn {margin-top: 2.5rem;}
+}
+
+
+/* ****************** 
+	* 11 MYPAGE :: 마이페이지 :: 결제하기
+********************** */
+@media all and ( max-width: 800px ){
+	.paying-complete-con{padding: 10rem 0 5rem 0;}
+	.mypage-paying-left .cm-tbl-style td .add-info.pc-ver{display: none;}
+}
+@media all and ( max-width: 480px ){
+	.paying-complete-con{padding: 3rem 0 0 0;}
+}
+
+
+/* ****************** 
+	* 11 MYPAGE :: 마이페이지 :: 관심펀딩
+********************** */
+@media all and ( max-width: 640px ){
+	.funding-subject-box .zzim-btn{top: 2rem; margin-top: 0; right:1rem;}
+}
+@media all and ( max-width: 480px ){
+	.interest-funding-con01{margin-top: 8.5rem;}
+	.funding-subject-box .progress-status .status{color: #B3B3B3;}
+}
+
+
+/* ****************** 
+	* 11 MYPAGE :: 회원정보 수정 :: 비밀번호 확인
+********************** */
+@media all and ( max-width: 480px ){
+	.modify-pw-check-con{padding: 5rem 0;}
+}
+
+
+
+/* ****************** 
+	* 11 MYPAGE :: 회원정보 수정 :: 회원정보 확인
+********************** */
+@media all and ( max-width: 640px ){
+	.modify-info-item .change-btn,
+	.modify-info-box .modify-item .input-con{max-width: none; width: 100%;}
+}
+@media all and ( max-width: 480px ){
+	.modify-info-con {padding-top: 5rem;}
+}
+
+
+/* ****************** 
+	* 04 TIME STORE :: 리스트
+********************** */
+@media all and ( max-width: 800px ){
+	/* .auction-visual-con{padding-top: 133.33%;} */
+	.auction-visual-con .visual-txt h5{font-size: 7rem;}
+	.auction-visual-con .visual-txt p{margin-top: 1.6rem;}
+
+	.auction-list-con .unboxing-con03-list{margin: -3.8rem -1rem;}
+	.auction-list-con .unboxing-con03-item{width: calc(50% - 2rem); margin: 3.8rem 1rem;}
+}
+@media all and ( max-width: 480px ){
+	.auction-list-con.display{
+		margin:10vh 0 20vh 0;
+	}
+	.unboxing-con03-date.display > a{/*display:none;*/}
+	.unboxing-con03-date.display{margin-top: 12rem;}
+	/* .auction-visual-con{padding-top: 177.86%;} */
+	.auction-visual-con .visual-txt h5{font-size: 4rem;}
+	.auction-visual-con .visual-txt p{font-size: 2.1rem;}
+
+	.auction-list-con{padding: 10rem 0 20rem;}
+	.auction-list-con .cm-tab-wrapper-style{height:6rem; margin-bottom:8rem;}
+	.auction-list-con .cm-tab-list-style ul li a{height: 6rem;}
+	.auction-list-con .cm-tab-wrapper-style ul li a em{font-size:1.8rem;}
+
+	.auction-list-con .unboxing-con03-list{margin: -2rem -1rem;}
+	.auction-list-con .unboxing-con03-item{width: calc(50% - 1.4rem); margin: 2rem 0.7rem;}
+
+	.auction-list-con .cm-tab-list-style.top-fixed{height: 6rem;}
+	.auction-list-con .cm-tab-list-style.top-fixed ul li a{height: 6rem;}
+	.auction-list-con .cm-tab-list-style.top-fixed ul li a em{font-size: 1.8rem;}
+}
+
+
+/* ****************** 
+	* 04 TIME STORE :: 뷰
+********************** */
+@media all and ( max-width: 800px ){
+	.auction-view-con01{height: 0; padding-top: 133.33%;}	
+	.auction-view-con02{margin-top: 133.33%;}
+	.auction-view-con01-bg.pc-ver{display: none;}
+	.auction-view-con01-bg.tb-ver{display: block;}
+}
+@media all and ( max-width: 480px ){
+	.auction-view-con01{padding-top: 100%;}	
+	.auction-view-con02{margin-top: 100%; padding: 12rem 0 20rem;}
+	.auction-view-con02 .unboxing-view-con-last .title{font-size: 3.2rem;}
+	.auction-view-con01-bg.tb-ver{display: none;}
+	.auction-view-con01-bg.m-ver{display: block;}
+	.auction-view-btn{padding-top: 10rem; max-width: none;}
+}
+
+
+/* ****************** 
+	* 11 Footer :: 제휴문의
+********************** */
+@media all and ( max-width: 800px ){
+	.inquiry-partnership-top .visual-txt h5{font-size: 4rem;}
+	.inquiry-partnership-top .visual-txt .inner .inner-txt{font-size:1.8em; margin-top:5em;}
+	.inquiry-partnership-con01 .bg{/* background-size: 60% !important; */}
+	.inquiry-partnership-con01 .bg span{padding-top: 81.9%; opacity: 1; background: #000 url('../img/content/inquiry_partnership_bg_tb.png') center/cover no-repeat;}
+	.inquiry-partnership-con01 .bg span:before{display: none;}
+
+	.inquiry-partnership-con02-box {min-height: auto; padding: 11rem 0;}
+}
+@media all and ( max-width: 640px ){
+	.inquiry-partnership-top .visual-txt h5{font-size: 3rem;}
+	.inquiry-partnership-top .visual-txt .inner .inner-txt{font-size:1.9rem; margin-top:3em;}	
+}
+@media all and ( max-width: 480px ){
+	.inquiry-partnership-top .visual-txt h5{font-size: 2.4rem;}
+	.inquiry-partnership-top .visual-txt .inner .inner-txt{font-size:1.4rem; margin-top:3em;}
+	.inquiry-partnership-con01{padding-top: 12rem}
+	.inquiry-partnership-con01 .bg{background-size: 40% !important;}
+	.inquiry-partnership-con01 .bg span{padding-top: 74.66%; background: #000 url('../img/content/inquiry_partnership_bg_m.png') center/cover no-repeat;}
+	.inquiry-partnership-con01 .txt01{font-size: 1.8rem;}
+	.inquiry-partnership-con01 .txt02 {margin-top: 2.9em; font-size: 1.6rem;}
+	.inquiry-partnership-con01 .video-txt{margin-top: 9rem; font-size: 1.3rem;}
+	.inquiry-partnership-con01 .video-iframe-wrapper {}
+
+	.inquiry-partnership-con02 {padding-top: 10rem;}
+	.inquiry-partnership-con02-box{min-height: auto; padding: 11rem 0;}
+	.inquiry-partnership-con02 h5{font-size: 4.8rem; line-height: 1.2;}
+	.inquiry-partnership-con02 p{margin-top: 1.25em; font-size: 1.8rem;}
+
+	.inquiry-partnership-con03{padding: 10rem 0 20rem;}
+	.inquiry-partnership-con03-tit{font-size: 2rem; line-height: 1.25;}
+	.inquiry-partnership-con03-wrapper{margin-top: 8rem;}
+	.inquiry-partnership-con03-list{margin: -1.3rem -1.5%;}
+	.inquiry-partnership-con03-item,
+	.inquiry-partnership-con03-item.w-100{width: calc(100% - 3%); margin: 1.3rem 1.5%;}
+	.inquiry-partnership-con03-item .cm-textarea{height: 23rem;}
+	.inquiry-partnership-con03-btn{max-width: none; width: 100%; margin: 7.5rem auto 0;}
+}
+
+
+/* ****************** 
+	* 11 Footer :: 공지사항
+********************** */
+@media all and ( max-width: 640px ){
+	.notice-con .funding-subject-box .inner{padding-left: 1.5rem; display: block;}
+}
+@media all and ( max-width: 640px ){
+	.notice-content{padding: 2.5rem;}
+}
+@media all and ( max-width: 480px ){
+	.funding-subject-box .title{font-size: 1.8rem;}
+	.notice-content{font-size: 1.6rem; line-height: 1.57;}
+}
+
+/* ****************** 
+	* 11 Footer :: 이용약관
+********************** */
+@media all and ( max-width: 800px ){
+	.agreement-item{margin-top: 3.5rem;}
+}
+@media all and ( max-width: 480px ){
+	.agreement-item{margin-top: 4rem;}
+	.agreement-item .tit{margin-bottom: 0.71rem; padding-bottom: 0.71em; font-size: 1.8rem;}
+	.agreement-box p{font-size: 1.6rem; color: #ccc;}
+	.agreement-box .dot-txt{padding-left: 3rem;}
+}
+
+
+/* ****************** 
+* 11 MYPAGE :: 마이페이지 :: 회원가입
+********************** */
+@media all and ( max-width: 800px ){
+	.join-con,
+	.search-idpw-con {padding: 10rem 0;}
+}
+@media all and ( max-width: 480px ){
+	.join-con{padding: 5rem 0; padding: 0;}
+	.join-check-list .cm-custom-checkbox .checkbox-item label:after {top: 0.1rem;}
+	
+	.etc-page .cm-tab-list-style ul li a em, 
+	.etc-page .unboxing-tab-list-style ul li a em,
+	.mypage-page .cm-tab-list-style ul li a em, 
+	.mypage-page .unboxing-tab-list-style ul li a em{font-size: 1.6rem;}
+	.mypage-page .search-idpw-con .cm-tab-list-style ul li a em, 
+	.mypage-page .search-idpw-con .unboxing-tab-list-style ul li a em{font-size: 1.8rem;}
+}

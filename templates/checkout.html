@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+{% load static auction_templatetag humanize %}
+{% block extra_head %}{% endblock extra_head %}
+{% block head_title %} | 결제 {% endblock %}
+
+{% block body %}
+<div id="wrap" class="sub-wrap paying-wrap">
+  <!-- container -->
+  <div id="container">
+    <!-- middleArea -->
+    <div id="middleArea">
+      <!-- content -->
+      <section id="content" class="area-box">
+        
+        <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+        <div class="sub-page mypage-page">
+          <!-- <h5 class="mypage-paying-tit">결제하기</h5> -->
+          <div class="mypage-paying-con">
+            <div class="mypage-paying-left">
+              <div class="mypage-paying-item">
+                <h5 class="tit">고객 정보</h5>
+                <table class="cm-tbl-style">
+                  <colgroup>
+                    <col style="width: 13.5rem;">
+                    <col style="width: *;">
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <th>확정자 성함</th>
+                      <td>{{ orderitem.user.verification.name | default:orderitem.user.username }}</td>
+                    </tr>
+                    <tr>
+                      <th>이메일</th>
+                      <td>{{ orderitem.user.email | default:'없음' }}</td>
+                    </tr>
+                    <tr>
+                      <th>전화번호</th>
+                      <td>{{ orderitem.user.verification.phone.as_national | default:'전화번호가 없습니다' }}<span class="add-info pc-ver">* 완료 후, 등록된 번호로 카카오 알림톡을 전송해 드립니다.</span></td>
+                    </tr>
+                    <tr class="m-ver">
+                      <td colspan="2"><span  class="add-info">* 완료 후, 등록된 번호로 카카오 알림톡을 전송해 드립니다.</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="mypage-paying-item">
+                <h5 class="tit">구매 내역</h5>
+                <table class="cm-tbl-style">
+                  <colgroup>
+                    <col style="width: 13.5rem;">
+                    <col style="width: *;">
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <th>상품명</th>
+                      <td>{{ orderitem.placement.title | safe | linebreaksbr }}</td>
+                    </tr>
+                    <tr>
+                      <th>상품종류</th>
+                      <td>{{ orderitem.placement.get_placement_type_display}}</td>
+                    </tr>
+                    <tr>
+                      <th>수량</th>
+                      <td>{{orderitem.quantity}}</td>
+                    </tr>
+                    <tr>
+                      <th>금액</th>
+                      <td>{{orderitem.get_final_price | intcomma }}원</td>
+                    </tr>
+                    {% if coupons %}
+                    <tr>
+                      <th>쿠폰</th>
+                      <td style="color:var(--main-color)">
+                        <form method="POST" action="{% url 'core:addcoupon' orderitem.placement.placement_type orderitem.id %}">
+                          {% csrf_token %}
+                          <select id="coupon" name="couponID" onchange="this.form.submit();">
+                            <option value="0">---</option>
+                            {% for coupon in coupons %}
+                            <option value="{{coupon.id}}">{{ coupon.title }}[{{coupon.amount | intcomma }}원]</option>
+                            {% endfor %}
+                          </select>
+                        </form>
+                      </td>
+                    </tr>
+                    {% endif %}
+                  </tbody>
+                </table>
+              </div>
+              <div class="mypage-paying-item">
+                <h5 class="tit">결제 정보</h5>
+                <table class="cm-tbl-style">
+                  <colgroup>
+                    <col style="width: 13.5rem;">
+                    <col style="width: *;">
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <th>결제 수단</th>
+                      <td>
+                        <div class="card-container">
+                          <div>
+                            <input checked name="pay" type="radio" id="pay_method_1"/><label for="pay_method_1">카드결제</label>
+                            <!-- <div class="card-div" style="background:url({% static 'rev/img/content/mypage_paying_card.png' %}) 100% 50% no-repeat; background-size: auto;"></div> -->
+                          </div>
+                          <div>
+                            <input name="pay" type="radio" id="pay_method_2"/><label for="pay_method_2">계좌이체</label>
+                            <!-- <div class="card-div" style="background:url({% static 'rev/img/content/mypage_paying_trans.png' %}) 100% 50% no-repeat; background-size: auto;"></div> -->
+                          </div>
+                          <div>
+                            <input name="pay" type="radio" id="pay_method_3"/><label for="pay_method_3">가상계좌</label>
+                            <!-- <div class="card-div" style="background:url({% static 'rev/img/content/mypage_paying_vbank.png' %}) 100% 50% no-repeat; background-size: auto;"></div> -->
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>입금자명</th>
+                      <td>{{orderitem.user.verification.name | default:orderitem.user.username }}</td>
+                    </tr>
+                    <tr>
+                      <th>남은 시간</th>
+                      <td id="o_countdown"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="mypage-paying-right">
+              <div class="mypage-paying-total">
+                <div class="mypage-paying-item">
+                  <h5 class="tit">구매 금액</h5>
+                  <table class="cm-tbl-style">
+                    <colgroup>
+                      <col style="width: 13.5rem;">
+                      <col style="width: *;">
+                    </colgroup>
+                    <tbody>
+                      <!-- 일반구매(공동, 단독) -->
+                      {% if orderitem.placement.placement_type == 'crowdfunding' %}
+                      <tr>
+                        {% if orderitem.coupon %}
+                        <th>총 결제 금액
+                          <div style="color:var(--main-color)">[쿠폰적용]</div>
+                        </th>
+                        <td style="color:var(--main-color)" class="total-price">{{orderitem.get_final_price | intcomma }}원</td>
+                        {% else %}
+                        <th>총 결제 금액</th>
+                        <td class="total-price">{{orderitem.get_final_price | intcomma }}원</td>                        
+                        {% endif %}                        
+
+                      </tr>
+                      <!-- 경쟁구매(예약금 결제)-->                      
+                      {% else %}
+                        {% if orderitem.deliver_detail == '1' %}
+                        <tr>
+                          <th>결제 예약금</th>
+                          <td class="total-price">{{ orderitem.placement.deposit | intcomma }}원</td>
+                        </tr>                        
+                        {% elif orderitem.deliver_detail == '2' %}
+                        <tr>
+                          <th>결제 잔여금</th>
+                          <td class="total-price">{{orderitem.amountToBePaid | intcomma }}원</td>
+                        </tr>
+                        {% endif %}
+                      {% endif %}
+                      <tr id="agreement-container">
+                        <td colspan="2" id="agreement-box">
+                          <div class="cm-custom-checkbox">
+                            <span class="checkbox-item">
+                              <input type="checkbox" id="checkbox1-1" name="" class="agree-checkbox"><label for="checkbox1-1"><span>결제 진행 필수 동의</span></label>
+                            </span>
+                          </div>
+                          <ul class="mypage-paying-argeement">
+                            <li><p>[필수] 개인정보 수집/이용 및 처리 동의</p><a onclick="modalPopupOpen(event,'#popupPrivacy')" href="javascript:;">보기</a></li>
+                            <li><p>[필수] 전자지급 환불규정 동의</p><a onclick="modalPopupOpen(event,'#popupAgreeMarketing')" href="javascript:;">보기</a></li>
+                          </ul>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="mypage-paying-btn">
+                    {% if child == 'True' %}
+                        <button disabled class="cm-custom-button detail">결제 불가</button>
+                        <div class="child-info" style="">미성년자는 200,000원 이상 결제가 불가능합니다.</div>
+                    {% else %}
+                      <!-- 일반구매(공동, 단독) -->
+                      {% if orderitem.placement.placement_type == 'crowdfunding' %}
+                      <!-- 다날 -->
+                        <!-- <button id="payment" disabled class="cm-custom-button detail" onclick="Danal(event, `{{orderitem.to_json}}`)">{{orderitem.get_final_price | intcomma }}원 결제하기</button> -->
+                      <!-- 토스 -->
+                        <button id="payment" disabled pay_method="card" class="cm-custom-button detail" onclick="Toss(event, `{{orderitem.to_json}}`)">{{orderitem.get_final_price | intcomma }}원 결제하기</button>
+                      <!-- 경쟁구매(예약금 결제)-->
+                      {% else %}
+                      <!-- 다날 -->
+                        <!-- <button id="payment" disabled class="cm-custom-button detail" onclick="Danal(event, `{{orderitem.to_json}}`)">{{orderitem.amountToBePaid | intcomma }}원 결제하기</button> -->
+                      <!-- 토스 -->
+                        <button id="payment" disabled pay_method="card" class="cm-custom-button detail" onclick="Toss(event, `{{orderitem.to_json}}`)">{{orderitem.amountToBePaid | intcomma }}원 결제하기</button>                        
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+      </section>
+      <!-- //content -->
+    </div>
+    <!-- //middleArea -->
+  </div>
+  <!-- // container -->
+</div>
+<!-- 팝업리스트 -->
+{% include "account/mypage/popup/agree_2.html" %}<!-- 개인정보 처리방침 동의 -->
+{% include "account/mypage/popup/agree_3.html" %}<!-- 광고성 정보 수신 및 마케팅 활용 동의 -->
+
+{% endblock body %}
+
+{% block extra_scripts %}
+  <!-- iamport.payment.js -->
+  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>  
+  <!-- <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>	 -->
+<script>
+  //COUPON
+  {% if orderitem.coupon %}
+  $('select#coupon').val('{{orderitem.coupon.id}}');
+    $('select#coupon').fakeselect();
+  {% endif %}
+
+  //카운트다운
+  const second = 1000,
+      minute = second * 60,
+      hour = minute * 60,
+      day = hour * 24;
+
+  const o_end = new Date('{{ orderitem.due_date | date:"Y/m/d H:i:s" }}').getTime();
+  o_x = setInterval(function(){
+    var now = new Date().getTime();
+    const o_toend = o_end - now;
+    var days = Math.floor(o_toend / (day));
+    var hours = Math.floor((o_toend % (day)) / (hour));
+    var mins = Math.floor((o_toend % (hour)) / (minute));
+    var secs = Math.floor((o_toend % (minute)) / second);
+
+    //co 만료전
+    if(o_toend > 0){
+      $("#o_countdown").text(`남은시간 ${days}일 ${hours}:${mins}:${secs}`);
+      $("#o_countdown").css('color',"#fcbf75");
+    }
+    //o 만료후
+    else{
+      $("#o_countdown").text(`기한만료`);
+      $("#o_countdown").css('color',"var(--main-color)");
+      $('button#payment').fadeOut();
+      $('td#agreement-box').fadeOut();
+      $('tr#agreement-container').html('<td colspan="2" style="color:red;">기한만료</td>')
+      clearInterval(o_x);
+    }
+
+  }, 0);
+
+  //정보동의
+	$("input[id=checkbox1-1]").click(function() {
+		if($("input[id=checkbox1-1]").is(":checked")){
+      $('button#payment').prop('disabled', false);
+    }
+    else{
+      $('button#payment').prop('disabled', true);      
+    }
+  })
+
+  //카드결제
+  $("input[name=pay]").on('change', function(){
+    // $(".card-div").css('border-color', 'transparent');
+		if($("input[id=pay_method_1]").is(":checked")){
+      // $("input[id=pay_method_1] ~ div").css('border-color', 'white');
+      $('button#payment').attr('pay_method', 'card');
+    }
+		else if($("input[id=pay_method_2]").is(":checked")){
+      // $("input[id=pay_method_2] ~ div").css('border-color', 'white');
+      $('button#payment').attr('pay_method', 'trans');
+    }
+		else if($("input[id=pay_method_3]").is(":checked")){
+      // $("input[id=pay_method_3] ~ div").css('border-color', 'white');
+      $('button#payment').attr('pay_method', 'vbank');
+    }    
+  });
+</script>
+{% endblock extra_scripts %}

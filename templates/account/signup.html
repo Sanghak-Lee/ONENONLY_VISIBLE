@@ -1,0 +1,242 @@
+{% extends "account/base.html" %}
+{% load i18n static %}
+<!-- {% load core_template_tags component_template_tags %} -->
+
+{% block head_title %} | 회원가입 {% endblock %}
+
+{% block body %}
+	<div id="wrap" class="sub-wrap">
+		<!-- container -->
+		<div id="container">
+			<!-- middleArea -->
+			<div id="middleArea">
+				<!-- content -->
+				<section id="content" class="area-box">
+					
+					<!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+					<form class="" id="" method="post" action="{% url 'account_signup' %}" onsubmit="return true;">
+						{% csrf_token %}
+						{% if redirect_field_value %}
+						<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+						{% endif %}
+
+						<div class="sub-page mypage-page">
+							<div class="join-con step01">
+								<h5 class="join-tit">회원가입</h5>
+								<div>
+									<p class="join-txt">인증을 완료해주세요<br><span style="font-size:1.2rem;color:#666;">* 인증을 완료하지 않으면 회원가입이 진행되지 않습니다.</span></br><span style="font-size:1.2rem;color:#666;">* 인증완료를 받은경우, 동의하고 가입하기를 누르고 넘어가주십시오</span><br></p>
+									<div style="margin-top:2rem;">
+										<input ref="checkrev" onchange="CheckAgreement(event);" type="checkbox" id="phone-agree">
+										<span id="vef-notify" style="display:none;" class="cm-font-color-y">[인증완료]</span>
+										<label for="phone-agree">개인정보(핸드폰번호)제공에 대한 동의 </label>
+										<a style="color:var(--main-color);" href="{% url 'core:info-2' %}"> (개인정보취급방침)</a>
+									</div>
+									<div style="margin-top:2rem; display:flex; justify-content: center;">
+										<button disabled ref="smartrev" style="margin-bottom:10px;" onclick="SmartCefSignUp(event);" class="cm-custom-button">통합인증하기</button>
+										<button disabled ref="smsrev" onclick="SmsCefSignUp(event);" class="cm-custom-button">SMS 인증하기</button>
+									</div>
+								</div>								
+								<div class="join-inner-box" style="margin-top:10rem;">
+									<p class="join-txt">인증 이후, 원앤온리 서비스 이용약관에 동의해주세요.</p>
+									<ul class="join-check-list">
+										<li class="check-all">
+											<div class="cm-custom-checkbox">
+												<span class="checkbox-item">
+													<input type="checkbox" id="checkboxAll"><label for="checkboxAll"><span>모두 동의 (선택 정보 포함)</span></label>
+												</span>
+											</div>
+										</li>
+										<li>
+											<div class="cm-custom-checkbox">
+												<span class="checkbox-item">
+													<input type="checkbox" id="checkbox1-1" name="agreement_1" class="joinCheck" {% if form.agreement_1.value %}checked{% endif %} required><label for="checkbox1-1"><span>[필수] 만 14세 이상</span></label>
+												</span>
+											</div>
+										</li>
+										<li>
+											<div class="cm-custom-checkbox">
+												<span class="checkbox-item">
+													<input type="checkbox" id="checkbox1-2" name="agreement_2" class="joinCheck" {% if form.agreement_2.value %}checked{% endif %} required><label for="checkbox1-2"><span>[필수] 이용약관 동의</span></label>
+												</span>
+											</div>
+											<button class="join-popup-btn" onclick="modalPopupOpen(event,'#popupAgreement')">보기</button>
+										</li>
+										<li>
+											<div class="cm-custom-checkbox">
+												<span class="checkbox-item">
+													<input type="checkbox" id="checkbox1-3" name="agreement_3" class="joinCheck" {% if form.agreement_3.value %}checked{% endif %} required><label for="checkbox1-3"><span>[필수] 개인정보 처리방침 동의</span></label>
+												</span>
+											</div>
+											<button class="join-popup-btn" onclick="modalPopupOpen(event,'#popupPrivacy')">보기</button>
+										</li>
+										<li>
+											<div class="cm-custom-checkbox">
+												<span class="checkbox-item">
+													<input type="checkbox" id="checkbox1-4" name="agreement_4" class="joinCheck" {% if form.agreement_4.value %}checked{% endif %}><label for="checkbox1-4"><span>[선택] 광고성 정보 수신 및 마케팅 활용 동의</span></label>
+												</span>
+											</div>
+											<button class="join-popup-btn" onclick="modalPopupOpen(event,'#popupAgreeMarketing')">보기</button>
+										</li>
+									</ul>	
+								</div>
+								<div class="join-btn-con">
+									<!-- 필수 동의를 다 하면 disabled 클래스 제거해주세요. -->
+									<button id="joinnext" class="cm-custom-button" disabled onclick="JoinNext(event)">동의하고 가입하기</button>
+								</div>
+							</div>
+							<div class="join-con step02" style="display:none;">
+								<h5 class="join-tit">회원가입</h5>
+								<div class="join-inner-box">
+									<p class="join-txt">아이디와 비밀번호를 입력해 주세요.</p>
+									<div class="modify-pw-check-list">
+										<div class="modify-pw-check-item">
+											<div class="input-con">
+												<input type="text" name="username" value="{{form.username.value | default:''}}" class="cm-input" placeholder="유저 아이디">
+											</div>
+											<!-- 하단 알림 텍스트 영역 -->
+											<p class="check-list-alert">
+												{% if form.errors %}												
+													{% for field in form %}
+														{% if field.name == "username" %}
+															{% for error in field.errors %}
+																{{error | escape}}
+															{% endfor %}
+														{% endif %}
+													{% endfor %}
+												{% endif %}
+											</p>
+										</div>
+										<div class="modify-pw-check-item">
+											<div class="input-con">
+												<input type="text" name="email" value="{{form.email.value | default:''}}" class="cm-input" placeholder="유저 이메일">
+											</div>
+											<!-- 하단 알림 텍스트 영역 -->
+											<p class="check-list-alert">
+												{% if form.errors %}												
+													{% for field in form %}												
+														{% if field.name == "email" %}
+															{% for error in field.errors %}
+																{{error | escape}}
+															{% endfor %}
+														{% endif %}
+													{% endfor %}
+												{% endif %}
+											</p>
+										</div>
+										<div class="modify-pw-check-item">
+											<div class="input-con">
+												<input type="password" name="password1" class="cm-input" placeholder="비밀번호">
+											</div>
+											<!-- 하단 알림 텍스트 영역 -->
+											<p class="check-list-alert">
+												{% if form.errors %}												
+													{% for field in form %}
+														{% if field.name == "password1" %}
+															{% for error in field.errors %}
+																{{error | escape}}
+															{% endfor %}
+														{% endif %}
+													{% endfor %}
+												{% endif %}
+											</p>
+										</div>
+										<div class="modify-pw-check-item">
+											<div class="input-con">
+												<input type="password" name="password2" class="cm-input" placeholder="비밀번호 확인">
+											</div>
+											<!-- 하단 알림 텍스트 영역 -->
+											<p class="check-list-alert">
+												{% if form.errors %}
+													{% for field in form %}												
+														{% if field.name == "password2" %}
+															{% for error in field.errors %}
+																{{error | escape}}
+															{% endfor %}
+														{% endif %}
+													{% endfor %}
+		
+													{% for error in form.non_field_errors %}
+														{{error | escape}}
+													{% endfor %}
+												{% endif %}
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="join-btn-con">
+									<!-- 내용을 모두 입력 하면 disabled 클래스 제거해주세요. -->
+									<button type="submit" class="cm-custom-button">회원가입</button>
+									<button style="margin-top:13px" class="cm-custom-button" onclick="JoinBefore(event)">이전</a>
+								</div>
+							</div>
+						</div>
+
+					</form>
+					<!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //middleArea -->
+		</div>
+		<!-- // container -->
+	</div>	
+	<!-- // wrap-->
+
+<!-- 팝업리스트 -->
+{% include "account/mypage/popup/agree_1.html" %}<!-- 이용약관 -->
+{% include "account/mypage/popup/agree_2.html" %}<!-- 개인정보 처리방침 동의 -->
+{% include "account/mypage/popup/agree_3.html" %}<!-- 광고성 정보 수신 및 마케팅 활용 동의 -->
+{% endblock body %}
+
+{% block extra_scripts %}
+
+<script>
+	// <!-- 다음단계 넘어가기 -->	
+	// console.log('{{redirect_field_value}}', '{{form.errors}}', '{{form.field}}');
+	// if('{{redirect_field_value}}' != 'None' || '{{form.errors}}' != ''){
+	// 	$('.join-con.step01').fadeOut('fast','swing', function(){
+	// 		$('.join-con.step02').fadeIn();
+	// 	});
+	// }
+
+	function JoinNext(e){
+		e.preventDefault();
+		$('.join-con.step01').fadeOut('fast','swing', function(){
+			$('.join-con.step02').fadeIn();
+		})
+		return false;
+	}
+	function JoinBefore(e){
+		e.preventDefault();
+		$('.join-con.step02').fadeOut('fast', 'swing', function(){
+			$('.join-con.step01').fadeIn();
+		});
+		return false
+	}
+	function CheckPrivacy(){
+		if(
+			$("input[id=checkbox1-1].joinCheck").not(":checked") ||
+			$("input[id=checkbox1-2].joinCheck").not(":checked") ||
+			$("input[id=checkbox1-3].joinCheck").not(":checked")
+		){
+			$('.join-con.step02').fadeOut('fast', 'swing', function(){
+			$('.join-con.step01').fadeIn();
+			});
+		}
+		return true;
+	}
+
+	//CEF=True M_REDIRECT_URL 에서
+	var cef = searchParam('cef')
+	if(cef == 'true'){
+    $('#vef-notify').fadeIn();		
+		$('input[ref=checkrev]').attr('disabled', true).attr('checked',true)
+		$('button[ref=smartrev]').attr('disabled', true)
+		$('button[ref=smsrev]').attr('disabled', true)		
+	}
+
+</script>
+  <!-- iamport.payment.js -->
+  <!-- <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>	 -->
+  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>	
+{% endblock extra_scripts %}

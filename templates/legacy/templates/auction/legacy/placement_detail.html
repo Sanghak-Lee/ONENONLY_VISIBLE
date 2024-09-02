@@ -1,0 +1,192 @@
+{% extends 'auction/base.html' %}
+{% load static %}
+{% block content %}
+{% load humanize %}
+{% load core_template_tags %}              
+    <!-- Demo styles -->
+    <style>
+      html,
+      body {
+        position: relative;
+        height: 100%;
+      }
+
+      body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+      }
+
+      .swiper {
+        width: 100%;
+        height: 100%;
+      }
+
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+
+      .swiper-slide img {
+        display: block;
+        width: 60%;
+        height: 60%;
+        object-fit: cover;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />      
+
+
+
+
+
+<section class="section">
+    <section class="container">
+            <div class="card">            
+                    <div class="card-content">                    
+                        <h5>{{ placement.title }}</h5>
+                        <p class="chip indigo white-text">{{ placement.placement_artist }}</p>
+                        <span class="chip purple white-text">경매번호 {{ placement.id}}</span>
+                        <p>{{placement.placement_artist.description}}</p>
+                      
+                <!-- Swiper -->
+                    <div class="swiper mySwiper">
+                      <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="{% static 'paze/img/pp_ex1.jpg' %}"></div>
+                        <div class="swiper-slide"><img src="{% static 'paze/img/pp_ex2.jpg' %}"></div>
+                        <div class="swiper-slide"><img src="{% static 'paze/img/pp_ex3.jpg' %}"></div>
+                        <div class="swiper-slide"><img src="{% static 'paze/img/pp_ex4.jpg' %}"></div>
+                        <div class="swiper-slide"><img src="{% static 'paze/img/pp_ex1.jpg' %}"></div>
+                        <div class="swiper-slide"><img src="{% static 'paze/img/pp_ex2.jpg' %}"></div>
+                        <div class="swiper-slide"><img src="{% static 'paze/img/pp_ex3.jpg' %}"></div>
+                        <div class="swiper-slide"><img src="{% static 'paze/img/pp_ex4.jpg' %}"></div>
+                        <div class="swiper-slide"><img src="{% static 'paze/img/pp_ex1.jpg' %}"></div>
+                      </div>
+                      <div class="swiper-pagination"></div>
+                    </div>
+                        <p class="grey-text"> 경매품 최초 등록일 {{ placement.placement_created }}</p>
+                        <p class="grey-text"> 경매품 정보 업데이트 {{ placement.placement_modified }}</p>
+                    </div>
+
+                    <h5>Summary</h5>
+                    <ul class="collection">
+                    <li class="collection-item">시작가
+                     {{placement.placement_price | intcomma }}&#8361;
+                    </li>
+                    <li class="collection-item">총 응찰횟수
+                     {% count_bid placement as count_bid %} {{ count_bid }}회
+                    </li>
+                    <li class="collection-item">응찰가격
+                     {% get_top_3 placement as placementbid %} {% for p in placementbid %}{{p.offer | intcomma }}&#8361; / {% endfor %}
+                    </li>
+                    <li class="collection-item">낙찰가
+                            <span class="secondary-content" id='span-average'></span>
+                    </li>
+                    </ul>
+              </div>
+
+       <div class="card">
+           <div class="card-content">
+               <form action="" method="POST" class="form">
+                   {% csrf_token %}
+               <h5>응찰금액(₩)</h5>
+               <label for="amount">
+               단위 : {{ placement.unit_price | intcomma }}&#8361;
+               </label>
+                <select name="amount" id = "amount" required>
+                  <option value="{{ placement.get_final_price | add:placement.unit_price }}">{{ placement.get_final_price | add:placement.unit_price | intcomma }}&#8361;</option>
+                  <option value="{{ placement.get_final_price | add:placement.unit_price | add:placement.unit_price }}">{{ placement.get_final_price | add:placement.unit_price | add:placement.unit_price | intcomma }}&#8361;</option>
+                  <option value="{{ placement.get_final_price | add:placement.unit_price | add:placement.unit_price | add:placement.unit_price }}">{{ placement.get_final_price | add:placement.unit_price | add:placement.unit_price | add:placement.unit_price | intcomma }}&#8361;</option>
+                  <option value="{{ placement.get_final_price | add:placement.unit_price | add:placement.unit_price | add:placement.unit_price | add:placement.unit_price}}">{{ placement.get_final_price | add:placement.unit_price | add:placement.unit_price | add:placement.unit_price | add:placement.unit_price| intcomma }}&#8361;</option>
+                </select>
+               <button type="submit" style="margin-top: 1rem;" class="btn pink waves-effect waves-light">응찰하기</button>
+              </form>
+           </div>
+       </div>
+
+       <div class="card">
+            <div class="card-content">
+                <h5>Summary</h5>
+                <ul class="collection">
+                    <li class="collection-item">Number of shares (#)
+                        <span class="secondary-content" id='span-shares'></span>
+                    </li>
+                    <li class="collection-item">Total Amount Bidded ($)
+                            <span class="secondary-content" id='span-amount'></span>
+                    </li>
+                    <li class="collection-item">Average Bid Per Share ($)
+                            <span class="secondary-content" id='span-average'></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</section>
+
+
+
+{% include 'auction/footer.html' %}
+
+<script>
+
+var display_amount = document.getElementById('span-amount');
+var display_shares = document.getElementById('span-shares');
+var display_average = document.getElementById('span-average');
+
+var quantity_input = document.getElementById('quantity');
+var amount_input = document.getElementById('amount');
+
+var amount;
+var quantity;
+var average;
+
+change_summary = () => {
+    amount = amount_input.value;
+    quantity = quantity_input.value;
+    
+    display_amount.innerText = `${amount}`;
+    display_shares.innerText = `${quantity}`;
+
+    if ((amount.length > 0) & (quantity.length > 0)) {
+        average = Math.round(amount / quantity);
+        display_average.innerText = `${average}`;
+    }
+
+}
+
+amount_input.addEventListener('change', change_summary)
+quantity_input.addEventListener('change', change_summary)
+
+</script>
+{% endblock content %}
+
+
+<!-- 
+placement_title = models.CharField(max_length=255)
+placement_slug = models.SlugField()
+placement_company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+
+placement_created = models.DateTimeField(auto_now_add=True)
+placement_modified = -->

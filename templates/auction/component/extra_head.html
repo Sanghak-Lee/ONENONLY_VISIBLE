@@ -1,0 +1,101 @@
+{% load auction_templatetag %}
+<meta name="title" content="{{ placement.title | safe | removetag }}">
+<meta name="description" content="{{ placement.description | safe | removetag | truncatechars:40 }}">
+<meta property="og:title" content="{{ placement.title | safe }}">
+<meta property="og:description" content="{{ placement.description | safe | removetag | truncatechars:40 }}">
+<meta name="twitter:title" content="{{ placement.title | safe }}">
+<meta name="twitter:description" content="{{ placement.description | safe | removetag | truncatechars:40 }}">
+<script type="application/ld+json">
+	{
+		"@context":"http://schema.org",
+		"@type":"BreadcrumbList",
+		"itemListElement":[
+			{
+				"@type":"ListItem",
+				"position":1,
+				"name":"홈",
+				"item":"https://onenonly.io"
+			},
+			{
+				"@type":"ListItem",
+				"position":2,
+				"name":"시간상품",
+				"item":"https://onenonly.io/auction/list"
+			}
+		]
+	}
+</script>
+<script type="application/ld+json">
+	{
+		"@context":"https://schema.org/",
+		"@type":"Product",
+		"name":"{{placement.title | safe }}",
+		"image":"{{ placement.thumbnail.url }}",
+		"description":"{{ placement.description | removetag }}",
+		"brand":{
+			"@type":"Brand",
+			"name":"{{ placement.placement_artist.name }}"
+		},
+		"offers":{
+			"@type":"AggregateOffer",
+			"url":"https://onenonly.io/auction/list/{{placement.id}}/",
+			"priceCurrency":"KRW",
+			"lowPrice":"{{ placement.placement_price }}",
+			"highPrice":"{{ placement.placement_price }}",
+			"offerCount":"{{ placement.get_ready_cnt }}"
+    }
+    {% if placement.placementmemory %}
+    ,"aggregateRating":{
+      "@type":"AggregateRating",
+      "bestRating":"5.0",
+      "worstRating":"0.5",
+      "ratingValue":5,
+      "ratingCount":{{placement.placementmemory.oneys.all.count}},
+      "reviewCount":{{placement.placementmemory.oneys.all.count}}
+    },
+    "review":[
+    {% for oney in placement.placementmemory.oneys.all %}
+      {
+        "@type":"Review",
+        "name":"{{ placement.title | safe }}",
+        "reviewBody":"{{oney.comment}}",
+        "reviewRating":{
+          "@type":"Rating",
+          "ratingValue":"5",
+          "bestRating":"5.0",
+          "worstRating":"0.5"
+        },
+        "author":{
+          "@type":"Person",
+          "name":"{{ oney.name | truncatechars:2 }}"
+        }
+      }{% if forloop.last %}{% else %},{% endif %}
+      {% endfor %}
+      ]
+      {% endif %}
+  }
+</script>
+<script type="application/ld+json">
+	{
+		"@context":"https://schema.org",
+		"@type":"FAQPage",
+		"mainEntity":[
+		{
+			"@type":"Question",
+			"name":"상품제목",
+			"acceptedAnswer":{
+				"@type":"Answer",
+				"text":"{{ placement.title | safe }}"
+			}
+		},
+		{
+			"@type":"Question",
+			"name":"상품설명",
+			"acceptedAnswer":{
+				"@type":"Answer",
+				"text":"{{ placement.description | safe | removetag}}"
+			}
+		}
+		]
+	}
+</script>

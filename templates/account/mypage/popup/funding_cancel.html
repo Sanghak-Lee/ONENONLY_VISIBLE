@@ -1,0 +1,84 @@
+<!-- 팝업 :: 아이디 변경_1_변경 완료 모달 팝업  -->
+<article class="layer-fixed-pop-wrapper layer-popup" id="popupFundingCancel{{orderitem.id}}{{orderitem.placement.id}}">
+	<div class="modal-fixed-pop-inner">
+		<div class="modal-inner-box">
+			<div class="modal-inner-content">
+				<!-- 컨텐츠 영역 -->
+				<form method="post" enctype="multipart/form-data" action="{{ url }}">
+					{% csrf_token %}
+					<section class="cm-modal-content cm-alret-modal-content">
+						<div class="popup-inner-con">
+							<div class="cm-modal-tit">
+								<p class="cm-txt">{{ orderitem.placement.title }} <br> 구매를 취소하시겠습니까?</p>
+								{% if orderitem.deliver_detail > 1 %}
+									{% if orderitem.refund_file %}
+									<div style="height:40px;padding: inherit;">
+										{% if not orderitem.refund_requested %}<span>(취소됨)</span>{% endif %}
+										<a style="color:#e30d67" href="{{orderitem.refund_file.url}}">{{orderitem.refund_file.name}}</a>
+									</div>
+									{% else %}
+									<div style="height:40px;padding: inherit;">
+										<a style="color:#e30d67" href="https://revenor-my.sharepoint.com/:w:/g/personal/admin_revenor_io/Ea8cqYURGvlPgGklu1XKW4ABg2SYRZc-tQDG0KJRcNUDJQ?e=AoMpWw">원앤온리 - 구매취소신청서 양식 다운로드 받기</a>
+									</div>
+									{% endif %}
+								<div class="flex filebox">
+									<input style="width:180px;" disabled id="upload-name-{{orderitem.id}}" class="upload-name" value="첨부파일" placeholder="첨부파일">
+									<label for="file-{{orderitem.id}}">파일찾기</label>
+									<input id="file-{{orderitem.id}}" type="file" name="refund_file" accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf">
+								</div>
+								
+								<div class="flex filebox" style="margin-top:2px;">
+									<input style="width:203px;" class="upload-name" id="account-{{orderitem.id}}" type="text" name="refund_account" placeholder="카드결제 했을시 'X'입력" value="{{orderitem.refund_account | default:'' }}">
+									<label for="account-{{orderitem.id}}">환불계좌</label>
+								</div>
+								{% endif %}
+							</div>
+						</div>
+						<div class="cm-modal-btn clearfix">
+							<ul class="col-01">
+								<li><button id="btn-{{orderitem.id}}" type="submit" name="process" class="cm-positive-btn">환불요청</a></li>
+								{% if orderitem.refund_requested %}
+								<li><button type="submit" name="cancel" class="cm-positive-btn">환불요청 취소</a></li>
+								{% endif %}
+								<li><a href="javascript:;" class="cm-basic-btn" onclick="modalPopupClose('#popupFundingCancel{{orderitem.id}}{{orderitem.placement.id}}')">닫기</a></li>
+							</ul>
+						</div>
+					</section>
+				</form>
+				<!-- // -->
+			</div>
+		</div>
+	</div>
+</article>
+
+<script>
+	$(function(){
+		function btncheck(){
+		if(($('#file-{{orderitem.id}}').val() && $('#account-{{orderitem.id}}').val()) == 0){
+			$('#btn-{{orderitem.id}}').attr('disabled',true);
+		}else{
+			$('#btn-{{orderitem.id}}').attr('disabled',false);
+		}
+	}
+
+	$("#file-{{orderitem.id}}").on('change',function(){
+		//FILE INPUT 이름변경		
+		var fileName = $("#file-{{orderitem.id}}").val();
+		$("#upload-name-{{orderitem.id}}").val(fileName);
+		//버튼 활성화
+		btncheck();
+	});
+
+	$("#account-{{orderitem.id}}").on('input',function(){
+		//버튼 활성화
+		btncheck();
+	});	
+
+
+	if($('#file-{{orderitem.id}}').length || $('#account-{{orderitem.id}}').length){
+		// 버튼활성화
+		btncheck();
+	}
+	})
+
+</script>

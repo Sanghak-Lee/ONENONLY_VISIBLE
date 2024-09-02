@@ -1,0 +1,66 @@
+{% extends "account/base.html" %}
+{% load i18n account static %}
+
+{% block head_title %} | 본인인증 {% endblock %}
+
+{% block body %}
+<div id="wrap" class="sub-wrap">
+  
+
+  <!-- container -->
+  <div id="container">
+    <!-- middleArea -->
+    <div id="middleArea">
+      <!-- content -->
+      <section id="content" class="area-box">
+					<!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+					<div class="sub-page mypage-page">
+						<div class="join-con step03">
+							<h5 class="join-tit">핸드폰 인증</h5>
+							<div class="join-inner-box">
+								<p class="join-txt">아래 버튼을 눌러 본인인증을 완료해주세요</p>
+                <div style="margin-top:2rem;">
+                  <input ref="checkrev" onchange="CheckAgreement(event);" type="checkbox" id="phone-agree">
+                  <span id="vef-notify" style="display:none;" class="cm-font-color-y">[인증완료]</span>
+                  <label for="phone-agree">개인정보(핸드폰번호)제공에 대한 동의 </label>
+                  <a style="color:var(--main-color);" href="{% url 'core:info-2' %}"> (개인정보취급방침)</a>
+                </div>
+                <div style="margin-top:2rem; display:flex; justify-content: center;">
+                  <button disabled ref="smartrev" style="margin-bottom:10px;" onclick="SmartCef(event);" class="cm-custom-button">통합인증하기</button>
+                  <button disabled ref="smsrev" onclick="SmsCef(event);" class="cm-custom-button">SMS 인증하기</button>
+                </div>
+								<div class="join-mail-info">
+									<p>인증에 에러가 있나요?</p>
+									<ul class="dot-txt">
+										<li><p>지속적으로 에러가 발생하는 경우, 아이디(이메일)을 기재하여 <span class="cm-font-color-y">support@onenonly.io</span>으로 문의하시거나 <span class="cm-font-color-y">챗봇 상담</span>을 이용해 주세요.</p></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+      </section>
+      <!-- //content -->
+    </div>
+    <!-- //middleArea -->
+  </div>
+  <!-- // container -->
+</div>
+<!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+  <!-- iamport.payment.js -->
+  <!-- <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script> -->
+  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>  
+  <script>
+	//CEF=True M_REDIRECT_URL 에서
+	var cef = searchParam('cef')
+	if(cef == 'true'){
+    $('#vef-notify').fadeIn();
+		$('input[ref=checkrev]').attr('disabled', true).attr('checked',true)
+		$('button[ref=smartrev]').attr('disabled', true)
+		$('button[ref=smsrev]').attr('disabled', true)		
+	}
+  </script>
+{% endblock extra_scripts %}

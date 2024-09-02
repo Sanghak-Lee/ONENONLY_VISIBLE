@@ -1,0 +1,63 @@
+{% load humanize %}
+
+    <div class="item fadein a">
+        <div class="l1">
+        One&amp;Only Auction #{{ placement.id }}
+        </div>            
+        <div class="l2">
+        {{ placement.title }}
+        </div>
+        <div class="l3">
+        {{ placement.title_english }}
+        </div>              
+    </div>
+
+    <div class="author fadein b">
+
+        <div class="l4">
+        <div>{{ placement.placement_artist }}, {{  placement.placement_artist.description_oneoff }}</div>
+        </div>              
+        <div class="l5">
+        <p>{{ placement.placement_artist.description | linebreaks }}</p>        
+        </div>
+    </div>
+
+    <div class="price fadein c">
+        <div class="l6">
+        <dl>
+            <dt>추정가</dt>
+            <dd class="">{{placement.placement_estimated_price | linebreaks }}</dd>
+
+            <dt>시작가</dd>
+            <dd class="KRW">KRW {{placement.placement_start_price | intcomma }}</dd>
+
+            <dt class="red">현재가 KRW {{now_price | intcomma }}</dt>
+        </dl>
+        </div>
+    </div>
+
+    <div class="info fadein a">
+        <p>{{ placement.placement_description | linebreaks }}</p>
+    </div>
+
+    <div class="tel fadein b">
+        <p>작품문의 : <a href="mailto:support@1nonly.io">원앤온리에게 메일보내기</a></p>
+        <p>배송안내 : 낙찰 후 콘텐츠 제공자와 유저 간 날짜 협의 후, 해당 날짜에 제작 및 배송</p>        
+    </div>
+    <div class="twobuttons fadein c">
+        <div class="button">
+            <a>
+                <button style="width:8rem; margin-left:0" type="button" class="btn btn-primary modal-toggle" data-toggle="modal" data-target="#bidding-modal">
+                펀딩하기
+                </button>
+            </a>
+        </div>
+        <div class="ws_btn">
+                <li class="art_v_share">
+                    <div class="ov ani">
+                        <div class="v1">URL 복사</div>
+                        <div class="v2">카카오톡 공유</div>
+                    </div>
+                </li>
+        </div>        
+    </div>

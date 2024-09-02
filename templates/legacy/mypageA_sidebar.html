@@ -1,0 +1,76 @@
+{% load static %}
+
+<div class="pc425">
+    <div class="mypageSideClose">
+        <span class="slideClose slideBtn">접어두기<span>◀</span></span>
+        <span class="slideOpen slideBtn">펼치기<span>▶</span></span>
+    </div>
+    <div class="le_menu">
+        <div class="menuWrapper sideA">
+            <a href="{% url 'core:userpage' %}" class="selectMenu">
+                <div class="artistMenu"></div> <!-- Artist -->
+                {% comment %} <div class="collecterMenu"></div> <!-- Collecter --> {% endcomment %}
+            </a>
+            <span>Presenter</span>
+        </div>
+        <div class="bbox">
+            <p class="artistEName">{{request.user.artist}}</p>
+            <p class="m1"><span>{{request.user.artist.K_name}}</span> 님의 페이지</p>
+        </div>
+        <div class="cbox">
+            <ul class="list">
+                <li class="sb" id="menu-1"><a href="{% url 'core:artistpage' %}">내 정보 관리</a></li>
+                <li class="sb" id="menu-2"><a href="{% url 'core:artistupload' %}">주문 확인하기</a></li>
+                <li class="sb" id="menu-3"><a href="{% url 'core:artistitemupload' %}">나의 서비스</a></li>
+                <li class="sb" id="menu-4"><a href="{% url 'core:artistcalc' %}">활동 지수</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="m425 mypageA425">
+    <div class="le_menu">
+        <div class="menuWrapper sideA">
+            <a href="{% url 'core:userpage' %}" class="selectMenu">
+                <div class="artistMenu"></div> <!-- Artist -->
+                {% comment %} <div class="collecterMenu"></div> <!-- Collecter --> {% endcomment %}
+            </a>
+            <span>Presenter</span>
+        </div>
+
+        <div class="bbox">
+            <p class="artistEName">{{request.user.artist}}</p>
+            <p class="m1"><span>{{request.user.artist.K_name}}</span> 님의 페이지</p>
+        </div>
+        <div class="cbox">
+            <ul class="list">
+                <li class="sb" id="menu-1"><a href="{% url 'core:artistpage' %}">내 정보 관리</a></li>
+                <li class="sb" id="menu-2"><a href="{% url 'core:artistupload' %}">주문 확인하기</a></li>
+                <li class="sb" id="menu-3"><a href="{% url 'core:artistitemupload' %}">나의 서비스</a></li>
+                <li class="sb" id="menu-4"><a href="{% url 'core:artistcalc' %}">활동 지수</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.sb').removeClass('on');
+    $('.slideClose').click(function(){
+        $('.mypageSideClose').toggleClass('active');
+        $('.le_menu').css("overflow","hidden");
+        $('.le_menu').css("white-space","nowrap");
+        $('.le_menu').animate({
+            width: "toggle"
+        });
+    });
+    $('.slideOpen').click(function(){
+        $('.mypageSideClose').toggleClass('active');
+        $('.le_menu').animate({
+            width: "toggle"
+        });
+        setTimeout(function() {
+            $('.le_menu').css("overflow","auto");
+            $('.le_menu').css("white-space","normal");
+        }, 300)
+    });
+</script>

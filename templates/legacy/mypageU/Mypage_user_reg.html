@@ -1,0 +1,207 @@
+﻿{% extends "account/base.html" %}
+{% load static %}
+{% load staticfiles%}
+{% load core_template_tags %}
+
+{% load account socialaccount %}
+
+
+{% block head_title %} {% endblock %}
+
+{% block extra_head %} {% endblock %}
+
+
+
+
+{% block content %}
+<article id="content" class="backWrapper">
+	<div class="myp user uploadAtt">
+		<div class="wrap">
+			<div class="myp_wr">
+				<!-- 좌측 메뉴 -->
+				{% comment %} <div class="leSlidebar">
+					{% include "component/mypageU_sidebar.html" %}
+				</div> {% endcomment %}
+				<!-- 우측 컨텐츠 -->
+				<div class="myp_ctt user_reg_ri">
+					<h2>프리젠터 등록</h2>
+					<form action = "{% url 'core:userregartist' %}" method="post">
+						{% csrf_token %}
+					<div class="art_reg">
+						<div class="abox clear pl">
+							<div class="profileImgWrapper">
+								<img src="{% static 'paze/img/reg_i1.jpg' %}" alt="" class="profileThumbnail">
+							</div>
+							<div class="add_box">
+								<p class="m1">프로필 사진은 반드시 첨부해주세요.</p>
+								<p class="m2">이미지는 jpg, jpeg, png 포맷만 지원합니다. <br />이미지는 최대 5MB까지 지원합니다.</p>
+								<div class="btn">
+									<input type="file" id="upload_btn" name = "avatar" accept="image/*" onChange="readFile(event);" required/>
+									<label for="upload_btn" class="s1">프로필 사진 업로드</label>
+								</div>
+							</div>
+						</div>
+						<div class="bbox pl">
+							<dl class="m1">
+								<div>이름 (국문)</div>
+								<dd>
+									<input type="text" name = "K_name" class="comm_ipt iw1" placeholder="이름을 입력하세요." required>
+								</dd>
+							</dl>
+							<dl class="m1">
+								<div>이름 (영문)</div>
+								<dd>
+									<input type="text" name = "E_name" class="comm_ipt iw1" placeholder="이름을 입력하세요." required>
+								</dd>
+							</dl>
+							<dl>
+							<dl>
+								<div class="m1">자기소개 (50자 이상)
+									<span class="content50Up">* 50글자 이상 입력해야합니다!<span class="textInfo">50자 / </span><span class="textCount">0자</span></span>
+								</div>
+								<dd>
+									<textarea name="bio_text" id="" class="comm_text" placeholder="자개소개 내용을 입력하세요." required></textarea>
+								</dd>
+							</dl>
+						</div>
+						<div class="ebox pl">
+							<p class="m1">프리젠팅 희망 분야</p>
+							<ul class="bk_info clear">
+								<li class="li1">
+									<select name="instrument" id="" class="comm_selc presenSelc" required>
+										<option value="H" selected>분야 선택</option>
+										<option value="G">음악</option>
+										<option value="T">마술</option>
+										<option value="ETC">기타</option>
+									</select>
+								</li>
+							</ul>
+						</div>
+						<div class="cbox pl">
+							<p class="m1">포트폴리오 (1개 이상 필수, 최대 5개까지)<span class="portAlert alertMsg">* 첨부된 파일이 없습니다.</span></p>
+							<div class="portpolioList">
+								<div class="btnWrapper">
+									<label class="btn" for="attachment">포트폴리오 첨부하기</label>
+									<input type="file" name="file[]" id="attachment" accept=".pdf" style="visibility: hidden; position: absolute;" multiple/>
+								</div>
+								<p id="files-area">
+									<span id="filesList">
+										<span id="files-names"></span>
+									</span>
+								</p>
+							</div>
+						</div>
+						<div class="uploadWrapper pl"> <!-- 신분증/통장 사본 -->
+							<div class="uploadIndex">
+								<span class="idnBank">신분증 사본<span class="idAlert alertMsg idnBank">* 첨부된 파일이 없습니다.</span></span>
+								<input type="file" id="ID" class="inputRaw" name="ID" accept="image/png, image/jpeg" onchange="javascript:document.getElementById('idFileName').value=`첨부된 파일 : ${this.value.replace(/c:\\fakepath\\/i,'')}`">
+								<label for="ID">첨부하기</label>
+								<input type="text" id="idFileName" class="fileNameInput" name="idFileName" readonly>
+							</div>
+							<div class="uploadIndex">
+								<span class="idnBank">통장 사본<span class="bankAlert alertMsg idnBank">* 첨부된 파일이 없습니다.</span></span>
+								<input type="file" id="bankAccount" class="inputRaw" name="bankAccount" accept="image/png, image/jpeg" onchange="javascript:document.getElementById('bankFileName').value=`첨부된 파일 : ${this.value.replace(/c:\\fakepath\\/i,'')}`">
+								<label for="bankAccount">첨부하기</label>
+								<input type="text" id="bankFileName" class="fileNameInput" name="bankFileName" readonly>
+							</div>
+						</div>
+						<div class="fbox">
+							<span id="" class="ani">
+								<input type="submit" id="submitBtn">
+								<label for="submitBtn" class="submitBtnLabel">프리젠터 등록 신청</label>
+							</span>
+						</div>
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</article>
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+	$(".inputRaw").hide();
+
+	$(function(){
+		$('#menu-5').addClass('on');
+	})
+
+	$(".comm_text").keyup(function (e) {
+		let content = $(this).val();
+
+		if(content.length == 0 || content == "") {
+			$(".textCount").text('0자');
+		} else {
+			$(".textCount").text(content.length + '자');
+		}
+
+		if(content.length >= 50) {
+			$(".content50Up").hide();
+		} else {
+			$(".content50Up").show();
+		}
+	})
+
+	function readFile(event) {
+		let file = event.target.files[0];
+
+		let href = window.URL.createObjectURL(file);
+		$(".profileThumbnail").attr('src', href);
+
+		//5분뒤에 메모리 해제
+		setTimeout(function() {
+			window.URL.revokeObjectURL(href)
+		}, 1000 * 60 * 5);
+	}
+
+	$("#video_up1").change(() => {
+		$(".portAlert").hide();
+	})
+	$("#ID").change(() => {
+		$(".idAlert").hide();
+	})
+	$("#bankAccount").change(() => {
+		$(".bankAlert").hide();
+	})
+
+	const dt = new DataTransfer();
+
+	$("#attachment").on('change', function(e){
+		if(this.files.length > 5) {
+			alert("최대 5개의 파일만 등록할 수 있습니다!")
+		} else {
+			for(var i = 0; i < this.files.length; i++){
+				let fileBloc = $('<span/>', {class: 'file-block'}),
+				fileName = $('<span/>', {class: 'name', text: this.files.item(i).name});
+				fileBloc.append('<span class="file-delete"><span>+</span></span>')
+					.append(fileName);
+				$("#filesList > #files-names").append(fileBloc);
+			};
+			for (let file of this.files) {
+				dt.items.add(file);
+			}
+			this.files = dt.files;
+
+			$('span.file-delete').click(function(){
+				let name = $(this).next('span.name').text();
+				$(this).parent().remove();
+				for(let i = 0; i < dt.items.length; i++){
+					if(name === dt.items[i].getAsFile().name){
+						dt.items.remove(i);
+						continue;
+					}
+				}
+				document.getElementById('attachment').files = dt.files;
+			});
+		}
+	});
+</script>
+{% endblock extra_scripts %}
+
+

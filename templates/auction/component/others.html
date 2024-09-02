@@ -1,0 +1,90 @@
+<div class="unboxing-other-con">
+  <h5 class="cm-title-style">
+    <div class="unboxing-con03-date">
+    <button class="btn prev-btn"><i class="xi-angle-left-thin"></i></button>    
+    OTHERS
+    <button class="btn next-btn"><i class="xi-angle-right-thin"></i></button>    
+    </div>    
+  </h5>
+  <div class="unboxing-other-wrapper">
+    <ul class="unboxing-other-list clearfix">
+    {% for op in others %}
+      <li class="unboxing-other-item" id="other{{op.pk}}_countdown">
+        <a href="{{op.get_absolute_url}}">
+          <div class="unboxing-other-img"><span style="background: url('{{ op.thumbnail.url }}') center/cover no-repeat;"></span></div>													
+          <div class="unboxing-other-txt {% if op.placement_type == "crowdfunding" %}crowd{% endif %}">
+            <div class="top-info">
+              <div class="category">
+                {% if op.placement_type == "crowdfunding" %}
+                <span class="img">{% include "svg/icon_crowd_funding.html" %}</span>
+                {% elif op.placement_type == "openfunding" %}
+                <span class="img">{% include "svg/icon_open_funding.html" %}</span>																
+                {% elif op.placement_type == "secretfunding" %}
+                <span class="img">{% include "svg/icon_secret_funding.html" %}</span>																
+                {% endif %}
+                <span class="cate-txt">{{ op.get_placement_type_display }}</span>
+              </div>
+              {% if op.is_encore %}
+              <span class="add-info">앵콜</span>
+              {% endif %}
+            </div>
+            <p class="deadline" id="c{{op.pk}}_countdown"></p>
+            <h5 class="tit">{{ op.title | safe | linebreaksbr }}</h5>
+          </div>
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
+
+  <!--카운트 다운 js-->
+  <script>
+    (function () {
+    const second = 1000,
+        minute = second * 60,
+        hour = minute * 60,
+        day = hour * 24;
+  
+    {% for p in others %}
+      const c{{p.pk}}_start = new Date('{{ p.placement_start | date:"Y/m/d H:i:s" }}').getTime();
+      const c{{p.pk}}_end = new Date('{{ p.placement_end | date:"Y/m/d H:i:s" }}').getTime();
+    {% endfor %}
+  
+    {% for p in others %}
+    c{{p.pk}}_x = setInterval(function() {    
+      const now = new Date().getTime();
+      const c{{p.pk}}_tostart = c{{p.pk}}_start - now;
+      const c{{p.pk}}_toend = c{{p.pk}}_end - now;
+  
+      //c1 시작전
+      if(c{{p.pk}}_tostart > 0){
+        var days = Math.floor(c{{p.pk}}_tostart / (day));
+        var hours = Math.floor((c{{p.pk}}_tostart % (day)) / (hour));
+        var mins = Math.floor((c{{p.pk}}_tostart % (hour)) / (minute));
+        var secs = Math.floor((c{{p.pk}}_tostart % (minute)) / second);				
+        document.getElementById("c{{p.pk}}_countdown").innerText = `시작까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;
+        //document.getElementById("c{{p.pk}}_countdown").style.color = "#177D4E";
+      }
+      //진행중
+      else if(c{{p.pk}}_tostart <= 0 && c{{p.pk}}_toend > 0)
+      {
+        var days = Math.floor(c{{p.pk}}_toend / (day));
+        var hours = Math.floor((c{{p.pk}}_toend % (day)) / (hour));
+        var mins = Math.floor((c{{p.pk}}_toend % (hour)) / (minute));
+        var secs = Math.floor((c{{p.pk}}_toend % (minute)) / second);				
+        document.getElementById("c{{p.pk}}_countdown").innerText = `종료까지 ${days}일 ${hours}:${mins}:${secs} 남았습니다.`;
+        //document.getElementById("c{{p.pk}}_countdown").style.color = "#FF8343";
+      }
+      //끝
+      else{
+        document.getElementById("c{{p.pk}}_countdown").innerText = `종료되었습니다`;
+        document.getElementById("c{{p.pk}}_countdown").style.display = "block";
+        $('#other{{p.pk}}_countdown').addClass('close');
+        clearInterval(c{{p.pk}}_x);
+      }
+  
+    }, 0)			
+    {% endfor %}
+    }());
+  </script>

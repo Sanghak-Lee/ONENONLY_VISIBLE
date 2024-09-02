@@ -1,0 +1,234 @@
+{% extends 'article/auction/base.html' %}
+{% load static humanize %}
+{% load core_template_tags %}
+{% load auction_templatetag %}
+{% block head_title %} | 소식 {% endblock head_title %}
+
+	<!-- ========================
+	///// Begin page header /////
+	============================= 
+	* Use class "ph-full" to enable fullscreen size.
+	* Use class "ph-cap-sm", "ph-cap-lg", "ph-cap-xlg" or "ph-cap-xxlg" to set caption size (no class = default size).
+	* Use class "ph-center" to enable content center position.
+	* Use class "ph-bg-image" to enable page header background image (required for a portfolio single project!).
+	* Use class "ph-bg-image-is-light" if needed, it makes the elements dark and more visible if you use a very light image (effect only with class "ph-bg-image").
+	* Use class "ph-image-shadow" to enable page header background image (effect only with class "ph-bg-image").
+	* Use class "ph-image-cropped" to crop image. It fixes image dimensions (no effect for "ph-bg-image"!).
+	* Use class "ph-image-cover-*" to set image overlay opacity. For example "ph-image-cover-2" or "ph-image-cover-2-5" (up to "ph-image-cover-9-5").
+	* Use class "ph-content-parallax" to enable content parallax.
+	* Use class "ph-stroke" to enable caption title stroke style.
+	-->
+	{% block header %}
+		<div id="page-header" class="ph-cap-lg ph-center ph-image-cropped ph-image-cover-4 ph-content-parallax">
+			<div class="page-header-inner tt-wrap">
+
+				<!-- Begin page header image 
+				============================= -->
+				<!-- <div class="ph-image">
+					<div class="ph-image-inner">
+						<img src="assets/img/page-header/ph-2.jpg" alt="Image">
+					</div>
+				</div> -->
+				<!-- End page header image -->
+
+				<!-- Begin page header caption
+				=============================== 
+				Use class "max-width-*" to set caption max width if needed. For example "max-width-1000". More info about helper classes can be found in the file "helper.css".
+				-->
+				<div class="ph-caption" style="display:none;">
+					<h1 class="ph-caption-title ph-appear">원앤온리 소식</h1>
+					<hr class="ph-caption-hr" />
+				</div>
+				<!-- End page header caption -->
+
+			</div> <!-- /.page-header-inner -->
+
+			<!-- Begin scroll down circle (you can change "data-offset" to set scroll top offset) 
+			============================== -->
+			<a href="#page-content" class="scroll-down-circle" data-offset="30">
+				<div class="sdc-inner ph-appear">
+					<div class="sdc-icon"><i class="fas fa-chevron-down"></i></div>
+					<svg viewBox="0 0 500 500">
+						<defs>
+							<path d="M50,250c0-110.5,89.5-200,200-200s200,89.5,200,200s-89.5,200-200,200S50,360.5,50,250" id="textcircle"></path>
+						</defs>
+						<text dy="30">
+							<textPath xlink:href="#textcircle">Scroll down - Scroll down -</textPath>
+						</text>
+					</svg>
+				</div> <!-- /.sdc-inner -->
+			</a>
+			<!-- End scroll down circle -->
+
+			<!-- Begin made with love 
+			========================== -->
+			<div class="made-with-love ph-appear">
+				<div class="mwl-inner">
+					<div class="mwl-text">Made with</div>
+					<div class="mwl-icon"><i class="far fa-heart"></i></div>
+				</div>
+			</div>
+			<!-- End made with love -->
+			
+		</div>
+	{% endblock header %}
+	<!-- End page header -->
+
+
+	<!-- *************************************
+	*********** Begin page content *********** 
+	************************************** -->
+	{% block content %}
+		<div id="page-content">
+
+
+			<!-- =======================
+			///// Begin tt-section /////
+			============================ 
+			* You can use padding classes if needed. For example "padding-top-xlg-150", "padding-bottom-xlg-150", "no-padding-top", "no-padding-bottom", etc. Note that each situation may be different and each section may need different classes according to your needs. More info about helper classes can be found in the file "helper.css".
+			-->
+			<div class="tt-section">
+				<div class="tt-section-inner tt-wrap max-width-900">
+
+
+							<!-- Begin blog list
+							===================== 
+							* Use class "bli-image-cropped" to grop blog list item images (set fixed height).
+							* Use class "bli-compact" to enable compact blog list style. Note: If "tt-sidebar" is used, then add more width to "tt-section-inner", for example "max-width-1600".
+							-->
+							{% if articles %}
+							<div id="blog-list" class="bli-image-cropped">
+
+								<!-- Begin blog list item 
+								========================== -->
+									{% for a in articles %}
+									<article class="blog-list-item">
+								
+										<!-- Begin blog list item image -->
+										<a href="{{ a.get_absolute_url }}" class="bli-image-wrap" data-cursor="Read<br>More">
+											<figure class="bli-image">
+												{% if a.thumbnail %}
+												<img src="{% static 'rev/img/common/video_thumbnail.png' %}" data-src="{{ a.thumbnail.url }}" class="tt-lazy anim-zoomin" alt="Image">												
+												{% else %}
+												<img src="{% static 'rev/img/common/video_thumbnail.png' %}" data-src="{% static 'rev/img/common/video_thumbnail.png' %}" class="tt-lazy anim-zoomin" alt="Image">
+												{% endif %}
+												{% if a.category == '5' %}
+												<div class="bli-badge">
+													<img src="{{a.badge.url}}">
+												</div>
+												{% endif %}
+											</figure>
+										</a>
+										<!-- End blog list item image -->
+										
+										<!-- Begin blog list item info -->
+										<div class="bli-info">
+											{% if request.user.is_authenticated %}
+												{% if request.user == a.user or request.user.is_staff %}
+												<div style="text-align:right;">
+													<a href="{% url 'core:article_update' a.id %}"><i class="xi-wrench"></i> 수정</a>
+												</div>
+												{% endif %}
+											{% endif %}
+											<div class="bli-categories">
+												<a href="{{ a.get_absolute_url }}">{{ a.get_category_display }}</a>
+												<!-- <a href="blog-archive.html">Uncategorized</a> -->
+											</div>
+											<h2 class="bli-title"><a href="{{ a.get_absolute_url }}">{{ a.title | truncatechars:50 }}</a></h2>
+											<div class="bli-meta"> 
+												<span class="published">{{ a.created }}</span>
+												<span class="posted-by">- by <a href="{{ a.get_absolute_url }}" title="View all posts by John Doe">{{ a.user.username }}</a></span>
+											</div>
+											<div class="bli-desc"> <!-- 3 lines is optimal! -->
+												{{ a.text | removetag | truncatechars:30 }}
+											</div>
+											<div class="bli-read-more tt-btn tt-btn-link">
+												<a href="{{ a.get_absolute_url }}" data-hover="Detail">상세보기</a>
+											</div>
+										</div>
+										<!-- End blog list item info -->
+
+									</article>
+									{% endfor %}
+								<!-- End blog list item -->
+							</div>
+							<!-- End blog list -->
+							{% else %}
+							<div class="mypage-funding-no-list">
+							 <p>게시글이 없습니다.</p>
+							</div>
+							{% endif %}
+
+					<!-- Begin tt-pagination 
+					========================= 
+					* Use class "tt-pagin-center" to align center.
+					-->
+					{% if is_paginated %}
+					<div class="tt-pagination tt-pagin-center anim-fadeinup">
+						<div class="tt-pagin-prev">
+							<a{% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}"{% endif %}	class="tt-pagin-item magnetic-item"><i class="fas fa-chevron-left"></i></a>
+						</div>
+						<div class="tt-pagin-numbers">
+							{% if page_obj.has_previous %}
+							<a href="?page={{ page_obj.previous_page_number }}" class="tt-pagin-item magnetic-item">{{ page_obj.previous_page_number }}</a>
+							{% endif %}
+							<a href="?page={{ page_obj.number }}" class="tt-pagin-item magnetic-item active">{{ page_obj.number }} </a>										
+							{% if page_obj.has_next %}
+							<a href="?page={{ page_obj.next_page_number }}" class="tt-pagin-item magnetic-item">{{ page_obj.next_page_number }}</a>
+							{% endif %}
+						</div>
+						<div class="tt-pagin-next">
+							<a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}"{% endif %} class="tt-pagin-item tt-pagin-next magnetic-item"><i class="fas fa-chevron-right"></i></a>
+						</div>						
+					</div>
+					{% endif %}								
+					<!-- End tt-pagination -->
+
+				</div> <!-- /.tt-section-inner -->
+			</div>
+			<!-- End tt-section -->
+		</div>
+
+	{% endblock content %}
+	<!-- End page content -->
+
+	{% block sidebar %}
+		<!-- 사이드바-->
+		<div class="tt-sliding-sidebar-wrap">
+			<div class="tt-sliding-sidebar">
+				<div class="tt-sliding-sidebar-inner">					
+					{% include 'article/auction/component/sidebar.html' %}
+				</div> <!-- /.tt-sliding-sidebar-inner -->
+			</div> <!-- /.tt-sliding-sidebar -->
+
+			<!-- Begin sliding sidebar trigger -->
+			<div class="tt-sliding-sidebar-trigger hide-cursor">
+				<span class="tt-ss-icon"><i class="fas fa-align-justify"></i></span>
+				<span class="tt-ss-icon-close"><i class="fas fa-times"></i></span>
+			</div>
+			<!-- End sliding sidebar trigger -->
+
+			<!-- Close overlay -->
+			<div class="tt-sliding-sidebar-close cursor-close"></div>
+		</div> 
+		<!-- End sliding sidebar -->
+		<!-- /.사이드바-->
+	{% endblock sidebar %}
+
+{% block extra_scripts %}
+<script>
+
+	var category = new URLSearchParams(location.search).get('category');	
+	if(category == '0'){}
+	else{
+		$('.ph-caption').show()
+		if(category == '1')$('.ph-caption > h1').text('공지사항');
+		else if(category == '2')$('.ph-caption > h1').text('이벤트');
+		else if(category == '3')$('.ph-caption > h1').text('보도자료');
+		else if(category == '4')$('.ph-caption > h1').text('참고자료');
+		else if(category == '5')$('.ph-caption > h1').text('특별기획');	
+	}
+		
+</script>
+
+{% endblock extra_scripts %}

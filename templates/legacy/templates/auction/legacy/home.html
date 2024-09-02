@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %}
+{% load core_template_tags %}  
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>플레이플리즈 옥션</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/static/img/classic_logo.png" rel="icon">
+  <link href="/static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/static/assets/css/style.css" rel="stylesheet">
+
+  <style>
+  td{
+      color:#c8c2c2;
+  }
+  th{
+      font-weight:bold;
+      color:white;
+  }  
+  </style>
+
+
+  <!-- =======================================================
+  * Template Name: Personal - v4.7.0
+  * Template URL: https://bootstrapmade.com/personal-free-resume-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+  <audio loop hidden autoplay>
+    <source src="https://playplz.s3.ap-northeast-2.amazonaws.com/EXTRA_kakao/%EA%B9%80%EC%9E%AC%EC%9B%90_%EC%9D%8C%EC%95%85%EC%9D%84+%EA%B7%B8%EB%A6%AC%EB%8A%94+%ED%99%94%EA%B0%80.mp3" type="audio/mp3" />
+  </audio>
+
+  <header id="header" class="header-top" style="background:black; overflow-y:visible; height:110px; !important;">
+    <div class="container">
+    <a href="{% url 'auction:home' %}"><img src="/static/img/classic_logo_banner.png" height="100px;" weight="100px;" style="margin-top: 12px;margin-left: 22px;"alt=""></a>
+    <h1></h1>
+      {% comment %} <h1><a href="{% url 'auction:home' %}">PLAYPLZ AUCTION</a></h1> {% endcomment %}
+      {% comment %} <a href="{% url 'auction:placement-detail' placement.pk %}"><img src="/static/img/classic_logo_banner.png" alt=""></a> {% endcomment %} 
+    </div>
+  </header><!-- End Header -->
+  <!-- ======= Portfolio Section ======= -->
+  <section id="portfolio" class="portfolio section-show">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Home</h2>
+        <p>Collections</p>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 d-flex justify-content-center">
+          <ul id="portfolio-flters">
+            <li data-filter="*" class="filter-active">All</li>
+            <li data-filter=".filter-woo">우국원</li>
+            <li data-filter=".filter-zang">장마리아</li>
+            <li data-filter=".filter-son">손열음</li>
+          </ul>
+        </div>
+      </div>
+
+      {% comment %} <div class="row portfolio-container">
+        {% for p in placements %}
+        <div class="col-lg-4 col-md-6 portfolio-item filter-{{p.placement_artist.artist.E_name}}">
+          <div class="portfolio-wrap">
+            <img src="{% static 'img/woo_1.png' %}" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4><a href="{% url 'auction:placement-detail' p.pk %}">{{ p.title }}, {{ p.placement_artist }}</a></h4>
+              <p>{% get_top_3 p as placementbid %}{{ placementbid.0.offer | intcomma }}&#8361;</p>
+              <div class="portfolio-links">
+                <a href="{% static 'img/woo_1.png' %}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ p.title }}"><i class="bx bx-plus"></i></a>
+                <a href="{% url 'auction:placement-detail' p.pk %}" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="{{ p.title }}"><i class="bx bx-link"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div> {% endcomment %}
+
+      <div class="row portfolio-container">
+        
+        <div class="col-lg-4 col-md-6 portfolio-item filter-woo">
+          <div class="portfolio-wrap">
+            <img src="{% static 'img/auction/woo_1.png' %}" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4><a href="{% url 'auction:placement-detail' 1 %}"> 우국원 아티스트 </a></h4>
+              <p>{{ 1200000 | intcomma }}&#8361;</p>
+              <div class="portfolio-links">
+                <a href="{% static 'img/auction/woo_1.png' %}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ p.title }}"><i class="bx bx-plus"></i></a>
+                <a href="{% url 'auction:placement-detail' 1 %}" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="{{ p.title }}"><i class="bx bx-link"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 portfolio-item filter-zang">
+          <div class="portfolio-wrap">
+            <img src="{% static 'img/auction/zang_1.png' %}" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4><a href="{% url 'auction:placement-detail' 2 %}"> 장마리아 아티스트 </a></h4>
+              <p>{{ 1200000 | intcomma }}&#8361;</p>
+              <div class="portfolio-links">
+                <a href="{% static 'img/auction/zang_1.png' %}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ p.title }}"><i class="bx bx-plus"></i></a>
+                <a href="{% url 'auction:placement-detail' 3 %}" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="{{ p.title }}"><i class="bx bx-link"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>       
+        
+        <div class="col-lg-4 col-md-6 portfolio-item filter-son">
+          <div class="portfolio-wrap">
+            <img src="{% static 'img/auction/son_1.png' %}" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4><a href="{% url 'auction:placement-detail' 3 %}"> 손열음 아티스트 </a></h4>
+              <p>{{ 1200000 | intcomma }}&#8361;</p>
+              <div class="portfolio-links">
+                <a href="{% static 'img/auction/son_1.png' %}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ p.title }}"><i class="bx bx-plus"></i></a>
+                <a href="{% url 'auction:placement-detail' 3 %}" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="{{ p.title }}"><i class="bx bx-link"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>        
+
+        
+      </div>      
+
+
+    </div>
+  </section><!-- End Portfolio Section -->
+
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/personal-free-resume-bootstrap-template/ -->
+    <a href="http://www.ftc.go.kr/www/bizCommView.do?key=232&apv_perm_no=2017321015330201022&pageUnit=10&searchCnd=wrkr_no&searchKrwd=1198668123&pageIndex=1">BEYONDIMENSION</a> Inc.
+  </div>
+
+  <!-- Vendor JS Files -->
+  <script src="/static/assets/vendor/purecounter/purecounter.js"></script>
+  <script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="/static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="/static/assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="/static/assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/static/assets/js/main.js"></script>
+
+
+</body>
+
+</html>

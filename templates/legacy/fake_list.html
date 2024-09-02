@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% load static %}
+{% load core_template_tags %}
+
+{% load account socialaccount %}
+{% load static i18n %}
+{% load i18n %}
+{% block head_title %}새로운 가치를 플플하다♬{% endblock %}
+
+<!--BODY -->
+
+{% block content %}
+
+<article id="content">
+  <!-- 해당 페이지만 적용 css -->
+  <div class="idx_ctt">
+    <style>
+      .idx_ctt {
+        margin-bottom: 8rem;
+      }
+
+      @media (max-width: 768px) {
+        .idx_ctt {
+          margin-bottom: 0;
+        }
+      }
+    </style>
+	<div class="artist_all">
+		<div class="wrap allProductWrapper">
+			<!-- 필터 -->
+      <div class="filterWrapper">
+      <div class="filtersOn">
+        <div class="filtersTitle"> <!-- 제목 -->
+          FILTERS
+          <button class="filterOffBtn pc_on">X</button>
+          <button class="mobileCloseBtn m_on">∧</button>
+          <button class="mobileOpenBtn m_on">∨</button>
+        </div>
+
+        <div class="filtersWithoutTtitle">
+          <div class="filterSearch"> <!-- 검색 창 -->
+            <input type="text" name="search" placeholder="Present you are looking for?">
+            <button onClick><img src="{% static 'paze/img/search.png' %}" alt="search"></button>
+          </div>
+
+          <div class="filterCategory"> <!-- 카테고리 선택 -->
+            <button class="categoryBtn openCategoryBtn">
+              모든 카테고리
+              <div class="openCategory">∨</div>
+            </button>
+            <button class="categoryBtn closeCategoryBtn">
+              모든 카테고리
+              <div class="closeCategory">∧</div>
+            </button>
+
+            <script>
+              $(document).ready(function() {
+                $('.openCategoryBtn').hide();
+
+                $('.closeCategoryBtn').click(function() {
+                  $('.indexWrapper').hide();
+                  $('.closeCategoryBtn').hide();
+                  $('.openCategoryBtn').show();
+                })
+
+                $('.openCategoryBtn').click(function() {
+                  $('.indexWrapper').show();
+                  $('.closeCategoryBtn').show();
+                  $('.openCategoryBtn').hide();
+                })
+              });
+            </script>
+
+            <!-- 카테고리 내용 -->
+            <div class="indexWrapper">
+              <button class="categoryIndex fitstIndex index1">
+                <input type="checkbox" name="category" value="작사/작곡/편곡" id="category1">
+                <label for="category1"></label>
+                작사/작곡/편곡
+              </button>
+              <button class="categoryIndex index2">
+                <input type="checkbox" name="category" value="회화/공예" id="category2">
+                <label for="category2"></label>
+                회화/공예
+              </button>
+              <button class="categoryIndex index3">
+                <input type="checkbox" name="category" value="요리/주류" id="category3">
+                <label for="category3"></label>
+                요리/주류
+              </button>
+              <button class="categoryIndex lastIndex index4">
+                <input type="checkbox" name="category" value="기타" id="category4">
+                <label for="category4"></label>
+                기타
+              </button>
+            </div>
+            <script>
+              $(".index1").click(function() {
+                if($("#category1").is(":checked")){
+                  $("#category1").prop("checked", false);
+                } else {
+                  $("#category1").prop("checked", true);
+                }
+              })
+              $(".index2").click(function() {
+                if($("#category2").is(":checked")){
+                  $("#category2").prop("checked", false);
+                } else {
+                  $("#category2").prop("checked", true);
+                }
+              })
+              $(".index3").click(function() {
+                if($("#category3").is(":checked")){
+                  $("#category3").prop("checked", false);
+                } else {
+                  $("#category3").prop("checked", true);
+                }
+              })
+              $(".index4").click(function() {
+                if($("#category4").is(":checked")){
+                  $("#category4").prop("checked", false);
+                } else {
+                  $("#category4").prop("checked", true);
+                }
+              })
+            </script>
+          </div>
+          <div><!-- 가격 범위 조정 -->
+          </div>
+
+          <div class="resetOrApply"> <!-- 필터 적용/초기화 -->
+            <button class="resetBtn">RESET FILTERS</button>
+            <button class="applyBtn">APPLY FILTERS</button>
+          </div>
+        </div>
+      </div>
+      <div class="filtersOff pc_on">
+        <button class="filterOpenBtn">▶</button>
+      </div>
+      <div id="mobileFiltersOff" class="filtersTitle m_on">
+        FILTERS
+        <button class="mobileOpenBtn m_on">∨</button>
+      </div>
+      <script>
+        $(document).ready(function() {
+          $('.filtersOff').hide();
+          $('#mobileFiltersOff').hide();
+          $('.mobileOpenBtn').hide();
+
+          $('.filterOffBtn').click(function() {
+            $('.filtersOn').fadeOut('400', function() {
+              $('.filtersOff').fadeIn('50');
+            });
+          })
+
+          $('.filterOpenBtn').click(function() {
+            $('.filtersOff').fadeOut('400', function() {
+              $('.filtersOn').fadeIn('50')
+            });
+          })
+
+          $('.mobileCloseBtn').click(function() {
+            // 모바일 기준 close button 누르면 filtersWithoutTtitle 안보여지고,
+            $('.filtersWithoutTtitle').fadeOut('400')
+            // open 버튼 사라지고 close 버튼 보여짐.
+            $('.mobileCloseBtn').hide();
+            $('.mobileOpenBtn').show();
+          })
+
+          $('.mobileOpenBtn').click(function() {
+            // 모바일 기준 close button 누르면 filtersWithoutTtitle 보여지고
+            $('.filtersWithoutTtitle').fadeIn('400')
+            // close 버튼 사라지고 open 버튼 보여짐.
+            $('.mobileCloseBtn').show();
+            $('.mobileOpenBtn').hide();
+          })
+        });
+      </script>
+    </div>
+			<!-- 나의 아티스트 찾기 -->
+			<div class="myArt"> <!-- 리스트 위 SORT -->
+				<div class="artist_abox">
+					<div class="le artist_img">이미지만 볼래요<span class="cc"></span></div>
+					<div class="ri">
+						<select name="" id="" class="comm_selc">
+							<option class="artist_select" value="">인기순</option>
+							<option class="artist_select" value="">추천순</option>
+							<option class="artist_select" value="">최신순</option>
+						</select>
+					</div>
+					<script>
+						$(".artist_img").click(function () {
+							$(this).parents('body').toggleClass('img_only');
+						});
+					</script>
+				</div>
+      <div class="productList"> <!-- 상품 정렬 -->
+        {% for item in items %}
+          <div class="productDetail">
+            <div class="productImage"> <!-- image -->
+              <a href="{{item.get_absolute_url}}">
+                <img src="{{item.image.url}}" alt="itemImage"/>
+                <div class="productCategory">{{item.get_category_display}}</div>
+              </a>
+              <div class="myArt_wish_btn"></div>
+            </div>
+            <div class="info">
+              <!-- artist name & product category -->
+              <div class="productInfo">
+                <div class="productArtist">아티스트 이름</div>
+              </div>
+              <!-- product name -->
+              <div class="productName">{{item.title}}</div>
+              <!-- price -->
+              <div class="productPrice">
+                {{item.price}}원
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      </div>
+		</div>
+	</div>
+</div>
+</article>
+
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}

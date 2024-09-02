@@ -1,0 +1,160 @@
+{% extends "auction/base.html" %}
+{% load static humanize %}
+<!-- {% load core_template_tags component_template_tags %} -->
+{% block extra_head %}{% endblock extra_head %}
+{% block head_title %} | Open Funding Detail - {{placement.placement_artist.name}} {% endblock %}
+
+{% block body %}
+	<div id="wrap" class="sub-wrap">
+		<!-- container -->
+		<div id="container">
+			<!-- middleArea -->
+			<div id="middleArea">
+				<!-- content -->
+				<section id="content" class="wide">
+					
+					<!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+					<div class="sub-page unboxing-page">
+						<div class="unboxing-order-con01">
+							<div class="area-box">
+								<div class="unboxing-order-img">
+									<!-- 이미지 권장사이즈 582x703 -->
+									<span><img src="{{placement.thumbnail.url}}" alt="이미지"></span>
+								</div>
+								<div class="unboxing-order-txt">
+									<div class="title">{{ placement.title | safe }}</div>
+									<ul class="unboxing-order-price">
+										<li class="price-item item01"><span class="present-price">현재가</span><p class="price-unit">호가단위 KRW 100,000</p></li>
+										<li class="price-item item02"><span class="unit">KRW</span><p class="price">{{ placement.unit_price | intcomma }}</p></li>
+										<li class="price-item item03"><p class="info-txt">구매에 참여하시면 취소가 불가능하며, 구매 성공 시 구매를 철회할 수 없습니다.</p><a href="javascript:;" class="view-btn" onclick="modalPopupOpen('#popupFundingNotice');">자세히 보기</a></li>
+									</ul>
+									<div class="unboxing-order-funding">
+										<ul class="unboxing-order-funding-list">
+											<li class="funding-item">
+												<h5 class="tit">1회 구매가</h5>
+												<div class="control">
+													<div class="unboxing-order-personnel">
+														<button class="order-funding-minus-btn"><i class="xi-minus"></i></button>
+														<span class="unit">KRW</span>
+														<span class="result">2,200,000</span>
+														<button class="order-funding-plus-btn"><i class="xi-plus"></i></button>
+													</div>
+													<button class="cm-custom-button" onclick="modalPopupOpen('#popupFunding');">1회 구매하기</button>
+												</div>
+											</li>
+											<li class="funding-item">
+												<h5 class="tit">자동 구매 한도가</h5>
+												<div class="control">
+													<div class="unboxing-order-personnel">
+														<button class="order-funding-minus-btn"><i class="xi-minus"></i></button>
+														<span class="unit">KRW</span>
+														<span class="result">2,200,000</span>
+														<button class="order-funding-plus-btn"><i class="xi-plus"></i></button>
+													</div>
+													<button class="cm-custom-button" onclick="modalPopupOpen('#popupFundingAuto');">자동 구매하기</button>
+												</div>
+											</li>
+										</ul>
+									</div>
+									<div class="unboxing-order-bid">
+										<div class="unboxing-order-bid-refresh">
+											<button>REFRESH</button>
+										</div>
+										<table class="unboxing-order-bid-tbl">
+											<colgroup>
+												<col style="width: 8.6%;">
+												<col class="m-none" style="width: 6.8%;">
+												<col style="width: 18%;">
+												<col style="width: *;">
+												<col style="width: *;">
+												<col style="width: 15.51%;">
+											</colgroup>
+											<tbody>
+												<tr class="pc-none">
+													<th colspan="5">Bid.</th>
+												</tr>
+												<tr>
+													<th class="m-none" rowspan="7">Bid.</th>
+													<th>No.</th>
+													<th>참여자</th>
+													<th>구매가</th>
+													<th>구매 시각</th>
+													<th>상태</th>
+												</tr>
+												<tr>
+													<td>873</td>
+													<td>이신재</td>
+													<td>2,100,000</td>
+													<td>2022년 4월 4일 오전 1:38</td>
+													<td>자동 구매</td>
+												</tr>
+												<tr>
+													<td>873</td>
+													<td>이신재</td>
+													<td>2,100,000</td>
+													<td>2022년 4월 4일 오전 1:38</td>
+													<td>자동 구매</td>
+												</tr>
+												<tr>
+													<td>873</td>
+													<td>이신재</td>
+													<td>2,100,000</td>
+													<td>2022년 4월 4일 오전 1:38</td>
+													<td>자동 구매</td>
+												</tr>
+												<tr>
+													<td>873</td>
+													<td>이신재</td>
+													<td>2,100,000</td>
+													<td>2022년 4월 4일 오전 1:38</td>
+													<td>자동 구매</td>
+												</tr>
+												<tr>
+													<td>873</td>
+													<td>이신재</td>
+													<td>2,100,000</td>
+													<td>2022년 4월 4일 오전 1:38</td>
+													<td>자동 구매</td>
+												</tr>
+												<tr>
+													<td>873</td>
+													<td>이신재</td>
+													<td>2,100,000</td>
+													<td>2022년 4월 4일 오전 1:38</td>
+													<td>자동 구매</td>
+												</tr>
+											</tbody>
+										</table>
+										<ul class="unboxing-order-bid-txt">
+											<li>30초마다 표가 새로고침 되며, REFRESH 버튼을 누르시면 직접 새로고침할 수 있습니다.</li>
+											<li>동시 구매할 경우, 서버 시각 기준 구매에 먼저 응해준 분께 우선순위가 부여됩니다.</li>
+											<li>구매 종료 시, 마이 페이지에서 구매 결과를 바로 확인하실 수 있습니다.</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+					{% comment %}<!-- 팝업 리스트 -->	
+					{% include("./popup_funding_notice.html") %}<!-- 구매 관련 주의사항 -->
+					{% include("./popup_funding.html") %}<!-- 1회 구매 모달 -->
+					{% include("./popup_funding_auto.html") %} <!-- 자동 구매 모달 -->
+					<!-- //팝업 리스트 -->{% endcomment %}
+
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //middleArea -->
+		</div>
+		<!-- // container -->
+  </div>
+  <!-- wrap-->
+{% endblock body %}
+
+{% block base_scripts %}
+{% endblock base_scripts %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}

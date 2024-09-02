@@ -1,0 +1,112 @@
+{% extends "account/base.html" %}
+{% load account socialaccount i18n static %}
+<!-- {% load core_template_tags component_template_tags %} -->
+
+{% block head_title %} | 로그인 {% endblock %}
+
+{% block body %}
+<div id="wrap" class="sub-wrap">
+  <!-- container -->
+  <div id="container">
+    <!-- middleArea -->
+    <div id="middleArea">
+      <!-- content -->
+      <section id="content" class="area-box">
+        
+        <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+        <form class="login" method="POST" action="{% url 'account_login' %}">
+          {% csrf_token %}
+
+          <!-- hidden field -->
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          {% if request.GET.next != null %}
+          <input type="hidden" name="next" value="{{ request.GET.next }}">
+          {% else %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          {% endif %}
+
+          <div class="sub-page mypage-page">
+            <div class="modify-pw-check-con">
+              <div class="modify-pw-check-list">
+                <div class="modify-pw-check-item">
+                  <div class="input-con">
+                    <input type="text" name="login" class="cm-input" placeholder="이메일">
+                  </div>
+                  <!-- 하단 알림 텍스트 영역 -->
+                  <p class="check-list-alert">                  
+                    {% if form.errors %}
+                      {% for field in form %}
+                        {% if field.name == "login" %}
+                          {% for error in field.errors %}
+                            {{ field.label }} : {{error | escape}}
+                          {% endfor %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  </p>
+                </div>
+                <div class="modify-pw-check-item">
+                  <div class="input-con">
+                    <input type="password" name="password" class="cm-input" placeholder="비밀번호">
+                  </div>
+                  <!-- 하단 알림 텍스트 영역 -->
+                  <p class="check-list-alert">
+                    {% if form.errors %}
+                      {% for field in form %}
+                        {% if field.name == "password" %}
+                          {% for error in field.errors %}
+                            {{ field.label }} : {{error | escape}}
+                          {% endfor %}
+                        {% endif %}
+                      {% endfor %}
+
+                      {% for error in form.non_field_errors %}
+                        {{error | escape}}
+                      {% endfor %}
+                    {% endif %}
+                  </p>
+                </div>
+              </div>
+              <div class="login-form-con">
+                <div class="cm-custom-checkbox02">
+                  <span class="checkbox-item">
+                    <input type="checkbox" id="checkbox1-1" name="remember_me" checked><label for="checkbox1-1"><span>로그인 상태 유지</span></label>
+                  </span>
+                </div>
+                <ul class="login-search-list">
+                  <li><a href="{% url 'account_reset_password' %}">아이디/비밀번호찾기</a></li>
+                </ul>	
+              </div>
+              <div class="login-btn-con">
+                <button type="submit" class="cm-custom-button">로그인</button>
+                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                {% include "socialaccount/snippets/login_extra.html" %}
+                <!-- <button class="kako-login-btn cm-custom-button">카카오 로그인 <i class="xi-speech"></i></button>
+                <button class="naver-login-btn cm-custom-button">네이버 로그인 <i class="xi-naver"></i></button> -->
+              </div>
+              <div class="login-join-con">
+                <p>아직 원앤온리 회원이 아니신가요?</p>
+                <a href="{{ signup_url }}">회원가입</a>                
+              </div>
+            </div>
+          </div>
+        </form>
+        <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+        <!-- 팝업 리스트 -->	
+        <!-- //팝업 리스트 -->
+
+      </section>
+      <!-- //content -->
+    </div>
+    <!-- //middleArea -->
+  </div>
+  <!-- // container -->
+</div>
+<!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}

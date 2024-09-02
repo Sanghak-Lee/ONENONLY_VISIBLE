@@ -1,0 +1,75 @@
+{% load static %}
+
+<footer id="footer">
+  <div class="area">
+    <!-- <a href="#wrap" class="to-top-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="70" viewBox="0 0 64 70">
+        <path id="topBtnPath" data-name="패스 422" d="M52,2,8,10-2,28,8,72l44-8L62,46Z" transform="translate(2 -2)" fill="#333"/>
+        <path id="topBtnArrow" data-name="패스 424" d="M24.665,52.516,38.375,38.5l-13.71-13.98-2.926,2.943,8.779,8.911H4.375v4.292H30.518l-8.779,8.911Z" transform="translate(-11.504 41.913) rotate(-70)" fill="#fff"/>
+      </svg>
+    </a> -->
+    <article id="footerTop">
+      <div class="footerTopWrap">
+        <ul class="foot-menu clearfix">
+          <div>
+            <li><a href="{% url 'core:about' %}">회사소개</a></li>
+            <li><a href="{% url 'core:partnership' %}">제휴문의</a></li>
+            <li><a href="{% url 'core:article_list' %}">원앤온리 소식</a></li>
+          </div>
+          <!-- <div>
+            <li><a href="{% url 'core:guide' %}">사용가이드</a></li>
+          </div> -->
+        </ul>
+        <ul class="foot-menu clearfix">
+          <div>
+            <li><a href="{% url 'core:info-1' %}">이용약관</a></li>
+            <li><a href="{% url 'core:info-2' %}">개인정보취급방침</a></li>
+            <li><a href="{% url 'core:info-3' %}">환불규정</a></li>
+          </div>
+        </ul>
+      </div>     
+      <ul class="foot-sns clearfix">
+        <li><a href="https://www.instagram.com/onenonly.io/"><i class="xi-instagram"></i></a></li>
+        <li><a href="https://www.youtube.com/channel/UCwWckww4Bi7jRYUjYlTsNOA" class="youtube-btn"><i class="xi-youtube-play"></i></a></li>
+        <li><a href="https://pf.kakao.com/_kmkDb" class="kakao-btn"><i class="xi-kakaotalk"></i></a></li>
+        <li><a href="https://store.kakao.com/onenonly" class="kakao-btn"><i class="xi-shop"></i></a></li>
+        <li><a href="https://post.naver.com/revenor" class="kakao-btn"><i class="xi-naver-square"></i></a></li>
+      </ul>
+    </article>
+    <article id="footerBottom">
+      <div class="clearfix">
+        <div class="foot-logo">㈜레브너</div>
+        <div class="footer-address-info-box">
+          <div class="footer-address-list">
+            <dl>
+              <dt>대표자</dt>
+              <dd>조아란</dd>
+            </dl>
+            <dl>
+              <dt>사업자등록번호</dt>
+              <a href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=4878802275" onclick="window.open(this.href, '_blank', 'width=350, height=350'); return false;"><dd>487-88-02275</dd></a>
+            </dl>
+            <dl>
+              <dt>통신판매업신고</dt>
+              <a href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=4878802275" onclick="window.open(this.href, '_blank', 'width=350, height=350'); return false;"><dd>2022-서울서초-3362</dd></a>
+            </dl>
+            <dl>
+              <dt>주소</dt>
+              <dd>서울특별시 서초구 강남대로 479 신논현타워 B1층 275호 (반포동)</dd>
+            </dl>
+            <dl>
+              <dt>고객센터</dt>
+              <dd>1533-7193 ㅣ 운영시간 : 평일 10:00 - 19:00 (점심시간 12:00 - 13:00 제외 / 주말 및 공휴일 제외)</dd>
+            </dl>
+            <dl>
+              <dt>이메일</dt>
+              <dd><a href="mailto:support@onenonly.io">support@onenonly.io</a></dd>
+            </dl>
+          </div>
+          <p class="foot-copyright">© 2022 One&Only all rights reserved.</p>
+        </div>
+      </div>
+    </article>
+  </div>
+</footer>
+

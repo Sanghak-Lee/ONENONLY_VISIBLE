@@ -1,0 +1,41 @@
+{% extends "account/base.html" %}
+{% load account i18n static %}
+
+{% block head_title %} | {% trans "Account Inactive" %}{% endblock %}
+
+{% block body %}
+<div id="wrap" class="sub-wrap">
+  <!-- container -->
+  <div id="container">
+    <!-- middleArea -->
+    <div id="middleArea">
+      <!-- content -->
+      <section id="content" class="area-box">
+        <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+        <div class="sub-page mypage-page">
+          <div class="join-con step03">
+            <h5 class="join-tit">{% trans "Account Inactive" %}</h5>
+            <div class="join-inner-box">
+              <p class="join-txt">{% trans "This account is inactive." %}</p>
+              <div class="join-mail-info">
+                <p>지속적인 에러가 있나요?</p>
+                <ul class="dot-txt">
+                  <li><p>지속적으로 에러가 발생하는 경우, 아이디(이메일)을 기재하여 <span class="cm-font-color-y">support@onenonly.io</span>으로 문의하시거나 <span class="cm-font-color-y">챗봇 상담</span>을 이용해 주세요.</p></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+      </div>
+      <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+      </section>
+      <!-- //content -->
+    </div>
+    <!-- //middleArea -->
+  </div>
+  <!-- // container -->
+</div>
+<!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}

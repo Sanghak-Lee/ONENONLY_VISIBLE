@@ -1,0 +1,537 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load core_template_tags %}
+
+{% load account socialaccount %}
+{% load static i18n %}
+{% load i18n %}
+{% block head_title %}새로운 가치를 콜렉트하다♬{% endblock %}
+
+{% comment %} {% block extra_head %}HOME{% endblock %} {% endcomment %}
+
+<!--BODY -->
+
+{% block content %}
+
+<article id="content">
+	<div class="idx_ctt">
+		<div class="wrap">
+			<!-- 메인 영상/로고 -->
+			<div id="temporary" class="main_bn">
+        <img src="{% static 'paze/img/pianist.png' %}">
+			</div>
+
+      <!-- 리뷰 창 -->
+      <div class="tt-section padding-top-xlg-150 padding-bottom-xlg-100 padding-left-sm-3-p padding-right-sm-3-p bg-white-accent-3">
+        <div class="tt-section-inner">
+          <div class="tt-testimonials-slider ts-full-width text-center cursor-drag ts-scale-down ts-hide-navigation anim-fadeinup" data-loop="true" data-simulate-touch="true" data-speed="900">
+    
+            <!-- Begin swiper container -->
+            <div class="swiper-container review-swiper">
+    
+              <!-- Begin swiper wrapper (required) -->
+              <div class="swiper-wrapper">
+    
+                <!-- Begin swiper slide 
+                ======================== -->
+                <div class="swiper-slide font-alter">
+                  <div class="tt-ts-item">
+                    <div class="tt-ts-text">
+                      "평소에 필하모닉 오케스트라에서 주최하는 공연에 가는 것을 무척 좋아했어요.<br>
+                      김재원 피아니스트 선생님의 팬인데, 선생님께서 직접 저를 위해 곡을 만들어주시고,<br> 
+                      저에게 힘이 되는 편지까지 남겨주셔서 정말 잊지못할 선물을 받은 것같아요.<br>            
+                    </div>
+                    <div class="tt-ts-subtext">- 이아영</div>
+                  </div>
+                </div> 
+                <!-- End swiper slide -->
+    
+                <!-- Begin swiper slide 
+                ======================== -->
+                <div class="swiper-slide font-alter">
+                  <div class="tt-ts-item">
+                    <div class="tt-ts-text">
+                      "저는 이은지 PM입니다.<br>
+                      홈페이지 제작하고, 워딩 수정하는 것이 재미있어서 한 번 직접 바꾸어봅니다,<br> 
+                      다른 것도 계속 바꿔보고 싶어요 재미있네요.<br>            
+                    </div>
+                    <div class="tt-ts-subtext">- 이은지</div>
+                  </div>
+                </div>
+                <!-- End swiper slide -->
+    
+                <!-- Begin swiper slide 
+                ======================== -->
+                <div class="swiper-slide font-alter">
+                  <div class="tt-ts-item">
+                    <div class="tt-ts-text">
+                      "평소에 필하모닉 오케스트라에서 주최하는 공연에 가는 것을 무척 좋아했어요.<br>
+                      김재원 피아니스트 선생님의 팬인데, 선생님께서 직접 저를 위해 곡을 만들어주시고,<br> 
+                      저에게 힘이 되는 편지까지 남겨주셔서 정말 잊지못할 선물을 받은 것같아요.<br>            
+                    </div>
+                    <div class="tt-ts-subtext">- 이아영</div>
+                  </div>
+                </div> 
+                <!-- End swiper slide -->
+    
+                <!-- Begin swiper slide 
+                ======================== -->
+                <div class="swiper-slide font-alter">
+                  <div class="tt-ts-item">
+                    <div class="tt-ts-text">
+                      "저는 이은지 PM입니다.<br>
+                      홈페이지 제작하고, 워딩 수정하는 것이 재미있어서 한 번 직접 바꾸어봅니다,<br> 
+                      다른 것도 계속 바꿔보고 싶어요 재미있네요.<br>            
+                    </div>
+                    <div class="tt-ts-subtext">- 이은지</div>
+                  </div>
+                </div>
+                <!-- End swiper slide -->
+    
+                <!-- Begin swiper slide 
+                ======================== -->
+                <div class="swiper-slide font-alter">
+                  <div class="tt-ts-item">
+                    <div class="tt-ts-text">
+                      "I founded a bug on Iphone and Ipad and the author fixed very quickly. I appreciated his efforts and his quickness in solving the problem."
+                    </div>
+                    <div class="tt-ts-subtext">- Admanente</div>
+                  </div>
+                </div> 
+                <!-- End swiper slide -->
+    
+              </div>
+              <!-- End swiper wrapper -->
+    
+            </div>
+            <!-- End swiper container -->
+
+            <!-- Testimonials slider pagination -->
+            <div class="tt-ts-pagination hide-cursor review-pagination"></div>
+    
+          </div>
+          <!-- End testimonials slider -->
+    
+        </div> <!-- /.tt-section-inner -->
+        <script>
+          var swiper1 = new Swiper(".review-swiper", {
+            slidesPerView: 1,
+            initialSlide: 0,
+            centeredSlides: true,
+            longSwipesRatio: 0.5,
+            mousewheel: true,
+            grabCursor: true,
+            loop: true,
+    
+            autoplay: {
+              delay: 6000,
+              disableOnInteraction: false,
+            },
+
+            pagination: {
+              el: ".review-pagination",
+              clickable: true,
+              dynamicBullets: true,
+              },
+          });
+        </script>
+      </div>
+      <!-- 리뷰 창 -->
+
+			<!-- 재능 콜렉트하기 -->
+			<div class="myArt">
+        <div class="h2_box_1">
+          <h2><b>Get a chance to be a collector</b></h2>
+          <p><strong>재능 콜렉트</strong>하기</p>
+        </div>
+        <div class="myArt_list pc768">
+          <ul class="clear">
+            {% for item in items %}
+            <li class="aList">
+              <div class="in">
+                <div class="img">
+                  <a href="{{item.get_absolute_url}}"
+                    ><img
+                      src="{{item.image.url}}"
+                      alt="김우연"
+                  /></a>
+                </div>
+                <div class="info">
+                  <div class="ix1">
+                    <dl>
+                      <dt>{{item.artist}}</dt>
+                    </dl>
+                  </div>
+                  <div class="ix2 clear">
+                    <div class="le">{{ item.get_category_display }}</div>
+                    <div class="ri">{{ item.title }}</div>
+                  </div>
+                  <div class="ix3">
+                    <p>{{item.price | intcomma}}~</p>
+                  </div>                
+                </div>
+                <div class="myArt_wish_btn"></div>
+                <!-- 클릭시 wish 체크 -->
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="swiper CardSwiper m768">
+          <div class="swiper-wrapper">
+            {% for item in items %}        
+              <div class="swiper-slide">   
+                      <a href="{{item.get_absolute_url}}"
+                        ><img
+                          src="{{item.image.url}}"
+                          alt="김우연"
+                      /></a>
+                          <p>{{item.instrument}}<br>
+                          {{item.K_name}}</p>
+                    
+                    <!-- 클릭시 wish 체크 -->
+                  
+              
+              </div>
+            {% endfor %}            
+          </div>
+          <div class="swiper-pagination item-pagination"></div>        
+        </div>          
+            {% if is_paginated %}
+            <nav class="d-flex justify-content-center wow fadeIn">
+              <ul class="pagination pg-blue">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    href="?page={{ page_obj.previous_page_number }}"
+                    aria-label="Previous"
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                {% endif %}
+                <li class="page-item active">
+                  <a class="page-link" href="?page={{ page_obj.number }}"
+                    >{{ page_obj.number }}
+                    <span class="sr-only">(current)</span>
+                  </a>
+                </li>
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    href="?page={{ page_obj.next_page_number }}"
+                    aria-label="Next"
+                  >
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </nav>
+            {% endif %}
+
+        <div class="more_btn"><a href="{% url 'core:home' %}" style="box-shadow: inset 0 0 2rem 0.2rem #afa698;"><p data-hover="더보기" style="color:#afa698;">MORE</p></a></div>
+        
+        <script>
+          var swiper_2 = new Swiper(".CardSwiper", {
+            effect: "coverflow",
+            grabCursor: false,
+            centeredSlides: true,
+            roundLengths: true,
+            slidesPerView: "3",
+            coverflowEffect: {
+              rotate: 50,
+              stretch: 0,
+              depth: 50,
+              modifier: 1,
+              slideShadows: true,
+            },
+            pagination: {
+              el: ".item-pagination",
+            },
+          });
+          $(".myArt_wish_btn").click(function () {
+            $(this).toggleClass("on");
+          });
+
+          if(window.matchMedia("screen and (min-width: 769px)").matches){
+          $(".aList").hide();
+          $(".aList").slice(0, 4).show();
+          $(".more_btn a").click(function(e){
+            e.preventDefault();
+            if($(".aList:hidden").length == 0){
+              location.replace('/list/');
+            }            
+            $(".aList:hidden").slice(0,8).show();
+            if($(".aList:hidden").length == 0){
+            $(".more_btn a").text("전체상품보러가기");
+            }                        
+          });
+          } else{            
+            $(".more_btn a").text("전체상품보러가기")
+            $(".more_btn a").attr("href","/list/");
+          }
+        </script>
+      </div>
+
+
+      <!-- 프레젠터 둘러보기 -->  
+      <!-- Begin swiper container -->
+      <div class="myArt" style="padding:2rem 1.5rem 2.5rem 1.5rem;">
+        <div class="h2_box_1">
+          <h2><b>Check Our Our Presenters</b></h2>
+          <p><strong>프레젠터</strong>둘러보기</p>
+        </div>      
+        <div class="swiper-container artist-swiper">
+
+          <!-- Begin swiper wrapper (required) -->
+          <div class="swiper-wrapper artist-wrapper">
+            {% for a in artists %}
+            <div class="artist-slide swiper-slide">
+                  <a href="{{ a.get_artist_url }}"><img src="{{ a.avatar.url }}"></a>
+                <div class="bannerText"> {{ a.instrument }}  {{ a.K_name }} </div>
+            </div> 
+            {% endfor %}  
+          </div>
+          <!-- End swiper wrapper -->
+
+        </div>
+        <!-- End swiper container -->
+        <div class="hide-cursor artist-pagination"></div>
+
+        <script>
+          var swiper3 = new Swiper(".artist-swiper", {
+            spaceBetween: 30,
+            slidesPerView: 4,
+            initialSlide: 0,
+            centeredSlides: true,
+            longSwipesRatio: 0.5,
+            mousewheel: true,
+            grabCursor: true,
+            loop: true,
+
+            autoplay: {
+              delay: 6000,
+              disableOnInteraction: false,
+            },
+
+            pagination: {
+              el: ".artist-pagination",
+              clickable: true,
+              dynamicBullets: true,            
+              },
+          });
+        </script>
+      </div>
+      
+
+
+
+      <!-- 이벤트 배너 자리 -->
+      <div class="myArt">
+        <div class="tt-section padding-top-xlg-150 padding-bottom-xlg-100 padding-left-sm-3-p padding-right-sm-3-p bg-white-accent-3">
+          <div class="tt-section-inner">
+            <div class="tt-testimonials-slider ts-full-width text-center cursor-drag ts-scale-down ts-hide-navigation anim-fadeinup" data-loop="true" data-simulate-touch="true" data-speed="900">
+      
+              <!-- Begin swiper container -->
+              <div class="swiper-container event-swiper">
+      
+                <!-- Begin swiper wrapper (required) -->
+                <div class="swiper-wrapper">
+      
+                  <!-- Begin swiper slide 
+                  ======================== -->
+                  <div class="swiper-slide font-alter">
+                    <div class="tt-ts-item">
+                      <div class="tt-ts-text eventBanner">
+                        이벤트 배너 자리 1
+                      </div>
+                      <div class="tt-ts-subtext bannerText"> 배너 제목 / 코멘트 1 </div>
+                    </div>
+                  </div> 
+                  <!-- End swiper slide -->
+      
+                  <!-- Begin swiper slide 
+                  ======================== -->
+                  <div class="swiper-slide font-alter">
+                    <div class="tt-ts-item">
+                      <div class="tt-ts-text eventBanner">
+                        이벤트 배너 자리 2
+                      </div>
+                      <div class="tt-ts-subtext bannerText"> 배너 제목 / 코멘트 2 </div>
+                    </div>
+                  </div>
+                  <!-- End swiper slide -->
+      
+                  <!-- Begin swiper slide 
+                  ======================== -->
+                  <div class="swiper-slide font-alter">
+                    <div class="tt-ts-item">
+                      <div class="tt-ts-text eventBanner">
+                        이벤트 배너 자리 3
+                      </div>
+                      <div class="tt-ts-subtext bannerText"> 배너 제목 / 코멘트 3 </div>
+                    </div>
+                  </div>
+                  <!-- End swiper slide -->
+      
+                  <!-- Begin swiper slide 
+                  ======================== -->
+                  <div class="swiper-slide font-alter">
+                    <div class="tt-ts-item">
+                      <div class="tt-ts-text eventBanner">
+                        이벤트 배너 자리 4
+                      </div>
+                      <div class="tt-ts-subtext bannerText"> 배너 제목 / 코멘트 4 </div>
+                    </div>
+                  </div> 
+                  <!-- End swiper slide -->
+      
+                  <!-- Begin swiper slide 
+                  ======================== -->
+                  <div class="swiper-slide font-alter">
+                    <div class="tt-ts-item">
+                      <div class="tt-ts-text eventBanner">
+                        이벤트 배너 자리 5
+                      </div>
+                      <div class="tt-ts-subtext bannerText"> 배너 제목 / 코멘트 5 </div>
+                    </div>
+                  </div> 
+                  <!-- End swiper slide -->
+      
+                </div>
+                <!-- End swiper wrapper -->
+      
+              </div>
+              <!-- End swiper container -->
+      
+              <!-- Testimonials slider navigation (arrows) -->
+              {% comment %} <div class="tt-ts-nav-prev">
+                <div class="tt-ts-nav-arrow magnetic-item"></div>
+              </div>
+              <div class="tt-ts-nav-next">
+                <div class="tt-ts-nav-arrow magnetic-item"></div>
+              </div> {% endcomment %}
+      
+              <!-- Testimonials slider pagination -->
+              <div class="tt-ts-pagination hide-cursor event-pagination"></div>
+      
+            </div>
+            <!-- End testimonials slider -->
+      
+          </div> <!-- /.tt-section-inner -->
+          <script>
+            var swiper4 = new Swiper(".event-swiper", {
+              slidesPerView: 1,
+              initialSlide: 0,
+              centeredSlides: true,
+              longSwipesRatio: 0.5,
+              mousewheel: true,
+              grabCursor: true,
+              loop: true,
+      
+              autoplay: {
+                delay: 6000,
+                disableOnInteraction: false,
+              },
+
+              pagination: {
+                el: ".event-pagination",
+                clickable: true,
+                },
+            });
+          </script>
+        </div>
+      </div>
+
+
+
+
+    </div>
+	</div>
+</article>
+
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
+
+<!-- 플레이플리즈 사용법 -->
+
+		{% comment %} <div class="main_how">
+			<div class="wrap">
+			<div class="card-board">			
+				<div class="h2_box">
+					<h2>How to Use <b>PLAYPLZ</b></h2>
+					<p>플레이플리즈 <strong>사용법</strong></p>
+				</div>
+				<div class="list">
+					<ul class="clear">
+						<li class="li1">
+							<div class="img">
+								<div class="com com-in bg1"></div>
+								<div class="com com-out bg1_on"></div>
+							</div>
+							<div class="txt">
+								<span>1</span>
+								<div class="ctt">
+									<p class="m1">Shop</p>
+									<p class="m2">원하는 아티스트를 선택해서 작품을 위시리스트에 담거나, 요청서를 작성합니다.</p>
+								</div>
+							</div>
+						</li>
+						<li class="arr"><img src="{% static 'paze/img/sd_next_g.svg' %}" alt="next"></li>
+						<li class="li1">
+							<div class="img">
+								<div class="com com-in bg2"></div>
+								<div class="com com-out bg2_on"></div>
+							</div>
+							<div class="txt">
+								<span>2</span>
+								<div class="ctt">
+									<p class="m1">Request</p>
+									<p class="m2">요청서를 작성 후 결제를 진행합니다.</p>
+								</div>
+							</div>
+						</li>
+						<li class="arr"><img src="{% static 'paze/img/sd_next_g.svg' %}" alt="next"></li>
+						<li class="li1">
+							<div class="img">
+								<div class="com com-in bg3"></div>
+								<div class="com com-out bg3_on"></div>
+							</div>
+							<div class="txt">
+								<span>3</span>
+								<div class="ctt">
+									<p class="m1">Get</p>
+									<p class="m2">주문한 영상이 도착하면 카카오톡/문자/이메일을 통해 영상을 확인할 수 있는 시크릿 키가 전달됩니다.</p>
+								</div>
+							</div>
+						</li>
+						<li class="arr"><img src="{% static 'paze/img/sd_next_g.svg' %}" alt="next"></li>
+						<li class="li1">
+							<div class="img">
+								<div class="com com-in bg4"></div>
+								<div class="com com-out bg4_on"></div>
+							</div>
+							<div class="txt">
+								<span>4</span>
+								<div class="ctt">
+									<p class="m1">Enjoy</p>
+									<p class="m2">도착한 영상을 즐겁게 감상합니다.</p>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				</div>
+			</div>
+		</div> {% endcomment %}

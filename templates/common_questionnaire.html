@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+{% load account i18n static core_template_tags %}
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{% static 'rev/scss/question.css' %}">
+{% endblock extra_head %}
+{% block head_title %} | {{ request.user.username }}님 SURVEY {% endblock %}
+{% block body %}
+<div id="wrap" class="sub-wrap">
+  <!-- container -->
+  <div id="container">
+    <!-- middleArea -->
+    <div id="middleArea">
+      <!-- content -->
+      <section id="content" class="area-box">        
+        <!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+        <div class="onenonly">
+          <div class="checkout">
+            <div class="credit-card-box">
+              <div class="flip">
+                <div class="front">
+                  <div class="chip"></div>
+                  <div class="logo">
+                    <svg width="405.04" height="80" viewBox="0 0 405.04 80" xmlns="http://www.w3.org/2000/svg"><g id="svgGroup" stroke-linecap="round" fill-rule="evenodd" font-size="9pt" stroke="#ffffff" stroke-width="0.25mm" fill="#ffffff" style="stroke:#ffffff;stroke-width:0.25mm;fill:#ffffff"><path d="M 53.801 39.739 A 45.591 45.591 0 0 0 54.4 32.16 A 45.719 45.719 0 0 0 53.821 24.703 A 33.095 33.095 0 0 0 51.48 16.68 Q 48.56 10.08 42.56 6.44 A 21.307 21.307 0 0 0 40.349 5.272 Q 34.928 2.8 27.28 2.8 Q 22.564 2.8 18.69 3.724 A 23.805 23.805 0 0 0 11.88 6.44 Q 5.84 10.08 2.92 16.64 A 28.665 28.665 0 0 0 2.812 16.886 Q 1.254 20.477 0.559 24.754 A 45.705 45.705 0 0 0 0 32.08 A 45.984 45.984 0 0 0 0.561 39.429 A 33.529 33.529 0 0 0 2.92 47.6 Q 5.84 54.24 11.88 57.92 Q 17.92 61.6 27.2 61.6 A 44.501 44.501 0 0 0 29.505 61.542 Q 32.883 61.366 35.78 60.666 A 23.391 23.391 0 0 0 42.56 57.92 Q 48.56 54.24 51.48 47.64 A 33.022 33.022 0 0 0 53.801 39.739 Z M 12.72 32.16 A 37.857 37.857 0 0 0 13.091 37.631 Q 13.506 40.465 14.385 42.786 A 17.354 17.354 0 0 0 16.16 46.28 A 11.143 11.143 0 0 0 23.406 51.065 A 18.08 18.08 0 0 0 27.2 51.44 Q 33.042 51.44 36.39 48.516 A 10.7 10.7 0 0 0 38.32 46.28 Q 41.68 41.12 41.68 32.16 Q 41.68 26.13 40.186 21.845 A 17.445 17.445 0 0 0 38.32 18 A 10.858 10.858 0 0 0 31.472 13.334 A 18.068 18.068 0 0 0 27.28 12.88 A 18.066 18.066 0 0 0 22.994 13.355 A 11.066 11.066 0 0 0 16.16 18 A 18.051 18.051 0 0 0 13.87 23.018 Q 12.72 26.934 12.72 32.16 Z" id="0"/><path d="M 105.6 32.32 L 105.6 60.8 L 93.68 60.8 L 93.68 35.28 Q 93.68 30.56 92 28.2 Q 90.355 25.888 86.791 25.841 A 11.288 11.288 0 0 0 86.64 25.84 Q 83.043 25.84 80.95 27.467 A 6.526 6.526 0 0 0 79.2 29.56 A 13.88 13.88 0 0 0 78.062 32.5 Q 77.256 35.468 77.204 39.657 A 47.029 47.029 0 0 0 77.2 40.24 L 77.2 60.8 L 65.28 60.8 L 65.28 17.12 L 74.4 17.12 L 76 22.72 L 76.64 22.72 Q 78.72 19.36 82.36 17.84 Q 86 16.32 90.08 16.32 A 21.181 21.181 0 0 1 94.873 16.832 A 14.414 14.414 0 0 1 101.36 20.12 Q 104.743 23.152 105.427 29.111 A 28.18 28.18 0 0 1 105.6 32.32 Z" id="1"/><path d="M 155.44 36.16 L 155.44 41.92 L 127.28 41.92 Q 127.433 46.733 130.03 49.576 A 9.505 9.505 0 0 0 130.28 49.84 Q 133.12 52.72 138.16 52.72 Q 142.4 52.72 145.84 51.88 A 33.974 33.974 0 0 0 150.234 50.471 A 42.126 42.126 0 0 0 152.96 49.28 L 152.96 58.48 Q 149.76 60.08 146.2 60.84 A 31.142 31.142 0 0 1 143.064 61.332 Q 141.519 61.5 139.771 61.562 A 60.518 60.518 0 0 1 137.6 61.6 Q 131.04 61.6 126 59.16 Q 120.96 56.72 118.08 51.76 Q 115.2 46.8 115.2 39.28 Q 115.2 33.1 116.884 28.604 A 19.831 19.831 0 0 1 117.8 26.52 A 18.648 18.648 0 0 1 121.577 21.404 A 16.923 16.923 0 0 1 125.04 18.88 Q 129.68 16.32 135.84 16.32 A 25.615 25.615 0 0 1 141.852 16.986 A 17.497 17.497 0 0 1 150.16 21.48 Q 155.44 26.64 155.44 36.16 Z M 127.52 34 L 144.24 34 A 13.538 13.538 0 0 0 143.865 31.008 A 9.65 9.65 0 0 0 142.16 27.4 A 6.347 6.347 0 0 0 138.692 25.139 Q 137.607 24.842 136.299 24.805 A 13.344 13.344 0 0 0 135.92 24.8 A 8.677 8.677 0 0 0 132.996 25.276 A 7.57 7.57 0 0 0 130.2 27.04 A 7.725 7.725 0 0 0 128.543 29.527 Q 127.742 31.382 127.52 34 Z" id="2"/><path d="M 188.24 31.12 L 199.36 41.92 Q 200.96 39.2 202.16 36.2 Q 203.36 33.2 204.16 30.16 L 216.56 30.16 A 54.863 54.863 0 0 1 214.969 35.101 A 73.234 73.234 0 0 1 213.04 39.76 Q 210.72 44.88 207.12 49.36 L 218.88 60.8 L 204.16 60.8 L 199.68 56.4 A 29.298 29.298 0 0 1 192.544 60.015 A 32.904 32.904 0 0 1 192 60.2 Q 187.76 61.6 182.8 61.6 A 34.35 34.35 0 0 1 176.856 61.118 Q 173.545 60.535 170.906 59.249 A 17.09 17.09 0 0 1 167.56 57.12 A 14.291 14.291 0 0 1 162.129 46.704 A 18.353 18.353 0 0 1 162.08 45.36 A 21.465 21.465 0 0 1 162.426 41.387 Q 163.065 38 164.88 35.64 A 22.313 22.313 0 0 1 168.627 31.86 A 30.579 30.579 0 0 1 172.56 29.2 A 35.573 35.573 0 0 1 170.561 26.685 Q 169.68 25.46 169.043 24.308 A 16.531 16.531 0 0 1 168.2 22.56 Q 166.96 19.52 166.96 16.08 A 13.152 13.152 0 0 1 167.474 12.335 A 10.95 10.95 0 0 1 169.08 9.04 Q 171.2 6.08 175 4.48 A 20.106 20.106 0 0 1 180.033 3.124 A 26.269 26.269 0 0 1 183.68 2.88 A 25.499 25.499 0 0 1 187.996 3.229 A 19.357 19.357 0 0 1 191.92 4.32 A 14.243 14.243 0 0 1 195.295 6.206 A 11.948 11.948 0 0 1 197.6 8.52 Q 199.68 11.28 199.68 15.28 A 15.345 15.345 0 0 1 198.984 19.995 A 12.856 12.856 0 0 1 196.4 24.56 A 29.833 29.833 0 0 1 190.997 29.373 A 36.251 36.251 0 0 1 188.24 31.12 Z M 192.48 49.2 L 179.52 36.32 A 18.815 18.815 0 0 0 177.566 37.994 A 13.917 13.917 0 0 0 175.96 39.88 A 7.29 7.29 0 0 0 174.652 43.78 A 9.015 9.015 0 0 0 174.64 44.24 Q 174.64 47.68 177.2 49.64 Q 179.76 51.6 183.6 51.6 A 18.159 18.159 0 0 0 187.042 51.284 A 15.88 15.88 0 0 0 188.4 50.96 Q 190.64 50.32 192.48 49.2 Z M 183.6 12.08 Q 181.6 12.08 179.8 13.08 Q 178.169 13.986 178.016 16.371 A 7.959 7.959 0 0 0 178 16.88 Q 178 18.88 179 20.72 A 18.292 18.292 0 0 0 180.255 22.698 A 24.641 24.641 0 0 0 181.68 24.48 A 32.432 32.432 0 0 0 183.806 23.215 Q 184.834 22.545 185.655 21.875 A 14.304 14.304 0 0 0 186.84 20.8 Q 188.64 18.96 188.64 16.56 A 5.639 5.639 0 0 0 188.499 15.255 Q 188.281 14.336 187.724 13.706 A 3.321 3.321 0 0 0 187.04 13.12 Q 185.44 12.08 183.6 12.08 Z" id="3"/><path d="M 277.321 39.739 A 45.591 45.591 0 0 0 277.92 32.16 A 45.719 45.719 0 0 0 277.341 24.703 A 33.095 33.095 0 0 0 275 16.68 Q 272.08 10.08 266.08 6.44 A 21.307 21.307 0 0 0 263.869 5.272 Q 258.448 2.8 250.8 2.8 Q 246.084 2.8 242.21 3.724 A 23.805 23.805 0 0 0 235.4 6.44 Q 229.36 10.08 226.44 16.64 A 28.665 28.665 0 0 0 226.332 16.886 Q 224.774 20.477 224.079 24.754 A 45.705 45.705 0 0 0 223.52 32.08 A 45.984 45.984 0 0 0 224.081 39.429 A 33.529 33.529 0 0 0 226.44 47.6 Q 229.36 54.24 235.4 57.92 Q 241.44 61.6 250.72 61.6 A 44.501 44.501 0 0 0 253.025 61.542 Q 256.403 61.366 259.3 60.666 A 23.391 23.391 0 0 0 266.08 57.92 Q 272.08 54.24 275 47.64 A 33.022 33.022 0 0 0 277.321 39.739 Z M 236.24 32.16 A 37.857 37.857 0 0 0 236.611 37.631 Q 237.026 40.465 237.905 42.786 A 17.354 17.354 0 0 0 239.68 46.28 A 11.143 11.143 0 0 0 246.926 51.065 A 18.08 18.08 0 0 0 250.72 51.44 Q 256.562 51.44 259.91 48.516 A 10.7 10.7 0 0 0 261.84 46.28 Q 265.2 41.12 265.2 32.16 Q 265.2 26.13 263.706 21.845 A 17.445 17.445 0 0 0 261.84 18 A 10.858 10.858 0 0 0 254.992 13.334 A 18.068 18.068 0 0 0 250.8 12.88 A 18.066 18.066 0 0 0 246.514 13.355 A 11.066 11.066 0 0 0 239.68 18 A 18.051 18.051 0 0 0 237.39 23.018 Q 236.24 26.934 236.24 32.16 Z" id="4"/><path d="M 329.12 32.32 L 329.12 60.8 L 317.2 60.8 L 317.2 35.28 Q 317.2 30.56 315.52 28.2 Q 313.875 25.888 310.311 25.841 A 11.288 11.288 0 0 0 310.16 25.84 Q 306.563 25.84 304.47 27.467 A 6.526 6.526 0 0 0 302.72 29.56 A 13.88 13.88 0 0 0 301.582 32.5 Q 300.776 35.468 300.724 39.657 A 47.029 47.029 0 0 0 300.72 40.24 L 300.72 60.8 L 288.8 60.8 L 288.8 17.12 L 297.92 17.12 L 299.52 22.72 L 300.16 22.72 Q 302.24 19.36 305.88 17.84 Q 309.52 16.32 313.6 16.32 A 21.181 21.181 0 0 1 318.393 16.832 A 14.414 14.414 0 0 1 324.88 20.12 Q 328.263 23.152 328.947 29.111 A 28.18 28.18 0 0 1 329.12 32.32 Z" id="5"/><path d="M 353.28 0 L 353.28 60.8 L 341.36 60.8 L 341.36 0 L 353.28 0 Z" id="6"/><path d="M 376.88 60.48 L 359.52 17.12 L 372.56 17.12 L 380.8 41.68 Q 381.44 43.44 381.76 45.32 Q 382.08 47.2 382.24 49.28 L 382.48 49.28 Q 382.72 47.2 383.16 45.32 Q 383.6 43.44 384.16 41.68 L 392.24 17.12 L 405.04 17.12 L 386.56 66.4 A 26.15 26.15 0 0 1 384.196 71.321 Q 382.173 74.555 379.343 76.584 A 16.575 16.575 0 0 1 379.32 76.6 A 18.297 18.297 0 0 1 368.999 79.99 A 22.47 22.47 0 0 1 368.32 80 Q 366.789 80 365.563 79.883 A 18.651 18.651 0 0 1 364.84 79.8 Q 363.36 79.6 362.24 79.36 L 362.24 69.92 Q 363.12 70.08 364.36 70.24 Q 365.6 70.4 366.96 70.4 Q 370.72 70.4 372.92 68.12 A 13.921 13.921 0 0 0 376.06 62.938 A 16.146 16.146 0 0 0 376.16 62.64 L 376.88 60.48 Z" id="7"/></g></svg>
+                  </div>
+                  <div class="card-holder">
+                    <label>oney</label>
+                    <div>{{request.user.verification.name}}</div>
+                  </div>
+                  <div class="sex">
+                    <label>sex</label>
+                    <div>{% if answer.sex == "male" %}male{% elif answer.sex == 'female' %}female{% endif %}</div>
+                  </div>
+                  <div class="number">
+                    <label>phone number</label>
+                    <div>{{request.user.verification.standardize_phone | slice:"0:3"}}-{{request.user.verification.standardize_phone | slice:"3:7"}}-{{request.user.verification.standardize_phone | slice:"7:11"}}</div>
+                  </div>
+                  <div class="card-expiration-date">
+                    <label>birthday</label>
+                    <div>{{request.user.verification.birthday | date:'Y년 m월 d일'}}</div>
+                  </div>
+                </div>
+                <div class="back">
+                  <div class="strip"></div>
+                  <div class="logo">
+                    <svg width="405.04" height="80" viewBox="0 0 405.04 80" xmlns="http://www.w3.org/2000/svg"><g id="svgGroup" stroke-linecap="round" fill-rule="evenodd" font-size="9pt" stroke="#ffffff" stroke-width="0.25mm" fill="#ffffff" style="stroke:#ffffff;stroke-width:0.25mm;fill:#ffffff"><path d="M 53.801 39.739 A 45.591 45.591 0 0 0 54.4 32.16 A 45.719 45.719 0 0 0 53.821 24.703 A 33.095 33.095 0 0 0 51.48 16.68 Q 48.56 10.08 42.56 6.44 A 21.307 21.307 0 0 0 40.349 5.272 Q 34.928 2.8 27.28 2.8 Q 22.564 2.8 18.69 3.724 A 23.805 23.805 0 0 0 11.88 6.44 Q 5.84 10.08 2.92 16.64 A 28.665 28.665 0 0 0 2.812 16.886 Q 1.254 20.477 0.559 24.754 A 45.705 45.705 0 0 0 0 32.08 A 45.984 45.984 0 0 0 0.561 39.429 A 33.529 33.529 0 0 0 2.92 47.6 Q 5.84 54.24 11.88 57.92 Q 17.92 61.6 27.2 61.6 A 44.501 44.501 0 0 0 29.505 61.542 Q 32.883 61.366 35.78 60.666 A 23.391 23.391 0 0 0 42.56 57.92 Q 48.56 54.24 51.48 47.64 A 33.022 33.022 0 0 0 53.801 39.739 Z M 12.72 32.16 A 37.857 37.857 0 0 0 13.091 37.631 Q 13.506 40.465 14.385 42.786 A 17.354 17.354 0 0 0 16.16 46.28 A 11.143 11.143 0 0 0 23.406 51.065 A 18.08 18.08 0 0 0 27.2 51.44 Q 33.042 51.44 36.39 48.516 A 10.7 10.7 0 0 0 38.32 46.28 Q 41.68 41.12 41.68 32.16 Q 41.68 26.13 40.186 21.845 A 17.445 17.445 0 0 0 38.32 18 A 10.858 10.858 0 0 0 31.472 13.334 A 18.068 18.068 0 0 0 27.28 12.88 A 18.066 18.066 0 0 0 22.994 13.355 A 11.066 11.066 0 0 0 16.16 18 A 18.051 18.051 0 0 0 13.87 23.018 Q 12.72 26.934 12.72 32.16 Z" id="0"/><path d="M 105.6 32.32 L 105.6 60.8 L 93.68 60.8 L 93.68 35.28 Q 93.68 30.56 92 28.2 Q 90.355 25.888 86.791 25.841 A 11.288 11.288 0 0 0 86.64 25.84 Q 83.043 25.84 80.95 27.467 A 6.526 6.526 0 0 0 79.2 29.56 A 13.88 13.88 0 0 0 78.062 32.5 Q 77.256 35.468 77.204 39.657 A 47.029 47.029 0 0 0 77.2 40.24 L 77.2 60.8 L 65.28 60.8 L 65.28 17.12 L 74.4 17.12 L 76 22.72 L 76.64 22.72 Q 78.72 19.36 82.36 17.84 Q 86 16.32 90.08 16.32 A 21.181 21.181 0 0 1 94.873 16.832 A 14.414 14.414 0 0 1 101.36 20.12 Q 104.743 23.152 105.427 29.111 A 28.18 28.18 0 0 1 105.6 32.32 Z" id="1"/><path d="M 155.44 36.16 L 155.44 41.92 L 127.28 41.92 Q 127.433 46.733 130.03 49.576 A 9.505 9.505 0 0 0 130.28 49.84 Q 133.12 52.72 138.16 52.72 Q 142.4 52.72 145.84 51.88 A 33.974 33.974 0 0 0 150.234 50.471 A 42.126 42.126 0 0 0 152.96 49.28 L 152.96 58.48 Q 149.76 60.08 146.2 60.84 A 31.142 31.142 0 0 1 143.064 61.332 Q 141.519 61.5 139.771 61.562 A 60.518 60.518 0 0 1 137.6 61.6 Q 131.04 61.6 126 59.16 Q 120.96 56.72 118.08 51.76 Q 115.2 46.8 115.2 39.28 Q 115.2 33.1 116.884 28.604 A 19.831 19.831 0 0 1 117.8 26.52 A 18.648 18.648 0 0 1 121.577 21.404 A 16.923 16.923 0 0 1 125.04 18.88 Q 129.68 16.32 135.84 16.32 A 25.615 25.615 0 0 1 141.852 16.986 A 17.497 17.497 0 0 1 150.16 21.48 Q 155.44 26.64 155.44 36.16 Z M 127.52 34 L 144.24 34 A 13.538 13.538 0 0 0 143.865 31.008 A 9.65 9.65 0 0 0 142.16 27.4 A 6.347 6.347 0 0 0 138.692 25.139 Q 137.607 24.842 136.299 24.805 A 13.344 13.344 0 0 0 135.92 24.8 A 8.677 8.677 0 0 0 132.996 25.276 A 7.57 7.57 0 0 0 130.2 27.04 A 7.725 7.725 0 0 0 128.543 29.527 Q 127.742 31.382 127.52 34 Z" id="2"/><path d="M 188.24 31.12 L 199.36 41.92 Q 200.96 39.2 202.16 36.2 Q 203.36 33.2 204.16 30.16 L 216.56 30.16 A 54.863 54.863 0 0 1 214.969 35.101 A 73.234 73.234 0 0 1 213.04 39.76 Q 210.72 44.88 207.12 49.36 L 218.88 60.8 L 204.16 60.8 L 199.68 56.4 A 29.298 29.298 0 0 1 192.544 60.015 A 32.904 32.904 0 0 1 192 60.2 Q 187.76 61.6 182.8 61.6 A 34.35 34.35 0 0 1 176.856 61.118 Q 173.545 60.535 170.906 59.249 A 17.09 17.09 0 0 1 167.56 57.12 A 14.291 14.291 0 0 1 162.129 46.704 A 18.353 18.353 0 0 1 162.08 45.36 A 21.465 21.465 0 0 1 162.426 41.387 Q 163.065 38 164.88 35.64 A 22.313 22.313 0 0 1 168.627 31.86 A 30.579 30.579 0 0 1 172.56 29.2 A 35.573 35.573 0 0 1 170.561 26.685 Q 169.68 25.46 169.043 24.308 A 16.531 16.531 0 0 1 168.2 22.56 Q 166.96 19.52 166.96 16.08 A 13.152 13.152 0 0 1 167.474 12.335 A 10.95 10.95 0 0 1 169.08 9.04 Q 171.2 6.08 175 4.48 A 20.106 20.106 0 0 1 180.033 3.124 A 26.269 26.269 0 0 1 183.68 2.88 A 25.499 25.499 0 0 1 187.996 3.229 A 19.357 19.357 0 0 1 191.92 4.32 A 14.243 14.243 0 0 1 195.295 6.206 A 11.948 11.948 0 0 1 197.6 8.52 Q 199.68 11.28 199.68 15.28 A 15.345 15.345 0 0 1 198.984 19.995 A 12.856 12.856 0 0 1 196.4 24.56 A 29.833 29.833 0 0 1 190.997 29.373 A 36.251 36.251 0 0 1 188.24 31.12 Z M 192.48 49.2 L 179.52 36.32 A 18.815 18.815 0 0 0 177.566 37.994 A 13.917 13.917 0 0 0 175.96 39.88 A 7.29 7.29 0 0 0 174.652 43.78 A 9.015 9.015 0 0 0 174.64 44.24 Q 174.64 47.68 177.2 49.64 Q 179.76 51.6 183.6 51.6 A 18.159 18.159 0 0 0 187.042 51.284 A 15.88 15.88 0 0 0 188.4 50.96 Q 190.64 50.32 192.48 49.2 Z M 183.6 12.08 Q 181.6 12.08 179.8 13.08 Q 178.169 13.986 178.016 16.371 A 7.959 7.959 0 0 0 178 16.88 Q 178 18.88 179 20.72 A 18.292 18.292 0 0 0 180.255 22.698 A 24.641 24.641 0 0 0 181.68 24.48 A 32.432 32.432 0 0 0 183.806 23.215 Q 184.834 22.545 185.655 21.875 A 14.304 14.304 0 0 0 186.84 20.8 Q 188.64 18.96 188.64 16.56 A 5.639 5.639 0 0 0 188.499 15.255 Q 188.281 14.336 187.724 13.706 A 3.321 3.321 0 0 0 187.04 13.12 Q 185.44 12.08 183.6 12.08 Z" id="3"/><path d="M 277.321 39.739 A 45.591 45.591 0 0 0 277.92 32.16 A 45.719 45.719 0 0 0 277.341 24.703 A 33.095 33.095 0 0 0 275 16.68 Q 272.08 10.08 266.08 6.44 A 21.307 21.307 0 0 0 263.869 5.272 Q 258.448 2.8 250.8 2.8 Q 246.084 2.8 242.21 3.724 A 23.805 23.805 0 0 0 235.4 6.44 Q 229.36 10.08 226.44 16.64 A 28.665 28.665 0 0 0 226.332 16.886 Q 224.774 20.477 224.079 24.754 A 45.705 45.705 0 0 0 223.52 32.08 A 45.984 45.984 0 0 0 224.081 39.429 A 33.529 33.529 0 0 0 226.44 47.6 Q 229.36 54.24 235.4 57.92 Q 241.44 61.6 250.72 61.6 A 44.501 44.501 0 0 0 253.025 61.542 Q 256.403 61.366 259.3 60.666 A 23.391 23.391 0 0 0 266.08 57.92 Q 272.08 54.24 275 47.64 A 33.022 33.022 0 0 0 277.321 39.739 Z M 236.24 32.16 A 37.857 37.857 0 0 0 236.611 37.631 Q 237.026 40.465 237.905 42.786 A 17.354 17.354 0 0 0 239.68 46.28 A 11.143 11.143 0 0 0 246.926 51.065 A 18.08 18.08 0 0 0 250.72 51.44 Q 256.562 51.44 259.91 48.516 A 10.7 10.7 0 0 0 261.84 46.28 Q 265.2 41.12 265.2 32.16 Q 265.2 26.13 263.706 21.845 A 17.445 17.445 0 0 0 261.84 18 A 10.858 10.858 0 0 0 254.992 13.334 A 18.068 18.068 0 0 0 250.8 12.88 A 18.066 18.066 0 0 0 246.514 13.355 A 11.066 11.066 0 0 0 239.68 18 A 18.051 18.051 0 0 0 237.39 23.018 Q 236.24 26.934 236.24 32.16 Z" id="4"/><path d="M 329.12 32.32 L 329.12 60.8 L 317.2 60.8 L 317.2 35.28 Q 317.2 30.56 315.52 28.2 Q 313.875 25.888 310.311 25.841 A 11.288 11.288 0 0 0 310.16 25.84 Q 306.563 25.84 304.47 27.467 A 6.526 6.526 0 0 0 302.72 29.56 A 13.88 13.88 0 0 0 301.582 32.5 Q 300.776 35.468 300.724 39.657 A 47.029 47.029 0 0 0 300.72 40.24 L 300.72 60.8 L 288.8 60.8 L 288.8 17.12 L 297.92 17.12 L 299.52 22.72 L 300.16 22.72 Q 302.24 19.36 305.88 17.84 Q 309.52 16.32 313.6 16.32 A 21.181 21.181 0 0 1 318.393 16.832 A 14.414 14.414 0 0 1 324.88 20.12 Q 328.263 23.152 328.947 29.111 A 28.18 28.18 0 0 1 329.12 32.32 Z" id="5"/><path d="M 353.28 0 L 353.28 60.8 L 341.36 60.8 L 341.36 0 L 353.28 0 Z" id="6"/><path d="M 376.88 60.48 L 359.52 17.12 L 372.56 17.12 L 380.8 41.68 Q 381.44 43.44 381.76 45.32 Q 382.08 47.2 382.24 49.28 L 382.48 49.28 Q 382.72 47.2 383.16 45.32 Q 383.6 43.44 384.16 41.68 L 392.24 17.12 L 405.04 17.12 L 386.56 66.4 A 26.15 26.15 0 0 1 384.196 71.321 Q 382.173 74.555 379.343 76.584 A 16.575 16.575 0 0 1 379.32 76.6 A 18.297 18.297 0 0 1 368.999 79.99 A 22.47 22.47 0 0 1 368.32 80 Q 366.789 80 365.563 79.883 A 18.651 18.651 0 0 1 364.84 79.8 Q 363.36 79.6 362.24 79.36 L 362.24 69.92 Q 363.12 70.08 364.36 70.24 Q 365.6 70.4 366.96 70.4 Q 370.72 70.4 372.92 68.12 A 13.921 13.921 0 0 0 376.06 62.938 A 16.146 16.146 0 0 0 376.16 62.64 L 376.88 60.48 Z" id="7"/></g></svg>
+                  </div>
+                  <div class="ccv">
+                    <label>JOB</label>
+                    <div>{{answer.job | default:'SECRET'}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <form class="form" autocomplete="off" novalidate method="POST" action="{% url 'core:common-qna' question.id %}">
+              {% csrf_token %}
+              <fieldset>
+                <label for="card-holder">이름</label>
+                <input required name="name" type="text" id="card-holder" value="{{request.user.verification.name}}"/>
+              </fieldset>
+              <fieldset>
+                <label>성별</label>
+                <input {% if answer.sex == "male" %}checked{% endif %} required type="radio" name="sex" id="male" value="male"/>
+                <label style="display:inline-block;" for="male">남자</label>
+                <input {% if answer.sex == "female" %}checked{% endif %} required type="radio" name="sex" id="female" value="female"/>
+                <label style="display:inline-block;" for="female">여자</label>
+              </fieldset>              
+              <fieldset>
+                <label for="card-number">핸드폰 번호</label>
+                <input name="ph1" required type="num" id="card-number" class="input-cart-number first" maxlength="3" value="{{request.user.verification.standardize_phone | slice:"0:3"}}"/>
+                <input name="ph2" required type="num" id="card-number-1" class="input-cart-number" maxlength="4" value="{{request.user.verification.standardize_phone | slice:"3:7"}}"/>
+                <input name="ph3" required type="num" id="card-number-2" class="input-cart-number last" maxlength="4" value="{{request.user.verification.standardize_phone | slice:"7:11"}}"/>
+              </fieldset>
+              <fieldset class="fieldset-expiration">
+                <label>생년월일</label>
+                <div class="select">
+                  <select required data-option-width="80px" name="birthday-year" id='birthday-year'>
+                    {% if request.user.verification.birthday %}
+                    <option selected>{{request.user.verification.birthday.year}}</option>
+                    {% else %}
+                    <option selected disabled>연도 선택</option>
+                    {% endif %}
+
+                    {% for value in 1920|range:2012 %}
+                    <option value="{{value}}">{{value}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="select">
+                  <select required data-option-width="80px" name="birthday-month" id="birthday-month">
+                    {% if request.user.verification.birthday %}
+                    <option selected>{{request.user.verification.birthday.month}}</option>
+                    {% else %}
+                    <option selected disabled>월 선택</option>
+                    {% endif %}                  
+                    {% for value in 1|range:13 %}
+                    <option value="{{value}}">{{value}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="select">
+                  <select required data-option-width="80px" name="birthday-day" id="birthday-day">
+                    {% if request.user.verification.birthday %}
+                    <option selected>{{request.user.verification.birthday.day}}</option>
+                    {% else %}
+                    <option selected disabled>일 선택</option>
+                    {% endif %}
+                    {% for value in 1|range:32 %}
+                    <option value="{{value}}">{{value}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </fieldset>
+              <fieldset class="fieldset-ccv">                
+                <label>JOB</label>
+                <div class="select">
+                  <select data-option-width="80px" name="job" required id="card-ccv">
+                    <option value="대학생">대학생</option>
+                    <option value="대학원생">대학원생</option>
+                    <option value="경영직">경영직</option>
+                    <option value="사무직">사무직</option>
+                    <option value="생산/기술직">생산/기술직</option>
+                    <option value="서비스업">서비스업</option>                                    
+                    <option value="전문직">전문직</option>
+                    <option value="공무원">공무원</option>
+                    <option value="교사/강사">교사/강사</option>
+                    <option value="전업주부">전업주부</option>
+                    <option value="농산업">농산업</option>
+                    <option value="프리랜서">프리랜서</option>
+                    <option value="무직">무직</option>
+                    <option value="기타">기타</option>
+                  </select>                  
+                </div>
+              </fieldset>
+
+              <hr>
+              {% if question.q1 %}
+              <fieldset class="">
+                <label for="a1" class="question">Q1. {{question.q1}}</label>
+                <textarea name="a1" required cols="40" rows="5" id="a1">{{answer.a1}}</textarea>
+              </fieldset>
+              {% endif %}
+
+              {% if question.q2 %}
+              <fieldset class="">
+                <label for="a2" class="question">Q2. {{question.q2}}</label>
+                <textarea name="a2" required cols="40" rows="5" id="a2">{{ answer.a2 }}</textarea>
+              </fieldset>
+              {% endif %}
+
+              {% if question.q3 %}
+              <fieldset class="">
+                <label for="a3" class="question">Q3. {{question.q3}}</label>
+                <textarea name="a3" required cols="40" rows="5" id="a3">{{ answer.a3 }}</textarea>
+              </fieldset>
+              {% endif %}
+
+              {% if question.q4 %}
+              <fieldset class="">
+                <label for="a4" class="question">Q4. {{question.q4}}</label>
+                <textarea name="a4" required cols="40" rows="5" id="a4">{{ answer.a4 }}</textarea>
+              </fieldset>
+              {% endif %}
+              {% if question.q5 %}
+              <fieldset class="">
+                <label for="a5" class="question">Q5. {{question.q5}}</label>
+                <textarea name="a5" required cols="40" rows="5" id="a5">{{ answer.a5 }}</textarea>
+              </fieldset>
+              {% endif %}
+              {% if question.q6 %}
+              <fieldset class="">
+                <label for="a6" class="question">Q6. {{question.q6}}</label>
+                <textarea name="a6" required cols="40" rows="5" id="a6">{{ answer.a6 }}</textarea>
+              </fieldset>
+              {% endif %}
+              {% if question.q7 %}
+              <fieldset class="">
+                <label for="a7" class="question">Q7. {{question.q7}}</label>
+                <textarea name="a7" required cols="40" rows="5" id="a7">{{ answer.a7 }}</textarea>
+              </fieldset>
+              {% endif %}
+              {% if question.q8 %}
+              <fieldset class="">
+                <label for="a8" class="question">Q8. {{question.q8}}</label>
+                <textarea name="a8" required cols="40" rows="5" id="a8">{{ answer.a8 }}</textarea>
+              </fieldset>
+              {% endif %}
+              {% if question.q9 %}
+              <fieldset class="">
+                <label for="a9" class="question">Q9. {{question.q9}}</label>
+                <textarea name="a9" required cols="40" rows="5" id="a9">{{ answer.a9 }}</textarea>
+              </fieldset>
+              {% endif %}
+              {% if question.q10 %}
+              <fieldset class="">
+                <label for="a10" class="question">Q10. {{question.q10}}</label>
+                <textarea name="a10" required cols="40" rows="5" id="a10">{{ answer.a10 }}</textarea>
+              </fieldset>
+              {% endif %}
+
+              <button type="submit" class="btn"><i class="xi-check"></i> submit</button>
+            </form>
+          </div>
+
+        </div>
+        <!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+      </section>
+      <!-- //content -->
+    </div>
+    <!-- //middleArea -->
+  </div>
+  <!-- // container -->
+</div>
+<!-- // wrap -->
+{% endblock body %}
+
+{% block extra_scripts %}
+<script>
+  $('.input-cart-number').on('keyup change', function(){
+  $t = $(this);
+  if($t.hasClass('first')){
+    if ($t.val().length == 3) {
+    $t.next().focus();
+  }
+  }  else{
+    if ($t.val().length > 3) {
+    $t.next().focus();
+  }
+  }
+  
+  var phone_number = '';
+  $('.input-cart-number').each(function(){
+    if($(this).hasClass('first')){
+      phone_number += $(this).val() + '-';
+      if ($(this).val().length == 3) {
+        $(this).next().focus();
+      }      
+    } else if($(this).hasClass('last')){
+      phone_number += $(this).val();
+      if ($(this).val().length == 4) {
+        $(this).next().focus();
+      }
+    } else {
+      phone_number += $(this).val() + '-';
+      if ($(this).val().length == 4) {
+        $(this).next().focus();
+      }
+    }
+  })
+  $('.credit-card-box .number div').html(phone_number);
+});
+
+$('#card-holder').on('keyup change', function(){
+  $t = $(this);
+  $('.credit-card-box .card-holder div').html($t.val());
+});
+
+$('input[name=sex]').on('keyup change', function(){
+  $t = $(this);
+  $('.credit-card-box .sex div').html($t.val());
+});
+
+$('#birthday-year, #birthday-month, #birthday-day').change(function(){
+  y = $('#birthday-year').val();
+  m = $('#birthday-month option').index($('#birthday-month option:selected'));
+  m = (m < 10) ? '0' + m : m;  
+  d = $('#birthday-day').val();
+  $('.card-expiration-date div').html(y + '년 ' + m + '월 ' + d + '일');
+})
+
+$('#card-ccv').on('focus', function(){
+  $('.credit-card-box').addClass('hover');
+}).on('blur', function(){
+  $('.credit-card-box').removeClass('hover');
+}).on('keyup change', function(){
+  $('.ccv div').html($(this).val());
+});
+
+/*function getCreditCardType(accountNumber) {
+  if (/^5[1-5]/.test(accountNumber)) {
+    result = 'mastercard';
+  } else if (/^4/.test(accountNumber)) {
+    result = 'visa';
+  } else if ( /^(5018|5020|5038|6304|6759|676[1-3])/.test(accountNumber)) {
+    result = 'maestro';
+  } else {
+    result = 'unknown'
+  }
+  return result;
+}
+
+$('#card-number').change(function(){
+  console.log(getCreditCardType($(this).val()));
+})*/
+</script>
+{% endblock extra_scripts %}

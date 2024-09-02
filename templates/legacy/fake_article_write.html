@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% load core_template_tags %}
+
+{% load account socialaccount %}
+
+
+{% block head_title %} 글쓰기 {% endblock %}
+
+{% block extra_head %} {% endblock %}
+
+<!--BODY -->
+
+{% block content %}
+<article id="content">
+	
+	<div class="bbs_write">
+		<div class="step_box">
+			<div class="wrap">
+				<h2>커뮤니티 글쓰기</h2>
+			</div>
+		</div>
+		<div class="wrap">
+            <form method="post" action ="{% url 'core:article_write' %}">
+            {% csrf_token %}
+			<div class="bbs_w_wr">
+				<div class="abox">
+					<h3>카테고리</h3>
+					<ul class="comm_rdo clear">
+						<li><input type="radio" name="category" value="1" id="bbs_chk1" /> <label for="bbs_chk1"><span>#공지사항</span></label></li>
+						<li><input type="radio" name="category" value="2" id="bbs_chk2" /> <label for="bbs_chk2"><span>#이벤트</span></label></li>                        
+						<li><input type="radio" name="category" value="3" id="bbs_chk3" /> <label for="bbs_chk3"><span>#베스트</span></label></li>
+						<li><input type="radio" name="category" value="4" id="bbs_chk4" /> <label for="bbs_chk4"><span>#파트너찾기</span></label></li>
+						<li><input type="radio" name="category" value="5" id="bbs_chk5" checked="checked"/> <label for="bbs_chk5"><span>#토크</span></label></li>
+					</ul>
+				</div>
+				<div class="abox">
+					<h3>제목</h3>
+					<div class="ctt">
+						<input type="text" name="title" class="comm_ipt" placeholder="제목" required/>
+					</div>
+				</div>
+				<div class="abox">
+					<h3>내용</h3>
+					<div class="ctt">
+						<textarea name="text" id="" class="comm_text" placeholder="내용을 입력하세요." required></textarea>
+					</div>
+				</div>
+				<div class="bbox">
+					<button type="submit" class="ani sBtn">글쓰기</button>
+				</div>
+			</div>
+            </form>
+		</div>
+	</div>
+
+</article>
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
+

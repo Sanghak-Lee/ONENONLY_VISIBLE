@@ -1,0 +1,188 @@
+{% extends "auction/base.html" %}
+{% load static %}
+<!-- {% load core_template_tags component_template_tags %} -->
+{% block extra_head %}{% endblock extra_head %}
+{% block head_title %} | 파트너스 {% endblock %}
+
+{% block body %}
+	<div id="wrap" class="sub-wrap">
+		<!-- container -->
+		<div id="container">
+			<!-- middleArea -->
+			<div id="middleArea">
+				<!-- content -->
+				<section id="content" class="wide">
+					
+					<!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+					<div class="sub-page auction-page">
+						<div class="auction-visual-con">
+							<div class="visual-video">
+								<!-- <video muted loop autoplay playsinline id="cmVideo" data-keepplaying>
+									<source src="{% static 'rev/video/PC_TIME STORE_상단 영상.mp4' %}" type="video/mp4">
+									Your browser does not support HTML5 video.
+								</video> -->
+								<div class="m-ver" style="width:100%; height:100%; background: url({% static 'rev/img/content/about_con01_bg.jpg' %}) center/cover no-repeat;"></div>
+								<div class="pc-ver" style="width:100%; height:100%; background: url({% static 'rev/img/content/about_con01_bg.jpg' %}) center/cover no-repeat;"></div>
+							</div>
+							<div class="visual-txt">
+								<div class="area-box">
+									<h5 class="font-nephilm">TIME GOODS</h5>
+									<p>
+										원앤온리는 다양한 파트너사의 커뮤니티 맞춤형 시간상품을 기획합니다.
+										<br>
+										<br class="m-br">
+										원앤온리의 다양한 파트너사 내 커뮤니티에 참여하고, 시간상품을 경험하세요.
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="auction-list-con">
+							<div class="area-box">
+								<section class="">
+									<aside class="cm-tab-wrapper-style">
+										<div class="cm-tab-list-style cm-fixed-page-tab-JS top-fixed-object cm-tab-list-JS">
+											<div class="area-box">
+												<ul class="clearfix">
+													<li id="tab-all" class=""><a href="{% url 'auction:dlv' %}"><em>원앤온리</em></a></li>
+													<li id="tab-a" class=><a href="{% url 'auction:dlv' %}?type=a"><em>파트너스</em></a></li>
+													<!-- <li id="tab-b" class=><a href="{% url 'auction:dlv' %}?type=b"><em>코스모진<span class="pc-br"> X </span><br class="m-br">원앤온리</em></a></li>-->
+												</ul>
+											</div>
+										</div>
+									</aside>
+									<article class="cm-tab-content-style cm-tab-content-wrapper-JS">
+										<div class="sub-tab-con" id="tabCon01">
+											<div class="unboxing-con03-wrapper">
+												<ul class="unboxing-con03-list all fake-timestore center clearfix">
+
+													<!-- ONENONLY 다이닝 -->
+													{% if onenonly_items %}
+													{% for item in onenonly_items %}
+														<li class="unboxing-con03-item timestore display">
+															<a href="{{ item.get_absolute_url }}">
+																<div class="unboxing-con03-img">
+																	<!-- 이미지 권장사이즈 210x244 -->
+																	<img src="{{ item.thumbnail.url }}" {% if item.is_crowdfunding_really_finish %} style="opacity:0.4!important;"{% endif %}alt="히스토리 썸네일 이미지">
+																	{% if item.is_crowdfunding_really_finish %}<div class="soldout">꽉 찼어요!</div>{% endif %}
+																</div>
+																<div class="text-badge">
+																	<img src="{% static 'rev/img/common/logo_image.png' %}">
+																</div>
+															</a>
+															<div class="unboxing-con03-txt-wrapper">
+																<p class="unboxing-con03-txt">{{ item.title | safe | linebreaksbr }}</p>
+																<p class="unboxing-con03-txt-detail">{{ item.description | safe | linebreaksbr | truncatechars:35}}</p>
+																<p class="unboxing-con03-txt-detail" style="margin-top:1rem"></p>
+																<p class="unboxing-con03-txt-detail unboxing-con03-txt-place cm-font-color-y">{{ item.d_place | safe | linebreaksbr }}</p>
+																<p class="unboxing-con03-txt-detail unboxing-con03-txt-day">{{ item.d_day | date:"m월 d일 H:i" }}</p>
+															</div>															
+														</li>
+													{% endfor %}
+													{% endif %}
+
+													<!-- 파트너스 -->
+													{% if items %}
+                          {% for item in items %}
+														<li class="unboxing-con03-item timestore display">
+															<a href="{{ item.display_url }}">																
+																<div class="unboxing-con03-img">
+																	<!-- 이미지 권장사이즈 210x244 -->
+																	<img src="{{ item.thumbnail.url }}" {% if item.is_soldout %} style="opacity:0.4!important;"{% endif %}alt="히스토리 썸네일 이미지">
+																	{% if item.is_soldout %}<div class="soldout">꽉 찼어요!</div>{% endif %}
+																</div>
+																<div class="text-badge">
+																	<img src="{{ item.badge.url }}">
+																</div>
+															</a>
+															<div class="unboxing-con03-txt-wrapper">
+																<p class="unboxing-con03-txt">{{ item.title | safe | linebreaksbr }}</p>
+																<p class="unboxing-con03-txt-detail">{{ item.display_text | safe | linebreaksbr }}</p>
+																<p class="unboxing-con03-txt-detail" style="margin-top:1rem"></p>
+																<p class="unboxing-con03-txt-detail unboxing-con03-txt-place cm-font-color-y">{{ item.display_place | safe | linebreaksbr }}</p>
+																<p class="unboxing-con03-txt-detail unboxing-con03-txt-day">{{ item.display_day | date:"m월 d일 H:i" }}</p>
+															</div>															
+														</li>
+													{% endfor %}                          
+													{% endif %}
+
+													{% if items is none and onenonly_items is none %}
+													<div class="mypage-funding-no-list">
+														<p>파트너스 아이템을 준비중입니다.</p>
+													</div>													
+													{% endif %}
+												</ul>
+												<div class="unboxing-con03-date">
+													<button class="btn prev-btn"><i class="xi-angle-left-thin"></i></button>
+													<button class="btn next-btn"><i class="xi-angle-right-thin"></i></button>
+												</div>
+                        {% if is_paginated %}
+													{% if items %}												
+													<div class="unboxing-con03-date display">
+															<span class="pagination-wrapper">
+																{% if page_obj.has_previous %}
+																<a {% if page_obj.has_previous %}href="?type=a&page={{ page_obj.previous_page_number }}"{% endif %} class="btn prev-btn"><i class="xi-angle-left-thin"></i></a>
+																<a href="?type=a&page={{ page_obj.previous_page_number }}" class="prev">{{ page_obj.previous_page_number }}</a>
+																{% else %}
+																<a class="btn prev-btn deactivate"><i class="xi-angle-left-thin"></i></a>
+																{% endif %}
+																<a href="?type=a&page={{ page_obj.number }}" class="now">&nbsp;{{ page_obj.number }}&nbsp;</a>
+																{% if page_obj.has_next %}
+																<a href="?type=a&page={{ page_obj.next_page_number }}" class="next">{{ page_obj.next_page_number }}</a>
+																<a {% if page_obj.has_next %}href="?type=a&page={{ page_obj.next_page_number }}"{% endif %} class="btn next-btn"><i class="xi-angle-right-thin"></i></a>
+																{% else %}
+																<a class="btn next-btn deactivate"><i class="xi-angle-right-thin"></i></a>																
+																{% endif %}
+															</span>
+
+													</div>
+													{% endif %}
+													{% if onenonly_items %}
+													<div class="unboxing-con03-date display">
+															<span class="pagination-wrapper">
+																{% if page_obj.has_previous %}
+																<a {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}"{% endif %} class="btn prev-btn"><i class="xi-angle-left-thin"></i></a>																
+																<a href="?page={{ page_obj.previous_page_number }}" class="prev">{{ page_obj.previous_page_number }}</a>
+																{% endif %}
+																<a href="?page={{ page_obj.number }}" class="now">&nbsp;{{ page_obj.number }}&nbsp;</a>
+																{% if page_obj.has_next %}
+																<a href="?page={{ page_obj.next_page_number }}" class="next">{{ page_obj.next_page_number }}</a>
+																<a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}"{% endif %} class="btn next-btn"><i class="xi-angle-right-thin"></i></a>																
+																{% endif %}
+															</span>
+
+													</div>
+													{% endif %}													
+                        {% endif %}
+
+											</div>
+										</div>
+									</article>
+								</section>
+
+							</div>
+						</div>
+					</div>
+					<!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+					<!-- 팝업 리스트 -->	
+					<!-- //팝업 리스트 -->
+
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //middleArea -->
+		</div>
+		<!-- // container -->
+  </div>
+  <!-- //wrap-->
+{% endblock body %}
+
+{% block extra_scripts %}
+<script>
+  var type = searchParam('type')
+	if(type == 'a') $('#tab-a').addClass('selected');
+	else if(type == 'b') $('#tab-b').addClass('selected');
+	else $('#tab-all').addClass('selected');
+</script>
+{% endblock extra_scripts %}

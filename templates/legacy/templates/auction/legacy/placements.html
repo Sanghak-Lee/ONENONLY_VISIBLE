@@ -1,0 +1,164 @@
+{% extends 'auction/base.html' %}
+
+{% block content %}
+
+{% load core_template_tags %}              
+{% load static %}
+{% load humanize %}
+
+<style>
+.myArt_list .info .ix1 dd{font-size:2.0rem !important; color:#231f20; font-weight: 450!important;}
+</style>
+<section class="section">
+    <section class="container">    
+    			<!-- 나의 아티스트 찾기 -->
+			<div class="myArt">
+				<div class="h2_box">
+					<p><strong>플레이플리즈</strong> 옥션</p>
+				</div>
+				<div class="myArt_list">
+					<ul class="clear">
+						{% for p in placements %}
+						<li class="aList">
+							<div class="in">
+								<div class="img"><a href="{% url 'auction:placement-detail' p.pk %}"><img style="object-fit:cover;height:100%;width:100%;" src="{% static 'paze/img/pp_ex2.jpg'%}"></a></div>
+								<div class="info">
+									<div class="ix1">
+										<dl>
+											<dt>시작가</dt>
+											<dd>{{ p.placement_price | intcomma }}&#8361;</dd>
+										</dl>
+										<dl>
+											<dt>작품이름</dt>
+											<dd>{{ p.title }}</dd>
+										</dl>
+									</div>
+									<div class="ix2 clear">
+										<div class="le">아티스트</div>
+										<div class="ri"><dt>{{ p.placement_artist }}</dt></div>
+									</div>
+								</div>
+								<div class="swiper rv_sd">
+                                    <div class="swiper-wrapper">    
+										{% get_top_3 p as placementbid %}
+                                            {% for pb in placementbid %}
+                                        <div class="swiper-slide">
+											<div class="item">
+												<p class="rv_name">{{pb.user.username}}님</p>
+												<div class="rv_ctt"> 
+                                                    응찰금액 : {{pb.offer | intcomma }}&#8361;
+												</div>
+											</div>
+										</div>
+                                        {% endfor %}
+									</div>
+
+
+                                    
+									<div class="swiper-pagination"></div>
+									<!-- 후기 슬라이드 /  dots 가 존재하므로 최대 출력갯수 제한이 필요함 -->
+								</div>
+								<div class="myArt_wish_btn"></div><!-- 클릭시 wish 체크 -->
+							</div>
+						</li>
+						{% endfor %}
+						
+					</ul>
+				</div>
+
+
+				{% if is_paginated %}
+                <nav class="d-flex justify-content-center wow fadeIn">
+                    <ul class="pagination pg-blue">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item active">
+                            <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            	{% endif %}
+				<script>
+				  var swiper = new Swiper(".rv_sd", {
+					slidesPerView: 1,
+					spaceBetween: 30,
+					loop: true,
+					pagination: {
+					  el: ".swiper-pagination",
+					  clickable: true,
+					},
+				  });
+				</script>
+				<script>
+					$(".myArt_wish_btn").click(function () {
+						$(this).toggleClass('on'); 
+					});
+				</script>
+			</div>
+
+            <div class="card">
+                <div class="card-content">
+                        <table class="table responsive-table">
+                                <thead>
+                                    <tr>
+                              
+                                        <th>작품이름</th>
+                                        <th>아티스트</th>
+                                        <th>시작가</th>
+                                        <th>최종 입찰가</th>
+                                        <th>마감시간</th>
+                                    </tr>
+                                </thead>
+                
+                                <tbody>
+                                        {% for p in placements %}
+                                        <tr>                             
+                                            <td><a href="{% url 'auction:placement-detail' p.pk %}">{{ p.title }}</a></td>
+                                            <td><span class="chip indigo white-text">{{ p.placement_artist }}</span></td>
+                                            <td>{{ p.placement_price | intcomma }}&#8361;</td>
+                                            <td>{% get_top_3 p as placementbid %}{% for pb in placementbid %} {{pb.offer | intcomma }}&#8361;/ {% endfor %}</td>
+                                            <td>
+                                                time limit
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <ul class="pagination center">
+                                {% if placements.has_previous %}
+                                <li class="waves-effect"><a href="?page={{placements.previous_page_number}}">{{ placements.previous_page_number}}</a></li>
+                                {% endif %}
+
+                                <li class="active indigo"><a href="#!">{{placements.number}}</a></li>
+                               
+                                {% if placements.has_next %}
+                                <li class="waves-effect"><a href="?page={{placements.next_page_number}}">{{ placements.next_page_number}}</a></li>
+                                {% endif %}
+                            </ul>
+                                            
+                </div>
+            </div>
+
+    </section>
+</section>
+
+{% include 'auction/footer.html' %}
+{% endblock content %}

@@ -1,0 +1,193 @@
+{% extends "auction/base.html" %}
+{% load static %}
+<!-- {% load core_template_tags component_template_tags %} -->
+{% block extra_head %}{% endblock extra_head %}
+{% block head_title %} | 굿즈 {% endblock %}
+
+{% block body %}
+	<div id="wrap" class="sub-wrap">
+		<!-- container -->
+		<div id="container">
+			<!-- middleArea -->
+			<div id="middleArea">
+				<!-- content -->
+				<section id="content" class="wide">
+					
+					<!-- 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+					<div class="sub-page auction-page">
+						<div class="auction-visual-con">
+							<div class="visual-video">
+								<!-- <video muted loop autoplay playsinline id="cmVideo" data-keepplaying>
+									<source src="{% static 'rev/video/PC_TIME STORE_상단 영상.mp4' %}" type="video/mp4">
+									Your browser does not support HTML5 video.
+								</video> -->
+								<div class="m-ver" style="width:100%; height:100%; background: url({% static 'rev/img/content/about_con01_bg.jpg' %}) center/cover no-repeat;"></div>
+								<div class="pc-ver" style="width:100%; height:100%; background: url({% static 'rev/img/content/about_con01_bg.jpg' %}) center/cover no-repeat;"></div>
+							</div>
+							<div class="visual-txt">
+								<div class="area-box">
+									<h5 class="font-nephilm">GOODS</h5>
+									<p>
+										셀럽의 작품을 일상생활에서 가까이 할 수 있도록 원앤온리와 셀럽의 특별 기획으로 제작합니다.										
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="auction-list-con">
+							<div class="area-box">
+								<section class="cm-fixed-page-container-JS cm-tab-container-JS">
+									<aside class="cm-tab-wrapper-style">
+										<div class="cm-tab-list-style cm-fixed-page-tab-JS top-fixed-object cm-tab-list-JS">
+											<div class="area-box">
+												<ul class="clearfix">
+													<li class="selected"><a href="#tabCon01"><em>All</em></a></li>
+													<li class=><a href="#tabCon02"><em>셀럽 X 원앤온리 </em></a></li>
+													<!--<li class=><a href="#tabCon03"><em>셀럽 애장품</em></a></li>-->
+												</ul>
+											</div>
+										</div>
+									</aside>
+									<article class="cm-tab-content-style cm-tab-content-wrapper-JS">
+										<div class="sub-tab-con" id="tabCon01">
+											<div class="unboxing-con03-wrapper">
+												<ul class="unboxing-con03-list all timestore center clearfix">
+													{% if items %}
+                          {% for item in items %}
+														<li class="unboxing-con03-item timestore">
+															{% if item.is_soldout %}
+															<a href="{{ item.get_absolute_url }}">															
+																<div class="unboxing-con03-img">
+																	<!-- 이미지 권장사이즈 210x244 -->
+																	<img src="{{ item.image.url }}" style="opacity:0.4!important;" alt="히스토리 썸네일 이미지">
+																	<div class="soldout">꽉 찼어요!</div>																
+																</div>
+																<p class="unboxing-con03-txt">{{ item.title | safe | linebreaksbr }}</p>
+															</a>
+															{% else %}
+																<a href="{{ item.get_absolute_url }}">
+																	<div class="unboxing-con03-img">
+																		<!-- 이미지 권장사이즈 210x244 -->
+																		<img src="{{ item.image.url }}" alt="히스토리 썸네일 이미지">
+																	</div>
+																	<p class="unboxing-con03-txt">{{ item.title | safe | linebreaksbr }}</p>
+																</a>
+															{% endif %}
+														</li>
+													{% endfor %}
+													{% else %}
+													<div class="mypage-funding-no-list">
+														<p>판매중인 굿즈가 없습니다.</p>
+													</div>													
+													{% endif %}														
+												</ul>
+												<div class="unboxing-con03-date">
+													<button class="btn prev-btn"><i class="xi-angle-left-thin"></i></button>
+													<button class="btn next-btn"><i class="xi-angle-right-thin"></i></button>
+												</div>
+											</div>
+										</div>
+										<div class="sub-tab-con" id="tabCon02">
+											<div class="unboxing-con03-wrapper">
+												<ul class="unboxing-con03-list selling timestore center clearfix">
+													{% if cols %}
+														{% for item in cols %}
+														<li class="unboxing-con03-item timestore">
+															{% if item.is_soldout %}
+															<a href="{{ item.get_absolute_url }}">															
+																<div class="unboxing-con03-img">
+																	<!-- 이미지 권장사이즈 210x244 -->
+																	<img src="{{ item.image.url }}" style="opacity:0.4!important;" alt="히스토리 썸네일 이미지">
+																	<div class="soldout">꽉 찼어요!</div>																
+																</div>
+																<p class="unboxing-con03-txt">{{ item.title | safe | linebreaksbr }}</p>
+															</a>
+															{% else %}
+																<a href="{{ item.get_absolute_url }}">
+																	<div class="unboxing-con03-img">
+																		<!-- 이미지 권장사이즈 210x244 -->
+																		<img src="{{ item.image.url }}" alt="히스토리 썸네일 이미지">
+																	</div>
+																	<p class="unboxing-con03-txt">{{ item.title | safe | linebreaksbr }}</p>
+																</a>
+															{% endif %}
+														</li>
+														{% endfor %}
+													{% else %}
+													<div class="mypage-funding-no-list">
+														<p>판매중인 굿즈가 없습니다.</p>
+													</div>													
+													{% endif %}
+												</ul>
+												<div class="unboxing-con03-date">
+													<button class="btn prev-btn"><i class="xi-angle-left-thin"></i></button>
+													<button class="btn next-btn"><i class="xi-angle-right-thin"></i></button>
+												</div>
+												
+											</div>
+
+										</div>
+										{% comment %}
+										<div class="sub-tab-con" id="tabCon03">
+											<div class="unboxing-con03-wrapper">
+												<ul class="unboxing-con03-list non-cols timestore center clearfix">
+													{% if non_cols %}
+														{% for item in non_cols %}
+														<li class="unboxing-con03-item timestore">
+															{% if item.is_soldout %}
+															<a href="{{ item.get_absolute_url }}">															
+																<div class="unboxing-con03-img">
+																	<!-- 이미지 권장사이즈 210x244 -->
+																	<img src="{{ item.image.url }}" style="opacity:0.4!important;" alt="히스토리 썸네일 이미지">
+																	<div class="soldout">꽉 찼어요!</div>																
+																</div>
+																<p class="unboxing-con03-txt">{{ item.title | safe | linebreaksbr }}</p>
+															</a>
+															{% else %}
+																<a href="{{ item.get_absolute_url }}">
+																	<div class="unboxing-con03-img">
+																		<!-- 이미지 권장사이즈 210x244 -->
+																		<img src="{{ item.image.url }}" alt="히스토리 썸네일 이미지">
+																	</div>
+																	<p class="unboxing-con03-txt">{{ item.title | safe | linebreaksbr }}</p>
+																</a>
+															{% endif %}
+														</li>
+														{% endfor %}
+													{% else %}
+													<div class="mypage-funding-no-list">
+														<p>판매중인 굿즈가 없습니다.</p>
+													</div>													
+													{% endif %}
+												</ul>
+												<div class="unboxing-con03-date">
+													<button class="btn prev-btn"><i class="xi-angle-left-thin"></i></button>
+													<button class="btn next-btn"><i class="xi-angle-right-thin"></i></button>
+												</div>
+												
+											</div>
+
+										</div>
+										{% endcomment %}
+
+									</article>
+								</section>
+							</div>
+						</div>
+					</div>
+					<!-- // 실제 페이지 컨텐츠 내용이 시작되는 곳입니다 -->
+
+					<!-- 팝업 리스트 -->	
+					<!-- //팝업 리스트 -->
+
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //middleArea -->
+		</div>
+		<!-- // container -->
+  </div>
+  <!-- //wrap-->
+{% endblock body %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
